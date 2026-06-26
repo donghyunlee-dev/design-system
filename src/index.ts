@@ -96,3 +96,6 @@ export type { PieChartProps } from './components/chart/PieChart'
 
 // Utils
 export { cn } from './utils/cn'
+
+// Templates
+export * from './templates'
