@@ -1,9 +1,10 @@
+import { createElement } from 'react'
 import { cn } from '../../utils/cn'
 import { HTMLAttributes } from 'react'
 
 type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'body-sm' | 'caption' | 'code'
 
-const variantMap: Record<TypographyVariant, { tag: keyof JSX.IntrinsicElements; className: string }> = {
+const variantMap: Record<TypographyVariant, { tag: string; className: string }> = {
   h1:       { tag: 'h1',   className: 'text-4xl font-bold tracking-tight text-foreground' },
   h2:       { tag: 'h2',   className: 'text-3xl font-semibold tracking-tight text-foreground' },
   h3:       { tag: 'h3',   className: 'text-2xl font-semibold text-foreground' },
@@ -19,6 +20,6 @@ export interface TypographyProps extends HTMLAttributes<HTMLElement> {
 }
 
 export function Typography({ variant = 'body', className, ...props }: TypographyProps) {
-  const { tag: Tag, className: variantClass } = variantMap[variant]
-  return <Tag className={cn(variantClass, className)} {...(props as HTMLAttributes<HTMLElement>)} />
+  const { tag, className: variantClass } = variantMap[variant]
+  return createElement(tag, { className: cn(variantClass, className), ...props })
 }
