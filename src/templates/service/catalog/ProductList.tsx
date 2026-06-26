@@ -39,6 +39,7 @@ export function ProductList<T = Record<string, unknown>>({
                     {section.options.map(opt => (
                       <li key={opt.value}>
                         <button
+                          type="button"
                           onClick={() => onFilterChange?.(section.key, opt.value)}
                           className={cn(
                             'w-full text-left text-sm px-2 py-1 rounded-btn transition-colors duration-default flex justify-between',

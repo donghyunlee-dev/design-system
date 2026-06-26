@@ -42,6 +42,7 @@ export function ProductGrid<T = Record<string, unknown>>({
             {filters.map(f =>
               f.options.map(opt => (
                 <button
+                  type="button"
                   key={`${f.key}-${opt.value}`}
                   onClick={() => onFilterChange?.(f.key, opt.value)}
                   className={cn(
