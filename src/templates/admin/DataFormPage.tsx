@@ -46,7 +46,7 @@ export function DataFormPage({
           ))}
           <div className="px-6 py-4 border-t border-border flex justify-end gap-3">
             {onCancel && (
-              <Button variant="secondary" onClick={onCancel} disabled={loading}>취소</Button>
+              <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>취소</Button>
             )}
             <Button onClick={onSubmit} disabled={loading}>
               {loading ? '저장 중...' : submitLabel}

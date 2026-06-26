@@ -47,6 +47,7 @@ export const Full: StoryObj = {
       secondaryChart={<PieChart data={[{ name: '완료', value: 60 }, { name: '처리중', value: 30 }, { name: '취소', value: 10 }]} />}
       recentData={{
         title: '최근 주문',
+        rowKey: 'id',
         data: ORDERS,
         columns: [
           { key: 'name', header: '주문명' },

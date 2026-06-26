@@ -13,6 +13,7 @@ export interface DashboardFullProps {
     title: string
     columns: Column<Record<string, unknown>>[]
     data: Record<string, unknown>[]
+    rowKey: string
   }
   className?: string
 }
@@ -46,7 +47,7 @@ export function DashboardFull({
               <p className="font-semibold text-foreground">{recentData.title}</p>
             </div>
             <div className="p-4">
-              <Table columns={recentData.columns} data={recentData.data} rowKey="id" />
+              <Table columns={recentData.columns} data={recentData.data} rowKey={recentData.rowKey} />
             </div>
           </div>
         )}
