@@ -35,9 +35,13 @@ export function LandingCentered({
           {logo && <span className="font-bold text-foreground text-lg">{logo}</span>}
         </div>
         <nav className="flex items-center gap-1">
-          {nav.map((item, i) => (
-            <a key={i} href={item.href}
-              className="px-3 py-1.5 text-sm text-muted hover:text-foreground transition-colors duration-default rounded-btn">
+          {nav.map((item) => (
+            <a key={item.href} href={item.href}
+              aria-current={item.active ? 'page' : undefined}
+              className={cn(
+                'px-3 py-1.5 text-sm transition-colors duration-default rounded-btn',
+                item.active ? 'text-foreground font-medium' : 'text-muted hover:text-foreground'
+              )}>
               {item.label}
             </a>
           ))}

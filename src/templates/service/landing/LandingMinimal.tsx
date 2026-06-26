@@ -22,10 +22,17 @@ export function LandingMinimal({
     <div className={cn('min-h-screen bg-background flex flex-col', className)}>
       {/* Minimal Nav */}
       <header className="flex items-center justify-between px-[var(--page-padding)] py-4">
-        {logo && <span className="font-bold text-foreground">{logo}</span>}
+        <div className="flex-1">
+          {logo && <span className="font-bold text-foreground">{logo}</span>}
+        </div>
         <nav className="flex items-center gap-4">
-          {nav.map((item, i) => (
-            <a key={i} href={item.href} className="text-sm text-muted hover:text-foreground transition-colors duration-default">
+          {nav.map((item) => (
+            <a key={item.href} href={item.href}
+              aria-current={item.active ? 'page' : undefined}
+              className={cn(
+                'text-sm transition-colors duration-default',
+                item.active ? 'text-foreground font-medium' : 'text-muted hover:text-foreground'
+              )}>
               {item.label}
             </a>
           ))}
