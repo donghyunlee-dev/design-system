@@ -38,4 +38,27 @@
   --radius-card:  var(--radius-lg);
   --radius-input: var(--radius-md);
   --radius-badge: var(--radius-full);
+
+  /* Spacing */
+  --spacing-xs:   4px;
+  --spacing-sm:   8px;
+  --spacing-md:   16px;
+  --spacing-lg:   24px;
+  --spacing-xl:   48px;
+  --spacing-2xl:  80px;
+  --page-padding: 24px;
+
+  /* Shadow */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:   0 4px 12px rgba(0,0,0,.10);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,.14);
+  --shadow-none: none;
+
+  /* Motion */
+  --motion-fast:    100ms ease;
+  --motion-default: 150ms ease;
+  --motion-slow:    300ms ease;
+
+  /* Background */
+  --color-background: var(--gray-50);
 }

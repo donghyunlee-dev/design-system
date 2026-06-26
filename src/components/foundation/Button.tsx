@@ -16,7 +16,7 @@ export function Button({
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center font-medium transition-colors rounded-btn disabled:opacity-50 disabled:pointer-events-none',
+        'inline-flex items-center justify-center font-medium transition-colors duration-default rounded-btn disabled:opacity-50 disabled:pointer-events-none',
         variant === 'primary'   && 'bg-brand text-white hover:bg-brand-hover',
         variant === 'secondary' && 'bg-surface border border-border text-foreground hover:bg-surface-raised',
         variant === 'ghost'     && 'text-foreground hover:bg-surface-raised',

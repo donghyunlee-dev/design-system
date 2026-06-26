@@ -17,6 +17,8 @@ export default {
         warning:           'var(--color-warning)',
         danger:            'var(--color-danger)',
         info:              'var(--color-info)',
+        background:        'var(--color-background)',
+        placeholder:       'var(--color-placeholder)',
       },
       borderRadius: {
         btn:   'var(--radius-btn)',
@@ -27,6 +29,24 @@ export default {
       fontFamily: {
         body: ['var(--font-body)'],
         code: ['var(--font-code)'],
+      },
+      boxShadow: {
+        sm: 'var(--shadow-sm)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
+      },
+      spacing: {
+        xs:  'var(--spacing-xs)',
+        sm:  'var(--spacing-sm)',
+        md:  'var(--spacing-md)',
+        lg:  'var(--spacing-lg)',
+        xl:  'var(--spacing-xl)',
+        '2xl': 'var(--spacing-2xl)',
+      },
+      transitionDuration: {
+        fast:    '100ms',
+        default: '150ms',
+        slow:    '300ms',
       },
     },
   },
