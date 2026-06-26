@@ -25,8 +25,12 @@ export function SignupPage({
   const [name, setName]         = useState('')
 
   const handleNext = () => {
-    if (step === 1) onComplete({ email, password, name })
-    else setStep(s => s + 1)
+    if (step === 1) {
+      onComplete({ email, password, name })
+      setStep(2)
+    } else {
+      setStep(s => s + 1)
+    }
   }
 
   return (

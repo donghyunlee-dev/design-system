@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import { LoginSimple, LoginSimpleProps } from './LoginSimple'
 import { cn } from '../../../utils/cn'
 
