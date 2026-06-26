@@ -31,9 +31,10 @@ export default {
         code: ['var(--font-code)'],
       },
       boxShadow: {
-        sm: 'var(--shadow-sm)',
-        md: 'var(--shadow-md)',
-        lg: 'var(--shadow-lg)',
+        sm:   'var(--shadow-sm)',
+        md:   'var(--shadow-md)',
+        lg:   'var(--shadow-lg)',
+        none: 'var(--shadow-none)',
       },
       spacing: {
         xs:  'var(--spacing-xs)',
