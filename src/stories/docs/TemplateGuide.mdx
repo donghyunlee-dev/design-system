@@ -1,0 +1,66 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Docs/Template Guide" />
+
+# 템플릿 선택 가이드
+
+## 어떤 템플릿을 선택해야 할까?
+
+### 랜딩 페이지
+
+| 상황 | 추천 템플릿 |
+|---|---|
+| 제품/서비스 소개, Feature 섹션 필요 | `LandingCentered` |
+| 앱 스크린샷이나 영상을 강조하고 싶을 때 | `LandingSplit` |
+| 텍스트 중심, 심플한 SaaS 스타일 | `LandingMinimal` |
+
+### 인증 페이지
+
+| 상황 | 추천 템플릿 |
+|---|---|
+| 단순한 로그인 폼 | `LoginSimple` |
+| 브랜드 이미지를 강조하고 싶을 때 | `LoginSplit` |
+| 회원가입 단계가 여러 개일 때 | `SignupPage` |
+
+### 카탈로그
+
+| 상황 | 추천 템플릿 |
+|---|---|
+| 카드형 상품 목록 | `ProductGrid` |
+| 필터 중심의 목록 | `ProductList` |
+| 상품 상세 페이지 | `ProductDetail` |
+
+### 계정 설정
+
+| 상황 | 추천 템플릿 |
+|---|---|
+| 메뉴 항목이 많은 설정 페이지 | `SettingsSidebar` |
+| 설정 섹션이 3~5개인 경우 | `SettingsTabs` |
+
+### 어드민
+
+| 상황 | 추천 템플릿 |
+|---|---|
+| KPI 수치 + 차트 1개 | `DashboardStats` |
+| 통합 대시보드 (수치 + 차트 + 테이블) | `DashboardFull` |
+| 목록 관리 (검색/필터/페이지네이션) | `DataTablePage` |
+| 등록/수정 폼 | `DataFormPage` |
+
+## 커스터마이징
+
+모든 템플릿은 세 가지 방법으로 수정 가능합니다.
+
+**1. Props로 데이터 주입 (가장 간단)**
+```tsx
+<DashboardFull stats={myStats} mainChart={<MyChart />} />
+```
+
+**2. 슬롯(ReactNode)으로 컴포넌트 교체**
+```tsx
+<LoginSplit logo={<MyLogo />} />
+```
+
+**3. className으로 스타일 오버라이드**
+```tsx
+<LandingCentered className="bg-white" />
+```

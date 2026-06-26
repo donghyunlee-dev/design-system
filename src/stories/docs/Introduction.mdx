@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Docs/Introduction" />
+
+# SFOOD Design System
+
+에쓰푸드 AI 바이브코딩 프로젝트를 위한 컴포넌트 라이브러리입니다.
+
+## 구조
+
+디자인 시스템은 3개의 레이어로 구성됩니다.
+
+```
+토큰 (CSS Variables)
+  ↓
+컴포넌트 (Button, Input, Card ...)
+  ↓
+템플릿 (LoginPage, DashboardFull ...)
+```
+
+## 카테고리
+
+| 카테고리 | 설명 | 수량 |
+|---|---|---|
+| Foundation | 기본 UI 요소 | 4개 |
+| Form | 입력 컨트롤 | 9개 |
+| Layout | 레이아웃 유틸리티 | 5개 |
+| Feedback | 상태 표시 | 6개 |
+| Overlay | 팝업, 모달 | 5개 |
+| Navigation | 탐색 | 6개 |
+| Data | 데이터 표시 | 5개 |
+| Chart | 차트 | 3개 |
+| Templates / Service | 서비스 페이지 템플릿 | 11개 |
+| Templates / Admin | 어드민 템플릿 | 4개 |
+
+## 빠른 시작
+
+```tsx
+import '@sfood/ui/global.css'
+import { Button, LoginSplit, DashboardFull } from '@sfood/ui'
+```
+
+자세한 설치 방법은 **Getting Started**를 참고하세요.
