@@ -18,13 +18,3 @@ export const Default: Story = {
     </div>
   ),
 }
-
-export const Large: Story = {
-  render: () => (
-    <div>
-      <div className="bg-gray-100 p-2 text-sm rounded">위 요소</div>
-      <Spacer size={8} />
-      <div className="bg-gray-100 p-2 text-sm rounded">아래 요소</div>
-    </div>
-  ),
-}
