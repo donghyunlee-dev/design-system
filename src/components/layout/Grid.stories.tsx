@@ -9,6 +9,7 @@ const meta: Meta<typeof Grid> = {
   title: 'Layout/Grid',
   component: Grid,
   tags: ['autodocs'],
+  args: {},
 }
 export default meta
 type Story = StoryObj<typeof meta>

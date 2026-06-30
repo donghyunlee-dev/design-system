@@ -5,6 +5,7 @@ const meta: Meta<typeof Stack> = {
   title: 'Layout/Stack',
   component: Stack,
   tags: ['autodocs'],
+  args: {},
 }
 export default meta
 type Story = StoryObj<typeof meta>

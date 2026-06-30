@@ -5,6 +5,7 @@ const meta: Meta<typeof Spacer> = {
   title: 'Layout/Spacer',
   component: Spacer,
   tags: ['autodocs'],
+  args: {},
 }
 export default meta
 type Story = StoryObj<typeof meta>

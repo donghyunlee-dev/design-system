@@ -5,6 +5,7 @@ const meta: Meta<typeof Divider> = {
   title: 'Layout/Divider',
   component: Divider,
   tags: ['autodocs'],
+  args: {},
 }
 export default meta
 type Story = StoryObj<typeof meta>

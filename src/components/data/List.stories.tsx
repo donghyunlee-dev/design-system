@@ -6,6 +6,7 @@ const meta: Meta<typeof List> = {
   title: 'Data/List',
   component: List,
   tags: ['autodocs'],
+  args: {},
 }
 export default meta
 type Story = StoryObj<typeof meta>
