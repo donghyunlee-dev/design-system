@@ -6,17 +6,36 @@ const meta: Meta<typeof FormField> = {
   title: 'Form/FormField',
   component: FormField,
   tags: ['autodocs'],
-  args: { label: '이메일', children: <Input placeholder="example@email.com" /> },
+  args: { label: '이메일' },
 }
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
-export const Required: Story = { args: { required: true } }
-export const WithHint: Story = { args: { hint: '회사 이메일을 입력하세요' } }
+export const Default: Story = {
+  render: (args) => (
+    <FormField {...args}>
+      <Input placeholder="example@email.com" />
+    </FormField>
+  ),
+}
+export const Required: Story = {
+  render: (args) => (
+    <FormField {...args} required>
+      <Input placeholder="example@email.com" />
+    </FormField>
+  ),
+}
+export const WithHint: Story = {
+  render: (args) => (
+    <FormField {...args} hint="회사 이메일을 입력하세요">
+      <Input placeholder="example@email.com" />
+    </FormField>
+  ),
+}
 export const WithError: Story = {
-  args: {
-    error: '올바른 이메일 형식이 아닙니다',
-    children: <Input placeholder="example@email.com" error />,
-  },
+  render: (args) => (
+    <FormField {...args} error="올바른 이메일 형식이 아닙니다">
+      <Input placeholder="example@email.com" error />
+    </FormField>
+  ),
 }

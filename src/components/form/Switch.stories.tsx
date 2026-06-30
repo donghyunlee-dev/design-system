@@ -24,5 +24,8 @@ export const Checked: Story = {
   },
 }
 export const Disabled: Story = {
-  render: (args) => <Switch {...args} checked={false} onChange={() => {}} disabled />,
+  render: (args) => {
+    const [checked, setChecked] = useState(false)
+    return <Switch {...args} checked={checked} onChange={setChecked} disabled />
+  },
 }
