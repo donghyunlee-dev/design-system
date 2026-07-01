@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from '@storybook/test'
 import { FormField } from './FormField'
 import { Input } from './Input'
 
@@ -38,4 +39,16 @@ export const WithError: Story = {
       <Input placeholder="example@email.com" error />
     </FormField>
   ),
+}
+
+export const ErrorMessage: Story = {
+  render: (args) => (
+    <FormField {...args} label="이메일" error="올바른 이메일 형식이 아닙니다.">
+      <Input placeholder="example@email.com" error />
+    </FormField>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByText('올바른 이메일 형식이 아닙니다.')).toBeInTheDocument()
+  },
 }
