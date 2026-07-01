@@ -136,3 +136,17 @@ describe('DataTable 페이지네이션', () => {
     expect(screen.queryByText('제품 3')).not.toBeInTheDocument()
   })
 })
+
+describe('DataTable 컬럼 가시성', () => {
+  it('컬럼 ▾ 버튼 클릭 후 체크박스 해제 시 컬럼 숨김', async () => {
+    render(<DataTable columns={sortColumns} data={sortData} rowKey="id" />)
+    // Open dropdown
+    await userEvent.click(screen.getByRole('button', { name: '컬럼 ▾' }))
+    // Uncheck '수량' column
+    const checkbox = screen.getByRole('checkbox', { name: '수량' })
+    await userEvent.click(checkbox)
+    // '수량' column header should be gone
+    const headers = screen.getAllByRole('columnheader')
+    expect(headers.map(h => h.textContent)).not.toContain('수량')
+  })
+})

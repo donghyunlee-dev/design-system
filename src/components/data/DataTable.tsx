@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useState, useMemo } from 'react'
+import { CSSProperties, ReactNode, useState, useMemo, useRef } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -264,6 +264,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({})
   const [page, setPage] = useState(1)
+  const pageRef = useRef(1)
+  pageRef.current = page
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
     const init: VisibilityState = {}
@@ -278,6 +280,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(initialOrder)
 
   const pageSize = paginationProp?.pageSize ?? 10
+  const pageSizeRef = useRef(pageSize)
+  pageSizeRef.current = pageSize
 
   const tanColumns = useMemo<ColumnDef<T>[]>(() => {
     const cols: ColumnDef<T>[] = []
@@ -289,7 +293,7 @@ export function DataTable<T extends Record<string, unknown>>({
         enableSorting: false,
         enableColumnFilter: false,
         enableResizing: false,
-        cell: ({ row }) => (page - 1) * pageSize + row.index + 1,
+        cell: ({ row }) => (pageRef.current - 1) * pageSizeRef.current + row.index + 1,
       })
     }
     dataColumns.forEach(col => {
@@ -310,7 +314,7 @@ export function DataTable<T extends Record<string, unknown>>({
       })
     })
     return cols
-  }, [dataColumns, showRowNumbers, page, pageSize])
+  }, [dataColumns, showRowNumbers])
 
   const hasPagination = !!paginationProp
   const isServerSide = !!(paginationProp?.total)
