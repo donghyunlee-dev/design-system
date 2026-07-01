@@ -71,7 +71,9 @@ describe('DataTable 정렬', () => {
 describe('DataTable 필터', () => {
   it('필터 입력 시 해당 값만 표시', async () => {
     render(<DataTable columns={sortColumns} data={sortData} rowKey="id" />)
-    const filterInput = screen.getByPlaceholderText('필터...')
+    // Click the 🔍 filter toggle button for '제품명' column
+    await userEvent.click(screen.getByRole('button', { name: 'name 필터' }))
+    const filterInput = screen.getByPlaceholderText('검색...')
     await userEvent.type(filterInput, 'A')
     expect(screen.getByText('제품 A')).toBeInTheDocument()
     expect(screen.queryByText('제품 B')).not.toBeInTheDocument()
@@ -79,16 +81,17 @@ describe('DataTable 필터', () => {
 
   it('필터 초기화 버튼 클릭 시 전체 행 복원', async () => {
     render(<DataTable columns={sortColumns} data={sortData} rowKey="id" />)
-    await userEvent.type(screen.getByPlaceholderText('필터...'), 'A')
+    await userEvent.click(screen.getByRole('button', { name: 'name 필터' }))
+    await userEvent.type(screen.getByPlaceholderText('검색...'), 'A')
     await userEvent.click(screen.getByRole('button', { name: '필터 초기화' }))
     expect(screen.getByText('제품 B')).toBeInTheDocument()
   })
 })
 
 describe('DataTable 행 번호', () => {
-  it('showRowNumbers=true이면 No. 헤더와 번호가 표시된다', () => {
+  it('showRowNumbers=true이면 번호 헤더와 번호가 표시된다', () => {
     render(<DataTable columns={sortColumns} data={sortData} rowKey="id" showRowNumbers />)
-    expect(screen.getByText('No.')).toBeInTheDocument()
+    expect(screen.getByText('번호')).toBeInTheDocument()
     // 행 번호 셀이 최소 1개 이상 존재하는지 확인
     const rowNumCells = screen.getAllByText('1')
     expect(rowNumCells.length).toBeGreaterThanOrEqual(1)
@@ -138,10 +141,10 @@ describe('DataTable 페이지네이션', () => {
 })
 
 describe('DataTable 컬럼 가시성', () => {
-  it('컬럼 ▾ 버튼 클릭 후 체크박스 해제 시 컬럼 숨김', async () => {
+  it('⚙ 버튼 클릭 후 체크박스 해제 시 컬럼 숨김', async () => {
     render(<DataTable columns={sortColumns} data={sortData} rowKey="id" />)
-    // Open dropdown
-    await userEvent.click(screen.getByRole('button', { name: '컬럼 ▾' }))
+    // Open settings dropdown
+    await userEvent.click(screen.getByRole('button', { name: '컬럼 표시 설정' }))
     // Uncheck '수량' column
     const checkbox = screen.getByRole('checkbox', { name: '수량' })
     await userEvent.click(checkbox)

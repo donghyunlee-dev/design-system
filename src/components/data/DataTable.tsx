@@ -98,21 +98,67 @@ export interface DataTableProps<T extends Record<string, unknown>> {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const ROW_NUMBER_ID = '__row_number__'
+const SETTINGS_COLUMN_ID = '__settings__'
 
 // ─── Sortable Header Cell ─────────────────────────────────────────────────────
 
 function SortableHeaderCell<T extends Record<string, unknown>>({
   header,
   dataCol,
+  filterVisible,
+  setFilterVisible,
+  dataColumns,
+  table,
 }: {
   header: TanHeader<T, unknown>
   dataCol: DataColumn<T> | undefined
+  filterVisible: Record<string, boolean>
+  setFilterVisible: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+  dataColumns: DataColumn<T>[]
+  table: ReturnType<typeof useReactTable<T>>
 }) {
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const col = header.column
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: col.id,
-    disabled: col.id === ROW_NUMBER_ID,
+    disabled: col.id === ROW_NUMBER_ID || col.id === SETTINGS_COLUMN_ID,
   })
+
+  // Settings column: fixed ⚙ button with visibility dropdown
+  if (col.id === SETTINGS_COLUMN_ID) {
+    return (
+      <th style={{ width: 40, minWidth: 40, maxWidth: 40 }} className="px-1 py-3 bg-surface-raised relative">
+        <div className="flex justify-center">
+          <button
+            onClick={() => setSettingsOpen(o => !o)}
+            className="text-sm text-muted hover:text-foreground transition-colors"
+            aria-label="컬럼 표시 설정"
+          >
+            ⚙
+          </button>
+          {settingsOpen && (
+            <div className="absolute right-0 top-full mt-1 z-10 min-w-[140px] bg-surface border border-border rounded-card shadow-md p-2">
+              {dataColumns.map(c => {
+                const tanCol = table.getColumn(c.key)
+                if (!tanCol) return null
+                return (
+                  <label key={c.key} className="flex items-center gap-2 py-1 cursor-pointer text-xs text-foreground hover:text-brand">
+                    <input
+                      type="checkbox"
+                      checked={tanCol.getIsVisible()}
+                      onChange={tanCol.getToggleVisibilityHandler()}
+                      className="accent-brand"
+                    />
+                    {c.header}
+                  </label>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      </th>
+    )
+  }
 
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -160,13 +206,39 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
         ) : (
           <span>{flexRender(col.columnDef.header, header.getContext())}</span>
         )}
+        {col.getCanFilter() && (
+          <button
+            onClick={e => {
+              e.stopPropagation()
+              setFilterVisible(prev => ({ ...prev, [col.id]: !prev[col.id] }))
+            }}
+            className={cn(
+              'ml-0.5 text-xs leading-none opacity-60 hover:opacity-100 transition-opacity',
+              (filterVisible[col.id] || col.getFilterValue()) && 'text-brand opacity-100'
+            )}
+            aria-label={`${col.id} 필터`}
+          >
+            🔍
+          </button>
+        )}
       </div>
 
-      {col.getCanFilter() && (
+      {col.getCanFilter() && filterVisible[col.id] && (
         <input
+          autoFocus
           value={(col.getFilterValue() as string) ?? ''}
-          onChange={e => col.setFilterValue(e.target.value)}
-          placeholder="필터..."
+          onChange={e => {
+            col.setFilterValue(e.target.value)
+            if (!e.target.value) {
+              setFilterVisible(prev => ({ ...prev, [col.id]: false }))
+            }
+          }}
+          onBlur={() => {
+            if (!col.getFilterValue()) {
+              setFilterVisible(prev => ({ ...prev, [col.id]: false }))
+            }
+          }}
+          placeholder="검색..."
           className="mt-1 w-full px-2 py-0.5 text-xs font-normal normal-case rounded border border-border bg-surface text-foreground placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-brand"
           onClick={e => e.stopPropagation()}
         />
@@ -192,57 +264,31 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
 function DataTableToolbar<T extends Record<string, unknown>>({
   table,
   totalCount,
-  dataColumns,
+  filterVisible,
+  setFilterVisible,
 }: {
   table: ReturnType<typeof useReactTable<T>>
   totalCount: number
-  dataColumns: DataColumn<T>[]
+  filterVisible: Record<string, boolean>
+  setFilterVisible: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
 }) {
-  const [visibilityOpen, setVisibilityOpen] = useState(false)
   const hasActiveFilter = table.getState().columnFilters.length > 0
-
   return (
     <div className="flex items-center justify-between mb-2 gap-2">
       <div>
         {hasActiveFilter && (
           <button
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => {
+              table.resetColumnFilters()
+              setFilterVisible({})
+            }}
             className="text-xs px-2 py-1 rounded border border-border text-muted hover:text-foreground hover:bg-surface-raised transition-colors"
           >
             필터 초기화
           </button>
         )}
       </div>
-      <div className="flex items-center gap-3">
-        <div className="relative">
-          <button
-            onClick={() => setVisibilityOpen(o => !o)}
-            className="text-xs px-2 py-1 rounded border border-border text-foreground hover:bg-surface-raised transition-colors"
-          >
-            컬럼 ▾
-          </button>
-          {visibilityOpen && (
-            <div className="absolute right-0 top-full mt-1 z-10 min-w-[140px] bg-surface border border-border rounded-card shadow-md p-2">
-              {dataColumns.map(col => {
-                const tanCol = table.getColumn(col.key)
-                if (!tanCol) return null
-                return (
-                  <label key={col.key} className="flex items-center gap-2 py-1 cursor-pointer text-xs text-foreground hover:text-brand">
-                    <input
-                      type="checkbox"
-                      checked={tanCol.getIsVisible()}
-                      onChange={tanCol.getToggleVisibilityHandler()}
-                      className="accent-brand"
-                    />
-                    {col.header}
-                  </label>
-                )
-              })}
-            </div>
-          )}
-        </div>
-        <span className="text-xs text-muted whitespace-nowrap">총 {totalCount}건</span>
-      </div>
+      <span className="text-xs text-muted whitespace-nowrap">총 {totalCount}건</span>
     </div>
   )
 }
@@ -263,6 +309,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({})
+  const [filterVisible, setFilterVisible] = useState<Record<string, boolean>>({})
   const [page, setPage] = useState(1)
   const pageRef = useRef(1)
   pageRef.current = page
@@ -275,7 +322,9 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const initialOrder = useMemo(() => {
     const ids = dataColumns.map(c => c.key)
-    return showRowNumbers ? [ROW_NUMBER_ID, ...ids] : ids
+    return showRowNumbers
+      ? [ROW_NUMBER_ID, ...ids, SETTINGS_COLUMN_ID]
+      : [...ids, SETTINGS_COLUMN_ID]
   }, [dataColumns, showRowNumbers])
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(initialOrder)
 
@@ -288,7 +337,7 @@ export function DataTable<T extends Record<string, unknown>>({
     if (showRowNumbers) {
       cols.push({
         id: ROW_NUMBER_ID,
-        header: 'No.',
+        header: '번호',
         size: 48,
         enableSorting: false,
         enableColumnFilter: false,
@@ -312,6 +361,15 @@ export function DataTable<T extends Record<string, unknown>>({
           return col.render ? col.render(r) : String(r[col.key] ?? '')
         },
       })
+    })
+    cols.push({
+      id: SETTINGS_COLUMN_ID,
+      header: '__settings_header__',
+      size: 40,
+      enableSorting: false,
+      enableColumnFilter: false,
+      enableResizing: false,
+      cell: () => null,
     })
     return cols
   }, [dataColumns, showRowNumbers])
@@ -341,10 +399,12 @@ export function DataTable<T extends Record<string, unknown>>({
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     if (!over || active.id === over.id) return
+    if (String(active.id) === SETTINGS_COLUMN_ID || String(over.id) === SETTINGS_COLUMN_ID) return
     setColumnOrder(order => {
-      const oldIndex = order.indexOf(String(active.id))
-      const newIndex = order.indexOf(String(over.id))
-      return arrayMove(order, oldIndex, newIndex)
+      const withoutSettings = order.filter(id => id !== SETTINGS_COLUMN_ID)
+      const oldIndex = withoutSettings.indexOf(String(active.id))
+      const newIndex = withoutSettings.indexOf(String(over.id))
+      return [...arrayMove(withoutSettings, oldIndex, newIndex), SETTINGS_COLUMN_ID]
     })
   }
 
@@ -358,24 +418,35 @@ export function DataTable<T extends Record<string, unknown>>({
   const paginationTotal = paginationProp?.total ?? filteredRows.length
 
   const headerGroups = table.getHeaderGroups()
-  const visibleColIds = table.getVisibleLeafColumns().map(c => c.id)
+  const draggableColIds = table.getVisibleLeafColumns()
+    .map(c => c.id)
+    .filter(id => id !== SETTINGS_COLUMN_ID)
 
   return (
     <div className={cn('w-full', className)} data-testid="data-table">
-      <DataTableToolbar table={table} totalCount={totalCount} dataColumns={dataColumns} />
+      <DataTableToolbar
+        table={table}
+        totalCount={totalCount}
+        filterVisible={filterVisible}
+        setFilterVisible={setFilterVisible}
+      />
 
       <div className="overflow-x-auto rounded-card border border-border">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <table className="w-full text-sm" style={{ tableLayout: 'fixed' }}>
             <thead className="border-b border-border">
               {headerGroups.map(hg => (
-                <SortableContext key={hg.id} items={visibleColIds} strategy={horizontalListSortingStrategy}>
+                <SortableContext key={hg.id} items={draggableColIds} strategy={horizontalListSortingStrategy}>
                   <tr>
                     {hg.headers.map(header => (
                       <SortableHeaderCell
                         key={header.id}
                         header={header}
                         dataCol={dataColumns.find(c => c.key === header.column.id)}
+                        filterVisible={filterVisible}
+                        setFilterVisible={setFilterVisible}
+                        dataColumns={dataColumns}
+                        table={table}
                       />
                     ))}
                   </tr>
@@ -395,6 +466,9 @@ export function DataTable<T extends Record<string, unknown>>({
                     style={rStyle}
                   >
                     {row.getVisibleCells().map(cell => {
+                      if (cell.column.id === SETTINGS_COLUMN_ID) {
+                        return <td key={cell.id} style={{ width: 40 }} />
+                      }
                       const dataCol = dataColumns.find(c => c.key === cell.column.id)
                       const cClass = dataCol?.cellClassName
                         ? typeof dataCol.cellClassName === 'function' ? dataCol.cellClassName(r) : dataCol.cellClassName
