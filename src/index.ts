@@ -91,6 +91,8 @@ export { Table } from './components/data/Table'
 export type { Column, TableProps } from './components/data/Table'
 export { List } from './components/data/List'
 export type { ListItem } from './components/data/List'
+export { DataTable } from './components/data/DataTable'
+export type { DataColumn, DataTableProps, DataTablePagination } from './components/data/DataTable'
 
 // Chart
 export { LineChart } from './components/chart/LineChart'
