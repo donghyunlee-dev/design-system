@@ -52,3 +52,52 @@ export const ErrorMessage: Story = {
     await expect(canvas.getByText('올바른 이메일 형식이 아닙니다.')).toBeInTheDocument()
   },
 }
+
+export const WithRulesRequired: Story = {
+  name: 'Validation / Required',
+  render: (args) => (
+    <FormField
+      {...args}
+      label="제품명"
+      rules={{ required: '필수 입력입니다', notBlank: '공백만 입력할 수 없습니다' }}
+    >
+      <Input placeholder="제품명을 입력하세요" />
+    </FormField>
+  ),
+}
+
+export const WithRulesMinMax: Story = {
+  name: 'Validation / Min·Max',
+  render: (args) => (
+    <FormField
+      {...args}
+      label="수량"
+      rules={{
+        required: '필수',
+        min: { value: 1, message: '1 이상' },
+        max: { value: 100, message: '100 이하' },
+      }}
+    >
+      <Input type="number" placeholder="1~100" />
+    </FormField>
+  ),
+}
+
+export const WithRulesPattern: Story = {
+  name: 'Validation / Pattern',
+  render: (args) => (
+    <FormField
+      {...args}
+      label="이메일"
+      rules={{
+        required: '필수',
+        pattern: {
+          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+          message: '이메일 형식이 올바르지 않습니다',
+        },
+      }}
+    >
+      <Input placeholder="example@email.com" />
+    </FormField>
+  ),
+}
