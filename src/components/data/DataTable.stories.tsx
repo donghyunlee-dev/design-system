@@ -46,7 +46,7 @@ export const Default: Story = {
 }
 
 export const WithRowNumbers: Story = {
-  name: '행 번호',
+  name: 'Row Numbers',
   render: () => (
     <DataTable
       columns={[
@@ -62,7 +62,7 @@ export const WithRowNumbers: Story = {
 }
 
 export const WithStatus: Story = {
-  name: '상태 뱃지 + 셀 강조',
+  name: 'Status Badge + Cell Highlight',
   render: () => (
     <DataTable
       columns={[
@@ -91,7 +91,7 @@ export const WithStatus: Story = {
 }
 
 export const WithResize: Story = {
-  name: '컬럼 너비 조절',
+  name: 'Column Resize',
   render: () => (
     <DataTable
       columns={[
@@ -106,7 +106,7 @@ export const WithResize: Story = {
 }
 
 export const WithPagination: Story = {
-  name: '페이징',
+  name: 'Pagination',
   render: () => (
     <DataTable
       columns={[
@@ -123,7 +123,7 @@ export const WithPagination: Story = {
 }
 
 export const Full: Story = {
-  name: '전체 기능',
+  name: 'Full Features',
   render: () => (
     <DataTable
       columns={[
