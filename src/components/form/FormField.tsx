@@ -14,7 +14,9 @@ export interface FormFieldProps {
   hint?: string
   /** 필수 항목 여부 — 레이블 옆 * 표시 */
   required?: boolean
+  /** 폼 필드 내부에 렌더링할 입력 컴포넌트 */
   children: ReactNode
+  /** 최상위 래퍼 요소에 적용할 추가 CSS 클래스 */
   className?: string
 }
 
