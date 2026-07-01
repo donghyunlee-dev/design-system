@@ -1,9 +1,14 @@
 import { cn } from '../../utils/cn'
 import { ReactNode, useState } from 'react'
 
+/**
+ * 요소에 hover 시 추가 정보를 표시하는 툴팁 컴포넌트.
+ */
 export interface TooltipProps {
+  /** 툴팁 텍스트 */
   content: string
   children: ReactNode
+  /** 툴팁 표시 위치 */
   side?: 'top' | 'bottom' | 'left' | 'right'
 }
 

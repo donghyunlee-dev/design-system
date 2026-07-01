@@ -15,8 +15,13 @@ const COLORS = [
   'var(--color-danger)',
 ]
 
+/**
+ * 비율 데이터를 원형 차트로 표시하는 컴포넌트. recharts 기반.
+ */
 export interface PieChartProps {
-  data: { name: string; value: number }[]
+  /** 차트 데이터 배열 */
+  data: { name: string; value: number; color?: string }[]
+  /** 차트 높이(px) */
   height?: number
 }
 

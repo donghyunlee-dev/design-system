@@ -1,10 +1,17 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * KPI 수치를 강조하여 표시하는 통계 카드 컴포넌트.
+ */
 export interface StatProps {
+  /** 지표 레이블 */
   label: string
+  /** 표시할 수치 */
   value: string | number
+  /** 변화율 표시 */
   change?: { value: string; trend: 'up' | 'down' | 'neutral' }
+  /** 지표 아이콘 */
   icon?: ReactNode
   className?: string
 }

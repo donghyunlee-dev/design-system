@@ -1,9 +1,16 @@
 import { cn } from '../../utils/cn'
 
+/**
+ * 목록 데이터의 페이지 탐색 컴포넌트.
+ */
 export interface PaginationProps {
+  /** 현재 페이지 번호 (1부터 시작) */
   page: number
+  /** 전체 항목 수 */
   total: number
+  /** 페이지당 항목 수 (기본값: 10) */
   pageSize?: number
+  /** 페이지 변경 콜백 */
   onChange: (page: number) => void
 }
 

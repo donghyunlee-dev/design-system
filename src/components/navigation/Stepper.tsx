@@ -1,7 +1,12 @@
 import { cn } from '../../utils/cn'
 
+/**
+ * 다단계 프로세스의 진행 상황을 표시하는 스테퍼 컴포넌트.
+ */
 export interface StepperProps {
+  /** 단계 레이블 목록 */
   steps: string[]
+  /** 현재 활성 단계 인덱스 (0부터 시작) */
   current: number
 }
 

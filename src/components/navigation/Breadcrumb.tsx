@@ -1,4 +1,17 @@
-export interface BreadcrumbItem { label: string; href?: string }
+/**
+ * 현재 페이지의 계층 구조를 나타내는 브레드크럼 컴포넌트.
+ */
+export interface BreadcrumbItem {
+  /** 표시 텍스트 */
+  label: string
+  /** 링크 URL (마지막 항목은 생략) */
+  href?: string
+}
+
+export interface BreadcrumbProps {
+  /** 경로 항목 목록 */
+  items: BreadcrumbItem[]
+}
 
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (

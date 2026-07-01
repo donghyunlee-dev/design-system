@@ -1,10 +1,17 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * 좌측 고정 사이드바 네비게이션 컴포넌트.
+ */
 export interface SidebarItem {
+  /** 메뉴 텍스트 */
   label: string
+  /** 메뉴 아이콘 */
   icon?: ReactNode
+  /** 링크 URL */
   href?: string
+  /** 현재 활성 메뉴 여부 */
   active?: boolean
 }
 

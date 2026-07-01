@@ -9,10 +9,17 @@ import {
   Legend,
 } from 'recharts'
 
+/**
+ * 카테고리 데이터를 막대 차트로 표시하는 컴포넌트. recharts 기반.
+ */
 export interface BarChartProps {
+  /** 차트 데이터 배열 */
   data: Record<string, unknown>[]
+  /** 막대 설정 목록 */
   bars: { key: string; label: string; color?: string }[]
+  /** X축으로 사용할 데이터 키 */
   xKey: string
+  /** 차트 높이(px) */
   height?: number
 }
 

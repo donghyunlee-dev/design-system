@@ -1,8 +1,14 @@
 import { ReactNode } from 'react'
 
+/**
+ * 상단 글로벌 네비게이션 바 컴포넌트.
+ */
 export interface NavbarProps {
+  /** 로고 또는 브랜드 요소 */
   logo?: ReactNode
+  /** 네비게이션 링크 목록 */
   items?: { label: string; href: string; active?: boolean }[]
+  /** 우측 액션 영역 (버튼, 아이콘 등) */
   actions?: ReactNode
 }
 

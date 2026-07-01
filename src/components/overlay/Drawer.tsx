@@ -1,12 +1,20 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * 화면 측면에서 슬라이드되어 나타나는 드로어 컴포넌트.
+ */
 export interface DrawerProps {
+  /** 드로어 표시 여부 */
   open: boolean
+  /** 닫기 콜백 */
   onClose: () => void
+  /** 드로어가 열리는 방향 */
   side?: 'left' | 'right'
+  /** 드로어 제목 */
   title?: string
   children: ReactNode
+  /** 드로어 너비 (Tailwind 클래스, 예: "w-80") */
   width?: string
 }
 

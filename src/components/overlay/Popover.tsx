@@ -1,6 +1,10 @@
 import { ReactNode, useState, useRef, useEffect } from 'react'
 
+/**
+ * 요소 클릭 시 추가 콘텐츠를 표시하는 팝오버 컴포넌트.
+ */
 export interface PopoverProps {
+  /** 팝오버를 여는 트리거 요소 */
   trigger: ReactNode
   children: ReactNode
 }

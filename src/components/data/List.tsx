@@ -1,11 +1,19 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * 목록 항목의 개별 데이터 정의.
+ */
 export interface ListItem {
+  /** 항목 고유 ID */
   id: string | number
+  /** 주요 텍스트 */
   primary: string
+  /** 보조 텍스트 */
   secondary?: string
+  /** 왼쪽 아이콘/아바타 영역 */
   leading?: ReactNode
+  /** 오른쪽 배지/버튼 영역 */
   trailing?: ReactNode
 }
 

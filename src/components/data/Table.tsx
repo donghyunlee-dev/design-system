@@ -1,18 +1,32 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * 테이블 컬럼 정의.
+ */
 export interface Column<T> {
+  /** 컬럼 식별자 */
   key: string
+  /** 컬럼 헤더 텍스트 */
   header: string
+  /** 셀 커스텀 렌더러 */
   render?: (row: T) => ReactNode
+  /** 컬럼 너비 (CSS 값) */
   width?: string
 }
 
+/**
+ * 데이터를 행/열로 표시하는 테이블 컴포넌트.
+ */
 export interface TableProps<T extends Record<string, unknown>> {
+  /** 컬럼 정의 목록 */
   columns: Column<T>[]
+  /** 데이터 행 목록 */
   data: T[]
+  /** 각 행의 고유 키 필드명 */
   rowKey: keyof T
   className?: string
+  /** 행 클릭 콜백 */
   onRowClick?: (row: T) => void
 }
 

@@ -1,12 +1,21 @@
 import { cn } from '../../utils/cn'
 import { ReactNode, useEffect } from 'react'
 
+/**
+ * 화면 중앙에 표시되는 다이얼로그 모달 컴포넌트.
+ * Escape 키 및 배경 클릭으로 닫을 수 있습니다.
+ */
 export interface ModalProps {
+  /** 모달 표시 여부 */
   open: boolean
+  /** 닫기 콜백 (배경 클릭, Escape 키 포함) */
   onClose: () => void
+  /** 모달 상단 제목 */
   title?: string
   children: ReactNode
+  /** 하단 액션 버튼 영역 */
   footer?: ReactNode
+  /** 모달 너비 */
   size?: 'sm' | 'md' | 'lg'
 }
 

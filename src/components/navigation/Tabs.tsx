@@ -1,7 +1,17 @@
 import { cn } from '../../utils/cn'
 import { ReactNode, useState } from 'react'
 
-export interface TabItem { label: string; content: ReactNode; key: string }
+/**
+ * 탭 패널의 개별 항목 정의.
+ */
+export interface TabItem {
+  /** 탭 식별자 */
+  key: string
+  /** 탭 버튼 레이블 */
+  label: string
+  /** 탭 콘텐츠 */
+  content: ReactNode
+}
 
 export function Tabs({ items }: { items: TabItem[] }) {
   const [active, setActive] = useState(items[0]?.key)
