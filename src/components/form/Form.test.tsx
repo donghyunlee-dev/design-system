@@ -5,6 +5,7 @@ import { Checkbox } from './Checkbox'
 import { Switch } from './Switch'
 import { FormField } from './FormField'
 import { NumberInput } from './NumberInput'
+import { DateTimePicker } from './DateTimePicker'
 
 describe('Input', () => {
   it('placeholder가 표시된다', () => {
@@ -171,5 +172,27 @@ describe('NumberInput', () => {
   it('error 상태에서 border-danger 클래스가 적용된다', () => {
     render(<NumberInput error />)
     expect(screen.getByRole('spinbutton')).toHaveClass('border-danger')
+  })
+})
+
+describe('DateTimePicker', () => {
+  it('mode=date이면 type=date', () => {
+    const { container } = render(<DateTimePicker mode="date" />)
+    expect(container.querySelector('input')?.type).toBe('date')
+  })
+
+  it('mode=time이면 type=time', () => {
+    const { container } = render(<DateTimePicker mode="time" />)
+    expect(container.querySelector('input')?.type).toBe('time')
+  })
+
+  it('mode=datetime이면 type=datetime-local', () => {
+    const { container } = render(<DateTimePicker mode="datetime" />)
+    expect(container.querySelector('input')?.type).toBe('datetime-local')
+  })
+
+  it('기본 mode는 date', () => {
+    const { container } = render(<DateTimePicker />)
+    expect(container.querySelector('input')?.type).toBe('date')
   })
 })
