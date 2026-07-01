@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 import { ToastProvider, useToast } from './Toast'
 import { Button } from '../foundation/Button'
 
@@ -19,7 +20,14 @@ const meta: Meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Info: Story = { render: () => <ToastDemo variant="info" /> }
+export const Info: Story = {
+  render: () => <ToastDemo variant="info" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('button', { name: 'Toast 표시' }))
+    await expect(canvas.getByText('알림 메시지입니다.')).toBeInTheDocument()
+  },
+}
 export const Success: Story = { render: () => <ToastDemo variant="success" /> }
 export const Warning: Story = { render: () => <ToastDemo variant="warning" /> }
 export const Danger: Story = { render: () => <ToastDemo variant="danger" /> }

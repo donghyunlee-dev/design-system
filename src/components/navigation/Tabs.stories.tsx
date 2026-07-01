@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 import { Tabs } from './Tabs'
 
 const TAB_ITEMS = [
@@ -18,4 +19,11 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: (args) => <Tabs {...args} items={TAB_ITEMS} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const tabs = canvas.getAllByRole('button')
+    // Click the second tab
+    await userEvent.click(tabs[1])
+    await expect(tabs[1]).toHaveClass('border-brand')
+  },
 }

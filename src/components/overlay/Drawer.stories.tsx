@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
+import { expect, userEvent, within } from '@storybook/test'
 import { Drawer } from './Drawer'
 import { Button } from '../foundation/Button'
 
@@ -12,6 +13,27 @@ const meta: Meta<typeof Drawer> = {
 }
 export default meta
 type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  render: (args) => {
+    const [open, setOpen] = useState(false)
+    return (
+      <div className="p-4">
+        <Button onClick={() => setOpen(true)}>드로어 열기</Button>
+        <Drawer {...args} open={open} onClose={() => setOpen(false)}>
+          <p className="text-sm">드로어 콘텐츠입니다.</p>
+        </Drawer>
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('button', { name: '드로어 열기' }))
+    await expect(canvas.getByRole('heading', { name: '메뉴' })).toBeInTheDocument()
+    await userEvent.click(canvas.getByRole('button', { name: '✕' }))
+    await expect(canvas.queryByRole('heading', { name: '메뉴' })).not.toBeInTheDocument()
+  },
+}
 
 export const Right: Story = {
   render: (args) => {

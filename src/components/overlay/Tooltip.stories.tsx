@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, userEvent, within } from '@storybook/test'
 import { Tooltip } from './Tooltip'
 import { Button } from '../foundation/Button'
 
@@ -11,6 +12,21 @@ const meta: Meta<typeof Tooltip> = {
 }
 export default meta
 type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  render: (args) => (
+    <Tooltip {...args} content="툴팁 텍스트입니다.">
+      <Button variant="secondary">hover me</Button>
+    </Tooltip>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.hover(canvas.getByRole('button', { name: 'hover me' }))
+    await expect(canvas.getByText('툴팁 텍스트입니다.')).toBeInTheDocument()
+    await userEvent.unhover(canvas.getByRole('button', { name: 'hover me' }))
+    await expect(canvas.queryByText('툴팁 텍스트입니다.')).not.toBeInTheDocument()
+  },
+}
 
 export const Top: Story = {
   render: (args) => (

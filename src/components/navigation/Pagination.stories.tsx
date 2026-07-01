@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
+import { expect, userEvent, within } from '@storybook/test'
 import { Pagination } from './Pagination'
 
 const meta: Meta<typeof Pagination> = {
@@ -15,6 +16,12 @@ export const Default: Story = {
   render: (args) => {
     const [page, setPage] = useState(1)
     return <Pagination {...args} page={page} onChange={setPage} />
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByRole('button', { name: '이전' })).toBeDisabled()
+    await userEvent.click(canvas.getByRole('button', { name: '다음' }))
+    await expect(canvas.getByRole('button', { name: '이전' })).not.toBeDisabled()
   },
 }
 
