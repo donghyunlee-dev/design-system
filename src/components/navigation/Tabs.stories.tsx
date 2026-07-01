@@ -21,9 +21,9 @@ export const Default: Story = {
   render: (args) => <Tabs {...args} items={TAB_ITEMS} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const tabs = canvas.getAllByRole('button')
-    // Click the second tab
-    await userEvent.click(tabs[1])
-    await expect(tabs[1]).toHaveClass('border-brand')
+    // Click the second tab by name
+    const settingsTab = canvas.getByRole('button', { name: '설정' })
+    await userEvent.click(settingsTab)
+    await expect(settingsTab).toHaveClass('border-brand')
   },
 }

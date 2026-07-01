@@ -28,10 +28,16 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
+    // Open drawer
     await userEvent.click(canvas.getByRole('button', { name: '드로어 열기' }))
-    await expect(canvas.getByRole('heading', { name: '메뉴' })).toBeInTheDocument()
+    // Verify heading is in DOM
+    const heading = canvas.getByRole('heading', { name: '메뉴' })
+    await expect(heading).toBeInTheDocument()
+    // Close drawer
     await userEvent.click(canvas.getByRole('button', { name: '✕' }))
-    await expect(canvas.queryByRole('heading', { name: '메뉴' })).not.toBeInTheDocument()
+    // Drawer panel stays in DOM — verify it is translated off-screen (right side default)
+    const panel = canvasElement.querySelector('div.fixed.top-0') as HTMLElement
+    await expect(panel).toHaveClass('translate-x-full')
   },
 }
 
