@@ -1,10 +1,17 @@
 import { cn } from '../../utils/cn'
 import { useRef } from 'react'
 
+/**
+ * 파일 업로드 영역 컴포넌트. 클릭 또는 드래그 앤 드롭으로 파일을 선택합니다.
+ */
 export interface FileUploadProps {
+  /** 허용 파일 형식 (예: "image/*", ".pdf") */
   accept?: string
+  /** 다중 파일 선택 허용 여부 */
   multiple?: boolean
+  /** 파일 선택/드롭 완료 콜백 */
   onChange?: (files: FileList | null) => void
+  /** 업로드 영역 안내 텍스트 */
   label?: string
   className?: string
 }

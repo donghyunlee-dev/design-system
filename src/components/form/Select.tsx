@@ -1,9 +1,15 @@
 import { cn } from '../../utils/cn'
 import { SelectHTMLAttributes } from 'react'
 
+/**
+ * 드롭다운 선택 컴포넌트.
+ */
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  /** 오류 상태 표시 여부 */
   error?: boolean
+  /** 선택 항목 목록 */
   options: { value: string; label: string }[]
+  /** 미선택 상태 안내 문구 */
   placeholder?: string
 }
 

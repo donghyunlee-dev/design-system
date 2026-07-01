@@ -1,7 +1,11 @@
 import { cn } from '../../utils/cn'
 import { InputHTMLAttributes } from 'react'
 
+/**
+ * 라디오 버튼 입력 컴포넌트. label prop으로 레이블을 함께 렌더링합니다.
+ */
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  /** 라디오 버튼 레이블 텍스트 */
   label?: string
 }
 

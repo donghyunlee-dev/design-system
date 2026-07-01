@@ -1,8 +1,14 @@
 import { cn } from '../../utils/cn'
 import { ButtonHTMLAttributes } from 'react'
 
+/**
+ * 사용자 액션을 유도하는 기본 버튼 컴포넌트.
+ * variant로 의미를 전달하고 size로 크기를 조절합니다.
+ */
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** 버튼의 시각적 스타일 및 의미 */
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
+  /** 버튼 크기 */
   size?: 'sm' | 'md' | 'lg'
 }
 

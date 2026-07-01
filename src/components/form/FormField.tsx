@@ -1,10 +1,18 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * 레이블, 힌트, 오류 메시지를 포함한 폼 필드 래퍼 컴포넌트.
+ * children으로 Input, Select 등을 감쌉니다.
+ */
 export interface FormFieldProps {
+  /** 필드 레이블 텍스트 */
   label?: string
+  /** 오류 메시지 — 입력 아래에 danger 색상으로 표시 */
   error?: string
+  /** 보조 안내 텍스트 */
   hint?: string
+  /** 필수 항목 여부 — 레이블 옆 * 표시 */
   required?: boolean
   children: ReactNode
   className?: string

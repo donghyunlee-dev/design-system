@@ -15,7 +15,11 @@ const variantMap: Record<TypographyVariant, { tag: string; className: string }> 
   code:     { tag: 'code', className: 'font-code text-sm bg-surface-overlay px-1.5 py-0.5 rounded' },
 }
 
+/**
+ * 텍스트 스타일을 일관되게 적용하는 타이포그래피 컴포넌트.
+ */
 export interface TypographyProps extends HTMLAttributes<HTMLElement> {
+  /** 렌더링할 HTML 태그 및 시각적 스타일 */
   variant?: TypographyVariant
 }
 

@@ -1,7 +1,11 @@
 import { cn } from '../../utils/cn'
 import { HTMLAttributes } from 'react'
 
+/**
+ * 상태나 카테고리를 나타내는 인라인 배지 컴포넌트.
+ */
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+  /** 배지의 색상 의미 */
   variant?: 'default' | 'success' | 'warning' | 'danger' | 'info'
 }
 
