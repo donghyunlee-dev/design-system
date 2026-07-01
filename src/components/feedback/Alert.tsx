@@ -1,8 +1,13 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
 
+/**
+ * 중요 메시지를 강조하여 표시하는 알림 컴포넌트.
+ */
 export interface AlertProps {
+  /** 알림의 의미적 유형 */
   variant?: 'info' | 'success' | 'warning' | 'danger'
+  /** 알림 제목 */
   title?: string
   children: ReactNode
   className?: string

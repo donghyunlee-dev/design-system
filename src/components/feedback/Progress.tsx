@@ -1,7 +1,12 @@
 import { cn } from '../../utils/cn'
 
+/**
+ * 작업 진행률을 나타내는 프로그레스 바 컴포넌트.
+ */
 export interface ProgressProps {
+  /** 진행률 (0~100) */
   value: number
+  /** 최대값 (기본값: 100) */
   max?: number
   className?: string
 }

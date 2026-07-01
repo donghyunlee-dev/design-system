@@ -15,6 +15,7 @@ export function useToast() {
   return useContext(ToastContext)
 }
 
+/** toast 알림을 전역으로 제공하는 Provider 컴포넌트. useToast() 훅과 함께 사용합니다. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([])
 

@@ -1,5 +1,6 @@
 import { cn } from '../../utils/cn'
 
+/** 로딩 상태를 나타내는 스피너 컴포넌트. */
 export function Spinner({ size = 'md', className }: { size?: 'sm' | 'md' | 'lg'; className?: string }) {
   return (
     <span

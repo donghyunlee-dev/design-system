@@ -1,10 +1,17 @@
 import { cn } from '../../utils/cn'
 import { HTMLAttributes } from 'react'
 
+/**
+ * 자식 요소를 수직 또는 수평으로 정렬하는 레이아웃 컴포넌트.
+ */
 export interface StackProps extends HTMLAttributes<HTMLDivElement> {
+  /** 정렬 방향 */
   direction?: 'row' | 'col'
+  /** 자식 요소 간 간격 (Tailwind gap 숫자) */
   gap?: 1 | 2 | 3 | 4 | 6 | 8
+  /** 교차축 정렬 */
   align?: 'start' | 'center' | 'end' | 'stretch'
+  /** 주축 정렬 */
   justify?: 'start' | 'center' | 'end' | 'between'
 }
 
