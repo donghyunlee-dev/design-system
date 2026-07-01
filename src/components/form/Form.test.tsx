@@ -4,6 +4,7 @@ import { Input } from './Input'
 import { Checkbox } from './Checkbox'
 import { Switch } from './Switch'
 import { FormField } from './FormField'
+import { NumberInput } from './NumberInput'
 
 describe('Input', () => {
   it('placeholder가 표시된다', () => {
@@ -140,5 +141,35 @@ describe('FormField validation', () => {
     )
     expect(screen.getByText('서버 오류')).toBeInTheDocument()
     expect(screen.queryByText('필수')).not.toBeInTheDocument()
+  })
+})
+
+describe('NumberInput', () => {
+  it('type=number로 렌더링된다', () => {
+    render(<NumberInput />)
+    expect(screen.getByRole('spinbutton')).toBeInTheDocument()
+  })
+
+  it('unit prop이 있으면 단위 텍스트가 표시된다', () => {
+    render(<NumberInput unit="kg" />)
+    expect(screen.getByText('kg')).toBeInTheDocument()
+  })
+
+  it('unit 없이 단순 number input 렌더링', () => {
+    const { container } = render(<NumberInput placeholder="0" />)
+    const input = container.querySelector('input[type="number"]')
+    expect(input).toBeInTheDocument()
+  })
+
+  it('min, max props 전달됨', () => {
+    const { container } = render(<NumberInput min={0} max={100} />)
+    const input = container.querySelector('input')
+    expect(input).toHaveAttribute('min', '0')
+    expect(input).toHaveAttribute('max', '100')
+  })
+
+  it('error 상태에서 border-danger 클래스가 적용된다', () => {
+    render(<NumberInput error />)
+    expect(screen.getByRole('spinbutton')).toHaveClass('border-danger')
   })
 })
