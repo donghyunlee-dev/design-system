@@ -7,6 +7,8 @@ export { Badge } from './components/foundation/Badge'
 export type { BadgeProps } from './components/foundation/Badge'
 export { Avatar } from './components/foundation/Avatar'
 export type { AvatarProps } from './components/foundation/Avatar'
+export { StatusBadge } from './components/foundation/StatusBadge'
+export type { StatusBadgeProps, StatusVariant } from './components/foundation/StatusBadge'
 
 // Form
 export { Input } from './components/form/Input'
@@ -27,6 +29,10 @@ export { DateInput } from './components/form/DateInput'
 export type { DateInputProps } from './components/form/DateInput'
 export { FileUpload } from './components/form/FileUpload'
 export type { FileUploadProps } from './components/form/FileUpload'
+export { NumberInput } from './components/form/NumberInput'
+export type { NumberInputProps } from './components/form/NumberInput'
+export { DateTimePicker } from './components/form/DateTimePicker'
+export type { DateTimePickerProps, DateTimeMode } from './components/form/DateTimePicker'
 
 // Layout
 export { Stack } from './components/layout/Stack'
@@ -99,3 +105,6 @@ export { cn } from './utils/cn'
 
 // Templates
 export * from './templates'
+
+// Validation types
+export type { FieldRules, ValidationRule } from './types/validation'
