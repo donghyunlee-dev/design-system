@@ -6,7 +6,7 @@ import { cn } from '../../utils/cn'
 export interface ProgressProps {
   /** 진행률 (0~100) */
   value: number
-  /** 최대값 (기본값: 100) */
+  /** 진행률의 기준 최대값. 진행률은 (value / max) × 100%로 계산됩니다. (기본값: 100) */
   max?: number
   className?: string
 }

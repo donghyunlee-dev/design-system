@@ -11,11 +11,16 @@ const ToastContext = createContext<{ toast: (msg: string, variant?: ToastItem['v
   toast: () => {},
 })
 
+/**
+ * ToastProvider가 제공하는 toast 함수를 반환하는 훅.
+ * toast(message, variant?) 로 호출하면 3초 후 자동으로 사라지는 토스트를 표시합니다.
+ * 반드시 ToastProvider 하위에서 사용해야 합니다.
+ */
 export function useToast() {
   return useContext(ToastContext)
 }
 
-/** toast 알림을 전역으로 제공하는 Provider 컴포넌트. useToast() 훅과 함께 사용합니다. */
+/** toast 알림을 전역으로 제공하는 Provider 컴포넌트. useToast() 훅과 함께 사용합니다. 토스트는 3초 후 자동으로 사라집니다. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([])
 

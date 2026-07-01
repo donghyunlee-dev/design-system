@@ -5,13 +5,13 @@ import { HTMLAttributes } from 'react'
  * 자식 요소를 수직 또는 수평으로 정렬하는 레이아웃 컴포넌트.
  */
 export interface StackProps extends HTMLAttributes<HTMLDivElement> {
-  /** 정렬 방향 */
+  /** 정렬 방향. 'col'은 세로(flex-column), 'row'는 가로(flex-row) */
   direction?: 'row' | 'col'
   /** 자식 요소 간 간격 (Tailwind gap 숫자) */
   gap?: 1 | 2 | 3 | 4 | 6 | 8
-  /** 교차축 정렬 */
+  /** 교차축(cross-axis) 정렬 — CSS align-items에 대응 */
   align?: 'start' | 'center' | 'end' | 'stretch'
-  /** 주축 정렬 */
+  /** 주축(main-axis) 정렬 — CSS justify-content에 대응 */
   justify?: 'start' | 'center' | 'end' | 'between'
 }
 
