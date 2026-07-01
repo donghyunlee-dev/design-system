@@ -8,7 +8,7 @@ export interface SwitchProps {
   checked: boolean
   /** 상태 변경 콜백 */
   onChange: (checked: boolean) => void
-  /** 스위치 레이블 텍스트 */
+  /** 스크린 리더용 접근성 레이블 텍스트 (화면에 미표시) */
   label?: string
   /** 비활성화 여부 */
   disabled?: boolean

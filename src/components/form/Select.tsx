@@ -3,6 +3,7 @@ import { SelectHTMLAttributes } from 'react'
 
 /**
  * 드롭다운 선택 컴포넌트.
+ * options 배열로 항목을 주입하며, 네이티브 select 속성을 모두 지원합니다.
  */
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   /** 오류 상태 표시 여부 */

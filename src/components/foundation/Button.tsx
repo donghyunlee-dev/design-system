@@ -6,7 +6,7 @@ import { ButtonHTMLAttributes } from 'react'
  * variant로 의미를 전달하고 size로 크기를 조절합니다.
  */
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** 버튼의 시각적 스타일 및 의미 */
+  /** 버튼의 역할 및 강조 수준 (primary: 주요 액션, secondary: 보조, ghost: 최소화, danger: 파괴적 액션) */
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
   /** 버튼 크기 */
   size?: 'sm' | 'md' | 'lg'
