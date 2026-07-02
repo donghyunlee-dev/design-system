@@ -8,6 +8,7 @@ import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
 import { SettingsPage } from '../../templates/business/SettingsPage'
 import { MasterDetail } from '../../templates/business/MasterDetail'
 import { WizardForm } from '../../templates/business/WizardForm'
+import { ApprovalView } from '../../templates/business/ApprovalView'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -474,6 +475,37 @@ export const Wizard: Story = {
       ]}
       onCancel={() => alert('취소')}
       onComplete={() => alert('완료')}
+    />
+  ),
+}
+
+export const Approval: Story = {
+  name: 'Approval View',
+  render: () => (
+    <ApprovalView
+      title="구매 발주 결재"
+      status="inProgress"
+      breadcrumb={[{ label: '결재함', href: '#' }, { label: '구매 발주 결재' }]}
+      steps={[
+        { label: '기안', status: 'done', approver: '김담당', date: '07-01' },
+        { label: '팀장', status: 'done', approver: '이팀장', date: '07-01' },
+        { label: '본부장', status: 'current', approver: '박본부장' },
+        { label: '최종승인', status: 'pending' },
+      ]}
+      fields={[
+        { label: '발주번호', value: 'PO-2026-0042' },
+        { label: '기안일자', value: '2026-07-01' },
+        { label: '거래처', value: '(주)한국식품' },
+        { label: '납기일자', value: '2026-07-15' },
+        { label: '품목', value: '쌀 (20kg)', span: 2 },
+        { label: '수량', value: '500개' },
+        { label: '단가', value: '45,000원' },
+        { label: '총 금액', value: '22,500,000원' },
+        { label: '사유', value: '7월 생산계획 대비 원자재 선행 확보', span: 2 },
+      ]}
+      canApprove
+      onApprove={c => alert(`승인 완료: ${c || '(의견 없음)'}`)}
+      onReject={c => alert(`반려: ${c || '(의견 없음)'}`)}
     />
   ),
 }
