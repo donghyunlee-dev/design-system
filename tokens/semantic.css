@@ -8,7 +8,7 @@
   --color-brand-hover:  var(--brand-700);
   --color-brand-light:  var(--brand-100);   /* 변경: purple-400 → brand-100 (연한 배경용) */
   --color-brand-subtle: var(--brand-50);    /* 신규: 매우 연한 브랜드 배경 */
-  --color-on-brand:     #ffffff;            /* 신규: 브랜드 배경 위 텍스트 */
+  --color-on-brand:     var(--white);        /* 신규: 브랜드 배경 위 텍스트 */
 
   /* 표면 */
   --color-surface:         var(--white);
@@ -27,6 +27,9 @@
   --color-border:        var(--gray-200);
   --color-border-focus:  var(--brand-500);
   --color-border-strong: var(--gray-300);   /* 신규: 강조 경계 */
+
+  /* 배경 */
+  --color-background: #f8fafc;   /* slate-50: 기존 gray-50(#f9fafb)보다 약간 더 시원한 톤 */
 
   /* 상태 */
   --color-success: var(--green-500);
@@ -54,21 +57,16 @@
   --page-padding: 24px;
 
   /* Shadow */
-  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
-  --shadow-md:   0 4px 12px rgba(0,0,0,.10);
-  --shadow-lg:   0 8px 32px rgba(0,0,0,.14);
-  --shadow-none: none;
+  --shadow-sm:      0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:      0 4px 12px rgba(0,0,0,.10);
+  --shadow-lg:      0 8px 32px rgba(0,0,0,.14);
+  --shadow-none:    none;
+  --shadow-card:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-raised:  0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-overlay: 0 20px 48px rgba(0,0,0,.16), 0 8px 16px rgba(0,0,0,.08);
 
   /* Motion */
   --motion-fast:    100ms ease;
   --motion-default: 150ms ease;
   --motion-slow:    300ms ease;
-
-  /* Background */
-  --color-background: #f8fafc;   /* slate-50: 기존 gray-50(#f9fafb)보다 약간 더 시원한 톤 */
-
-  /* Shadow — 기존 sm/md/lg 유지, 용도별 card/raised/overlay 추가 */
-  --shadow-card:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-raised:  0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
-  --shadow-overlay: 0 20px 48px rgba(0,0,0,.16), 0 8px 16px rgba(0,0,0,.08);
 }
