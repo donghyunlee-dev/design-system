@@ -40,3 +40,7 @@ export type { DataFormPageProps, FormSection } from './admin/DataFormPage'
 
 // Shared types (BreadcrumbItem is already exported from src/index.ts via components/navigation/Breadcrumb)
 export type { NavItem, FeatureItem, FilterOption, FilterSection } from './types'
+
+// Business Templates
+export { ListSearchTable } from './business/ListSearchTable'
+export type { ListSearchTableProps } from './business/ListSearchTable'
