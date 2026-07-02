@@ -1,11 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ListSearchTable } from '../../templates/business/ListSearchTable'
 import { DashboardKPI } from '../../templates/business/DashboardKPI'
+import { FormRegister } from '../../templates/business/FormRegister'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
 import { StatusBadge } from '../../components/foundation/StatusBadge'
 import { DataColumn } from '../../components/data/DataTable'
+import { FormField } from '../../components/form/FormField'
+import { Input } from '../../components/form/Input'
+import { NumberInput } from '../../components/form/NumberInput'
+import { DateTimePicker } from '../../components/form/DateTimePicker'
 
 const meta: Meta = {
   title: 'Templates/Business',
@@ -119,6 +124,65 @@ export const Dashboard: Story = {
       tableTitle="라인별 달성 현황"
       tableColumns={kpiTableCols}
       tableData={kpiTableData}
+    />
+  ),
+}
+
+export const Register: Story = {
+  name: 'Form Register',
+  render: () => (
+    <FormRegister
+      title="발주 등록"
+      breadcrumb={[{ label: '구매관리', href: '#' }, { label: '발주 목록', href: '#' }, { label: '발주 등록' }]}
+      sections={[
+        {
+          title: '기본 정보',
+          children: (
+            <>
+              <FormField label="발주번호" required>
+                <Input placeholder="자동 채번" disabled />
+              </FormField>
+              <FormField label="발주일자" required>
+                <DateTimePicker mode="date" />
+              </FormField>
+              <FormField label="거래처" required>
+                <Select
+                  options={[
+                    { value: '1', label: '(주)한국식품' },
+                    { value: '2', label: '대한유통' },
+                  ]}
+                  placeholder="거래처 선택"
+                />
+              </FormField>
+              <FormField label="납기일자" required>
+                <DateTimePicker mode="date" />
+              </FormField>
+            </>
+          ),
+        },
+        {
+          title: '발주 상세',
+          description: '발주할 품목과 수량을 입력하세요',
+          children: (
+            <>
+              <FormField label="품목명" required>
+                <Input placeholder="품목명 입력" />
+              </FormField>
+              <FormField label="수량" required>
+                <NumberInput unit="개" min={1} />
+              </FormField>
+              <FormField label="단가">
+                <NumberInput unit="원" />
+              </FormField>
+              <FormField label="비고">
+                <Input placeholder="비고 입력" />
+              </FormField>
+            </>
+          ),
+        },
+      ]}
+      onSave={() => alert('저장')}
+      onCancel={() => alert('취소')}
     />
   ),
 }
