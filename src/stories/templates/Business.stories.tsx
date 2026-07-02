@@ -7,6 +7,8 @@ import { DetailView } from '../../templates/business/DetailView'
 import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
 import { SettingsPage } from '../../templates/business/SettingsPage'
 import { MasterDetail } from '../../templates/business/MasterDetail'
+import { WizardForm } from '../../templates/business/WizardForm'
+import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
@@ -380,6 +382,98 @@ export const Master: Story = {
           </dl>
         </div>
       )}
+    />
+  ),
+}
+
+export const Wizard: Story = {
+  name: 'Wizard Form',
+  render: () => (
+    <WizardForm
+      title="작업 지시 등록"
+      steps={[
+        {
+          label: '기본 정보',
+          content: (
+            <div className="grid grid-cols-2 gap-4">
+              <FormField label="지시번호">
+                <Input disabled placeholder="자동 채번" />
+              </FormField>
+              <FormField label="지시일자" required>
+                <DateTimePicker mode="date" />
+              </FormField>
+              <FormField label="생산 라인" required>
+                <Select
+                  options={[
+                    { value: 'A', label: 'A 라인' },
+                    { value: 'B', label: 'B 라인' },
+                    { value: 'C', label: 'C 라인' },
+                  ]}
+                  placeholder="라인 선택"
+                />
+              </FormField>
+              <FormField label="작업 유형" required>
+                <Select
+                  options={[
+                    { value: 'normal', label: '정상 생산' },
+                    { value: 'rework', label: '재작업' },
+                  ]}
+                  placeholder="유형 선택"
+                />
+              </FormField>
+            </div>
+          ),
+        },
+        {
+          label: '생산 정보',
+          content: (
+            <div className="grid grid-cols-2 gap-4">
+              <FormField label="제품명" required>
+                <Input placeholder="제품명 입력" />
+              </FormField>
+              <FormField label="목표 수량" required>
+                <NumberInput unit="개" min={1} />
+              </FormField>
+              <FormField label="시작 예정">
+                <DateTimePicker mode="datetime" />
+              </FormField>
+              <FormField label="완료 예정">
+                <DateTimePicker mode="datetime" />
+              </FormField>
+            </div>
+          ),
+        },
+        {
+          label: '검토',
+          content: (
+            <div className="space-y-4">
+              <div className="bg-surface-subtle rounded-lg p-4 text-sm text-foreground">
+                <p className="font-medium mb-2">입력 정보를 확인하세요.</p>
+                <ul className="space-y-1 text-muted text-xs">
+                  <li>• 지시일자, 라인, 유형이 올바른지 확인</li>
+                  <li>• 목표 수량이 설비 용량을 초과하지 않는지 확인</li>
+                  <li>• 시작/완료 예정 시간이 현실적인지 확인</li>
+                </ul>
+              </div>
+              <FormField label="특이사항">
+                <Textarea placeholder="특이사항을 입력하세요 (선택)" rows={4} />
+              </FormField>
+            </div>
+          ),
+        },
+        {
+          label: '완료',
+          content: (
+            <div className="flex flex-col items-center justify-center h-48 gap-3">
+              <div className="text-4xl">✅</div>
+              <p className="text-lg font-semibold text-foreground">작업 지시 등록 완료</p>
+              <p className="text-sm text-muted">등록된 지시 번호: WO-2026-0001</p>
+            </div>
+          ),
+        },
+      ]}
+      onCancel={() => alert('취소')}
+      onComplete={() => alert('완료')}
     />
   ),
 }
