@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { ListSearchTable } from '../../templates/business/ListSearchTable'
 import { DashboardKPI } from '../../templates/business/DashboardKPI'
 import { FormRegister } from '../../templates/business/FormRegister'
+import { DetailView } from '../../templates/business/DetailView'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
@@ -183,6 +184,43 @@ export const Register: Story = {
       ]}
       onSave={() => alert('저장')}
       onCancel={() => alert('취소')}
+    />
+  ),
+}
+
+export const Detail: Story = {
+  name: 'Detail View',
+  render: () => (
+    <DetailView
+      title="주문 상세"
+      breadcrumb={[{ label: '주문관리', href: '#' }, { label: '주문 목록', href: '#' }, { label: 'ORD-001' }]}
+      status={<StatusBadge status="active" label="처리중" />}
+      actions={
+        <>
+          <Button variant="secondary" size="sm">수정</Button>
+          <Button variant="danger" size="sm">삭제</Button>
+        </>
+      }
+      fields={[
+        { label: '주문번호', value: 'ORD-001' },
+        { label: '주문일자', value: '2026-07-01' },
+        { label: '거래처', value: '(주)한국식품' },
+        { label: '납기일자', value: '2026-07-10' },
+        { label: '품목명', value: '쌀 (20kg)', span: 2 },
+        { label: '수량', value: '50개' },
+        { label: '단가', value: '45,000원' },
+        { label: '합계금액', value: '2,250,000원' },
+        { label: '비고', value: '긴급 발주 건 — 우선 처리 요망', span: 2 },
+      ]}
+      history={[
+        { timestamp: '2026-07-01 14:32', label: '발주 등록', description: '김담당자', variant: 'success' },
+        { timestamp: '2026-07-01 15:10', label: '검토 완료', description: '이팀장', variant: 'success' },
+        { timestamp: '2026-07-02 09:00', label: '납품 확인 대기중', variant: 'default' },
+      ]}
+      tabs={[
+        { key: 'related', label: '연관 주문', content: <p className="text-sm text-muted">연관된 주문이 없습니다.</p> },
+        { key: 'files', label: '첨부파일', content: <p className="text-sm text-muted">첨부된 파일이 없습니다.</p> },
+      ]}
     />
   ),
 }
