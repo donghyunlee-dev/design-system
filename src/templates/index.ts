@@ -44,3 +44,5 @@ export type { NavItem, FeatureItem, FilterOption, FilterSection } from './types'
 // Business Templates
 export { ListSearchTable } from './business/ListSearchTable'
 export type { ListSearchTableProps } from './business/ListSearchTable'
+export { DashboardKPI } from './business/DashboardKPI'
+export type { DashboardKPIProps, KPICard } from './business/DashboardKPI'
