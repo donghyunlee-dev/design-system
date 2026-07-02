@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { useState } from 'react'
 import { ListSearchTable } from '../../templates/business/ListSearchTable'
 import { DashboardKPI } from '../../templates/business/DashboardKPI'
 import { FormRegister } from '../../templates/business/FormRegister'
 import { DetailView } from '../../templates/business/DetailView'
 import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
+import { SettingsPage } from '../../templates/business/SettingsPage'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
@@ -13,6 +15,7 @@ import { FormField } from '../../components/form/FormField'
 import { Input } from '../../components/form/Input'
 import { NumberInput } from '../../components/form/NumberInput'
 import { DateTimePicker } from '../../components/form/DateTimePicker'
+import { Switch } from '../../components/form/Switch'
 
 const meta: Meta = {
   title: 'Templates/Business',
@@ -221,6 +224,79 @@ export const Detail: Story = {
       tabs={[
         { key: 'related', label: '연관 주문', content: <p className="text-sm text-muted">연관된 주문이 없습니다.</p> },
         { key: 'files', label: '첨부파일', content: <p className="text-sm text-muted">첨부된 파일이 없습니다.</p> },
+      ]}
+    />
+  ),
+}
+
+function NotificationContent() {
+  const [emailOn, setEmailOn] = useState(true)
+  const [delayOn, setDelayOn] = useState(false)
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between py-2">
+        <div>
+          <p className="text-sm font-medium text-foreground">이메일 알림</p>
+          <p className="text-xs text-muted">주요 이벤트 발생 시 이메일 수신</p>
+        </div>
+        <Switch checked={emailOn} onChange={setEmailOn} label="이메일 알림" />
+      </div>
+      <div className="flex items-center justify-between py-2 border-t border-border">
+        <div>
+          <p className="text-sm font-medium text-foreground">지연 경고 알림</p>
+          <p className="text-xs text-muted">생산 지연 발생 시 즉시 알림</p>
+        </div>
+        <Switch checked={delayOn} onChange={setDelayOn} label="지연 경고 알림" />
+      </div>
+    </div>
+  )
+}
+
+export const Settings: Story = {
+  name: 'Settings Page',
+  render: () => (
+    <SettingsPage
+      title="시스템 설정"
+      sections={[
+        {
+          id: 'basic',
+          label: '기본 설정',
+          icon: '⚙️',
+          content: (
+            <div className="space-y-4">
+              <FormField label="시스템명">
+                <Input defaultValue="SFOOD MES" />
+              </FormField>
+              <FormField label="회사명">
+                <Input defaultValue="에쓰푸드" />
+              </FormField>
+              <FormField label="사업장">
+                <Input defaultValue="안성 1공장" />
+              </FormField>
+              <div className="flex justify-end pt-4 border-t border-border">
+                <Button size="sm">저장</Button>
+              </div>
+            </div>
+          ),
+        },
+        {
+          id: 'notification',
+          label: '알림 설정',
+          icon: '🔔',
+          content: <NotificationContent />,
+        },
+        {
+          id: 'permissions',
+          label: '권한 관리',
+          icon: '🔐',
+          content: <p className="text-sm text-muted">권한 관리 콘텐츠가 여기에 표시됩니다.</p>,
+        },
+        {
+          id: 'codes',
+          label: '코드 관리',
+          icon: '📋',
+          content: <p className="text-sm text-muted">코드 관리 콘텐츠가 여기에 표시됩니다.</p>,
+        },
       ]}
     />
   ),
