@@ -3,6 +3,7 @@ import { ListSearchTable } from '../../templates/business/ListSearchTable'
 import { DashboardKPI } from '../../templates/business/DashboardKPI'
 import { FormRegister } from '../../templates/business/FormRegister'
 import { DetailView } from '../../templates/business/DetailView'
+import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
@@ -220,6 +221,30 @@ export const Detail: Story = {
       tabs={[
         { key: 'related', label: '연관 주문', content: <p className="text-sm text-muted">연관된 주문이 없습니다.</p> },
         { key: 'files', label: '첨부파일', content: <p className="text-sm text-muted">첨부된 파일이 없습니다.</p> },
+      ]}
+    />
+  ),
+}
+
+export const Monitoring: Story = {
+  name: 'Monitoring Board',
+  render: () => (
+    <MonitoringBoard
+      title="생산 라인 실시간 현황판"
+      timestamp="14:32:05"
+      kpis={[
+        { label: '총 생산 건수', value: '1,284', status: 'normal' },
+        { label: '달성률', value: '98.2%', status: 'normal' },
+        { label: '지연 건수', value: '23', status: 'warning' },
+        { label: '오류 건수', value: '2', status: 'danger' },
+      ]}
+      stations={[
+        { id: '1', name: 'A 라인', status: 'running', value: '412건 / 400목표' },
+        { id: '2', name: 'B 라인', status: 'running', value: '338건 / 350목표' },
+        { id: '3', name: 'C 라인', status: 'error',   value: '오류 코드 E04' },
+        { id: '4', name: 'D 라인', status: 'idle',    value: '점검 중' },
+        { id: '5', name: 'E 라인', status: 'running', value: '250건 / 250목표' },
+        { id: '6', name: 'F 라인', status: 'offline', value: '—' },
       ]}
     />
   ),
