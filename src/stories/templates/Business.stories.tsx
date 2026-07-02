@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
+import { ReportLayout } from '../../templates/business/ReportLayout'
+import { Table } from '../../components/data/Table'
 import { ListSearchTable } from '../../templates/business/ListSearchTable'
 import { DashboardKPI } from '../../templates/business/DashboardKPI'
 import { FormRegister } from '../../templates/business/FormRegister'
@@ -476,6 +478,46 @@ export const Wizard: Story = {
       onCancel={() => alert('취소')}
       onComplete={() => alert('완료')}
     />
+  ),
+}
+
+export const Report: Story = {
+  name: 'Report Layout',
+  render: () => (
+    <ReportLayout
+      title="월별 생산 실적 보고서"
+      subtitle="2026년 7월 기준"
+      organization="에쓰푸드 생산본부"
+      summary={[
+        { label: '총 생산 건수', value: '1,284건' },
+        { label: '달성률', value: '98.2%' },
+        { label: '불량률', value: '0.3%' },
+      ]}
+      signatures={[
+        { label: '담당' },
+        { label: '팀장' },
+        { label: '본부장' },
+      ]}
+    >
+      <Table
+        columns={[
+          { key: 'line',   header: '라인',     width: '100px' },
+          { key: 'target', header: '목표(건)',  width: '100px' },
+          { key: 'actual', header: '실적(건)',  width: '100px' },
+          { key: 'rate',   header: '달성률',   width: '100px' },
+          { key: 'defect', header: '불량(건)',  width: '100px' },
+          { key: 'note',   header: '비고' },
+        ]}
+        data={[
+          { id: 1, line: 'A 라인', target: 400, actual: 412, rate: '103%', defect: 1, note: '' },
+          { id: 2, line: 'B 라인', target: 350, actual: 338, rate: '97%',  defect: 2, note: '설비 점검' },
+          { id: 3, line: 'C 라인', target: 300, actual: 284, rate: '95%',  defect: 0, note: '전력 제한' },
+          { id: 4, line: 'D 라인', target: 250, actual: 250, rate: '100%', defect: 1, note: '' },
+          { id: 5, line: '합계',   target: 1300, actual: 1284, rate: '98.8%', defect: 4, note: '' },
+        ]}
+        rowKey="id"
+      />
+    </ReportLayout>
   ),
 }
 
