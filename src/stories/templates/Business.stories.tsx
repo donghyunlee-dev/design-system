@@ -6,6 +6,8 @@ import { FormRegister } from '../../templates/business/FormRegister'
 import { DetailView } from '../../templates/business/DetailView'
 import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
 import { SettingsPage } from '../../templates/business/SettingsPage'
+import { MasterDetail } from '../../templates/business/MasterDetail'
+import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
@@ -322,6 +324,62 @@ export const Monitoring: Story = {
         { id: '5', name: 'E 라인', status: 'running', value: '250건 / 250목표' },
         { id: '6', name: 'F 라인', status: 'offline', value: '—' },
       ]}
+    />
+  ),
+}
+
+type Vendor = { id: number; name: string; code: string; category: string; phone: string; active: boolean }
+const vendors: Vendor[] = [
+  { id: 1, name: '(주)한국식품', code: 'V001', category: '원자재', phone: '02-1234-5678', active: true },
+  { id: 2, name: '대한유통', code: 'V002', category: '포장재', phone: '031-234-5678', active: true },
+  { id: 3, name: '서울농산', code: 'V003', category: '원자재', phone: '02-3456-7890', active: false },
+  { id: 4, name: '부산물산', code: 'V004', category: '부자재', phone: '051-234-5678', active: true },
+  { id: 5, name: '경기식품', code: 'V005', category: '원자재', phone: '031-567-8901', active: true },
+]
+
+export const Master: Story = {
+  name: 'Master Detail',
+  render: () => (
+    <MasterDetail
+      title="거래처 관리"
+      listData={vendors}
+      listRowKey="id"
+      searchPlaceholder="거래처 검색"
+      filterFn={(row, q) =>
+        row.name.includes(q) || row.code.includes(q) || row.category.includes(q)
+      }
+      renderListItem={(row: Vendor, selected) => (
+        <div className={cn('px-4 py-3', selected && 'border-l-2 border-brand')}>
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-foreground">{row.name}</p>
+            <span className={cn('text-xs', row.active ? 'text-success' : 'text-muted')}>
+              {row.active ? '활성' : '비활성'}
+            </span>
+          </div>
+          <p className="text-xs text-muted mt-0.5">{row.code} · {row.category}</p>
+        </div>
+      )}
+      renderDetail={(row: Vendor) => (
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-foreground">{row.name}</h2>
+            <Button variant="secondary" size="sm">수정</Button>
+          </div>
+          <dl className="grid grid-cols-2 gap-x-8 gap-y-4">
+            {[
+              { label: '거래처 코드', value: row.code },
+              { label: '분류', value: row.category },
+              { label: '연락처', value: row.phone },
+              { label: '상태', value: row.active ? '활성' : '비활성' },
+            ].map((f, i) => (
+              <div key={i}>
+                <dt className="text-xs font-medium text-muted mb-1">{f.label}</dt>
+                <dd className="text-sm text-foreground">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
     />
   ),
 }
