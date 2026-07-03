@@ -60,7 +60,10 @@ export function CheckoutForm({ title = '주문 정보 입력', items, onSubmit, 
             <span>{total.toLocaleString()}원</span>
           </div>
           <div className="flex flex-col gap-2 mt-4">
-            <Button onClick={() => onSubmit?.({ name, phone, address, memo: memo || undefined })}>
+            <Button
+              disabled={!name || !phone || !address}
+              onClick={() => onSubmit?.({ name, phone, address, memo: memo || undefined })}
+            >
               결제하기
             </Button>
             <Button variant="secondary" onClick={onCancel}>취소</Button>
