@@ -6,6 +6,7 @@ import { FormField } from '../../../components/form/FormField'
 import { Input } from '../../../components/form/Input'
 import { Textarea } from '../../../components/form/Textarea'
 import { Grid } from '../../../components/layout/Grid'
+import { cn } from '../../../utils/cn'
 
 export interface CheckoutOrderItem {
   name: string
@@ -18,9 +19,10 @@ export interface CheckoutFormProps {
   items: CheckoutOrderItem[]
   onSubmit?: (data: { name: string; phone: string; address: string; memo?: string }) => void
   onCancel?: () => void
+  className?: string
 }
 
-export function CheckoutForm({ title = '주문 정보 입력', items, onSubmit, onCancel }: CheckoutFormProps) {
+export function CheckoutForm({ title = '주문 정보 입력', items, onSubmit, onCancel, className }: CheckoutFormProps) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
@@ -29,7 +31,7 @@ export function CheckoutForm({ title = '주문 정보 입력', items, onSubmit, 
   const total = items.reduce((sum, item) => sum + item.qty * item.price, 0)
 
   return (
-    <div className="p-6">
+    <div className={cn('min-h-screen bg-background p-6', className)}>
       <h2 className="text-xl font-bold text-foreground mb-6">{title}</h2>
       <Grid cols={3} gap={6}>
         <div className="col-span-2 flex flex-col gap-4">
