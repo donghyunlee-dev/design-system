@@ -22,6 +22,10 @@ export type { ProductListProps } from './service/catalog/ProductList'
 export { ProductDetail } from './service/catalog/ProductDetail'
 export type { ProductDetailProps } from './service/catalog/ProductDetail'
 
+// Service - Commerce
+export { CheckoutForm } from './service/commerce/CheckoutForm'
+export type { CheckoutFormProps, CheckoutOrderItem } from './service/commerce/CheckoutForm'
+
 // Service - Account
 export { SettingsSidebar } from './service/account/SettingsSidebar'
 export type { SettingsSidebarProps, SettingsSection } from './service/account/SettingsSidebar'
