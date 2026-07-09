@@ -75,7 +75,8 @@ const PR_SCHEMA = {
   required: ['prUrl'],
 }
 
-const date = args && args.date
+const parsedArgs = typeof args === 'string' ? JSON.parse(args) : args
+const date = parsedArgs && parsedArgs.date
 if (!date) {
   throw new Error('args.date (YYYY-MM-DD) is required')
 }
