@@ -1,0 +1,100 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Docs/Component Guide" />
+
+# 컴포넌트 사용 가이드
+
+## Do / Don't
+
+### 색상 사용
+
+✅ **Do** — 토큰 사용
+```tsx
+<div className="text-foreground bg-surface border-border">
+```
+
+❌ **Don't** — 하드코딩
+```tsx
+<div className="text-gray-900 bg-white border-gray-200">
+```
+
+### 버튼 계층
+
+✅ **Do** — 한 화면에 Primary 버튼 1개
+```tsx
+<Button variant="primary">저장</Button>
+<Button variant="secondary">취소</Button>
+```
+
+❌ **Don't** — Primary 남발
+```tsx
+<Button variant="primary">저장</Button>
+<Button variant="primary">취소</Button>
+<Button variant="primary">삭제</Button>
+```
+
+### 폼 구조
+
+✅ **Do** — FormField로 감싸기
+```tsx
+<FormField label="이메일" error="필수 항목" required>
+  <Input type="email" error />
+</FormField>
+```
+
+❌ **Don't** — 레이블 따로 배치
+```tsx
+<label>이메일</label>
+<Input type="email" />
+<span style={{ color: 'red' }}>필수 항목</span>
+```
+
+## 자주 쓰는 조합
+
+### 확인 모달
+```tsx
+<Modal
+  open={open}
+  onClose={() => setOpen(false)}
+  title="삭제 확인"
+  footer={
+    <>
+      <Button variant="secondary" onClick={() => setOpen(false)}>취소</Button>
+      <Button variant="danger" onClick={handleDelete}>삭제</Button>
+    </>
+  }
+>
+  이 작업은 되돌릴 수 없습니다.
+</Modal>
+```
+
+### 상태 배지가 있는 테이블
+```tsx
+<Table
+  columns={[
+    { key: 'name', header: '이름' },
+    {
+      key: 'status',
+      header: '상태',
+      render: row => (
+        <Badge variant={row.status === '완료' ? 'success' : 'warning'}>
+          {String(row.status)}
+        </Badge>
+      ),
+    },
+  ]}
+  data={data}
+  rowKey="id"
+/>
+```
+
+### Toast 알림
+```tsx
+const { toast } = useToast()
+
+// 성공
+toast('저장되었습니다.', 'success')
+
+// 오류
+toast('오류가 발생했습니다.', 'danger')
+```

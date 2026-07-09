@@ -1,0 +1,72 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Docs/Getting Started" />
+
+# Getting Started
+
+## 1. 설치
+
+`package.json`에 추가:
+
+```json
+{
+  "dependencies": {
+    "@sfood/ui": "file:../sfood-design-system"
+  }
+}
+```
+
+```bash
+npm install
+```
+
+## 2. Tailwind 설정
+
+`tailwind.config.js`:
+
+```js
+import sfoodPreset from '@sfood/ui/tailwind.config.js'
+
+export default {
+  presets: [sfoodPreset],
+  content: [
+    './src/**/*.{ts,tsx}',
+    '../sfood-design-system/src/**/*.{ts,tsx}',
+  ],
+}
+```
+
+## 3. 글로벌 CSS 가져오기
+
+`src/main.tsx`:
+
+```tsx
+import '@sfood/ui/global.css'
+```
+
+## 4. 첫 페이지 완성 (5분)
+
+```tsx
+import { LoginSimple } from '@sfood/ui'
+
+export default function App() {
+  return (
+    <LoginSimple
+      logo={<span className="text-2xl font-bold text-brand">내 서비스</span>}
+      onLogin={(email, password) => console.log(email, password)}
+      onSignup={() => {}}
+    />
+  )
+}
+```
+
+## 5. AI 바이브코딩에서 활용
+
+Claude Code 프로젝트에 `CLAUDE.md` 추가:
+
+```markdown
+# CLAUDE.md
+UI 컴포넌트는 @sfood/ui 디자인 시스템을 사용한다.
+템플릿이 있으면 템플릿을 우선 사용한다.
+커스텀 색상은 CSS Variables(var(--color-brand) 등)로 참조한다.
+```

@@ -1,0 +1,48 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Docs/Introduction" />
+
+# SFOOD Design System
+
+에쓰푸드 AI 바이브코딩 프로젝트를 위한 컴포넌트 라이브러리입니다.
+
+## 구조
+
+디자인 시스템은 3개의 레이어로 구성됩니다.
+
+```
+토큰 (CSS Variables)
+  ↓
+컴포넌트 (Button, Input, Card ...)
+  ↓
+템플릿 (LoginPage, DashboardFull ...)
+```
+
+## 카테고리
+
+<table>
+  <thead>
+    <tr><th>카테고리</th><th>설명</th><th>수량</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Foundation</td><td>기본 UI 요소</td><td>4개</td></tr>
+    <tr><td>Form</td><td>입력 컨트롤</td><td>9개</td></tr>
+    <tr><td>Layout</td><td>레이아웃 유틸리티</td><td>5개</td></tr>
+    <tr><td>Feedback</td><td>상태 표시</td><td>6개</td></tr>
+    <tr><td>Overlay</td><td>팝업, 모달</td><td>5개</td></tr>
+    <tr><td>Navigation</td><td>탐색</td><td>6개</td></tr>
+    <tr><td>Data</td><td>데이터 표시</td><td>5개</td></tr>
+    <tr><td>Chart</td><td>차트</td><td>3개</td></tr>
+    <tr><td>Templates / Service</td><td>서비스 페이지 템플릿</td><td>11개</td></tr>
+    <tr><td>Templates / Admin</td><td>어드민 템플릿</td><td>4개</td></tr>
+  </tbody>
+</table>
+
+## 빠른 시작
+
+```tsx
+import '@sfood/ui/global.css'
+import { Button, LoginSplit, DashboardFull } from '@sfood/ui'
+```
+
+자세한 설치 방법은 **Getting Started**를 참고하세요.

@@ -1,0 +1,11 @@
+@import '../tokens/base.css';
+@import '../tokens/semantic.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-foreground);
+  background: var(--color-surface);
+}
