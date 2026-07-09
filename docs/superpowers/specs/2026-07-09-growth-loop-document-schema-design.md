@@ -102,10 +102,10 @@ status: pr-open   # pr-open | merged | closed
 3. **소스 수집 결과**: 검토한 외부 디자인 시스템/패턴, `policy.md` 가드레일 기준 채택/반려 여부와 사유
 4. **구현 결과**: 생성/수정된 컴포넌트·템플릿 파일 목록
 5. **QA 결과**: 타입체크·빌드·Storybook 빌드·접근성 검사 등 정량 지표 통과 여부
-6. **품질 비교**: 벤치마크 사이트명·URL, 재현한 페이지, 스크린샷 경로(`docs/loop/screenshots/YYYY-MM-DD.png`), 비교 소견(참고용)
+6. **품질 비교**: 벤치마크 사이트명·URL, 재현한 페이지, 스크린샷 경로(`docs/loop/screenshots/YYYY-MM-DD-benchmark.png`, `docs/loop/screenshots/YYYY-MM-DD-ours.png`), 비교 소견(참고용)
 7. **PR 링크**: frontmatter `pr_url`과 동일하게 본문에도 명시
 
-스크린샷은 `docs/loop/screenshots/YYYY-MM-DD.png`로 리포지토리에 커밋하고, PR 본문에도 동일 이미지를 첨부한다.
+두 스크린샷(벤치마크/결과)은 리포지토리에 커밋한다. PR 본문에는 결과(`-ours.png`) 이미지만 첨부하고, 벤치마크 사이트명·URL은 텍스트로 병기한다.
 
 ## 비목표 (Non-goals, 이번 설계 범위 밖)
 
