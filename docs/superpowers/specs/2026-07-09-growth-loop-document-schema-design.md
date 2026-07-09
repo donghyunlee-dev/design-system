@@ -91,9 +91,11 @@ type: cycle-log
 date: YYYY-MM-DD
 backlog_items: [B012, B013]
 pr_url: null   # PR 생성 후 채움
-status: pr-open   # pr-open | merged | closed
+status: in-progress   # in-progress | pr-open | merged | closed
 ---
 ```
+
+**상태 전환 규칙**: PM이 브랜치와 cycle log를 만든 시점의 초기 상태는 `in-progress`이며, PR 생성 시 `pr-open`으로 갱신한다.
 
 본문 구성:
 
