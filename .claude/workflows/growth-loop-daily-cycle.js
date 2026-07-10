@@ -15,15 +15,22 @@ const PLAN_SCHEMA = {
   properties: {
     scopeItems: { type: 'array', items: { type: 'string' } },
     needsSourceCollection: { type: 'boolean' },
-    benchmarkSite: {
-      type: 'object',
-      properties: { name: { type: 'string' }, url: { type: 'string' } },
-      required: ['name', 'url'],
+    benchmarkSites: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          backlogId: { type: 'string' },
+          name: { type: 'string' },
+          url: { type: 'string' },
+        },
+        required: ['backlogId', 'name', 'url'],
+      },
     },
     branchName: { type: 'string' },
     summary: { type: 'string' },
   },
-  required: ['scopeItems', 'needsSourceCollection', 'benchmarkSite', 'branchName', 'summary'],
+  required: ['scopeItems', 'needsSourceCollection', 'benchmarkSites', 'branchName', 'summary'],
 }
 
 const COLLECT_SCHEMA = {
@@ -42,11 +49,21 @@ const IMPLEMENT_SCHEMA = {
   type: 'object',
   properties: {
     filesChanged: { type: 'array', items: { type: 'string' } },
-    storyTitle: { type: 'string' },
-    storyExportName: { type: 'string' },
+    stories: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          backlogId: { type: 'string' },
+          storyTitle: { type: 'string' },
+          storyExportName: { type: 'string' },
+        },
+        required: ['backlogId', 'storyTitle', 'storyExportName'],
+      },
+    },
     summary: { type: 'string' },
   },
-  required: ['filesChanged', 'storyTitle', 'storyExportName', 'summary'],
+  required: ['filesChanged', 'stories', 'summary'],
 }
 
 const QA_SCHEMA = {
@@ -62,11 +79,21 @@ const QA_SCHEMA = {
 const COMPARE_SCHEMA = {
   type: 'object',
   properties: {
-    benchmarkScreenshotPath: { type: 'string' },
-    oursScreenshotPath: { type: 'string' },
-    notes: { type: 'string' },
+    comparisons: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          backlogId: { type: 'string' },
+          benchmarkScreenshotPath: { type: 'string' },
+          oursScreenshotPath: { type: 'string' },
+          notes: { type: 'string' },
+        },
+        required: ['backlogId', 'benchmarkScreenshotPath', 'oursScreenshotPath', 'notes'],
+      },
+    },
   },
-  required: ['benchmarkScreenshotPath', 'oursScreenshotPath', 'notes'],
+  required: ['comparisons'],
 }
 
 const PR_SCHEMA = {
@@ -96,7 +123,7 @@ function planPrompt() {
    git fetch origin main && git checkout main && git pull origin main && git checkout -b <브랜치명>
 4. 브랜치 생성 후, 1번에서 고른 항목들의 status를 backlog.md 안에서 직접 "진행중"으로 수정하세요 (Edit 도구 사용).
 5. 백로그에 없는 새 방향이 필요하다고 판단되면(기존 src/components, src/templates 커버리지 갭 분석), backlog.md에 source: pm-proposed로 새 행을 추가한 뒤(즉흥 진행 금지, 반드시 먼저 등록), 원한다면 1번 규칙에 따라 오늘 스코프에 포함하세요.
-6. 오늘 품질 비교에 쓸 유명 사이트 1개를 선정하세요 — 내부 업무 시스템(목록/폼/대시보드/승인/설정 등)에 참고할 만한 UI 패턴을 가진 사이트여야 합니다.
+6. 오늘 스코프에 포함한 항목마다 품질 비교에 쓸 벤치마크 사이트를 1개씩 선정하세요(항목당 1개, 총 scopeItems 개수만큼) — 각 항목의 UI 패턴(예: 목록/폼/대시보드/승인/설정 등)과 실제로 잘 맞는 유명 사이트를 고르세요. backlogId와 함께 반환하세요.
 7. docs/loop/cycles/${date}.md 파일을 아래 형식으로 새로 작성하세요:
    ---
    type: cycle-log
@@ -167,7 +194,7 @@ ${collected ? (collected.adopted ? `소스 수집 결과: "${collected.sourceNam
 - src/templates/index.ts에 새 export를 추가하세요.
 - 해당 도메인의 src/stories/templates/*.stories.tsx에 Storybook 스토리를 추가하세요 (한글 예시 데이터 사용, 기존 스토리 컨벤션 따름).
 
-완료 후 backlog.md에서 해당 항목의 status를 "완료"로, resolved_cycle을 "cycles/${date}.md"로 수정하세요. 변경된 파일 목록, 추가한 스토리의 title(Storybook title, 예: "Templates/Service/Commerce")과 export 이름(storyExportName, 예: "CheckoutFormExample" — .stories.tsx 파일에서 export한 실제 이름 그대로)을 반환하세요.${feedbackBlock}`
+완료 후 backlog.md에서 해당 항목들의 status를 "완료"로, resolved_cycle을 "cycles/${date}.md"로 수정하세요. 변경된 파일 목록과, 스코프 항목마다 하나씩 추가한 Storybook 스토리 정보를 stories 배열로 반환하세요 — 각 원소는 backlogId(해당 스토리가 구현한 백로그 id), storyTitle(Storybook title, 예: "Templates/Business"), storyExportName(.stories.tsx 파일에서 export한 실제 이름 그대로, 예: "KanbanBoard")입니다. stories 배열 길이는 반드시 스코프 항목 개수와 같아야 합니다(항목당 스토리 1개).${feedbackBlock}`
 }
 
 let implementation = await agent(implementPrompt(null), {
@@ -238,28 +265,43 @@ ${qa.details}
 
 phase('Compare')
 function comparePrompt() {
-  return `docs/loop/policy.md는 이미 확인되었습니다. 오늘의 벤치마크 사이트: "${plan.benchmarkSite.name}" (${plan.benchmarkSite.url}). 오늘 추가된 Storybook 스토리 title: "${implementation.storyTitle}", export 이름: "${implementation.storyExportName}".
+  const itemsList = implementation.stories
+    .map((s) => {
+      const bench = plan.benchmarkSites.find((b) => b.backlogId === s.backlogId)
+      return `- backlogId "${s.backlogId}": 스토리 title "${s.storyTitle}", export 이름 "${s.storyExportName}" / 벤치마크: "${bench.name}" (${bench.url})`
+    })
+    .join('\n')
+  return `docs/loop/policy.md는 이미 확인되었습니다. 오늘 스코프의 항목마다 아래와 같이 스토리와 벤치마크 사이트가 하나씩 매칭되어 있습니다:
+${itemsList}
 
 작업:
-1. 백그라운드에서 Storybook을 띄우세요: npm run dev (포트 6006). 최대 20회, 3초 간격으로 http://localhost:6006/index.json 요청을 재시도해 200을 받으면 다음 단계로 진행하세요. (QA 단계에서 이미 npm run build-storybook이 성공했으므로 정상적으로 뜰 것으로 예상됩니다.)
-2. index.json에서 title이 "${implementation.storyTitle}"이고 name이 "${implementation.storyExportName}"인 스토리를 찾아 정확히 하나의 id를 확정하세요(title만으로는 같은 파일의 다른 스토리와 겹칠 수 있으니 반드시 name도 함께 대조하세요). URL을 구성하세요: http://localhost:6006/iframe.html?id=<story-id>&viewMode=story
-3. Playwright로 위 URL에 접속해 스크린샷을 찍고 docs/loop/screenshots/${date}-ours.png로 저장하세요.
-4. Playwright로 "${plan.benchmarkSite.url}"에 접속해 스크린샷을 찍고 docs/loop/screenshots/${date}-benchmark.png로 저장하세요.
-5. Storybook 프로세스를 종료하세요.
-6. docs/loop/cycles/${date}.md의 "## 품질 비교" 섹션(없으면 새로 추가)에 벤치마크 사이트명·URL, 스크린샷 경로 2개, 그리고 두 결과를 비교한 소견(참고용 — 최종 판단 아님)을 적으세요.
+1. 백그라운드에서 Storybook을 띄우세요: npm run dev (포트 6006). 최대 20회, 3초 간격으로 http://localhost:6006/index.json 요청을 재시도해 200을 받으면 다음 단계로 진행하세요. (QA 단계에서 이미 npm run build-storybook이 성공했으므로 정상적으로 뜰 것으로 예상됩니다.) Storybook은 한 번만 띄우고 아래 2~4번을 항목 수만큼 반복하세요.
+2. 각 항목에 대해: index.json에서 title과 name이 모두 일치하는 스토리를 찾아 정확히 하나의 id를 확정하세요(title만으로는 같은 파일의 다른 스토리와 겹칠 수 있으니 반드시 name도 함께 대조하세요). URL을 구성하세요: http://localhost:6006/iframe.html?id=<story-id>&viewMode=story
+3. Playwright로 위 URL에 접속해 스크린샷을 찍고 docs/loop/screenshots/${date}-<backlogId>-ours.png로 저장하세요.
+4. Playwright로 해당 항목의 벤치마크 URL에 접속해 스크린샷을 찍고 docs/loop/screenshots/${date}-<backlogId>-benchmark.png로 저장하세요.
+5. 모든 항목을 다 캡처했으면 Storybook 프로세스를 종료하세요.
+6. docs/loop/cycles/${date}.md에 "## 품질 비교" 섹션(없으면 새로 추가)을 만들고, 그 아래에 항목마다 별도 소제목(### <backlogId> — <스토리 title/export>)으로 벤치마크 사이트명·URL, 스크린샷 경로 2개, 그리고 두 결과를 비교한 소견(참고용 — 최종 판단 아님)을 각각 적으세요. 항목 수만큼 소제목이 있어야 합니다.
 
-두 스크린샷의 상대 경로와 소견을 반환하세요.`
+comparisons 배열로 항목마다 backlogId, benchmarkScreenshotPath, oursScreenshotPath, notes를 반환하세요. 배열 길이는 반드시 스코프 항목 개수와 같아야 합니다.`
 }
 
-const comparison = await agent(comparePrompt(), {
+const compareResult = await agent(comparePrompt(), {
   label: 'quality-comparison',
   phase: 'Compare',
   schema: COMPARE_SCHEMA,
   model: 'claude-sonnet-5',
   effort: 'medium',
 })
+const comparisons = compareResult.comparisons
 
 function prPrompt() {
+  const comparisonBullets = comparisons
+    .map((c) => {
+      const bench = plan.benchmarkSites.find((b) => b.backlogId === c.backlogId)
+      return `- ${c.backlogId} 품질 비교 — 벤치마크: ${bench.name} (${bench.url}) / 소견: ${c.notes}`
+    })
+    .join('\n')
+  const imagesBlock = comparisons.map((c) => `- ${c.backlogId}: ${c.oursScreenshotPath}`).join('\n')
   return `브랜치 "${plan.branchName}"의 모든 변경을 커밋하고 origin에 push한 뒤, main을 대상으로 PR을 여세요.
 
 1. git status로 오늘 실제로 변경한 파일을 확인한 뒤, 그 파일들만 git add 하세요 (예: docs/loop/backlog.md, docs/loop/cycles/${date}.md, docs/loop/screenshots/${date}-*.png, 구현 단계에서 변경한 src/templates/, src/stories/templates/ 관련 파일). git add -A는 사용하지 마세요 — node_modules, dist, .playwright-mcp, .superpowers 등 이 사이클과 무관하게 이미 존재하던 미추적 파일까지 포함될 수 있습니다.
@@ -272,12 +314,12 @@ function prPrompt() {
 - ${implementation.summary}
 ${collected ? `- 소스 채택 여부: ${collected.adopted ? '채택' : '반려'} (${collected.reason})` : ''}
 - QA: 통과 (${qa.summary})
-- 품질 비교 벤치마크: ${plan.benchmarkSite.name} (${plan.benchmarkSite.url})
-- 품질 비교 소견: ${comparison.notes}
+${comparisonBullets}
 - cycle log: docs/loop/cycles/${date}.md
 
 ## 결과 이미지
-${comparison.oursScreenshotPath} 를 PR 본문에 이미지로 첨부하세요 (벤치마크 스크린샷은 첨부하지 않음).
+아래 항목별 이미지를 각각 PR 본문에 첨부하세요 (벤치마크 스크린샷은 첨부하지 않음):
+${imagesBlock}
 
 5. PR 생성 후 docs/loop/cycles/${date}.md의 frontmatter에서 pr_url을 실제 PR URL로, status를 "pr-open"으로 수정하고 커밋·push하세요.
 
