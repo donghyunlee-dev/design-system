@@ -11,6 +11,7 @@ import { SettingsPage } from '../../templates/business/SettingsPage'
 import { MasterDetail } from '../../templates/business/MasterDetail'
 import { WizardForm } from '../../templates/business/WizardForm'
 import { ApprovalView } from '../../templates/business/ApprovalView'
+import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -548,6 +549,98 @@ export const Approval: Story = {
       canApprove
       onApprove={c => alert(`승인 완료: ${c || '(의견 없음)'}`)}
       onReject={c => alert(`반려: ${c || '(의견 없음)'}`)}
+    />
+  ),
+}
+
+export const DocCatalog: Story = {
+  name: 'Document Catalog',
+  render: () => (
+    <DocumentCatalog
+      title="사내 문서 카탈로그"
+      categories={[
+        {
+          id: 'guide',
+          label: '업무 가이드',
+          items: [
+            {
+              id: 'g1',
+              title: '발주 등록 매뉴얼',
+              author: 'IT팀',
+              updatedAt: '2026-06-20',
+              tags: ['가이드'],
+              content: (
+                <div className="space-y-3">
+                  <p>발주 등록 화면에서는 거래처, 품목, 수량을 입력하여 신규 발주를 생성할 수 있습니다.</p>
+                  <p>1. [구매관리 &gt; 발주 등록] 메뉴로 이동합니다.</p>
+                  <p>2. 거래처와 납기일자를 선택한 뒤 발주 상세 품목을 입력합니다.</p>
+                  <p>3. 저장 시 결재선이 자동으로 생성되며, 결재 완료 후 발주서가 확정됩니다.</p>
+                </div>
+              ),
+            },
+            {
+              id: 'g2',
+              title: '결재 프로세스 안내',
+              author: '경영지원팀',
+              updatedAt: '2026-05-14',
+              tags: ['가이드', 'FAQ'],
+              content: (
+                <div className="space-y-3">
+                  <p>결재 문서는 기안 → 팀장 → 본부장 → 최종승인 순서로 진행됩니다.</p>
+                  <p>반려된 문서는 기안자가 내용을 수정한 뒤 재기안할 수 있습니다.</p>
+                </div>
+              ),
+            },
+          ],
+        },
+        {
+          id: 'api',
+          label: 'API 문서',
+          items: [
+            {
+              id: 'a1',
+              title: 'ERP 발주 API',
+              author: 'IT담당',
+              updatedAt: '2026-06-28',
+              tags: ['API'],
+              content: (
+                <div className="space-y-3">
+                  <p><code>POST /api/v1/purchase-orders</code></p>
+                  <p>발주 정보를 등록합니다. 요청 본문에는 거래처 코드, 품목 목록, 납기일자가 포함되어야 합니다.</p>
+                  <p>응답으로 생성된 발주번호와 결재선 정보를 반환합니다.</p>
+                </div>
+              ),
+            },
+            {
+              id: 'a2',
+              title: 'WMS 재고 조회 API',
+              author: 'IT담당',
+              updatedAt: '2026-06-30',
+              tags: ['API'],
+              content: (
+                <div className="space-y-3">
+                  <p><code>GET /api/v1/inventory</code></p>
+                  <p>창고별 재고 현황을 조회합니다. 품목 코드와 창고 코드로 필터링할 수 있습니다.</p>
+                </div>
+              ),
+            },
+          ],
+        },
+        {
+          id: 'faq',
+          label: 'FAQ',
+          items: [
+            {
+              id: 'f1',
+              title: '비밀번호를 잊었을 때',
+              author: 'IT지원팀',
+              updatedAt: '2026-04-02',
+              tags: ['FAQ'],
+              content: <p>로그인 화면의 [비밀번호 찾기]를 클릭한 뒤 사번과 등록된 이메일로 재설정할 수 있습니다.</p>,
+            },
+          ],
+        },
+      ]}
     />
   ),
 }
