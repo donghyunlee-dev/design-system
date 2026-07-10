@@ -262,7 +262,7 @@ const comparison = await agent(comparePrompt(), {
 function prPrompt() {
   return `브랜치 "${plan.branchName}"의 모든 변경을 커밋하고 origin에 push한 뒤, develop을 대상으로 PR을 여세요.
 
-1. git add -A (docs/loop/ 변경분과 소스 변경분 포함)
+1. git status로 오늘 실제로 변경한 파일을 확인한 뒤, 그 파일들만 git add 하세요 (예: docs/loop/backlog.md, docs/loop/cycles/${date}.md, docs/loop/screenshots/${date}-*.png, 구현 단계에서 변경한 src/templates/, src/stories/templates/ 관련 파일). git add -A는 사용하지 마세요 — node_modules, dist, .playwright-mcp, .superpowers 등 이 사이클과 무관하게 이미 존재하던 미추적 파일까지 포함될 수 있습니다.
 2. git commit -m "feat(loop): ${date} 사이클 — ${plan.scopeItems.join(', ')}"
 3. git push -u origin ${plan.branchName}
 4. gh pr create --base develop --head ${plan.branchName} --title "loop: ${date} 사이클 — ${implementation.summary}" --body 아래 내용으로:
