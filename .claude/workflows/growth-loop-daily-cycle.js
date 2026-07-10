@@ -93,7 +93,7 @@ function planPrompt() {
 1. 아직 브랜치를 만들지 말고, 위 파일들을 먼저 읽어 backlog.md에서 status가 "대기"인 항목 중 source가 "human-added"인 항목을 우선으로, 그다음 "pm-proposed" 항목 순으로 오늘 진행할 항목을 최대 3개(policy.md의 일일 스코프 상한) 고르세요. (아직 backlog.md를 수정하지 마세요.)
 2. 오늘 진행할 항목이 하나도 없다면(백로그에 대기 항목이 없음) 이후 단계를 모두 건너뛰고 scopeItems를 빈 배열로 반환하세요.
 3. 진행할 항목이 있다면, 브랜치명을 "loop/${date}-<영문 3단어 이내 슬러그>" 형식으로 정하고, 다음을 실행해 브랜치를 만드세요:
-   git fetch origin develop && git checkout develop && git pull origin develop && git checkout -b <브랜치명>
+   git fetch origin main && git checkout main && git pull origin main && git checkout -b <브랜치명>
 4. 브랜치 생성 후, 1번에서 고른 항목들의 status를 backlog.md 안에서 직접 "진행중"으로 수정하세요 (Edit 도구 사용).
 5. 백로그에 없는 새 방향이 필요하다고 판단되면(기존 src/components, src/templates 커버리지 갭 분석), backlog.md에 source: pm-proposed로 새 행을 추가한 뒤(즉흥 진행 금지, 반드시 먼저 등록), 원한다면 1번 규칙에 따라 오늘 스코프에 포함하세요.
 6. 오늘 품질 비교에 쓸 유명 사이트 1개를 선정하세요 — 내부 업무 시스템(목록/폼/대시보드/승인/설정 등)에 참고할 만한 UI 패턴을 가진 사이트여야 합니다.
@@ -260,12 +260,12 @@ const comparison = await agent(comparePrompt(), {
 })
 
 function prPrompt() {
-  return `브랜치 "${plan.branchName}"의 모든 변경을 커밋하고 origin에 push한 뒤, develop을 대상으로 PR을 여세요.
+  return `브랜치 "${plan.branchName}"의 모든 변경을 커밋하고 origin에 push한 뒤, main을 대상으로 PR을 여세요.
 
 1. git status로 오늘 실제로 변경한 파일을 확인한 뒤, 그 파일들만 git add 하세요 (예: docs/loop/backlog.md, docs/loop/cycles/${date}.md, docs/loop/screenshots/${date}-*.png, 구현 단계에서 변경한 src/templates/, src/stories/templates/ 관련 파일). git add -A는 사용하지 마세요 — node_modules, dist, .playwright-mcp, .superpowers 등 이 사이클과 무관하게 이미 존재하던 미추적 파일까지 포함될 수 있습니다.
 2. git commit -m "feat(loop): ${date} 사이클 — ${plan.scopeItems.join(', ')}"
 3. git push -u origin ${plan.branchName}
-4. gh pr create --base develop --head ${plan.branchName} --title "loop: ${date} 사이클 — ${implementation.summary}" --body 아래 내용으로:
+4. gh pr create --base main --head ${plan.branchName} --title "loop: ${date} 사이클 — ${implementation.summary}" --body 아래 내용으로:
 
 ## Summary
 - 오늘 처리 항목: ${plan.scopeItems.join(', ')}
