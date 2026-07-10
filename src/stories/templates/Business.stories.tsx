@@ -15,6 +15,9 @@ import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { KanbanBoard } from '../../templates/business/KanbanBoard'
 import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
 import { ScheduleCalendar, ScheduleDay } from '../../templates/business/ScheduleCalendar'
+import { InboxCenter } from '../../templates/business/InboxCenter'
+import { FileExplorer } from '../../templates/business/FileExplorer'
+import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -743,6 +746,131 @@ export const DocCatalog: Story = {
               tags: ['FAQ'],
               content: <p>로그인 화면의 [비밀번호 찾기]를 클릭한 뒤 사번과 등록된 이메일로 재설정할 수 있습니다.</p>,
             },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
+export const Inbox: Story = {
+  name: 'Inbox Center',
+  render: () => (
+    <InboxCenter
+      title="알림함"
+      onMarkAllRead={() => {}}
+      items={[
+        {
+          id: 'n1',
+          source: 'ERP 승인',
+          title: '발주 결재 요청이 도착했습니다',
+          preview: 'PO-2026-0042 · 쌀(20kg) 500개 · 기안자 김담당',
+          time: '10분 전',
+          read: false,
+          actor: { name: '김담당', initials: '김' },
+          tags: ['긴급'],
+        },
+        {
+          id: 'n2',
+          source: '그룹웨어',
+          title: '연차 신청이 승인되었습니다',
+          preview: '2026-07-20 ~ 2026-07-21 연차',
+          time: '1시간 전',
+          read: false,
+          actor: { name: '이팀장', initials: '이' },
+        },
+        {
+          id: 'n3',
+          source: '팀즈',
+          title: '박본부장님이 메시지를 보냈습니다',
+          preview: '"단가 재확인 부탁드립니다"',
+          time: '3시간 전',
+          read: true,
+          actor: { name: '박본부장', initials: '박' },
+        },
+        {
+          id: 'n4',
+          source: 'WMS 재고',
+          title: '재고 부족 알림',
+          preview: '고추장 재고가 안전재고 이하로 감소했습니다',
+          time: '어제',
+          read: true,
+          tags: ['재고'],
+        },
+      ]}
+    />
+  ),
+}
+
+export const Files: Story = {
+  name: 'File Explorer',
+  render: () => (
+    <FileExplorer
+      title="자료실"
+      breadcrumb={[{ label: '자료실', href: '#' }, { label: '계약·매뉴얼' }]}
+      itemActions={() => [
+        { label: '다운로드', onClick: () => {} },
+        { label: '이름 변경', onClick: () => {} },
+        { label: '삭제', onClick: () => {}, danger: true, divider: true },
+      ]}
+      items={[
+        { id: 'f1', name: '거래처 계약서', type: 'folder', updatedAt: '2026-07-10', owner: 'IT담당' },
+        { id: 'f2', name: '발주 등록 매뉴얼', type: 'file', ext: 'PDF', size: '2.4MB', updatedAt: '2026-06-20', owner: 'IT팀' },
+        { id: 'f3', name: '거래처 단가표', type: 'file', ext: 'XLSX', size: '340KB', updatedAt: '2026-07-08', owner: '구매팀' },
+        { id: 'f4', name: '창고 안전점검 체크리스트', type: 'file', ext: 'DOCX', size: '128KB', updatedAt: '2026-06-30', owner: 'WMS담당' },
+      ]}
+    />
+  ),
+}
+
+export const Search: Story = {
+  name: 'Global Search Results',
+  render: () => (
+    <GlobalSearchResults
+      title="통합 검색 결과"
+      keyword="한국식품"
+      facets={[
+        {
+          key: 'entity',
+          title: '유형',
+          options: [
+            { value: 'order', label: '주문', count: 12 },
+            { value: 'partner', label: '파트너', count: 3 },
+            { value: 'document', label: '문서', count: 5 },
+          ],
+        },
+        {
+          key: 'system',
+          title: '시스템',
+          options: [
+            { value: 'erp', label: 'ERP', count: 9 },
+            { value: 'oms', label: 'OMS', count: 8 },
+            { value: 'wms', label: 'WMS', count: 3 },
+          ],
+        },
+      ]}
+      selectedFacets={{ entity: ['order'] }}
+      groups={[
+        {
+          key: 'order',
+          label: '주문',
+          items: [
+            { id: 'o1', title: 'ORD-1042 (주)한국식품', description: '쌀 20kg × 50box', meta: 'OMS · 2026-07-12', tags: ['배송중'] },
+            { id: 'o2', title: 'ORD-1020 (주)한국식품', description: '콩나물 × 200box', meta: 'OMS · 2026-07-10', tags: ['완료'] },
+          ],
+        },
+        {
+          key: 'partner',
+          label: '파트너',
+          items: [
+            { id: 'p1', title: '(주)한국식품', description: '식자재 유통 · 서울 강서구', meta: 'ERP · 거래처코드 P-0021' },
+          ],
+        },
+        {
+          key: 'document',
+          label: '문서',
+          items: [
+            { id: 'd1', title: '한국식품 거래계약서', description: '2026년 갱신 계약', meta: '자료실 · 2026-01-15' },
           ],
         },
       ]}
