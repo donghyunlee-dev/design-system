@@ -12,6 +12,9 @@ import { MasterDetail } from '../../templates/business/MasterDetail'
 import { WizardForm } from '../../templates/business/WizardForm'
 import { ApprovalView } from '../../templates/business/ApprovalView'
 import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
+import { KanbanBoard } from '../../templates/business/KanbanBoard'
+import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
+import { ScheduleCalendar, ScheduleDay } from '../../templates/business/ScheduleCalendar'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -549,6 +552,108 @@ export const Approval: Story = {
       canApprove
       onApprove={c => alert(`승인 완료: ${c || '(의견 없음)'}`)}
       onReject={c => alert(`반려: ${c || '(의견 없음)'}`)}
+    />
+  ),
+}
+
+export const Kanban: Story = {
+  name: 'Kanban Board',
+  render: () => (
+    <KanbanBoard
+      title="주문 처리 보드"
+      breadcrumb={[{ label: '주문관리', href: '#' }, { label: '주문 처리 보드' }]}
+      columns={[
+        {
+          id: 'received',
+          label: '접수',
+          cards: [
+            { id: 'k1', title: 'ORD-1042 (주)한국식품', description: '쌀 20kg × 50box', tags: ['긴급'], assignee: { name: '김담당', initials: '김' }, dueDate: '07-12', priority: 'high' },
+            { id: 'k2', title: 'ORD-1043 대한유통', description: '두부 × 30box', assignee: { name: '이팀장', initials: '이' }, dueDate: '07-13', priority: 'medium' },
+          ],
+        },
+        {
+          id: 'picking',
+          label: '피킹중',
+          cards: [
+            { id: 'k3', title: 'ORD-1038 서울농산', description: '고추장 × 100box', tags: ['냉장'], assignee: { name: '박사원', initials: '박' }, dueDate: '07-11', priority: 'medium' },
+          ],
+        },
+        {
+          id: 'shipping',
+          label: '출고 대기',
+          cards: [
+            { id: 'k4', title: 'ORD-1030 부산물산', description: '된장 × 80box', assignee: { name: '최과장', initials: '최' }, dueDate: '07-11', priority: 'low' },
+            { id: 'k5', title: 'ORD-1031 경기식품', description: '참기름 × 45box', dueDate: '07-11', priority: 'low' },
+          ],
+        },
+        {
+          id: 'done',
+          label: '완료',
+          cards: [
+            { id: 'k6', title: 'ORD-1020 (주)한국식품', description: '콩나물 × 200box', assignee: { name: '김담당', initials: '김' }, dueDate: '07-10', priority: 'low' },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
+export const Activity: Story = {
+  name: 'Activity Timeline',
+  render: () => (
+    <ActivityTimeline
+      title="발주 결재 감사 로그"
+      breadcrumb={[{ label: '감사 추적', href: '#' }, { label: '발주 결재 감사 로그' }]}
+      groups={[
+        {
+          date: '2026-07-11',
+          events: [
+            { id: 'a1', time: '09:15', actor: { name: '박본부장', initials: '박' }, action: '최종 승인했습니다', detail: 'PO-2026-0042', variant: 'success' },
+            { id: 'a2', time: '08:40', actor: { name: '이팀장', initials: '이' }, action: '결재 의견을 남겼습니다', detail: '"단가 재확인 요망"', variant: 'warning' },
+          ],
+        },
+        {
+          date: '2026-07-10',
+          events: [
+            { id: 'a3', time: '17:22', actor: { name: '김담당', initials: '김' }, action: '발주를 기안했습니다', detail: 'PO-2026-0042 · 쌀(20kg) 500개', variant: 'default' },
+            { id: 'a4', time: '14:05', actor: { name: 'system', initials: 'S' }, action: 'ERP 전표를 자동 생성했습니다', detail: 'TXN-88213', variant: 'default' },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
+const scheduleDays: ScheduleDay[] = [
+  { date: 28, outside: true }, { date: 29, outside: true }, { date: 30, outside: true },
+  { date: 1, events: [{ id: 'e1', label: '거래처 방문', status: 'pending' }] },
+  { date: 2 }, { date: 3 }, { date: 4 },
+  { date: 5 }, { date: 6 }, { date: 7 }, { date: 8 },
+  { date: 9, events: [{ id: 'e2', label: '창고 정기점검', status: 'active' }] },
+  { date: 10, events: [{ id: 'e3', label: '납품 (부산물산)', status: 'active' }] },
+  { date: 11, today: true, events: [
+    { id: 'e4', label: '납품 (한국식품)', status: 'active' },
+    { id: 'e5', label: '회의실 A 예약', status: 'pending' },
+    { id: 'e6', label: '설비 점검', status: 'warning' },
+    { id: 'e7', label: '거래처 미팅', status: 'pending' },
+  ] },
+  { date: 12 }, { date: 13 }, { date: 14 },
+  { date: 15, events: [{ id: 'e8', label: '월간 재고 실사', status: 'pending' }] },
+  { date: 16 }, { date: 17 }, { date: 18 }, { date: 19 }, { date: 20 }, { date: 21 },
+  { date: 22, events: [{ id: 'e9', label: '납품 (대한유통)', status: 'active' }] },
+  { date: 23 }, { date: 24 }, { date: 25 }, { date: 26 }, { date: 27 }, { date: 28 },
+  { date: 29 }, { date: 30 }, { date: 31 },
+  { date: 1, outside: true }, { date: 2, outside: true },
+]
+
+export const Schedule: Story = {
+  name: 'Schedule Calendar',
+  render: () => (
+    <ScheduleCalendar
+      title="배송·설비 일정"
+      breadcrumb={[{ label: '일정관리', href: '#' }, { label: '배송·설비 일정' }]}
+      period="2026년 7월"
+      days={scheduleDays}
     />
   ),
 }
