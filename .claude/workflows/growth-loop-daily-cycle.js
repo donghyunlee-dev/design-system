@@ -124,7 +124,7 @@ function selectPrompt() {
 작업 순서:
 1. docs/loop/backlog.md에서 status가 "대기"이고 source가 "human-added"인 항목이 있는지 확인하세요. 있다면 등록된 순서(added_on 오름차순)로 가장 오래된 1개를 오늘 항목으로 선택하고 source: "human-added"로 반환하세요. benchmarkId/benchmarkName/benchmarkUrl/pattern은 빈 문자열로 반환하세요.
 2. human-added 대기 항목이 없다면, docs/loop/benchmark-suite.md의 frontmatter에서 cursor 값과 표의 전체 행 수를 확인하세요.
-   - 표가 비어있다면 source: "none"으로 반환하고 다른 필드는 모두 빈 문자열로 반환하세요. 이 경우 3~6단계를 모두 건너뛰세요.
+   - 표가 비어있다면 source: "none"으로 반환하고 다른 필드는 모두 빈 문자열로 반환하세요. 이 경우에도 3단계(브랜치 생성)와 6단계(cycle log 작성)는 정상적으로 진행하세요 — 건너뛰는 것은 4~5단계(backlog 항목 status 변경, benchmark-suite cursor 갱신)뿐입니다.
    - 표에 행이 있다면 (0-based) cursor번째 행을 오늘 벤치마크로 선택하세요. source: "benchmark-suite"로 반환하고 backlogId는 빈 문자열로 반환하세요.
 3. 선택 결과에 따라 브랜치명을 정하세요: 선택한 항목이 있으면 "loop/${date}-<영문 3단어 이내 슬러그>", 선택할 항목이 없으면(source: "none") "loop/${date}-skip"으로 정하고, 다음을 실행해 브랜치를 만드세요:
    git fetch origin main && git checkout main && git pull origin main && git checkout -b <브랜치명>
