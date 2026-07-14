@@ -123,7 +123,7 @@ function planPrompt() {
    git fetch origin main && git checkout main && git pull origin main && git checkout -b <브랜치명>
 4. 브랜치 생성 후, 1번에서 고른 항목들의 status를 backlog.md 안에서 직접 "진행중"으로 수정하세요 (Edit 도구 사용).
 5. 백로그에 없는 새 방향이 필요하다고 판단되면(기존 src/components, src/templates 커버리지 갭 분석), backlog.md에 source: pm-proposed로 새 행을 추가한 뒤(즉흥 진행 금지, 반드시 먼저 등록), 원한다면 1번 규칙에 따라 오늘 스코프에 포함하세요.
-6. 오늘 스코프에 포함한 항목마다 품질 비교에 쓸 벤치마크 사이트를 1개씩 선정하세요(항목당 1개, 총 scopeItems 개수만큼) — 각 항목의 UI 패턴(예: 목록/폼/대시보드/승인/설정 등)과 실제로 잘 맞는 유명 사이트를 고르세요. backlogId와 함께 반환하세요.
+6. 오늘 스코프에 포함한 항목마다 품질 비교에 쓸 벤치마크 사이트를 1개씩 선정하세요(항목당 1개, 총 scopeItems 개수만큼) — 각 항목의 UI 패턴(예: 목록/폼/대시보드/승인/설정 등)과 실제로 잘 맞는 유명 사이트를 고르세요. 반드시 policy.md 7항(벤치마크 접근성)을 지켜, 로그인 없이 공개적으로 볼 수 있는 URL을 선정하세요(메인/소개 페이지, 공개 데모, 문서 페이지 등). 가장 참고하고 싶은 화면이 로그인 벽 뒤에 있다면 비교를 포기하지 말고, 같은 사이트의 다른 공개 페이지나 다른 유명 사이트의 공개 페이지로 대체하세요. backlogId와 함께 반환하세요.
 7. docs/loop/cycles/${date}.md 파일을 아래 형식으로 새로 작성하세요:
    ---
    type: cycle-log
@@ -318,7 +318,7 @@ ${comparisonBullets}
 - cycle log: docs/loop/cycles/${date}.md
 
 ## 결과 이미지
-아래 항목별 이미지를 각각 PR 본문에 첨부하세요 (벤치마크 스크린샷은 첨부하지 않음):
+아래 항목별 이미지를 각각 PR 본문에 첨부하세요 (벤치마크 스크린샷은 PR 본문에 인라인으로 첨부하지 않되, 기록용으로 docs/loop/screenshots/의 -benchmark.png 파일들도 반드시 1번 단계에서 함께 git add해 커밋하세요 — 삭제하거나 빠뜨리지 마세요):
 ${imagesBlock}
 
 5. PR 생성 후 docs/loop/cycles/${date}.md의 frontmatter에서 pr_url을 실제 PR URL로, status를 "pr-open"으로 수정하고 커밋·push하세요.
