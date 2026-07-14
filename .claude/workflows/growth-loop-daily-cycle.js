@@ -375,7 +375,7 @@ if (upgrade && upgrade.upgraded) {
 
 phase('PR')
 function prPrompt() {
-  const gapsSummary = evaluation.gaps.map((g) => `- [${g.classification}] ${g.description}`).join('\n')
+  const gapsSummary = finalEvaluation.gaps.map((g) => `- [${g.classification}] ${g.description}`).join('\n')
   return `브랜치 "${selection.branchName}"의 모든 변경을 커밋하고 origin에 push한 뒤, main을 대상으로 PR을 여세요.
 
 1. git status로 오늘 실제로 변경한 파일을 확인한 뒤, 그 파일들만 git add 하세요 (git add -A는 사용하지 마세요).
