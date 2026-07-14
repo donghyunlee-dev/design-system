@@ -15,7 +15,7 @@ export const meta = {
 const SELECT_SCHEMA = {
   type: 'object',
   properties: {
-    source: { type: 'string', enum: ['human-added', 'benchmark-suite', 'none'] },
+    source: { type: 'string', enum: ['human-added', 'eval-found', 'benchmark-suite', 'none'] },
     backlogId: { type: 'string' },
     benchmarkId: { type: 'string' },
     benchmarkName: { type: 'string' },
@@ -122,7 +122,7 @@ function selectPrompt() {
 - docs/loop/cycles/ 디렉터리의 가장 최근 파일 최대 2개 (있다면, 지난 이력 참고용)
 
 작업 순서:
-1. docs/loop/backlog.md에서 status가 "대기"이고 source가 "human-added"인 항목이 있는지 확인하세요. 있다면 등록된 순서(added_on 오름차순)로 가장 오래된 1개를 오늘 항목으로 선택하고 source: "human-added"로 반환하세요. benchmarkId/benchmarkName/benchmarkUrl/pattern은 빈 문자열로 반환하세요.
+1. docs/loop/backlog.md에서 status가 "대기"이고 source가 "human-added" 또는 "eval-found"인 항목이 있는지 확인하세요. 있다면 등록된 순서(added_on 오름차순)로 가장 오래된 1개를 오늘 항목으로 선택하고, 그 항목의 실제 source 값 그대로("human-added" 또는 "eval-found") 반환하세요. benchmarkId/benchmarkName/benchmarkUrl/pattern은 빈 문자열로 반환하세요.
 2. human-added 대기 항목이 없다면, docs/loop/benchmark-suite.md의 frontmatter에서 cursor 값과 표의 전체 행 수를 확인하세요.
    - 표가 비어있다면 source: "none"으로 반환하고 다른 필드는 모두 빈 문자열로 반환하세요. 이 경우에도 3단계(브랜치 생성)와 6단계(cycle log 작성)는 정상적으로 진행하세요 — 건너뛰는 것은 4~5단계(backlog 항목 status 변경, benchmark-suite cursor 갱신)뿐입니다.
    - 표에 행이 있다면 (0-based) cursor번째 행을 오늘 벤치마크로 선택하세요. source: "benchmark-suite"로 반환하고 backlogId는 빈 문자열로 반환하세요.
@@ -161,7 +161,7 @@ if (selection.source === 'none') {
   return { date, status: 'skipped-empty-scope' }
 }
 
-log(`오늘 선택: ${selection.source === 'human-added' ? selection.backlogId : `${selection.benchmarkId} (${selection.benchmarkName})`} / 브랜치: ${selection.branchName}`)
+log(`오늘 선택: ${(selection.source === 'human-added' || selection.source === 'eval-found') ? selection.backlogId : `${selection.benchmarkId} (${selection.benchmarkName})`} / 브랜치: ${selection.branchName}`)
 
 phase('Reproduce')
 function reproducePrompt(feedback) {
@@ -181,7 +181,7 @@ ${contextBlock}
 - src/templates/index.ts에 새 export를 추가하세요.
 - 해당 도메인의 src/stories/templates/*.stories.tsx에 Storybook 스토리를 추가하세요 (한글 예시 데이터 사용, 기존 스토리 컨벤션 따름).
 
-${selection.source === 'human-added' ? `완료 후 docs/loop/backlog.md에서 "${selection.backlogId}"의 status를 "완료"로, resolved_cycle을 "cycles/${date}.md"로 수정하세요.` : ''}
+${(selection.source === 'human-added' || selection.source === 'eval-found') ? `완료 후 docs/loop/backlog.md에서 "${selection.backlogId}"의 status를 "완료"로, resolved_cycle을 "cycles/${date}.md"로 수정하세요.` : ''}
 
 변경된 파일 목록과, storyTitle(Storybook title), storyExportName(.stories.tsx에서 export한 실제 이름)을 반환하세요.${feedbackBlock}`
 }
@@ -240,7 +240,7 @@ if (!qa.passed) {
 QA를 ${qaRetries}회 재시도했지만 통과하지 못했습니다.
 ${qa.details}
 
-${selection.source === 'human-added' ? `또한 docs/loop/backlog.md에서 "${selection.backlogId}"의 status를 "대기"로 되돌리세요 (다음 사이클에 재시도할 수 있도록).` : ''}
+${(selection.source === 'human-added' || selection.source === 'eval-found') ? `또한 docs/loop/backlog.md에서 "${selection.backlogId}"의 status를 "대기"로 되돌리세요 (다음 사이클에 재시도할 수 있도록).` : ''}
 
 마지막으로, 지금까지의 모든 변경을 git add(관련 파일만, git add -A 금지) 후 커밋하고 "${selection.branchName}" 브랜치를 origin에 push하세요(PR은 열지 마세요 — 실패 기록만 남깁니다).`
   }
@@ -313,6 +313,24 @@ ${gapsList}
     effort: 'medium',
   })
 
+  if (!upgrade.upgraded) {
+    function recordUnresolvedGapPrompt() {
+      return `Upgrade 시도가 구조적 갭을 해결하지 못했습니다: ${upgrade.summary}
+
+docs/loop/backlog.md에 아래 행을 추가하세요(Edit 도구 사용, 기존 테이블의 마지막 id 다음 번호를 사용):
+| <다음 순번 id> | <갭 요약> | eval-found | 대기 | 벤치마크 재현 평가에서 발견된 구조적 갭, 이번 사이클에서 해결하지 못함: ${structuralGaps.map((g) => g.description).join('; ')} — 시도 결과: ${upgrade.summary} | ${date} | |
+
+docs/loop/cycles/${date}.md의 "## 완성도 평가" 섹션 끝에 "구조적 갭을 이번 사이클에서 해결하지 못해 backlog.md에 eval-found로 등록함"과 시도 요약을 추가하세요.`
+    }
+    await agent(recordUnresolvedGapPrompt(), {
+      label: 'record-unresolved-gap',
+      phase: 'Upgrade',
+      model: 'claude-haiku-4-5',
+      effort: 'low',
+    })
+    log(`구조적 갭 해결 실패 — backlog.md에 eval-found 항목으로 등록`)
+  }
+
   if (upgrade.upgraded) {
     phase('Consistency Check')
     function consistencyPrompt() {
@@ -379,12 +397,12 @@ function prPrompt() {
   return `브랜치 "${selection.branchName}"의 모든 변경을 커밋하고 origin에 push한 뒤, main을 대상으로 PR을 여세요.
 
 1. git status로 오늘 실제로 변경한 파일을 확인한 뒤, 그 파일들만 git add 하세요 (git add -A는 사용하지 마세요).
-2. git commit -m "feat(loop): ${date} 사이클 — ${selection.source === 'human-added' ? selection.backlogId : selection.benchmarkId}"
+2. git commit -m "feat(loop): ${date} 사이클 — ${(selection.source === 'human-added' || selection.source === 'eval-found') ? selection.backlogId : selection.benchmarkId}"
 3. git push -u origin ${selection.branchName}
 4. gh pr create --base main --head ${selection.branchName} --title "loop: ${date} 사이클 — ${reproduction.summary}" --body 아래 내용으로:
 
 ## Summary
-- 오늘 재현한 항목: ${selection.source === 'human-added' ? selection.backlogId : `${selection.benchmarkId} (${selection.benchmarkName})`}
+- 오늘 재현한 항목: ${(selection.source === 'human-added' || selection.source === 'eval-found') ? selection.backlogId : `${selection.benchmarkId} (${selection.benchmarkName})`}
 - ${reproduction.summary}
 - QA: 통과 (${qa.summary})
 
