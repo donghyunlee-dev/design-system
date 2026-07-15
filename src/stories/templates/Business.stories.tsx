@@ -18,6 +18,9 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
+import { DataImportWizard } from '../../templates/business/DataImportWizard'
+import { RoleAccessMatrix } from '../../templates/business/RoleAccessMatrix'
+import { HelpCenter } from '../../templates/business/HelpCenter'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -873,6 +876,103 @@ export const Search: Story = {
             { id: 'd1', title: '한국식품 거래계약서', description: '2026년 갱신 계약', meta: '자료실 · 2026-01-15' },
           ],
         },
+      ]}
+    />
+  ),
+}
+
+export const DataImport: Story = {
+  name: 'Data Import Wizard',
+  render: () => {
+    const [step, setStep] = useState(2)
+    return (
+      <DataImportWizard
+        title="거래처 마스터 일괄 업로드"
+        breadcrumb={[{ label: 'ERP 마스터관리', href: '#' }, { label: '거래처 일괄 업로드' }]}
+        step={step}
+        fileName="거래처_마스터_2026-07-15.xlsx"
+        fileSize="184KB"
+        mappings={[
+          { id: 'm1', sourceColumn: '거래처명', targetField: 'partner_name', required: true },
+          { id: 'm2', sourceColumn: '사업자번호', targetField: 'biz_no', required: true },
+          { id: 'm3', sourceColumn: '담당자', targetField: 'contact_name' },
+          { id: 'm4', sourceColumn: '연락처', targetField: 'contact_phone' },
+        ]}
+        previewColumns={[
+          { key: 'name', header: '거래처명' },
+          { key: 'bizNo', header: '사업자번호' },
+        ]}
+        previewRows={[
+          { id: 1, status: 'valid', name: '(주)한국식품', bizNo: '123-45-67890' },
+          { id: 2, status: 'valid', name: '대한유통', bizNo: '234-56-78901' },
+          { id: 3, status: 'warning', name: '서울농산', bizNo: '345-67-89012', message: '담당자 연락처 형식을 확인하세요' },
+          { id: 4, status: 'error', name: '부산물산', bizNo: '', message: '사업자번호가 비어 있습니다' },
+        ]}
+        commitProgress={0}
+        onPrev={() => setStep(s => Math.max(0, s - 1))}
+        onNext={() => setStep(s => Math.min(3, s + 1))}
+      />
+    )
+  },
+}
+
+export const RoleAccess: Story = {
+  name: 'Role & Permission Management',
+  render: () => {
+    const [activeRoleId, setActiveRoleId] = useState('mgr')
+    const [modules, setModules] = useState([
+      { id: 'order', label: '주문 관리 (OMS)', actions: { view: true, create: true, edit: true, delete: false } },
+      { id: 'inventory', label: '재고 관리 (WMS)', actions: { view: true, create: false, edit: false, delete: false } },
+      { id: 'partner', label: '거래처 관리 (ERP)', actions: { view: true, create: true, edit: false, delete: false } },
+      { id: 'settlement', label: '정산/전표 (ERP)', actions: { view: false, create: false, edit: false, delete: false } },
+    ])
+    return (
+      <RoleAccessMatrix
+        title="권한 관리"
+        breadcrumb={[{ label: '시스템관리', href: '#' }, { label: '권한 관리' }]}
+        roles={[
+          { id: 'admin', name: '시스템관리자', description: '전체 시스템 접근', memberCount: 2 },
+          { id: 'mgr', name: '팀장', description: '팀 업무 승인/관리', memberCount: 8 },
+          { id: 'staff', name: '실무자', description: '일반 업무 처리', memberCount: 34 },
+          { id: 'partner', name: '파트너(외부)', description: 'PRM 외부 협력사', memberCount: 12 },
+        ]}
+        activeRoleId={activeRoleId}
+        onRoleSelect={setActiveRoleId}
+        actionColumns={[
+          { key: 'view', label: '조회' },
+          { key: 'create', label: '등록' },
+          { key: 'edit', label: '수정' },
+          { key: 'delete', label: '삭제' },
+        ]}
+        modules={modules}
+        onPermissionToggle={(moduleId, actionKey, checked) =>
+          setModules(prev => prev.map(m => (m.id === moduleId ? { ...m, actions: { ...m.actions, [actionKey]: checked } } : m)))
+        }
+      />
+    )
+  },
+}
+
+export const Help: Story = {
+  name: 'Help Center',
+  render: () => (
+    <HelpCenter
+      title="도움말·문의 센터"
+      breadcrumb={[{ label: '지원', href: '#' }, { label: '도움말·문의 센터' }]}
+      categories={[
+        { id: 'erp', label: 'ERP 사용법', icon: '🧾', description: '전표·마스터 관리', count: 12 },
+        { id: 'oms', label: 'OMS 사용법', icon: '📦', description: '주문·배송 처리', count: 9 },
+        { id: 'wms', label: 'WMS 사용법', icon: '🏭', description: '입출고·재고', count: 7 },
+        { id: 'account', label: '계정/권한', icon: '🔐', description: '로그인·권한 문의', count: 5 },
+      ]}
+      faqs={[
+        { id: 'f1', question: '비밀번호를 잊어버렸어요.', answer: '로그인 화면의 [비밀번호 찾기]를 클릭한 뒤 사번과 등록된 이메일로 재설정할 수 있습니다.' },
+        { id: 'f2', question: 'ERP 전표가 반려되었는데 어떻게 재기안하나요?', answer: '반려된 문서는 기안자가 내용을 수정한 뒤 동일 화면에서 [재기안] 버튼으로 다시 제출할 수 있습니다.' },
+        { id: 'f3', question: 'WMS 재고 실사 결과는 언제 반영되나요?', answer: '실사 마감 후 익일 오전 배치로 ERP 재고 마스터에 자동 반영됩니다.' },
+      ]}
+      contactChannels={[
+        { id: 'c1', label: 'IT 헬프데스크', description: '평일 09:00~18:00 · 내선 1234', actionLabel: '문의 접수' },
+        { id: 'c2', label: '팀즈 지원 채널', description: 'Microsoft Teams #it-support', actionLabel: '채널 열기' },
       ]}
     />
   ),
