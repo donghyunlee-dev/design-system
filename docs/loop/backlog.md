@@ -1,6 +1,6 @@
 ---
 type: backlog
-last_updated: 2026-07-13
+last_updated: 2026-07-16
 ---
 
 # 작업 후보 백로그
@@ -14,3 +14,6 @@ last_updated: 2026-07-13
 | B005 | Notification / Inbox Center 템플릿 (알림·메시지함) | pm-proposed | 완료 | 커버리지 갭 분석 결과, `src/templates/business/`에 알림·요청·메시지를 읽음/안읽음 상태로 모아 처리하는 인박스 레이아웃이 부재. ERP(Enterprise Resource Planning) 시스템 알림, 승인 요청 알림, 그룹웨어·팀즈(Microsoft Teams) 메시지 인박스 등 내부 업무 시스템 재활용도가 높음. ApprovalView(단건 승인)·ActivityTimeline(단일 대상 이력)과 목적이 구분됨. 기존 List/Card/Tag/Avatar/StatusBadge/Stack으로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
 | B006 | File Manager / Document Explorer 템플릿 (자료실·첨부 탐색기) | pm-proposed | 완료 | 폴더·파일을 브레드크럼 경로와 목록/그리드로 탐색하고 파일 액션을 수행하는 자료실 레이아웃이 부재. WMS(Warehouse Management System) 문서, ERP 첨부, 계약·매뉴얼 자료실 등에 재활용도가 높음. DocumentCatalog(목차+본문 열람)와 달리 파일/폴더 탐색·관리가 목적으로 중복 없음. B001 조사 시 범위 밖으로 남긴 File Explorer 패턴에 해당. 기존 Table/Card/Breadcrumb/Tag/DropdownMenu/Grid로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
 | B007 | Global Search Results 템플릿 (통합 검색 결과) | pm-proposed | 완료 | 여러 엔티티(주문·파트너·문서 등)를 가로지르는 통합 검색 결과를 좌측 패싯 필터 + 그룹화된 결과 목록으로 표시하는 레이아웃이 부재. ERP·OMS(Order Management System)·WMS 통합 검색에 재활용 가능. ListSearchTable(단일 엔티티 필터 테이블)과 달리 크로스-엔티티 그룹 결과가 목적으로 중복 없음. 기존 List/Card/Tag/Breadcrumb/Divider/Stack으로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
+| B008 | Data Import / Bulk Upload 템플릿 (데이터 가져오기·일괄 업로드) | pm-proposed | 완료 | 커버리지 갭 분석 결과, 파일 업로드 → 컬럼 매핑 → 유효성 검증 미리보기 → 반영 결과의 일괄 데이터 적재 흐름을 담은 레이아웃이 부재. ERP(Enterprise Resource Planning)·OMS(Order Management System)·WMS(Warehouse Management System) 마스터 데이터(품목·거래처·재고) 일괄 적재에 재활용도가 높음. WizardForm(범용 다단계 폼)·FileExplorer(기존 파일 탐색·관리)와 목적이 구분됨(데이터 인제스천). 기존 Upload/Stepper/Table/StatusBadge/Alert/Tag/Stack으로 재구현 가능. | 2026-07-16 | cycles/2026-07-16.md |
+| B009 | Role & Permission Matrix 템플릿 (역할·권한 관리 매트릭스) | pm-proposed | 완료 | 역할(Role) × 리소스·기능(Resource) 격자에 권한을 토글로 부여·회수하는 접근제어 관리 레이아웃이 부재. ERP·그룹웨어·PRM(Partner Management System) 등 사내 시스템 공통의 권한 관리 화면에 재활용도가 높음. SettingsPage(키-값 설정 섹션)와 달리 다차원 권한 매트릭스 편집이 목적으로 중복 없음. 기존 Table/Checkbox/Switch/Tag/Badge/Stack으로 재구현 가능. | 2026-07-16 | cycles/2026-07-16.md |
+| B010 | Empty / Error State 템플릿 (빈 상태·오류 상태 페이지) | pm-proposed | 완료 | 무데이터(no-data), 권한없음(403), 페이지없음(404), 서버오류(500) 등 표준 빈 상태·오류 상태 페이지 세트가 부재. 모든 사내 업무 시스템 화면에 공통 적용되는 기반 패턴으로 일관성 확보 가치가 높음. 기존 어느 business 템플릿과도 목적이 겹치지 않는 독립 패턴. 기존 EmptyState/Illustration/Button/Card/Stack으로 재구현 가능. | 2026-07-16 | cycles/2026-07-16.md |
