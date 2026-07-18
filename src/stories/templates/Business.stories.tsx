@@ -18,6 +18,9 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
+import { DataImportMapping, ImportColumnMapping } from '../../templates/business/DataImportMapping'
+import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
+import { ComparisonDiffView } from '../../templates/business/ComparisonDiffView'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -873,6 +876,120 @@ export const Search: Story = {
             { id: 'd1', title: '한국식품 거래계약서', description: '2026년 갱신 계약', meta: '자료실 · 2026-01-15' },
           ],
         },
+      ]}
+    />
+  ),
+}
+
+export const DataImport: Story = {
+  name: 'Data Import Mapping',
+  render: () => {
+    function DataImportDemo() {
+      const [mappings, setMappings] = useState<ImportColumnMapping[]>([
+        { id: 'm1', sourceColumn: '품목코드', sampleValue: 'P-1029', targetField: 'sku', required: true },
+        { id: 'm2', sourceColumn: '품목명', sampleValue: '쌀 (20kg)', targetField: 'name', required: true },
+        { id: 'm3', sourceColumn: '입고수량', sampleValue: '500', targetField: 'qty', required: true },
+        { id: 'm4', sourceColumn: '창고', sampleValue: '서울1창고', targetField: '' },
+        { id: 'm5', sourceColumn: '비고', sampleValue: '7월 정기입고', targetField: 'memo' },
+      ])
+      return (
+        <DataImportMapping
+          title="재고 일괄 등록"
+          breadcrumb={[{ label: 'WMS', href: '#' }, { label: '재고 일괄 등록' }]}
+          steps={['업로드', '컬럼 매핑', '검증 미리보기', '완료']}
+          currentStep={1}
+          fileName="stock_import_20260718.xlsx"
+          mappings={mappings}
+          fieldOptions={[
+            { value: 'sku', label: '품목코드 (SKU)' },
+            { value: 'name', label: '품목명' },
+            { value: 'qty', label: '수량' },
+            { value: 'warehouse', label: '창고' },
+            { value: 'memo', label: '비고' },
+          ]}
+          onMappingChange={(id, targetField) =>
+            setMappings(prev => prev.map(m => (m.id === id ? { ...m, targetField } : m)))
+          }
+          previewColumns={[
+            { key: 'sku', header: '품목코드' },
+            { key: 'name', header: '품목명' },
+            { key: 'qty', header: '수량' },
+          ]}
+          previewRows={[
+            { id: 'r1', values: { sku: 'P-1029', name: '쌀 (20kg)', qty: 500 }, status: 'success' },
+            { id: 'r2', values: { sku: 'P-1030', name: '콩나물', qty: 0 }, status: 'warning', message: '수량 0 확인 필요' },
+            { id: 'r3', values: { sku: '-', name: '두부', qty: 30 }, status: 'error', message: '품목코드 누락' },
+          ]}
+          summary={{ total: 3, success: 1, warning: 1, error: 1 }}
+          onBack={() => alert('이전 단계로 이동')}
+          onNext={() => alert('적재를 시작합니다')}
+          nextLabel="적재 시작"
+        />
+      )
+    }
+    return <DataImportDemo />
+  },
+}
+
+export const Permission: Story = {
+  name: 'Permission Matrix',
+  render: () => {
+    function PermissionDemo() {
+      const [permissions, setPermissions] = useState<Record<string, Record<string, boolean>>>({
+        r1: { admin: true, manager: true, staff: true, partner: false },
+        r2: { admin: true, manager: true, staff: false, partner: false },
+        r3: { admin: true, manager: false, staff: false, partner: false },
+        r4: { admin: true, manager: true, staff: true, partner: true },
+        r5: { admin: true, manager: true, staff: false, partner: false },
+      })
+      return (
+        <PermissionMatrix
+          title="시스템 접근권한 관리"
+          breadcrumb={[{ label: '설정', href: '#' }, { label: '접근권한 관리' }]}
+          roles={[
+            { id: 'admin', label: '관리자', meta: '3명' },
+            { id: 'manager', label: '매니저', meta: '12명' },
+            { id: 'staff', label: '실무자', meta: '48명' },
+            { id: 'partner', label: '파트너사', meta: '21개사' },
+          ]}
+          resources={[
+            { id: 'r1', label: '주문 조회', group: 'OMS' },
+            { id: 'r2', label: '주문 수정', group: 'OMS' },
+            { id: 'r3', label: '재고 마스터 수정', group: 'WMS' },
+            { id: 'r4', label: '출고 현황 조회', group: 'WMS' },
+            { id: 'r5', label: '거래처 정보 관리', group: 'PRM' },
+          ]}
+          permissions={permissions}
+          onToggle={(resourceId, roleId, value) =>
+            setPermissions(prev => ({
+              ...prev,
+              [resourceId]: { ...prev[resourceId], [roleId]: value },
+            }))
+          }
+        />
+      )
+    }
+    return <PermissionDemo />
+  },
+}
+
+export const Comparison: Story = {
+  name: 'Comparison Diff View',
+  render: () => (
+    <ComparisonDiffView
+      title="발주서 버전 비교"
+      breadcrumb={[{ label: 'ERP', href: '#' }, { label: '발주서 버전 비교' }]}
+      leftLabel="버전 1 (2026-06-01)"
+      rightLabel="버전 2 (2026-07-10)"
+      leftStatus="inactive"
+      rightStatus="active"
+      fields={[
+        { label: '품목명', before: '쌀 (20kg)', after: '쌀 (20kg)', changeType: 'unchanged' },
+        { label: '수량', before: '400개', after: '500개', changeType: 'modified' },
+        { label: '단가', before: '44,000원', after: '45,000원', changeType: 'modified' },
+        { label: '납품 창고', before: '서울1창고', after: '서울1창고', changeType: 'unchanged' },
+        { label: '특이사항', before: '-', after: '7월 생산계획 대비 원자재 선행 확보', changeType: 'added' },
+        { label: '분할 납품 여부', before: '분할 납품 (2회)', after: '-', changeType: 'removed' },
       ]}
     />
   ),
