@@ -18,6 +18,9 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
+import { RolesPermissionsMatrix } from '../../templates/business/RolesPermissionsMatrix'
+import { TicketDetail } from '../../templates/business/TicketDetail'
+import { VersionCompare } from '../../templates/business/VersionCompare'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -873,6 +876,109 @@ export const Search: Story = {
             { id: 'd1', title: '한국식품 거래계약서', description: '2026년 갱신 계약', meta: '자료실 · 2026-01-15' },
           ],
         },
+      ]}
+    />
+  ),
+}
+
+export const RolesPermissions: Story = {
+  name: 'Roles & Permissions Matrix',
+  render: () => {
+    const roles = [
+      { key: 'admin', label: '관리자', description: '전체 시스템 관리' },
+      { key: 'manager', label: '팀장', description: '팀 단위 승인·조회' },
+      { key: 'staff', label: '실무자', description: '입력·조회' },
+      { key: 'partner', label: '파트너', description: '자사 발주만 조회' },
+    ]
+    const rows = [
+      { key: 'order-view', label: '주문 조회', group: 'OMS' },
+      { key: 'order-edit', label: '주문 등록·수정', group: 'OMS' },
+      { key: 'order-approve', label: '주문 승인', group: 'OMS' },
+      { key: 'wms-inbound', label: '입고 처리', group: 'WMS' },
+      { key: 'wms-stock', label: '재고 조정', group: 'WMS' },
+      { key: 'partner-manage', label: '파트너 등급 관리', group: 'PRM' },
+    ]
+    const [granted, setGranted] = useState<Record<string, boolean>>({
+      'order-view:admin': true, 'order-view:manager': true, 'order-view:staff': true, 'order-view:partner': true,
+      'order-edit:admin': true, 'order-edit:manager': true, 'order-edit:staff': true,
+      'order-approve:admin': true, 'order-approve:manager': true,
+      'wms-inbound:admin': true, 'wms-inbound:manager': true, 'wms-inbound:staff': true,
+      'wms-stock:admin': true, 'wms-stock:manager': true,
+      'partner-manage:admin': true,
+    })
+    return (
+      <RolesPermissionsMatrix
+        title="역할·권한 관리"
+        roles={roles}
+        rows={rows}
+        granted={granted}
+        onToggle={(rowKey, roleKey, next) =>
+          setGranted(prev => ({ ...prev, [`${rowKey}:${roleKey}`]: next }))
+        }
+        actions={<Button variant="primary" size="sm">저장</Button>}
+      />
+    )
+  },
+}
+
+export const Ticket: Story = {
+  name: 'Ticket Detail',
+  render: () => (
+    <TicketDetail
+      ticketNo="TCK-2026-0317"
+      title="발주 시스템 로그인 오류 문의"
+      status="pending"
+      statusLabel="처리중"
+      requester={{ name: '김파트너', initials: '김', meta: '(주)한국식품 · 거래처코드 P-0021' }}
+      assignee={{ name: '이지원', initials: '이' }}
+      tags={['로그인', 'P2']}
+      messages={[
+        {
+          id: 'm1',
+          author: { name: '김파트너', initials: '김' },
+          time: '2026-07-19 09:12',
+          content: 'PRM 포털에 로그인이 안 됩니다. 비밀번호를 재설정했는데도 동일한 오류가 발생합니다.',
+        },
+        {
+          id: 'm2',
+          author: { name: '이지원', initials: '이' },
+          isAgent: true,
+          time: '2026-07-19 09:40',
+          content: '확인 감사합니다. 계정 잠금 여부를 확인 중입니다. 잠시만 기다려 주세요.',
+        },
+        {
+          id: 'm3',
+          author: { name: '이지원', initials: '이' },
+          isAgent: true,
+          time: '2026-07-19 10:05',
+          content: '계정 잠금을 해제했습니다. 다시 로그인을 시도해 주시기 바랍니다.',
+        },
+      ]}
+      onSendReply={() => {}}
+      onStatusChange={() => {}}
+      statusActions={[
+        { key: 'resolved', label: '해결 완료로 변경' },
+        { key: 'closed', label: '티켓 종료' },
+      ]}
+    />
+  ),
+}
+
+export const VersionDiff: Story = {
+  name: 'Version Compare',
+  render: () => (
+    <VersionCompare
+      title="발주 사양 변경 비교"
+      beforeLabel="v1 (2026-07-01 제출)"
+      afterLabel="v2 (2026-07-15 수정)"
+      actions={<Button variant="primary" size="sm">v2 승인</Button>}
+      fields={[
+        { key: 'item', label: '품목', before: '쌀 20kg', after: '쌀 20kg', changeType: 'unchanged' },
+        { key: 'qty', label: '수량', before: '500박스', after: '650박스', changeType: 'modified' },
+        { key: 'price', label: '단가', before: '48,000원', after: '46,500원', changeType: 'modified' },
+        { key: 'delivery', label: '납기일', before: '2026-08-01', after: '2026-08-01', changeType: 'unchanged' },
+        { key: 'discount', label: '특별 할인', before: '', after: '대량 구매 3% 할인', changeType: 'added' },
+        { key: 'note', label: '비고', before: '기존 계약 조건 유지', after: '', changeType: 'removed' },
       ]}
     />
   ),
