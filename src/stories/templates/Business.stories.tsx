@@ -18,6 +18,9 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
+import { DocumentPrint } from '../../templates/business/DocumentPrint'
+import { BulkImport } from '../../templates/business/BulkImport'
+import { DiffView } from '../../templates/business/DiffView'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -874,6 +877,93 @@ export const Search: Story = {
           ],
         },
       ]}
+    />
+  ),
+}
+
+export const Print: Story = {
+  name: 'Document Print',
+  render: () => (
+    <DocumentPrint
+      title="거래명세서"
+      docNumber="INV-2026-0714"
+      issueDate="2026-07-20"
+      statusTag="발행완료"
+      from={{
+        name: '(주)에스푸드',
+        info: ['사업자번호 123-45-67890', '서울 강서구 식품로 10', 'TEL 02-1234-5678'],
+      }}
+      to={{
+        name: '(주)한국식품',
+        info: ['사업자번호 987-65-43210', '서울 금천구 유통단지 5', '담당 구매팀 김민준'],
+      }}
+      items={[
+        { id: 'i1', name: '쌀', spec: '20kg', qty: 50, unitPrice: 62000, amount: 3100000 },
+        { id: 'i2', name: '콩나물', spec: '1kg', qty: 200, unitPrice: 2400, amount: 480000 },
+        { id: 'i3', name: '두부', spec: '300g', qty: 300, unitPrice: 1500, amount: 450000 },
+      ]}
+      summary={[
+        { label: '공급가액', value: '4,030,000원' },
+        { label: '세액', value: '403,000원' },
+        { label: '합계', value: '4,433,000원', emphasis: true },
+      ]}
+      notes={'- 본 거래명세서는 세금계산서 발행 전 참고용 문서입니다.\n- 입금 계좌: 국민은행 123-456-789012 (주)에스푸드'}
+      signatureLabels={['공급자', '공급받는자']}
+      actions={<Button size="sm">인쇄하기</Button>}
+    />
+  ),
+}
+
+export const Import: Story = {
+  name: 'Bulk Data Import & Mapping',
+  render: () => (
+    <BulkImport
+      title="거래처 마스터 대량 반입"
+      fileName="partners_2026_07.xlsx"
+      totalRows={5}
+      progress={100}
+      mappings={[
+        { sourceColumn: '거래처명', targetField: 'partnerName', sample: '(주)한국식품' },
+        { sourceColumn: '사업자번호', targetField: 'bizNo', sample: '987-65-43210' },
+        { sourceColumn: '담당자', targetField: 'contactName', sample: '김민준' },
+        { sourceColumn: '연락처', targetField: '', sample: '02-2345-6789' },
+      ]}
+      targetFieldOptions={[
+        { value: 'partnerName', label: '거래처명' },
+        { value: 'bizNo', label: '사업자번호' },
+        { value: 'contactName', label: '담당자명' },
+        { value: 'contactPhone', label: '연락처' },
+      ]}
+      validationRows={[
+        { id: 'r1', rowNumber: 1, data: { 거래처명: '(주)한국식품', 사업자번호: '987-65-43210' }, status: 'valid' },
+        { id: 'r2', rowNumber: 2, data: { 거래처명: '(주)대한유통', 사업자번호: '111-11-11111' }, status: 'valid' },
+        { id: 'r3', rowNumber: 3, data: { 거래처명: '', 사업자번호: '222-22-22222' }, status: 'error', message: '거래처명 누락' },
+        { id: 'r4', rowNumber: 4, data: { 거래처명: '(주)미래식품', 사업자번호: '333-33-33333' }, status: 'warning', message: '중복 사업자번호 의심' },
+        { id: 'r5', rowNumber: 5, data: { 거래처명: '(주)서울상사', 사업자번호: '444-44-44444' }, status: 'valid' },
+      ]}
+      actions={<Button size="sm">반영 확정</Button>}
+    />
+  ),
+}
+
+export const Diff: Story = {
+  name: 'Comparison / Diff View',
+  render: () => (
+    <DiffView
+      title="거래처 정보 변경 비교"
+      beforeLabel="변경 전"
+      afterLabel="변경 후"
+      beforeMeta="2026-06-01 등록"
+      afterMeta="2026-07-20 변경요청"
+      fields={[
+        { label: '거래처명', before: '(주)한국식품', after: '(주)한국식품' },
+        { label: '담당자', before: '김민준', after: '이서연' },
+        { label: '연락처', before: '02-2345-6789', after: '02-2345-6789' },
+        { label: '주소', before: '서울 금천구 유통단지 5', after: '서울 금천구 유통단지 5-1' },
+        { label: '결제조건', before: '', after: '월말 마감 익월 10일 지급' },
+        { label: '비고', before: '해외 수입 거래처', after: '' },
+      ]}
+      actions={<Button size="sm">변경 승인</Button>}
     />
   ),
 }
