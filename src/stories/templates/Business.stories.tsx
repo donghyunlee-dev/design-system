@@ -18,9 +18,11 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
-import { DataImportWizard, ImportColumnMapping, ImportPreviewRow } from '../../templates/business/DataImportWizard'
+
+import { DataImportMapping, ImportColumnMapping } from '../../templates/business/DataImportMapping'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
-import { ErrorState } from '../../templates/business/ErrorState'
+import { ComparisonDiffView } from '../../templates/business/ComparisonDiffView'
+
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -973,97 +975,116 @@ export const Search: Story = {
 }
 
 export const DataImport: Story = {
-  name: 'Data Import Wizard',
+
+  name: 'Data Import Mapping',
   render: () => {
-    const [step, setStep] = useState(2)
-    return (
-      <DataImportWizard
-        title="거래처 마스터 일괄 업로드"
-        breadcrumb={[{ label: 'ERP 마스터관리', href: '#' }, { label: '거래처 일괄 업로드' }]}
-        step={step}
-        fileName="거래처_마스터_2026-07-15.xlsx"
-        fileSize="184KB"
-        mappings={[
-          { id: 'm1', sourceColumn: '거래처명', targetField: 'partner_name', required: true },
-          { id: 'm2', sourceColumn: '사업자번호', targetField: 'biz_no', required: true },
-          { id: 'm3', sourceColumn: '담당자', targetField: 'contact_name' },
-          { id: 'm4', sourceColumn: '연락처', targetField: 'contact_phone' },
-        ]}
-        previewColumns={[
-          { key: 'name', header: '거래처명' },
-          { key: 'bizNo', header: '사업자번호' },
-        ]}
-        previewRows={[
-          { id: 1, status: 'valid', name: '(주)한국식품', bizNo: '123-45-67890' },
-          { id: 2, status: 'valid', name: '대한유통', bizNo: '234-56-78901' },
-          { id: 3, status: 'warning', name: '서울농산', bizNo: '345-67-89012', message: '담당자 연락처 형식을 확인하세요' },
-          { id: 4, status: 'error', name: '부산물산', bizNo: '', message: '사업자번호가 비어 있습니다' },
-        ]}
-        commitProgress={0}
-        onPrev={() => setStep(s => Math.max(0, s - 1))}
-        onNext={() => setStep(s => Math.min(3, s + 1))}
-      />
-    )
+    function DataImportDemo() {
+      const [mappings, setMappings] = useState<ImportColumnMapping[]>([
+        { id: 'm1', sourceColumn: '품목코드', sampleValue: 'P-1029', targetField: 'sku', required: true },
+        { id: 'm2', sourceColumn: '품목명', sampleValue: '쌀 (20kg)', targetField: 'name', required: true },
+        { id: 'm3', sourceColumn: '입고수량', sampleValue: '500', targetField: 'qty', required: true },
+        { id: 'm4', sourceColumn: '창고', sampleValue: '서울1창고', targetField: '' },
+        { id: 'm5', sourceColumn: '비고', sampleValue: '7월 정기입고', targetField: 'memo' },
+      ])
+      return (
+        <DataImportMapping
+          title="재고 일괄 등록"
+          breadcrumb={[{ label: 'WMS', href: '#' }, { label: '재고 일괄 등록' }]}
+          steps={['업로드', '컬럼 매핑', '검증 미리보기', '완료']}
+          currentStep={1}
+          fileName="stock_import_20260718.xlsx"
+          mappings={mappings}
+          fieldOptions={[
+            { value: 'sku', label: '품목코드 (SKU)' },
+            { value: 'name', label: '품목명' },
+            { value: 'qty', label: '수량' },
+            { value: 'warehouse', label: '창고' },
+            { value: 'memo', label: '비고' },
+          ]}
+          onMappingChange={(id, targetField) =>
+            setMappings(prev => prev.map(m => (m.id === id ? { ...m, targetField } : m)))
+          }
+          previewColumns={[
+            { key: 'sku', header: '품목코드' },
+            { key: 'name', header: '품목명' },
+            { key: 'qty', header: '수량' },
+          ]}
+          previewRows={[
+            { id: 'r1', values: { sku: 'P-1029', name: '쌀 (20kg)', qty: 500 }, status: 'success' },
+            { id: 'r2', values: { sku: 'P-1030', name: '콩나물', qty: 0 }, status: 'warning', message: '수량 0 확인 필요' },
+            { id: 'r3', values: { sku: '-', name: '두부', qty: 30 }, status: 'error', message: '품목코드 누락' },
+          ]}
+          summary={{ total: 3, success: 1, warning: 1, error: 1 }}
+          onBack={() => alert('이전 단계로 이동')}
+          onNext={() => alert('적재를 시작합니다')}
+          nextLabel="적재 시작"
+        />
+      )
+    }
+    return <DataImportDemo />
   },
 }
 
-export const RoleAccess: Story = {
-  name: 'Role & Permission Management',
+export const Permission: Story = {
+  name: 'Permission Matrix',
   render: () => {
-    const [activeRoleId, setActiveRoleId] = useState('mgr')
-    const [modules, setModules] = useState([
-      { id: 'order', label: '주문 관리 (OMS)', actions: { view: true, create: true, edit: true, delete: false } },
-      { id: 'inventory', label: '재고 관리 (WMS)', actions: { view: true, create: false, edit: false, delete: false } },
-      { id: 'partner', label: '거래처 관리 (ERP)', actions: { view: true, create: true, edit: false, delete: false } },
-      { id: 'settlement', label: '정산/전표 (ERP)', actions: { view: false, create: false, edit: false, delete: false } },
-    ])
-    return (
-      <RoleAccessMatrix
-        title="권한 관리"
-        breadcrumb={[{ label: '시스템관리', href: '#' }, { label: '권한 관리' }]}
-        roles={[
-          { id: 'admin', name: '시스템관리자', description: '전체 시스템 접근', memberCount: 2 },
-          { id: 'mgr', name: '팀장', description: '팀 업무 승인/관리', memberCount: 8 },
-          { id: 'staff', name: '실무자', description: '일반 업무 처리', memberCount: 34 },
-          { id: 'partner', name: '파트너(외부)', description: 'PRM 외부 협력사', memberCount: 12 },
-        ]}
-        activeRoleId={activeRoleId}
-        onRoleSelect={setActiveRoleId}
-        actionColumns={[
-          { key: 'view', label: '조회' },
-          { key: 'create', label: '등록' },
-          { key: 'edit', label: '수정' },
-          { key: 'delete', label: '삭제' },
-        ]}
-        modules={modules}
-        onPermissionToggle={(moduleId, actionKey, checked) =>
-          setModules(prev => prev.map(m => (m.id === moduleId ? { ...m, actions: { ...m.actions, [actionKey]: checked } } : m)))
-        }
-      />
-    )
+    function PermissionDemo() {
+      const [permissions, setPermissions] = useState<Record<string, Record<string, boolean>>>({
+        r1: { admin: true, manager: true, staff: true, partner: false },
+        r2: { admin: true, manager: true, staff: false, partner: false },
+        r3: { admin: true, manager: false, staff: false, partner: false },
+        r4: { admin: true, manager: true, staff: true, partner: true },
+        r5: { admin: true, manager: true, staff: false, partner: false },
+      })
+      return (
+        <PermissionMatrix
+          title="시스템 접근권한 관리"
+          breadcrumb={[{ label: '설정', href: '#' }, { label: '접근권한 관리' }]}
+          roles={[
+            { id: 'admin', label: '관리자', meta: '3명' },
+            { id: 'manager', label: '매니저', meta: '12명' },
+            { id: 'staff', label: '실무자', meta: '48명' },
+            { id: 'partner', label: '파트너사', meta: '21개사' },
+          ]}
+          resources={[
+            { id: 'r1', label: '주문 조회', group: 'OMS' },
+            { id: 'r2', label: '주문 수정', group: 'OMS' },
+            { id: 'r3', label: '재고 마스터 수정', group: 'WMS' },
+            { id: 'r4', label: '출고 현황 조회', group: 'WMS' },
+            { id: 'r5', label: '거래처 정보 관리', group: 'PRM' },
+          ]}
+          permissions={permissions}
+          onToggle={(resourceId, roleId, value) =>
+            setPermissions(prev => ({
+              ...prev,
+              [resourceId]: { ...prev[resourceId], [roleId]: value },
+            }))
+          }
+        />
+      )
+    }
+    return <PermissionDemo />
   },
 }
 
-export const Help: Story = {
-  name: 'Help Center',
+export const Comparison: Story = {
+  name: 'Comparison Diff View',
   render: () => (
-    <HelpCenter
-      title="도움말·문의 센터"
-      breadcrumb={[{ label: '지원', href: '#' }, { label: '도움말·문의 센터' }]}
-      categories={[
-        { id: 'erp', label: 'ERP 사용법', icon: '🧾', description: '전표·마스터 관리', count: 12 },
-        { id: 'oms', label: 'OMS 사용법', icon: '📦', description: '주문·배송 처리', count: 9 },
-        { id: 'wms', label: 'WMS 사용법', icon: '🏭', description: '입출고·재고', count: 7 },
-        { id: 'account', label: '계정/권한', icon: '🔐', description: '로그인·권한 문의', count: 5 },
-      ]}
-      faqs={[
-        { id: 'f1', question: '비밀번호를 잊어버렸어요.', answer: '로그인 화면의 [비밀번호 찾기]를 클릭한 뒤 사번과 등록된 이메일로 재설정할 수 있습니다.' },
-        { id: 'f2', question: 'ERP 전표가 반려되었는데 어떻게 재기안하나요?', answer: '반려된 문서는 기안자가 내용을 수정한 뒤 동일 화면에서 [재기안] 버튼으로 다시 제출할 수 있습니다.' },
-        { id: 'f3', question: 'WMS 재고 실사 결과는 언제 반영되나요?', answer: '실사 마감 후 익일 오전 배치로 ERP 재고 마스터에 자동 반영됩니다.' },
-      ]}
-      contactChannels={[
-        { id: 'c1', label: 'IT 헬프데스크', description: '평일 09:00~18:00 · 내선 1234', actionLabel: '문의 접수' },
-        { id: 'c2', label: '팀즈 지원 채널', description: 'Microsoft Teams #it-support', actionLabel: '채널 열기' },
+    <ComparisonDiffView
+      title="발주서 버전 비교"
+      breadcrumb={[{ label: 'ERP', href: '#' }, { label: '발주서 버전 비교' }]}
+      leftLabel="버전 1 (2026-06-01)"
+      rightLabel="버전 2 (2026-07-10)"
+      leftStatus="inactive"
+      rightStatus="active"
+      fields={[
+        { label: '품목명', before: '쌀 (20kg)', after: '쌀 (20kg)', changeType: 'unchanged' },
+        { label: '수량', before: '400개', after: '500개', changeType: 'modified' },
+        { label: '단가', before: '44,000원', after: '45,000원', changeType: 'modified' },
+        { label: '납품 창고', before: '서울1창고', after: '서울1창고', changeType: 'unchanged' },
+        { label: '특이사항', before: '-', after: '7월 생산계획 대비 원자재 선행 확보', changeType: 'added' },
+        { label: '분할 납품 여부', before: '분할 납품 (2회)', after: '-', changeType: 'removed' },
+
       ]}
     />
   ),
