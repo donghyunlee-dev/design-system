@@ -80,10 +80,12 @@ export { FileExplorer } from './business/FileExplorer'
 export type { FileExplorerProps, FileExplorerItem } from './business/FileExplorer'
 export { GlobalSearchResults } from './business/GlobalSearchResults'
 export type { GlobalSearchResultsProps, SearchResultGroup, SearchResultItem } from './business/GlobalSearchResults'
+
 export { RolesPermissionsMatrix } from './business/RolesPermissionsMatrix'
 export type { RolesPermissionsMatrixProps, PermissionRole, PermissionRow } from './business/RolesPermissionsMatrix'
 export { TicketDetail } from './business/TicketDetail'
 export type { TicketDetailProps, TicketMessage } from './business/TicketDetail'
 export { VersionCompare } from './business/VersionCompare'
 export type { VersionCompareProps, CompareField, CompareChangeType } from './business/VersionCompare'
+
 export type { DetailField } from './business/types'
