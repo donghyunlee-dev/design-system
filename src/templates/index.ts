@@ -80,6 +80,7 @@ export { FileExplorer } from './business/FileExplorer'
 export type { FileExplorerProps, FileExplorerItem } from './business/FileExplorer'
 export { GlobalSearchResults } from './business/GlobalSearchResults'
 export type { GlobalSearchResultsProps, SearchResultGroup, SearchResultItem } from './business/GlobalSearchResults'
+
 export { DataImportMapping } from './business/DataImportMapping'
 export type {
   DataImportMappingProps,
@@ -92,4 +93,5 @@ export { PermissionMatrix } from './business/PermissionMatrix'
 export type { PermissionMatrixProps, PermissionRole, PermissionResource } from './business/PermissionMatrix'
 export { ComparisonDiffView } from './business/ComparisonDiffView'
 export type { ComparisonDiffViewProps, DiffField, DiffChangeType } from './business/ComparisonDiffView'
+
 export type { DetailField } from './business/types'

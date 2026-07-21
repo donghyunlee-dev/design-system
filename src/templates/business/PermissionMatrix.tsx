@@ -1,21 +1,26 @@
 import { Fragment, ReactNode } from 'react'
+
 import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
 import { Checkbox } from '../../components/form/Checkbox'
 import { Tag } from '../../components/data/Tag'
 import { Avatar } from '../../components/foundation/Avatar'
 import { Divider } from '../../components/layout/Divider'
+
 import { cn } from '../../utils/cn'
 
 export interface PermissionRole {
   id: string
   label: string
+
   /** 역할 인원 수 등 부가 정보 */
   meta?: string
+
 }
 
 export interface PermissionResource {
   id: string
   label: string
+
   /** 리소스 그룹 (예: "ERP", "OMS") — 동일 그룹끼리 묶어서 표시 */
   group?: string
 }
@@ -30,9 +35,11 @@ export interface PermissionMatrixProps {
   onToggle?: (resourceId: string, roleId: string, value: boolean) => void
   /** 셀 편집 가능 여부 (기본 true) */
   editable?: boolean
+
   actions?: ReactNode
   className?: string
 }
+
 
 export function PermissionMatrix({
   title,
@@ -58,6 +65,7 @@ export function PermissionMatrix({
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
+
         {breadcrumb && (
           <div className="mb-3">
             <Breadcrumb items={breadcrumb} />
@@ -84,6 +92,7 @@ export function PermissionMatrix({
                 ))}
               </tr>
             </thead>
+
             <tbody className="divide-y divide-border">
               {groups.map((g, gi) => (
                 <Fragment key={gi}>
@@ -109,13 +118,16 @@ export function PermissionMatrix({
                       ))}
                     </tr>
                   ))}
+
                 </Fragment>
               ))}
             </tbody>
           </table>
         </div>
+
         <Divider />
         <p className="text-xs text-muted">체크된 항목은 해당 역할에 접근 권한이 부여됨을 의미합니다.</p>
+
       </div>
     </div>
   )
