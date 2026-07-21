@@ -81,11 +81,11 @@ export type { FileExplorerProps, FileExplorerItem } from './business/FileExplore
 export { GlobalSearchResults } from './business/GlobalSearchResults'
 export type { GlobalSearchResultsProps, SearchResultGroup, SearchResultItem } from './business/GlobalSearchResults'
 
-export { RolesPermissionsMatrix } from './business/RolesPermissionsMatrix'
-export type { RolesPermissionsMatrixProps, PermissionRole, PermissionRow } from './business/RolesPermissionsMatrix'
-export { TicketDetail } from './business/TicketDetail'
-export type { TicketDetailProps, TicketMessage } from './business/TicketDetail'
-export { VersionCompare } from './business/VersionCompare'
-export type { VersionCompareProps, CompareField, CompareChangeType } from './business/VersionCompare'
+export { DocumentPrint } from './business/DocumentPrint'
+export type { DocumentPrintProps, DocumentPrintParty, DocumentPrintLineItem, DocumentPrintSummaryItem } from './business/DocumentPrint'
+export { BulkImport } from './business/BulkImport'
+export type { BulkImportProps, ImportColumnMapping, ImportValidationRow } from './business/BulkImport'
+export { DiffView } from './business/DiffView'
+export type { DiffViewProps, DiffField, DiffFieldStatus } from './business/DiffView'
 
 export type { DetailField } from './business/types'
