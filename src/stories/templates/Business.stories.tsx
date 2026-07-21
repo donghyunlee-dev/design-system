@@ -12,6 +12,7 @@ import { MasterDetail } from '../../templates/business/MasterDetail'
 import { WizardForm } from '../../templates/business/WizardForm'
 import { ApprovalView } from '../../templates/business/ApprovalView'
 import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
+import { DocsHub } from '../../templates/business/DocsHub'
 import { KanbanBoard } from '../../templates/business/KanbanBoard'
 import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
 import { ScheduleCalendar, ScheduleDay } from '../../templates/business/ScheduleCalendar'
@@ -751,6 +752,79 @@ export const DocCatalog: Story = {
             },
           ],
         },
+      ]}
+    />
+  ),
+}
+
+export const DocsHome: Story = {
+  name: 'Docs Hub',
+  render: () => (
+    <DocsHub
+      title="사내 시스템 문서 홈"
+      description="ERP·OMS·WMS·PRM·그룹웨어 사용 매뉴얼과 API 문서를 한 곳에서 찾아보세요."
+      breadcrumb={[{ label: '지원', href: '#' }, { label: '시스템 문서 홈' }]}
+      activeItemId="erp-po"
+      sections={[
+        {
+          id: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 'erp-po', label: '발주 등록 가이드' },
+            { id: 'erp-voucher', label: '전표 처리 가이드' },
+            { id: 'erp-master', label: '거래처 마스터 관리' },
+          ],
+        },
+        {
+          id: 'oms',
+          label: 'OMS',
+          items: [
+            { id: 'oms-order', label: '주문 접수·처리' },
+            { id: 'oms-ship', label: '배송 상태 관리' },
+          ],
+        },
+        {
+          id: 'wms',
+          label: 'WMS',
+          items: [
+            { id: 'wms-in', label: '입고 처리 가이드' },
+            { id: 'wms-stock', label: '재고 실사 절차' },
+          ],
+        },
+        {
+          id: 'prm',
+          label: 'PRM',
+          items: [
+            { id: 'prm-partner', label: '협력사 등록·관리' },
+          ],
+        },
+        {
+          id: 'groupware',
+          label: '그룹웨어',
+          items: [
+            { id: 'gw-leave', label: '연차·근태 신청' },
+            { id: 'gw-approval', label: '전자결재 이용 안내' },
+          ],
+        },
+      ]}
+      featuredTitle="많이 찾는 가이드"
+      featured={[
+        { id: 'g1', icon: '🧾', system: 'ERP', title: '발주 등록 가이드', description: '거래처·품목·수량을 입력해 신규 발주를 생성하는 방법을 안내합니다.' },
+        { id: 'g2', icon: '📦', system: 'OMS', title: '주문 접수·처리', description: '접수된 주문을 확인하고 피킹·출고 단계로 전환하는 절차입니다.' },
+        { id: 'g3', icon: '🏭', system: 'WMS', title: '재고 실사 절차', description: '월간 재고 실사 시 오차를 확인하고 반영하는 방법을 설명합니다.' },
+        { id: 'g4', icon: '🤝', system: 'PRM', title: '협력사 등록·관리', description: '신규 협력사를 등록하고 계약·평가 정보를 관리하는 방법입니다.' },
+        { id: 'g5', icon: '🗂️', system: '그룹웨어', title: '전자결재 이용 안내', description: '기안부터 최종 승인까지 전자결재 진행 방법을 안내합니다.' },
+        { id: 'g6', icon: '🔌', system: 'ERP', title: 'ERP 발주 API 연동', description: 'POST /api/v1/purchase-orders 호출 규격과 응답 예시를 제공합니다.' },
+      ]}
+      quickLinks={[
+        { id: 'q1', label: 'IT 헬프데스크 문의', description: '평일 09:00~18:00 · 내선 1234' },
+        { id: 'q2', label: '팀즈 #it-support 채널', description: 'Microsoft Teams' },
+        { id: 'q3', label: '전체 API 문서 보기', description: 'ERP·OMS·WMS·PRM API 레퍼런스' },
+      ]}
+      announcements={[
+        { id: 'n1', title: 'ERP 전표 화면 UI 개편 안내', date: '2026-07-18', tag: '공지' },
+        { id: 'n2', title: 'WMS 재고 실사 일정 변경', date: '2026-07-15' },
+        { id: 'n3', title: '그룹웨어 정기 점검 (매주 일요일 02:00~04:00)', date: '2026-07-10', tag: '점검' },
       ]}
     />
   ),
