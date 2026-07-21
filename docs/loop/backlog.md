@@ -1,6 +1,7 @@
 ---
 type: backlog
 
+
 last_updated: 2026-07-16
 
 
@@ -25,7 +26,6 @@ last_updated: 2026-07-16
 | B005 | Notification / Inbox Center 템플릿 (알림·메시지함) | pm-proposed | 완료 | 커버리지 갭 분석 결과, `src/templates/business/`에 알림·요청·메시지를 읽음/안읽음 상태로 모아 처리하는 인박스 레이아웃이 부재. ERP(Enterprise Resource Planning) 시스템 알림, 승인 요청 알림, 그룹웨어·팀즈(Microsoft Teams) 메시지 인박스 등 내부 업무 시스템 재활용도가 높음. ApprovalView(단건 승인)·ActivityTimeline(단일 대상 이력)과 목적이 구분됨. 기존 List/Card/Tag/Avatar/StatusBadge/Stack으로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
 | B006 | File Manager / Document Explorer 템플릿 (자료실·첨부 탐색기) | pm-proposed | 완료 | 폴더·파일을 브레드크럼 경로와 목록/그리드로 탐색하고 파일 액션을 수행하는 자료실 레이아웃이 부재. WMS(Warehouse Management System) 문서, ERP 첨부, 계약·매뉴얼 자료실 등에 재활용도가 높음. DocumentCatalog(목차+본문 열람)와 달리 파일/폴더 탐색·관리가 목적으로 중복 없음. B001 조사 시 범위 밖으로 남긴 File Explorer 패턴에 해당. 기존 Table/Card/Breadcrumb/Tag/DropdownMenu/Grid로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
 | B007 | Global Search Results 템플릿 (통합 검색 결과) | pm-proposed | 완료 | 여러 엔티티(주문·파트너·문서 등)를 가로지르는 통합 검색 결과를 좌측 패싯 필터 + 그룹화된 결과 목록으로 표시하는 레이아웃이 부재. ERP·OMS(Order Management System)·WMS 통합 검색에 재활용 가능. ListSearchTable(단일 엔티티 필터 테이블)과 달리 크로스-엔티티 그룹 결과가 목적으로 중복 없음. 기존 List/Card/Tag/Breadcrumb/Divider/Stack으로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
-| B008 | Data Import / Column Mapping 템플릿 (대량 데이터 적재) | pm-proposed | 완료 | 커버리지 갭 분석 결과, CSV·Excel 파일 업로드 후 원본 컬럼을 시스템 필드에 매핑하고 검증 결과를 미리보기로 확인한 뒤 적재하는 대량 데이터 임포트 레이아웃이 부재. ERP(Enterprise Resource Planning) 마스터 데이터 적재, WMS(Warehouse Management System) 재고 일괄 등록, OMS(Order Management System) 주문 일괄 업로드 등 내부 업무 시스템 재활용도가 높음. WizardForm(범용 다단계 입력 폼)과 달리 컬럼 매핑·검증 미리보기 그리드가 핵심 목적이라 중복 없음. 기존 Stepper/Table/Select/Tag/StatusBadge/Card/Stack으로 재구현 가능. | 2026-07-18 | cycles/2026-07-18.md |
-| B009 | Permission / Role Matrix 템플릿 (접근권한 관리) | pm-proposed | 완료 | 역할(Role) × 리소스/기능을 체크박스 격자로 교차 편집하는 접근권한 관리(RBAC) 레이아웃이 부재. ERP·OMS·WMS·PRM(Partner Management System) 등 다수 시스템에서 역할별 권한 매트릭스가 반복적으로 필요함. SettingsPage(범용 키-값 설정 토글)와 달리 역할×권한 교차 격자 편집이 핵심 목적이라 중복 없음. 기존 Table/Checkbox/Tag/Avatar/Divider/Stack으로 재구현 가능. | 2026-07-18 | cycles/2026-07-18.md |
-| B010 | Comparison / Diff View 템플릿 (버전·이력 비교) | pm-proposed | 완료 | 두 버전·레코드를 좌우 나란히 비교하고 변경(추가/삭제/수정) 항목을 강조 표시하는 대조 레이아웃이 부재. ERP 문서 개정 비교, 계약·사양서 버전 대조, 승인 전후 값 비교 등에 재활용도가 높음. MasterDetail(목록+단건 상세)·DetailView(단건 조회)와 달리 두 대상의 필드 단위 차이 강조가 핵심 목적이라 중복 없음. 기존 Grid/Card/Tag/StatusBadge/Divider/Stack으로 재구현 가능. | 2026-07-18 | cycles/2026-07-18.md |
-
+| B008 | Roles & Permissions Matrix 템플릿 (역할·권한 관리 매트릭스) | pm-proposed | 완료 | 커버리지 갭 분석 결과, `src/templates/business/`(17종)에 역할별로 리소스·기능 권한을 격자(행=권한/열=역할 또는 그 반대)로 부여·관리하는 접근제어 레이아웃이 부재. ERP(Enterprise Resource Planning)·OMS(Order Management System)·WMS(Warehouse Management System) 사용자 권한 관리, PRM(Partner Management System) 파트너 등급별 접근 제어 등 내부 업무 시스템 재활용도가 높음. SettingsPage(일반 환경설정 폼)와 목적이 구분됨. 기존 Table/Checkbox/Switch/Tag/StatusBadge/Card/Stack으로 재구현 가능. | 2026-07-19 | cycles/2026-07-19.md |
+| B009 | Help Desk / Ticket Detail 템플릿 (문의·티켓 상세 대화 스레드) | pm-proposed | 완료 | 단일 문의·요청 건을 상태·담당자·SLA와 함께 시간순 대화 스레드로 처리하는 헬프데스크 상세 레이아웃이 부재. PRM 파트너 문의, 사내 IT 헬프데스크, 그룹웨어·팀즈(Microsoft Teams) 연동 요청 처리 등에 재활용도가 높음. InboxCenter(다건 알림 목록)·ActivityTimeline(감사 이력)과 달리 양방향 대화 처리 + 상태 전환이 목적으로 중복 없음. 기존 Card/Avatar/Tag/StatusBadge/Divider/Textarea/Button/Stack으로 재구현 가능. | 2026-07-19 | cycles/2026-07-19.md |
+| B010 | Version / Change Compare 템플릿 (버전·변경 비교 뷰) | pm-proposed | 완료 | 두 버전·레코드를 좌우로 나란히 놓고 변경(추가/삭제/수정) 항목을 강조 표시하는 비교 레이아웃이 부재. 계약서 개정 대조, ERP 설정 변경 승인, 발주·사양 변경 전후 비교 등 내부통제·승인 흐름에서 재활용도가 높음. DetailView(단건 상세)·ApprovalView(단건 승인)와 달리 두 상태 대조가 목적으로 중복 없음. 기존 Grid/Card/Tag/StatusBadge/Divider/Stack으로 재구현 가능. | 2026-07-19 | cycles/2026-07-19.md |

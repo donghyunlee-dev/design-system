@@ -81,17 +81,11 @@ export type { FileExplorerProps, FileExplorerItem } from './business/FileExplore
 export { GlobalSearchResults } from './business/GlobalSearchResults'
 export type { GlobalSearchResultsProps, SearchResultGroup, SearchResultItem } from './business/GlobalSearchResults'
 
-export { DataImportMapping } from './business/DataImportMapping'
-export type {
-  DataImportMappingProps,
-  ImportColumnMapping,
-  ImportFieldOption,
-  ImportPreviewColumn,
-  ImportPreviewRow,
-} from './business/DataImportMapping'
-export { PermissionMatrix } from './business/PermissionMatrix'
-export type { PermissionMatrixProps, PermissionRole, PermissionResource } from './business/PermissionMatrix'
-export { ComparisonDiffView } from './business/ComparisonDiffView'
-export type { ComparisonDiffViewProps, DiffField, DiffChangeType } from './business/ComparisonDiffView'
+export { RolesPermissionsMatrix } from './business/RolesPermissionsMatrix'
+export type { RolesPermissionsMatrixProps, PermissionRole, PermissionRow } from './business/RolesPermissionsMatrix'
+export { TicketDetail } from './business/TicketDetail'
+export type { TicketDetailProps, TicketMessage } from './business/TicketDetail'
+export { VersionCompare } from './business/VersionCompare'
+export type { VersionCompareProps, CompareField, CompareChangeType } from './business/VersionCompare'
 
 export type { DetailField } from './business/types'

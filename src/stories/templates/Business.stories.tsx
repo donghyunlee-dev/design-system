@@ -18,10 +18,10 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
-
-import { DataImportMapping, ImportColumnMapping } from '../../templates/business/DataImportMapping'
-import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
-import { ComparisonDiffView } from '../../templates/business/ComparisonDiffView'
+ 
+import { RolesPermissionsMatrix } from '../../templates/business/RolesPermissionsMatrix'
+import { TicketDetail } from '../../templates/business/TicketDetail'
+import { VersionCompare } from '../../templates/business/VersionCompare'
 
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
@@ -974,117 +974,104 @@ export const Search: Story = {
   ),
 }
 
-export const DataImport: Story = {
-
-  name: 'Data Import Mapping',
+export const RolesPermissions: Story = {
+  name: 'Roles & Permissions Matrix',
   render: () => {
-    function DataImportDemo() {
-      const [mappings, setMappings] = useState<ImportColumnMapping[]>([
-        { id: 'm1', sourceColumn: '품목코드', sampleValue: 'P-1029', targetField: 'sku', required: true },
-        { id: 'm2', sourceColumn: '품목명', sampleValue: '쌀 (20kg)', targetField: 'name', required: true },
-        { id: 'm3', sourceColumn: '입고수량', sampleValue: '500', targetField: 'qty', required: true },
-        { id: 'm4', sourceColumn: '창고', sampleValue: '서울1창고', targetField: '' },
-        { id: 'm5', sourceColumn: '비고', sampleValue: '7월 정기입고', targetField: 'memo' },
-      ])
-      return (
-        <DataImportMapping
-          title="재고 일괄 등록"
-          breadcrumb={[{ label: 'WMS', href: '#' }, { label: '재고 일괄 등록' }]}
-          steps={['업로드', '컬럼 매핑', '검증 미리보기', '완료']}
-          currentStep={1}
-          fileName="stock_import_20260718.xlsx"
-          mappings={mappings}
-          fieldOptions={[
-            { value: 'sku', label: '품목코드 (SKU)' },
-            { value: 'name', label: '품목명' },
-            { value: 'qty', label: '수량' },
-            { value: 'warehouse', label: '창고' },
-            { value: 'memo', label: '비고' },
-          ]}
-          onMappingChange={(id, targetField) =>
-            setMappings(prev => prev.map(m => (m.id === id ? { ...m, targetField } : m)))
-          }
-          previewColumns={[
-            { key: 'sku', header: '품목코드' },
-            { key: 'name', header: '품목명' },
-            { key: 'qty', header: '수량' },
-          ]}
-          previewRows={[
-            { id: 'r1', values: { sku: 'P-1029', name: '쌀 (20kg)', qty: 500 }, status: 'success' },
-            { id: 'r2', values: { sku: 'P-1030', name: '콩나물', qty: 0 }, status: 'warning', message: '수량 0 확인 필요' },
-            { id: 'r3', values: { sku: '-', name: '두부', qty: 30 }, status: 'error', message: '품목코드 누락' },
-          ]}
-          summary={{ total: 3, success: 1, warning: 1, error: 1 }}
-          onBack={() => alert('이전 단계로 이동')}
-          onNext={() => alert('적재를 시작합니다')}
-          nextLabel="적재 시작"
-        />
-      )
-    }
-    return <DataImportDemo />
+    const roles = [
+      { key: 'admin', label: '관리자', description: '전체 시스템 관리' },
+      { key: 'manager', label: '팀장', description: '팀 단위 승인·조회' },
+      { key: 'staff', label: '실무자', description: '입력·조회' },
+      { key: 'partner', label: '파트너', description: '자사 발주만 조회' },
+    ]
+    const rows = [
+      { key: 'order-view', label: '주문 조회', group: 'OMS' },
+      { key: 'order-edit', label: '주문 등록·수정', group: 'OMS' },
+      { key: 'order-approve', label: '주문 승인', group: 'OMS' },
+      { key: 'wms-inbound', label: '입고 처리', group: 'WMS' },
+      { key: 'wms-stock', label: '재고 조정', group: 'WMS' },
+      { key: 'partner-manage', label: '파트너 등급 관리', group: 'PRM' },
+    ]
+    const [granted, setGranted] = useState<Record<string, boolean>>({
+      'order-view:admin': true, 'order-view:manager': true, 'order-view:staff': true, 'order-view:partner': true,
+      'order-edit:admin': true, 'order-edit:manager': true, 'order-edit:staff': true,
+      'order-approve:admin': true, 'order-approve:manager': true,
+      'wms-inbound:admin': true, 'wms-inbound:manager': true, 'wms-inbound:staff': true,
+      'wms-stock:admin': true, 'wms-stock:manager': true,
+      'partner-manage:admin': true,
+    })
+    return (
+      <RolesPermissionsMatrix
+        title="역할·권한 관리"
+        roles={roles}
+        rows={rows}
+        granted={granted}
+        onToggle={(rowKey, roleKey, next) =>
+          setGranted(prev => ({ ...prev, [`${rowKey}:${roleKey}`]: next }))
+        }
+        actions={<Button variant="primary" size="sm">저장</Button>}
+      />
+    )
   },
 }
 
-export const Permission: Story = {
-  name: 'Permission Matrix',
-  render: () => {
-    function PermissionDemo() {
-      const [permissions, setPermissions] = useState<Record<string, Record<string, boolean>>>({
-        r1: { admin: true, manager: true, staff: true, partner: false },
-        r2: { admin: true, manager: true, staff: false, partner: false },
-        r3: { admin: true, manager: false, staff: false, partner: false },
-        r4: { admin: true, manager: true, staff: true, partner: true },
-        r5: { admin: true, manager: true, staff: false, partner: false },
-      })
-      return (
-        <PermissionMatrix
-          title="시스템 접근권한 관리"
-          breadcrumb={[{ label: '설정', href: '#' }, { label: '접근권한 관리' }]}
-          roles={[
-            { id: 'admin', label: '관리자', meta: '3명' },
-            { id: 'manager', label: '매니저', meta: '12명' },
-            { id: 'staff', label: '실무자', meta: '48명' },
-            { id: 'partner', label: '파트너사', meta: '21개사' },
-          ]}
-          resources={[
-            { id: 'r1', label: '주문 조회', group: 'OMS' },
-            { id: 'r2', label: '주문 수정', group: 'OMS' },
-            { id: 'r3', label: '재고 마스터 수정', group: 'WMS' },
-            { id: 'r4', label: '출고 현황 조회', group: 'WMS' },
-            { id: 'r5', label: '거래처 정보 관리', group: 'PRM' },
-          ]}
-          permissions={permissions}
-          onToggle={(resourceId, roleId, value) =>
-            setPermissions(prev => ({
-              ...prev,
-              [resourceId]: { ...prev[resourceId], [roleId]: value },
-            }))
-          }
-        />
-      )
-    }
-    return <PermissionDemo />
-  },
-}
-
-export const Comparison: Story = {
-  name: 'Comparison Diff View',
+export const Ticket: Story = {
+  name: 'Ticket Detail',
   render: () => (
-    <ComparisonDiffView
-      title="발주서 버전 비교"
-      breadcrumb={[{ label: 'ERP', href: '#' }, { label: '발주서 버전 비교' }]}
-      leftLabel="버전 1 (2026-06-01)"
-      rightLabel="버전 2 (2026-07-10)"
-      leftStatus="inactive"
-      rightStatus="active"
-      fields={[
-        { label: '품목명', before: '쌀 (20kg)', after: '쌀 (20kg)', changeType: 'unchanged' },
-        { label: '수량', before: '400개', after: '500개', changeType: 'modified' },
-        { label: '단가', before: '44,000원', after: '45,000원', changeType: 'modified' },
-        { label: '납품 창고', before: '서울1창고', after: '서울1창고', changeType: 'unchanged' },
-        { label: '특이사항', before: '-', after: '7월 생산계획 대비 원자재 선행 확보', changeType: 'added' },
-        { label: '분할 납품 여부', before: '분할 납품 (2회)', after: '-', changeType: 'removed' },
+    <TicketDetail
+      ticketNo="TCK-2026-0317"
+      title="발주 시스템 로그인 오류 문의"
+      status="pending"
+      statusLabel="처리중"
+      requester={{ name: '김파트너', initials: '김', meta: '(주)한국식품 · 거래처코드 P-0021' }}
+      assignee={{ name: '이지원', initials: '이' }}
+      tags={['로그인', 'P2']}
+      messages={[
+        {
+          id: 'm1',
+          author: { name: '김파트너', initials: '김' },
+          time: '2026-07-19 09:12',
+          content: 'PRM 포털에 로그인이 안 됩니다. 비밀번호를 재설정했는데도 동일한 오류가 발생합니다.',
+        },
+        {
+          id: 'm2',
+          author: { name: '이지원', initials: '이' },
+          isAgent: true,
+          time: '2026-07-19 09:40',
+          content: '확인 감사합니다. 계정 잠금 여부를 확인 중입니다. 잠시만 기다려 주세요.',
+        },
+        {
+          id: 'm3',
+          author: { name: '이지원', initials: '이' },
+          isAgent: true,
+          time: '2026-07-19 10:05',
+          content: '계정 잠금을 해제했습니다. 다시 로그인을 시도해 주시기 바랍니다.',
+        },
+      ]}
+      onSendReply={() => {}}
+      onStatusChange={() => {}}
+      statusActions={[
+        { key: 'resolved', label: '해결 완료로 변경' },
+        { key: 'closed', label: '티켓 종료' },
+      ]}
+    />
+  ),
+}
 
+export const VersionDiff: Story = {
+  name: 'Version Compare',
+  render: () => (
+    <VersionCompare
+      title="발주 사양 변경 비교"
+      beforeLabel="v1 (2026-07-01 제출)"
+      afterLabel="v2 (2026-07-15 수정)"
+      actions={<Button variant="primary" size="sm">v2 승인</Button>}
+      fields={[
+        { key: 'item', label: '품목', before: '쌀 20kg', after: '쌀 20kg', changeType: 'unchanged' },
+        { key: 'qty', label: '수량', before: '500박스', after: '650박스', changeType: 'modified' },
+        { key: 'price', label: '단가', before: '48,000원', after: '46,500원', changeType: 'modified' },
+        { key: 'delivery', label: '납기일', before: '2026-08-01', after: '2026-08-01', changeType: 'unchanged' },
+        { key: 'discount', label: '특별 할인', before: '', after: '대량 구매 3% 할인', changeType: 'added' },
+        { key: 'note', label: '비고', before: '기존 계약 조건 유지', after: '', changeType: 'removed' },
       ]}
     />
   ),
