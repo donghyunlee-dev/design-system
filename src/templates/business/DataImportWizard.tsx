@@ -1,199 +1,185 @@
-import { useState } from 'react'
-import { Stepper } from '../../components/navigation/Stepper'
-import { Button } from '../../components/foundation/Button'
-import { FileUpload } from '../../components/form/FileUpload'
-import { Select } from '../../components/form/Select'
-import { Table, Column } from '../../components/data/Table'
-import { StatusBadge } from '../../components/foundation/StatusBadge'
-import { Tag } from '../../components/data/Tag'
+
+import { ReactNode } from 'react'
 import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
+import { Stepper } from '../../components/navigation/Stepper'
+import { FileUpload } from '../../components/form/FileUpload'
+import { Table, Column } from '../../components/data/Table'
+import { Alert } from '../../components/feedback/Alert'
+import { Progress } from '../../components/feedback/Progress'
+import { StatusBadge } from '../../components/foundation/StatusBadge'
+import { Button } from '../../components/foundation/Button'
+import { Stack } from '../../components/layout/Stack'
 import { cn } from '../../utils/cn'
 
-/** 임포트 대상 필드 정의 */
-export interface ImportTargetField {
-  key: string
-  label: string
+export interface ImportColumnMapping extends Record<string, unknown> {
+  id: string
+  /** 업로드 파일의 원본 컬럼명 */
+  sourceColumn: string
+  /** 매핑될 시스템 필드명 */
+  targetField: string
   required?: boolean
 }
 
-/** 업로드 파일의 원본 컬럼 → 대상 필드 매핑 */
-export interface ImportColumnMapping extends Record<string, unknown> {
-  sourceColumn: string
-  /** 매핑된 대상 필드 키. 미매핑 시 null */
-  targetKey: string | null
-}
-
-/** 검증 결과 행 (미리보기) */
-export interface ImportValidationRow extends Record<string, unknown> {
-  rowNumber: number
-  /** 컬럼 키 -> 값 */
-  cells: Record<string, string>
+export interface ImportPreviewRow extends Record<string, unknown> {
+  id: string | number
   status: 'valid' | 'warning' | 'error'
+  /** 경고/오류 메시지 (있는 경우) */
   message?: string
 }
 
 export interface DataImportWizardProps {
-  title: string
+  title?: string
   breadcrumb?: BreadcrumbItem[]
+  /** 현재 단계 인덱스 (0: 업로드, 1: 컬럼 매핑, 2: 검증, 3: 완료) */
+  step: number
+  onFileChange?: (files: FileList | null) => void
   fileName?: string
-  onFileSelect?: (files: FileList | null) => void
-  targetFields: ImportTargetField[]
-  mapping: ImportColumnMapping[]
-  onMappingChange?: (sourceColumn: string, targetKey: string | null) => void
-  validationRows: ImportValidationRow[]
-  importedCount?: number
-  onImport?: () => void
-  onCancel?: () => void
+  fileSize?: string
+  mappings?: ImportColumnMapping[]
+  /** 검증 미리보기에 표시할 원본 컬럼 (상태/메시지 컬럼은 자동 추가) */
+  previewColumns?: { key: string; header: string }[]
+  previewRows?: ImportPreviewRow[]
+  /** 데이터 적재(커밋) 진행률 (0~100) */
+  commitProgress?: number
+  onPrev?: () => void
+  onNext?: () => void
+  nextLabel?: string
+  actions?: ReactNode
   className?: string
 }
 
-const STEP_LABELS = ['파일 업로드', '컬럼 매핑', '검증 결과', '완료']
+const STEP_LABELS = ['업로드', '컬럼 매핑', '검증', '완료']
 
 export function DataImportWizard({
-  title,
+  title = '데이터 일괄 업로드',
   breadcrumb,
+  step,
+  onFileChange,
   fileName,
-  onFileSelect,
-  targetFields,
-  mapping,
-  onMappingChange,
-  validationRows,
-  importedCount,
-  onImport,
-  onCancel,
+  fileSize,
+  mappings,
+  previewColumns,
+  previewRows,
+  commitProgress,
+  onPrev,
+  onNext,
+  nextLabel,
+  actions,
   className,
 }: DataImportWizardProps) {
-  const [current, setCurrent] = useState(0)
-
-  const errorCount = validationRows.filter(r => r.status === 'error').length
-  const warningCount = validationRows.filter(r => r.status === 'warning').length
+  const summary = previewRows
+    ? {
+        total: previewRows.length,
+        error: previewRows.filter(r => r.status === 'error').length,
+        warning: previewRows.filter(r => r.status === 'warning').length,
+      }
+    : null
 
   const mappingColumns: Column<ImportColumnMapping>[] = [
     { key: 'sourceColumn', header: '원본 컬럼' },
+    { key: 'targetField', header: '매핑 필드' },
     {
-      key: 'targetKey',
-      header: '대상 필드',
-      render: row => (
-        <Select
-          value={row.targetKey ?? ''}
-          onChange={e => onMappingChange?.(row.sourceColumn, e.target.value || null)}
-          options={targetFields.map(f => ({ value: f.key, label: f.required ? `${f.label} *` : f.label }))}
-          placeholder="매핑 안 함"
-        />
-      ),
+      key: 'required',
+      header: '필수',
+      width: '80px',
+      render: m => (m.required
+        ? <span className="text-xs font-medium text-danger">필수</span>
+        : <span className="text-xs text-muted">선택</span>),
     },
   ]
 
-  const previewColumns: Column<ImportValidationRow>[] = [
-    { key: 'rowNumber', header: '행', width: '60px' },
-    ...mapping
-      .filter(m => m.targetKey)
-      .map((m): Column<ImportValidationRow> => ({
-        key: m.targetKey as string,
-        header: targetFields.find(f => f.key === m.targetKey)?.label ?? m.targetKey!,
-        render: row => row.cells[m.targetKey as string] ?? '',
-      })),
+  const previewTableColumns: Column<ImportPreviewRow>[] = [
     {
       key: 'status',
       header: '상태',
-      width: '140px',
-      render: row => (
-        <div className="flex items-center gap-2">
-          <StatusBadge
-            status={row.status === 'valid' ? 'success' : row.status === 'warning' ? 'warning' : 'error'}
-            label={row.status === 'valid' ? '정상' : row.status === 'warning' ? '경고' : '오류'}
-          />
-          {row.message && <Tag>{row.message}</Tag>}
-        </div>
+      width: '90px',
+      render: r => (
+        <StatusBadge
+          status={r.status === 'valid' ? 'success' : r.status === 'warning' ? 'warning' : 'error'}
+          label={r.status === 'valid' ? '정상' : r.status === 'warning' ? '경고' : '오류'}
+        />
       ),
     },
+    ...(previewColumns ?? []).map(c => ({
+      key: c.key,
+      header: c.header,
+      render: (r: ImportPreviewRow) => String(r[c.key] ?? '-'),
+    })),
+    { key: 'message', header: '메시지', render: r => (r.message ? <span className="text-xs text-muted">{r.message}</span> : '-') },
   ]
-
-  const canProceed = current !== 2 || errorCount === 0
-
-  const handleNext = () => {
-    if (current === 3) return
-    setCurrent(c => c + 1)
-  }
-  const handlePrev = () => setCurrent(c => c - 1)
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-4xl mx-auto px-[var(--page-padding)] py-6">
-        {breadcrumb && (
-          <div className="mb-3">
-            <Breadcrumb items={breadcrumb} />
-          </div>
-        )}
-        <h1 className="text-2xl font-bold text-foreground mb-6">{title}</h1>
-
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 flex justify-center overflow-x-auto">
-          <Stepper steps={STEP_LABELS} current={current} />
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+          {actions && <div className="flex gap-2">{actions}</div>}
         </div>
 
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 min-h-[320px]">
-          {current === 0 && (
-            <div className="space-y-4">
-              <FileUpload
-                label="CSV 또는 Excel 파일을 선택하거나 드래그하세요"
-                accept=".csv,.xlsx,.xls"
-                onChange={onFileSelect}
-              />
+        {breadcrumb && <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>}
+
+        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 flex justify-center overflow-x-auto">
+          <Stepper steps={STEP_LABELS} current={step} />
+        </div>
+
+        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 min-h-[280px]">
+          {step === 0 && (
+            <Stack gap={4}>
+              <FileUpload accept=".csv,.xlsx" label="CSV 또는 Excel 파일을 선택하거나 끌어다 놓으세요" onChange={onFileChange} />
               {fileName && (
                 <p className="text-sm text-foreground">
-                  선택된 파일: <span className="font-medium">{fileName}</span>
+                  선택한 파일: <span className="font-medium">{fileName}</span>
+                  {fileSize && <span className="text-muted"> ({fileSize})</span>}
                 </p>
               )}
-            </div>
+            </Stack>
           )}
 
-          {current === 1 && (
-            <div>
-              <p className="text-sm text-muted mb-4">업로드한 파일의 컬럼을 대상 필드에 매핑하세요.</p>
-              <Table columns={mappingColumns} data={mapping} rowKey="sourceColumn" />
-            </div>
+          {step === 1 && mappings && (
+            <Stack gap={3}>
+              <p className="text-sm text-muted">업로드한 파일의 컬럼을 시스템 필드에 매핑하세요.</p>
+              <Table columns={mappingColumns} data={mappings} rowKey="id" />
+            </Stack>
           )}
 
-          {current === 2 && (
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <p className="text-sm text-muted">전체 {validationRows.length}건 미리보기</p>
-                {warningCount > 0 && <Tag>경고 {warningCount}건</Tag>}
-                {errorCount > 0 && <Tag>오류 {errorCount}건</Tag>}
-              </div>
-              <Table columns={previewColumns} data={validationRows} rowKey="rowNumber" />
-              {errorCount > 0 && (
-                <p className="text-sm text-danger mt-4 font-medium">
-                  오류가 있는 행이 있어 반영할 수 없습니다. 원본 파일을 수정한 뒤 다시 업로드해 주세요.
-                </p>
+          {step === 2 && previewRows && (
+            <Stack gap={3}>
+              {summary && summary.error > 0 && (
+                <Alert variant="danger" title="검증 오류가 있습니다">
+                  총 {summary.total}건 중 오류 {summary.error}건, 경고 {summary.warning}건이 확인되었습니다. 오류 건은 적재에서 제외됩니다.
+                </Alert>
               )}
-            </div>
+              {summary && summary.error === 0 && summary.warning > 0 && (
+                <Alert variant="warning" title="확인이 필요한 경고가 있습니다">
+                  총 {summary.total}건 중 경고 {summary.warning}건이 확인되었습니다.
+                </Alert>
+              )}
+              {summary && summary.error === 0 && summary.warning === 0 && (
+                <Alert variant="success" title="검증을 통과했습니다">
+                  총 {summary.total}건 모두 정상입니다.
+                </Alert>
+              )}
+              <Table columns={previewTableColumns} data={previewRows} rowKey="id" />
+            </Stack>
           )}
 
-          {current === 3 && (
-            <div className="flex flex-col items-center justify-center h-56 gap-3">
-              <div className="text-4xl">✅</div>
-              <p className="text-lg font-semibold text-foreground">일괄 반영이 완료되었습니다</p>
-              <p className="text-sm text-muted">총 {importedCount ?? validationRows.length}건 반영</p>
-            </div>
+          {step === 3 && (
+            <Stack gap={4}>
+              <Progress value={commitProgress ?? 100} />
+              <p className="text-sm text-foreground">
+                {(commitProgress ?? 100) >= 100
+                  ? `적재가 완료되었습니다. 총 ${summary?.total ?? 0}건이 반영되었습니다.`
+                  : `데이터 적재 중입니다... (${commitProgress ?? 0}%)`}
+              </p>
+            </Stack>
           )}
         </div>
 
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={current === 0 ? onCancel : handlePrev} disabled={current === 3}>
-            {current === 0 ? '취소' : '이전'}
+          <Button variant="secondary" onClick={onPrev} disabled={step === 0}>이전</Button>
+          <Button variant="primary" onClick={onNext} disabled={step === STEP_LABELS.length - 1}>
+            {nextLabel ?? (step === STEP_LABELS.length - 2 ? '적재 시작' : '다음')}
           </Button>
-          {current < 3 ? (
-            <Button
-              variant="primary"
-              onClick={current === 2 ? () => { onImport?.(); handleNext() } : handleNext}
-              disabled={!canProceed}
-            >
-              {current === 2 ? '반영하기' : '다음'}
-            </Button>
-          ) : (
-            <Button variant="primary" onClick={onCancel}>확인</Button>
-          )}
         </div>
       </div>
     </div>
