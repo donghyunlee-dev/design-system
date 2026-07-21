@@ -1,9 +1,17 @@
 ---
 type: backlog
 last_updated: 2026-07-15
----
 
-# 작업 후보 백로그
+
+# 디자인 시스템 갭 백로그
+
+이 파일은 더 이상 "새로 만들 템플릿 후보" 목록이 아니라, **디자인 시스템의 구조적 갭**을 추적하는 백로그다. 벤치마크 재현 평가(`docs/loop/benchmark-suite.md` 참고)에서 컴포넌트/토큰/패턴 부재가 발견되면 자동 등록되거나, 사람이 직접 필요한 항목을 등록한다.
+
+`source` 컬럼은 아래 두 값만 사용한다:
+- `human-added`: 사람이 직접 등록 (Consistency Check에서 일관성 위반으로 자동 업그레이드가 보류된 항목 포함)
+- `eval-found`: 벤치마크 재현 평가에서 발견된 구조적 갭(design-system-gap)
+
+과거에 사용되던 `pm-proposed`(에이전트가 즉흥적으로 신규 템플릿을 제안하는 경로)는 2026-07-14부로 폐지되었다. 아래 B002~B004, B005~B007은 폐지 이전에 등록된 항목으로, 과거 기록 보존을 위해 값은 그대로 둔다.
 
 | id | title | source | status | rationale | added_on | resolved_cycle |
 |---|---|---|---|---|---|---|
@@ -17,3 +25,4 @@ last_updated: 2026-07-15
 | B008 | Data Import / Bulk Upload 템플릿 (데이터 일괄 업로드·검증) | pm-proposed | 완료 | 커버리지 갭 분석 결과, CSV/Excel 파일을 업로드해 컬럼 매핑 → 검증 미리보기 → 적재를 수행하는 대량 데이터 가져오기 레이아웃이 부재. ERP(Enterprise Resource Planning) 마스터 적재, OMS(Order Management System) 주문 일괄 등록, WMS(Warehouse Management System) 재고 일괄 반영 등 내부 업무 시스템 재활용도가 높음. WizardForm(범용 다단계 입력폼)·FileExplorer(파일 탐색)와 달리 업로드→매핑→검증→커밋 파이프라인이 목적으로 중복 없음. 기존 FileUpload/Stepper/Table/Alert/Progress/StatusBadge/Stack으로 재구현 가능. | 2026-07-15 | cycles/2026-07-15.md |
 | B009 | Role & Permission Management 템플릿 (권한·역할 관리) | pm-proposed | 완료 | 역할 목록과 역할×권한 매트릭스(체크박스 그리드)로 접근 권한을 관리하는 RBAC(Role-Based Access Control) 레이아웃이 부재. ERP·OMS·PRM(Partner Management System)·WMS 등 모든 내부 시스템의 접근 제어 관리에 재활용도가 높음. SettingsPage(일반 환경설정 폼)·ApprovalView(단건 승인)와 달리 역할 기준 권한 매트릭스 관리가 목적으로 중복 없음. 기존 Table/Checkbox/Switch/Tag/Avatar/Card/Stack으로 재구현 가능. | 2026-07-15 | cycles/2026-07-15.md |
 | B010 | Help / Support Center 템플릿 (도움말·문의 센터) | pm-proposed | 완료 | 검색 + 카테고리 카드 + FAQ 아코디언 + 문의·티켓 채널을 갖춘 사내 자가 지원(self-service) 도움말 센터 레이아웃이 부재. 사내 IT 헬프데스크, 시스템 사용 매뉴얼 안내, 문의 접수 등에 재활용 가능. DocumentCatalog(문서 목차+본문 열람)와 달리 검색·FAQ·문의 접수 중심의 지원 허브가 목적으로 중복 없음. 기존 Card/Grid/Tag/Input/Breadcrumb/List/Divider/Stack으로 재구현 가능. | 2026-07-15 | cycles/2026-07-15.md |
+
