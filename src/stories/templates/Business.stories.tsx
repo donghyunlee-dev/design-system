@@ -18,9 +18,9 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
-import { DataImportWizard } from '../../templates/business/DataImportWizard'
-import { RoleAccessMatrix } from '../../templates/business/RoleAccessMatrix'
-import { HelpCenter } from '../../templates/business/HelpCenter'
+import { DataImportWizard, ImportColumnMapping, ImportPreviewRow } from '../../templates/business/DataImportWizard'
+import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
+import { ErrorState } from '../../templates/business/ErrorState'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -826,116 +826,93 @@ export const Files: Story = {
   ),
 }
 
-function DataImportWizardDemo() {
-  const [mapping, setMapping] = useState<ImportColumnMapping[]>([
-    { sourceColumn: '거래처명', targetKey: 'partnerName' },
-    { sourceColumn: '품목코드', targetKey: 'itemCode' },
-    { sourceColumn: '수량', targetKey: 'qty' },
-    { sourceColumn: '비고', targetKey: null },
-  ])
-  return (
-    <DataImportWizard
-      title="파트너 일괄 등록"
-      breadcrumb={[{ label: 'PRM', href: '#' }, { label: '파트너 일괄 등록' }]}
-      fileName="파트너_일괄등록_20260714.xlsx"
-      targetFields={[
-        { key: 'partnerName', label: '거래처명', required: true },
-        { key: 'itemCode', label: '품목코드', required: true },
-        { key: 'qty', label: '수량', required: true },
-      ]}
-      mapping={mapping}
-      onMappingChange={(sourceColumn, targetKey) =>
-        setMapping(prev => prev.map(m => (m.sourceColumn === sourceColumn ? { ...m, targetKey } : m)))
-      }
-      validationRows={[
-        { rowNumber: 1, cells: { partnerName: '(주)한국식품', itemCode: 'IT-001', qty: '50' }, status: 'valid' },
-        { rowNumber: 2, cells: { partnerName: '대한유통', itemCode: 'IT-002', qty: '0' }, status: 'warning', message: '수량 0건' },
-        { rowNumber: 3, cells: { partnerName: '', itemCode: 'IT-003', qty: '30' }, status: 'error', message: '거래처명 누락' },
-      ]}
-      importedCount={2}
-      onImport={() => {}}
-      onCancel={() => alert('취소')}
-    />
-  )
-}
+const importMappingInitial: ImportColumnMapping[] = [
+  { sourceColumn: '품목코드', targetField: 'itemCode' },
+  { sourceColumn: '품목명', targetField: 'itemName' },
+  { sourceColumn: '단위', targetField: '' },
+]
+const importPreviewRows: ImportPreviewRow[] = [
+  { id: 1, status: 'valid', message: '정상' },
+  { id: 2, status: 'warning', message: '단위 누락 — 기본값(EA) 적용' },
+  { id: 3, status: 'error', message: '품목코드 중복 (P-0021)' },
+]
 
 export const Import: Story = {
   name: 'Data Import Wizard',
-  render: () => <DataImportWizardDemo />,
+  render: () => {
+    const [mapping, setMapping] = useState(importMappingInitial)
+    const [fileName, setFileName] = useState<string | undefined>('품목마스터_202607.xlsx')
+    return (
+      <DataImportWizard
+        title="품목 마스터 일괄 등록"
+        fileName={fileName}
+        onUpload={files => setFileName(files?.[0]?.name)}
+        targetFieldOptions={[
+          { value: 'itemCode', label: '품목코드' },
+          { value: 'itemName', label: '품목명' },
+          { value: 'unit', label: '단위' },
+        ]}
+        mapping={mapping}
+        onMappingChange={(sourceColumn, targetField) =>
+          setMapping(prev => prev.map(m => (m.sourceColumn === sourceColumn ? { ...m, targetField } : m)))
+        }
+        previewRows={importPreviewRows}
+        summary={[
+          { label: '전체', value: '3건' },
+          { label: '반영 성공', value: '2건' },
+          { label: '반영 실패', value: '1건' },
+        ]}
+        onCancel={() => alert('취소')}
+        onSubmit={() => alert('반영 실행')}
+      />
+    )
+  },
 }
 
-function PermissionMatrixDemo() {
-  const [checked, setChecked] = useState<Record<string, Record<string, boolean>>>({
-    admin: { view: true, create: true, edit: true, delete: true, approve: true },
-    manager: { view: true, create: true, edit: true, delete: false, approve: true },
-    staff: { view: true, create: true, edit: false, delete: false, approve: false },
-    viewer: { view: true, create: false, edit: false, delete: false, approve: false },
-  })
-  return (
-    <PermissionMatrix
-      title="시스템 접근 권한 관리"
-      breadcrumb={[{ label: '시스템 설정', href: '#' }, { label: '접근 권한 관리' }]}
-      roles={[
-        { key: 'admin', label: '관리자' },
-        { key: 'manager', label: '팀장' },
-        { key: 'staff', label: '담당자' },
-        { key: 'viewer', label: '조회전용' },
-      ]}
-      groups={[
-        {
-          key: 'order',
-          label: 'OMS 주문 관리',
-          permissions: [
-            { key: 'view', label: '조회', description: '주문 목록 및 상세 조회' },
-            { key: 'create', label: '등록', description: '신규 주문 등록' },
-            { key: 'edit', label: '수정' },
-            { key: 'delete', label: '삭제' },
-          ],
-        },
-        {
-          key: 'purchase',
-          label: 'ERP 구매 결재',
-          permissions: [
-            { key: 'view', label: '조회' },
-            { key: 'approve', label: '결재', description: '구매 발주 승인/반려' },
-          ],
-        },
-      ]}
-      checked={checked}
-      onToggle={(roleKey, permKey, next) =>
-        setChecked(prev => ({ ...prev, [roleKey]: { ...prev[roleKey], [permKey]: next } }))
-      }
-      actions={<Button size="sm">저장</Button>}
-    />
-  )
-}
-
-export const Permission: Story = {
+export const Permissions: Story = {
   name: 'Permission Matrix',
-  render: () => <PermissionMatrixDemo />,
+  render: () => {
+    const [granted, setGranted] = useState<Record<string, boolean>>({
+      '관리자:주문조회': true,
+      '관리자:주문등록': true,
+      '관리자:재고조회': true,
+      '담당자:주문조회': true,
+      '담당자:주문등록': true,
+      '조회전용:주문조회': true,
+      '조회전용:재고조회': true,
+    })
+    return (
+      <PermissionMatrix
+        title="시스템 역할·권한 관리"
+        roles={[
+          { id: '관리자', label: '관리자', description: '3명' },
+          { id: '담당자', label: '담당자', description: '12명' },
+          { id: '조회전용', label: '조회전용', description: '8명' },
+        ]}
+        resources={[
+          { id: '주문조회', label: '주문 조회', category: 'OMS' },
+          { id: '주문등록', label: '주문 등록', category: 'OMS' },
+          { id: '재고조회', label: '재고 조회', category: 'WMS' },
+          { id: '거래처관리', label: '거래처 관리', category: 'ERP' },
+        ]}
+        granted={granted}
+        isLocked={(roleId, resourceId) => roleId === '관리자' && resourceId !== '거래처관리'}
+        onToggle={(roleId, resourceId, value) =>
+          setGranted(prev => ({ ...prev, [`${roleId}:${resourceId}`]: value }))
+        }
+      />
+    )
+  },
 }
 
-export const Comparison: Story = {
-  name: 'Comparison View',
+export const Forbidden: Story = {
+  name: 'Error State',
   render: () => (
-    <ComparisonView
-      title="단가 변경 승인 비교"
-      breadcrumb={[{ label: '구매관리', href: '#' }, { label: '단가 변경 승인 비교' }]}
-      left={{ label: '변경 전', meta: '적용일 2026-06-01' }}
-      right={{ label: '변경 후 (승인 대기)', meta: '적용 예정일 2026-08-01' }}
-      fields={[
-        { label: '거래처', left: '(주)한국식품', right: '(주)한국식품' },
-        { label: '품목', left: '쌀 (20kg)', right: '쌀 (20kg)' },
-        { label: '단가', left: '42,000원', right: '45,000원', changed: true },
-        { label: '납기조건', left: '발주 후 3일', right: '발주 후 3일' },
-        { label: '결제조건', left: '월말 정산', right: '익월 10일 정산', changed: true },
-      ]}
-      actions={
-        <>
-          <Button variant="secondary" size="sm">반려</Button>
-          <Button size="sm">승인</Button>
-        </>
-      }
+    <ErrorState
+      variant="forbidden"
+      code="Error 403"
+      primaryAction={<Button variant="secondary" onClick={() => alert('권한 요청')}>권한 요청</Button>}
+      secondaryAction={<Button variant="ghost" onClick={() => alert('돌아가기')}>돌아가기</Button>}
     />
   ),
 }

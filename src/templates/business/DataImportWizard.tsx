@@ -1,34 +1,96 @@
 
-import { ReactNode } from 'react'
-import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
+import { useState } from 'react'
 import { Stepper } from '../../components/navigation/Stepper'
-import { FileUpload } from '../../components/form/FileUpload'
-import { Table, Column } from '../../components/data/Table'
-import { Alert } from '../../components/feedback/Alert'
-import { Progress } from '../../components/feedback/Progress'
-import { StatusBadge } from '../../components/foundation/StatusBadge'
 import { Button } from '../../components/foundation/Button'
-import { Stack } from '../../components/layout/Stack'
+import { FileUpload } from '../../components/form/FileUpload'
+import { Select } from '../../components/form/Select'
+import { Table, Column } from '../../components/data/Table'
+import { StatusBadge } from '../../components/foundation/StatusBadge'
+import { Alert } from '../../components/feedback/Alert'
+import { Tag } from '../../components/data/Tag'
 import { cn } from '../../utils/cn'
 
+const STEP_LABELS = ['파일 업로드', '컬럼 매핑', '검증 미리보기', '반영 완료']
+
 export interface ImportColumnMapping extends Record<string, unknown> {
-  id: string
   /** 업로드 파일의 원본 컬럼명 */
   sourceColumn: string
-  /** 매핑될 시스템 필드명 */
+  /** 매핑된 대상 필드 값 (미매핑 시 빈 문자열) */
   targetField: string
-  required?: boolean
 }
 
 export interface ImportPreviewRow extends Record<string, unknown> {
   id: string | number
+  /** 유효성 검증 결과 */
   status: 'valid' | 'warning' | 'error'
-  /** 경고/오류 메시지 (있는 경우) */
+  /** 경고/오류 상세 메시지 */
+
   message?: string
 }
 
 export interface DataImportWizardProps {
   title?: string
+  /** 업로드된 파일명 (1단계 완료 표시) */
+  fileName?: string
+  /** 파일 선택/드롭 콜백 */
+  onUpload?: (files: FileList | null) => void
+  /** 대상 필드 선택 옵션 (품목코드, 거래처명 등) */
+  targetFieldOptions: { value: string; label: string }[]
+  /** 컬럼 매핑 목록 (2단계) */
+  mapping: ImportColumnMapping[]
+  /** 매핑 변경 콜백 */
+  onMappingChange?: (sourceColumn: string, targetField: string) => void
+  /** 검증 미리보기 컬럼 (3단계) */
+  previewColumns?: Column<ImportPreviewRow>[]
+  /** 검증 미리보기 데이터 (3단계) */
+  previewRows?: ImportPreviewRow[]
+  /** 반영 완료 후 요약 (4단계) */
+  summary?: { label: string; value: string }[]
+  onCancel?: () => void
+  /** 최종 반영(적용) 콜백 — 검증 단계에서 다음으로 진행 시 호출 */
+  onSubmit?: () => void
+  className?: string
+}
+
+export function DataImportWizard({
+  title = '데이터 가져오기',
+  fileName,
+  onUpload,
+  targetFieldOptions,
+  mapping,
+  onMappingChange,
+  previewColumns,
+  previewRows = [],
+  summary,
+  onCancel,
+  onSubmit,
+  className,
+}: DataImportWizardProps) {
+  const [step, setStep] = useState(0)
+
+  const errorCount = previewRows.filter(r => r.status === 'error').length
+  const warningCount = previewRows.filter(r => r.status === 'warning').length
+  const validCount = previewRows.filter(r => r.status === 'valid').length
+
+  const columns: Column<ImportPreviewRow>[] =
+    previewColumns ?? [
+      {
+        key: 'status',
+        header: '상태',
+        width: '100px',
+        render: row => <StatusBadge status={row.status === 'valid' ? 'success' : row.status === 'warning' ? 'warning' : 'error'} />,
+      },
+      { key: 'message', header: '메시지', render: row => row.message ?? '-' },
+    ]
+
+  const canGoNext = step === 0 ? !!fileName : step === 2 ? errorCount === 0 : true
+
+  const handleNext = () => {
+    if (step === 2) onSubmit?.()
+    setStep(s => Math.min(s + 1, STEP_LABELS.length - 1))
+  }
+  const handlePrev = () => setStep(s => Math.max(s - 1, 0))
+ 
   breadcrumb?: BreadcrumbItem[]
   /** 현재 단계 인덱스 (0: 업로드, 1: 컬럼 매핑, 2: 검증, 3: 완료) */
   step: number
@@ -111,75 +173,87 @@ export function DataImportWizard({
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-4xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
-        </div>
 
-        {breadcrumb && <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>}
+        <h1 className="text-2xl font-bold text-foreground mb-6">{title}</h1>
 
         <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 flex justify-center overflow-x-auto">
           <Stepper steps={STEP_LABELS} current={step} />
         </div>
 
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 min-h-[280px]">
+        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 min-h-[320px]">
           {step === 0 && (
-            <Stack gap={4}>
-              <FileUpload accept=".csv,.xlsx" label="CSV 또는 Excel 파일을 선택하거나 끌어다 놓으세요" onChange={onFileChange} />
+            <div className="space-y-4">
+              <FileUpload accept=".csv,.xlsx" label="CSV 또는 XLSX 파일을 선택 또는 드래그" onChange={onUpload} />
               {fileName && (
-                <p className="text-sm text-foreground">
-                  선택한 파일: <span className="font-medium">{fileName}</span>
-                  {fileSize && <span className="text-muted"> ({fileSize})</span>}
-                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted">선택된 파일</span>
+                  <Tag>{fileName}</Tag>
+                </div>
               )}
-            </Stack>
+            </div>
           )}
 
-          {step === 1 && mappings && (
-            <Stack gap={3}>
-              <p className="text-sm text-muted">업로드한 파일의 컬럼을 시스템 필드에 매핑하세요.</p>
-              <Table columns={mappingColumns} data={mappings} rowKey="id" />
-            </Stack>
+          {step === 1 && (
+            <Table
+              rowKey="sourceColumn"
+              columns={[
+                { key: 'sourceColumn', header: '원본 컬럼' },
+                {
+                  key: 'targetField',
+                  header: '대상 필드',
+                  render: row => (
+                    <Select
+                      options={targetFieldOptions}
+                      placeholder="매핑 안 함"
+                      value={row.targetField}
+                      onChange={e => onMappingChange?.(row.sourceColumn, e.target.value)}
+                    />
+                  ),
+                },
+              ]}
+              data={mapping}
+            />
           )}
 
-          {step === 2 && previewRows && (
-            <Stack gap={3}>
-              {summary && summary.error > 0 && (
-                <Alert variant="danger" title="검증 오류가 있습니다">
-                  총 {summary.total}건 중 오류 {summary.error}건, 경고 {summary.warning}건이 확인되었습니다. 오류 건은 적재에서 제외됩니다.
-                </Alert>
-              )}
-              {summary && summary.error === 0 && summary.warning > 0 && (
-                <Alert variant="warning" title="확인이 필요한 경고가 있습니다">
-                  총 {summary.total}건 중 경고 {summary.warning}건이 확인되었습니다.
-                </Alert>
-              )}
-              {summary && summary.error === 0 && summary.warning === 0 && (
-                <Alert variant="success" title="검증을 통과했습니다">
-                  총 {summary.total}건 모두 정상입니다.
-                </Alert>
-              )}
-              <Table columns={previewTableColumns} data={previewRows} rowKey="id" />
-            </Stack>
+          {step === 2 && (
+            <div className="space-y-4">
+              <Alert variant={errorCount > 0 ? 'danger' : warningCount > 0 ? 'warning' : 'success'}>
+                전체 {previewRows.length}건 중 정상 {validCount}건, 경고 {warningCount}건, 오류 {errorCount}건
+                {errorCount > 0 && ' — 오류 건이 있으면 반영할 수 없습니다.'}
+              </Alert>
+              <Table columns={columns} data={previewRows} rowKey="id" />
+            </div>
           )}
 
           {step === 3 && (
-            <Stack gap={4}>
-              <Progress value={commitProgress ?? 100} />
-              <p className="text-sm text-foreground">
-                {(commitProgress ?? 100) >= 100
-                  ? `적재가 완료되었습니다. 총 ${summary?.total ?? 0}건이 반영되었습니다.`
-                  : `데이터 적재 중입니다... (${commitProgress ?? 0}%)`}
-              </p>
-            </Stack>
+            <div className="flex flex-col items-center justify-center h-48 gap-3">
+              <div className="text-4xl">✅</div>
+              <p className="text-lg font-semibold text-foreground">데이터 반영이 완료되었습니다</p>
+              {summary && (
+                <dl className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm mt-2">
+                  {summary.map((s, i) => (
+                    <div key={i} className="flex gap-2">
+                      <dt className="text-muted">{s.label}</dt>
+                      <dd className="text-foreground font-medium">{s.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+            </div>
           )}
         </div>
 
         <div className="flex justify-between">
-          <Button variant="secondary" onClick={onPrev} disabled={step === 0}>이전</Button>
-          <Button variant="primary" onClick={onNext} disabled={step === STEP_LABELS.length - 1}>
-            {nextLabel ?? (step === STEP_LABELS.length - 2 ? '적재 시작' : '다음')}
+
+          <Button variant="secondary" onClick={step === 0 ? onCancel : handlePrev}>
+            {step === 0 ? '취소' : '이전'}
           </Button>
+          {step < STEP_LABELS.length - 1 && (
+            <Button variant="primary" onClick={handleNext} disabled={!canGoNext}>
+              {step === 2 ? '반영' : '다음'}
+            </Button>
+          )}
+
         </div>
       </div>
     </div>
