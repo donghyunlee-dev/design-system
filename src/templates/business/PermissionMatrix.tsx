@@ -1,6 +1,7 @@
 import { Fragment, ReactNode } from 'react'
 import { Checkbox } from '../../components/form/Checkbox'
 import { Tag } from '../../components/data/Tag'
+
 import { Badge } from '../../components/foundation/Badge'
 import { Stack } from '../../components/layout/Stack'
 import { cn } from '../../utils/cn'
@@ -29,9 +30,11 @@ export interface PermissionMatrixProps {
   onToggle?: (roleId: string, resourceId: string, granted: boolean) => void
   /** 특정 조합 편집 불가 처리 (예: 최고관리자 역할 고정) */
   isLocked?: (roleId: string, resourceId: string) => boolean
+
   actions?: ReactNode
   className?: string
 }
+
 
 function key(roleId: string, resourceId: string) {
   return `${roleId}:${resourceId}`
@@ -60,12 +63,14 @@ export function PermissionMatrix({
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold text-foreground">{title}</h1>
           {actions && <Stack direction="row" gap={2}>{actions}</Stack>}
+
         </div>
 
         <div className="bg-surface border border-border rounded-card shadow-card overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-surface-raised border-b border-border">
               <tr>
+
                 <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide sticky left-0 bg-surface-raised">
                   리소스
                 </th>
@@ -73,10 +78,12 @@ export function PermissionMatrix({
                   <th key={role.id} className="px-4 py-3 text-center min-w-[120px]">
                     <p className="text-xs font-semibold text-foreground">{role.label}</p>
                     {role.description && <p className="text-xs text-muted font-normal mt-0.5">{role.description}</p>}
+
                   </th>
                 ))}
               </tr>
             </thead>
+
             <tbody className="divide-y divide-border">
               {Object.entries(grouped).map(([category, items]) => (
                 <Fragment key={category}>
@@ -105,11 +112,13 @@ export function PermissionMatrix({
                       })}
                     </tr>
                   ))}
+
                 </Fragment>
               ))}
             </tbody>
           </table>
         </div>
+
       </div>
     </div>
   )

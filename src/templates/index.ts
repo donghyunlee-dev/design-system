@@ -86,4 +86,5 @@ export { PermissionMatrix } from './business/PermissionMatrix'
 export type { PermissionMatrixProps, PermissionRole, PermissionResource } from './business/PermissionMatrix'
 export { ErrorState } from './business/ErrorState'
 export type { ErrorStateProps, ErrorStateVariant } from './business/ErrorState'
+
 export type { DetailField } from './business/types'
