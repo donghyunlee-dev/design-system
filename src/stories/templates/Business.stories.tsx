@@ -19,9 +19,11 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
-import { DataImportWizard, ImportColumnMapping, ImportPreviewRow } from '../../templates/business/DataImportWizard'
-import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
-import { ErrorState } from '../../templates/business/ErrorState'
+
+import { DocumentPrint } from '../../templates/business/DocumentPrint'
+import { BulkImport } from '../../templates/business/BulkImport'
+import { DiffView } from '../../templates/business/DiffView'
+
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -1046,99 +1048,90 @@ export const Search: Story = {
   ),
 }
 
-export const DataImport: Story = {
-  name: 'Data Import Wizard',
-  render: () => {
-    const [step, setStep] = useState(2)
-    return (
-      <DataImportWizard
-        title="거래처 마스터 일괄 업로드"
-        breadcrumb={[{ label: 'ERP 마스터관리', href: '#' }, { label: '거래처 일괄 업로드' }]}
-        step={step}
-        fileName="거래처_마스터_2026-07-15.xlsx"
-        fileSize="184KB"
-        mappings={[
-          { id: 'm1', sourceColumn: '거래처명', targetField: 'partner_name', required: true },
-          { id: 'm2', sourceColumn: '사업자번호', targetField: 'biz_no', required: true },
-          { id: 'm3', sourceColumn: '담당자', targetField: 'contact_name' },
-          { id: 'm4', sourceColumn: '연락처', targetField: 'contact_phone' },
-        ]}
-        previewColumns={[
-          { key: 'name', header: '거래처명' },
-          { key: 'bizNo', header: '사업자번호' },
-        ]}
-        previewRows={[
-          { id: 1, status: 'valid', name: '(주)한국식품', bizNo: '123-45-67890' },
-          { id: 2, status: 'valid', name: '대한유통', bizNo: '234-56-78901' },
-          { id: 3, status: 'warning', name: '서울농산', bizNo: '345-67-89012', message: '담당자 연락처 형식을 확인하세요' },
-          { id: 4, status: 'error', name: '부산물산', bizNo: '', message: '사업자번호가 비어 있습니다' },
-        ]}
-        commitProgress={0}
-        onPrev={() => setStep(s => Math.max(0, s - 1))}
-        onNext={() => setStep(s => Math.min(3, s + 1))}
-      />
-    )
-  },
-}
-
-export const RoleAccess: Story = {
-  name: 'Role & Permission Management',
-  render: () => {
-    const [activeRoleId, setActiveRoleId] = useState('mgr')
-    const [modules, setModules] = useState([
-      { id: 'order', label: '주문 관리 (OMS)', actions: { view: true, create: true, edit: true, delete: false } },
-      { id: 'inventory', label: '재고 관리 (WMS)', actions: { view: true, create: false, edit: false, delete: false } },
-      { id: 'partner', label: '거래처 관리 (ERP)', actions: { view: true, create: true, edit: false, delete: false } },
-      { id: 'settlement', label: '정산/전표 (ERP)', actions: { view: false, create: false, edit: false, delete: false } },
-    ])
-    return (
-      <RoleAccessMatrix
-        title="권한 관리"
-        breadcrumb={[{ label: '시스템관리', href: '#' }, { label: '권한 관리' }]}
-        roles={[
-          { id: 'admin', name: '시스템관리자', description: '전체 시스템 접근', memberCount: 2 },
-          { id: 'mgr', name: '팀장', description: '팀 업무 승인/관리', memberCount: 8 },
-          { id: 'staff', name: '실무자', description: '일반 업무 처리', memberCount: 34 },
-          { id: 'partner', name: '파트너(외부)', description: 'PRM 외부 협력사', memberCount: 12 },
-        ]}
-        activeRoleId={activeRoleId}
-        onRoleSelect={setActiveRoleId}
-        actionColumns={[
-          { key: 'view', label: '조회' },
-          { key: 'create', label: '등록' },
-          { key: 'edit', label: '수정' },
-          { key: 'delete', label: '삭제' },
-        ]}
-        modules={modules}
-        onPermissionToggle={(moduleId, actionKey, checked) =>
-          setModules(prev => prev.map(m => (m.id === moduleId ? { ...m, actions: { ...m.actions, [actionKey]: checked } } : m)))
-        }
-      />
-    )
-  },
-}
-
-export const Help: Story = {
-  name: 'Help Center',
+export const Print: Story = {
+  name: 'Document Print',
   render: () => (
-    <HelpCenter
-      title="도움말·문의 센터"
-      breadcrumb={[{ label: '지원', href: '#' }, { label: '도움말·문의 센터' }]}
-      categories={[
-        { id: 'erp', label: 'ERP 사용법', icon: '🧾', description: '전표·마스터 관리', count: 12 },
-        { id: 'oms', label: 'OMS 사용법', icon: '📦', description: '주문·배송 처리', count: 9 },
-        { id: 'wms', label: 'WMS 사용법', icon: '🏭', description: '입출고·재고', count: 7 },
-        { id: 'account', label: '계정/권한', icon: '🔐', description: '로그인·권한 문의', count: 5 },
+    <DocumentPrint
+      title="거래명세서"
+      docNumber="INV-2026-0714"
+      issueDate="2026-07-20"
+      statusTag="발행완료"
+      from={{
+        name: '(주)에스푸드',
+        info: ['사업자번호 123-45-67890', '서울 강서구 식품로 10', 'TEL 02-1234-5678'],
+      }}
+      to={{
+        name: '(주)한국식품',
+        info: ['사업자번호 987-65-43210', '서울 금천구 유통단지 5', '담당 구매팀 김민준'],
+      }}
+      items={[
+        { id: 'i1', name: '쌀', spec: '20kg', qty: 50, unitPrice: 62000, amount: 3100000 },
+        { id: 'i2', name: '콩나물', spec: '1kg', qty: 200, unitPrice: 2400, amount: 480000 },
+        { id: 'i3', name: '두부', spec: '300g', qty: 300, unitPrice: 1500, amount: 450000 },
       ]}
-      faqs={[
-        { id: 'f1', question: '비밀번호를 잊어버렸어요.', answer: '로그인 화면의 [비밀번호 찾기]를 클릭한 뒤 사번과 등록된 이메일로 재설정할 수 있습니다.' },
-        { id: 'f2', question: 'ERP 전표가 반려되었는데 어떻게 재기안하나요?', answer: '반려된 문서는 기안자가 내용을 수정한 뒤 동일 화면에서 [재기안] 버튼으로 다시 제출할 수 있습니다.' },
-        { id: 'f3', question: 'WMS 재고 실사 결과는 언제 반영되나요?', answer: '실사 마감 후 익일 오전 배치로 ERP 재고 마스터에 자동 반영됩니다.' },
+      summary={[
+        { label: '공급가액', value: '4,030,000원' },
+        { label: '세액', value: '403,000원' },
+        { label: '합계', value: '4,433,000원', emphasis: true },
       ]}
-      contactChannels={[
-        { id: 'c1', label: 'IT 헬프데스크', description: '평일 09:00~18:00 · 내선 1234', actionLabel: '문의 접수' },
-        { id: 'c2', label: '팀즈 지원 채널', description: 'Microsoft Teams #it-support', actionLabel: '채널 열기' },
+      notes={'- 본 거래명세서는 세금계산서 발행 전 참고용 문서입니다.\n- 입금 계좌: 국민은행 123-456-789012 (주)에스푸드'}
+      signatureLabels={['공급자', '공급받는자']}
+      actions={<Button size="sm">인쇄하기</Button>}
+    />
+  ),
+}
+
+export const Import: Story = {
+  name: 'Bulk Data Import & Mapping',
+  render: () => (
+    <BulkImport
+      title="거래처 마스터 대량 반입"
+      fileName="partners_2026_07.xlsx"
+      totalRows={5}
+      progress={100}
+      mappings={[
+        { sourceColumn: '거래처명', targetField: 'partnerName', sample: '(주)한국식품' },
+        { sourceColumn: '사업자번호', targetField: 'bizNo', sample: '987-65-43210' },
+        { sourceColumn: '담당자', targetField: 'contactName', sample: '김민준' },
+        { sourceColumn: '연락처', targetField: '', sample: '02-2345-6789' },
       ]}
+      targetFieldOptions={[
+        { value: 'partnerName', label: '거래처명' },
+        { value: 'bizNo', label: '사업자번호' },
+        { value: 'contactName', label: '담당자명' },
+        { value: 'contactPhone', label: '연락처' },
+      ]}
+      validationRows={[
+        { id: 'r1', rowNumber: 1, data: { 거래처명: '(주)한국식품', 사업자번호: '987-65-43210' }, status: 'valid' },
+        { id: 'r2', rowNumber: 2, data: { 거래처명: '(주)대한유통', 사업자번호: '111-11-11111' }, status: 'valid' },
+        { id: 'r3', rowNumber: 3, data: { 거래처명: '', 사업자번호: '222-22-22222' }, status: 'error', message: '거래처명 누락' },
+        { id: 'r4', rowNumber: 4, data: { 거래처명: '(주)미래식품', 사업자번호: '333-33-33333' }, status: 'warning', message: '중복 사업자번호 의심' },
+        { id: 'r5', rowNumber: 5, data: { 거래처명: '(주)서울상사', 사업자번호: '444-44-44444' }, status: 'valid' },
+      ]}
+      actions={<Button size="sm">반영 확정</Button>}
+    />
+  ),
+}
+
+export const Diff: Story = {
+  name: 'Comparison / Diff View',
+  render: () => (
+    <DiffView
+      title="거래처 정보 변경 비교"
+      beforeLabel="변경 전"
+      afterLabel="변경 후"
+      beforeMeta="2026-06-01 등록"
+      afterMeta="2026-07-20 변경요청"
+      fields={[
+        { label: '거래처명', before: '(주)한국식품', after: '(주)한국식품' },
+        { label: '담당자', before: '김민준', after: '이서연' },
+        { label: '연락처', before: '02-2345-6789', after: '02-2345-6789' },
+        { label: '주소', before: '서울 금천구 유통단지 5', after: '서울 금천구 유통단지 5-1' },
+        { label: '결제조건', before: '', after: '월말 마감 익월 10일 지급' },
+        { label: '비고', before: '해외 수입 거래처', after: '' },
+      ]}
+      actions={<Button size="sm">변경 승인</Button>}
+
     />
   ),
 }
