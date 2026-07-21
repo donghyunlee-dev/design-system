@@ -18,9 +18,11 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
+
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
+
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -826,6 +828,97 @@ export const Files: Story = {
   ),
 }
 
+const importMappingInitial: ImportColumnMapping[] = [
+  { sourceColumn: '품목코드', targetField: 'itemCode' },
+  { sourceColumn: '품목명', targetField: 'itemName' },
+  { sourceColumn: '단위', targetField: '' },
+]
+const importPreviewRows: ImportPreviewRow[] = [
+  { id: 1, status: 'valid', message: '정상' },
+  { id: 2, status: 'warning', message: '단위 누락 — 기본값(EA) 적용' },
+  { id: 3, status: 'error', message: '품목코드 중복 (P-0021)' },
+]
+
+export const Import: Story = {
+  name: 'Data Import Wizard',
+  render: () => {
+    const [mapping, setMapping] = useState(importMappingInitial)
+    const [fileName, setFileName] = useState<string | undefined>('품목마스터_202607.xlsx')
+    return (
+      <DataImportWizard
+        title="품목 마스터 일괄 등록"
+        fileName={fileName}
+        onUpload={files => setFileName(files?.[0]?.name)}
+        targetFieldOptions={[
+          { value: 'itemCode', label: '품목코드' },
+          { value: 'itemName', label: '품목명' },
+          { value: 'unit', label: '단위' },
+        ]}
+        mapping={mapping}
+        onMappingChange={(sourceColumn, targetField) =>
+          setMapping(prev => prev.map(m => (m.sourceColumn === sourceColumn ? { ...m, targetField } : m)))
+        }
+        previewRows={importPreviewRows}
+        summary={[
+          { label: '전체', value: '3건' },
+          { label: '반영 성공', value: '2건' },
+          { label: '반영 실패', value: '1건' },
+        ]}
+        onCancel={() => alert('취소')}
+        onSubmit={() => alert('반영 실행')}
+      />
+    )
+  },
+}
+
+export const Permissions: Story = {
+  name: 'Permission Matrix',
+  render: () => {
+    const [granted, setGranted] = useState<Record<string, boolean>>({
+      '관리자:주문조회': true,
+      '관리자:주문등록': true,
+      '관리자:재고조회': true,
+      '담당자:주문조회': true,
+      '담당자:주문등록': true,
+      '조회전용:주문조회': true,
+      '조회전용:재고조회': true,
+    })
+    return (
+      <PermissionMatrix
+        title="시스템 역할·권한 관리"
+        roles={[
+          { id: '관리자', label: '관리자', description: '3명' },
+          { id: '담당자', label: '담당자', description: '12명' },
+          { id: '조회전용', label: '조회전용', description: '8명' },
+        ]}
+        resources={[
+          { id: '주문조회', label: '주문 조회', category: 'OMS' },
+          { id: '주문등록', label: '주문 등록', category: 'OMS' },
+          { id: '재고조회', label: '재고 조회', category: 'WMS' },
+          { id: '거래처관리', label: '거래처 관리', category: 'ERP' },
+        ]}
+        granted={granted}
+        isLocked={(roleId, resourceId) => roleId === '관리자' && resourceId !== '거래처관리'}
+        onToggle={(roleId, resourceId, value) =>
+          setGranted(prev => ({ ...prev, [`${roleId}:${resourceId}`]: value }))
+        }
+      />
+    )
+  },
+}
+
+export const Forbidden: Story = {
+  name: 'Error State',
+  render: () => (
+    <ErrorState
+      variant="forbidden"
+      code="Error 403"
+      primaryAction={<Button variant="secondary" onClick={() => alert('권한 요청')}>권한 요청</Button>}
+      secondaryAction={<Button variant="ghost" onClick={() => alert('돌아가기')}>돌아가기</Button>}
+    />
+  ),
+}
+
 export const Search: Story = {
   name: 'Global Search Results',
   render: () => (
@@ -964,6 +1057,7 @@ export const Diff: Story = {
         { label: '비고', before: '해외 수입 거래처', after: '' },
       ]}
       actions={<Button size="sm">변경 승인</Button>}
+
     />
   ),
 }

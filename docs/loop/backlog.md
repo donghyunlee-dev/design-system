@@ -1,9 +1,22 @@
 ---
 type: backlog
-last_updated: 2026-07-20
----
 
-# 작업 후보 백로그
+
+
+last_updated: 2026-07-16
+
+
+
+# 디자인 시스템 갭 백로그
+
+
+이 파일은 더 이상 "새로 만들 템플릿 후보" 목록이 아니라, **디자인 시스템의 구조적 갭**을 추적하는 백로그다. 벤치마크 재현 평가(`docs/loop/benchmark-suite.md` 참고)에서 컴포넌트/토큰/패턴 부재가 발견되면 자동 등록되거나, 사람이 직접 필요한 항목을 등록한다.
+
+`source` 컬럼은 아래 두 값만 사용한다:
+- `human-added`: 사람이 직접 등록 (Consistency Check에서 일관성 위반으로 자동 업그레이드가 보류된 항목 포함)
+- `eval-found`: 벤치마크 재현 평가에서 발견된 구조적 갭(design-system-gap)
+
+과거에 사용되던 `pm-proposed`(에이전트가 즉흥적으로 신규 템플릿을 제안하는 경로)는 2026-07-14부로 폐지되었다. 아래 B002~B004, B005~B007은 폐지 이전에 등록된 항목으로, 과거 기록 보존을 위해 값은 그대로 둔다.
 
 | id | title | source | status | rationale | added_on | resolved_cycle |
 |---|---|---|---|---|---|---|
@@ -14,6 +27,8 @@ last_updated: 2026-07-20
 | B005 | Notification / Inbox Center 템플릿 (알림·메시지함) | pm-proposed | 완료 | 커버리지 갭 분석 결과, `src/templates/business/`에 알림·요청·메시지를 읽음/안읽음 상태로 모아 처리하는 인박스 레이아웃이 부재. ERP(Enterprise Resource Planning) 시스템 알림, 승인 요청 알림, 그룹웨어·팀즈(Microsoft Teams) 메시지 인박스 등 내부 업무 시스템 재활용도가 높음. ApprovalView(단건 승인)·ActivityTimeline(단일 대상 이력)과 목적이 구분됨. 기존 List/Card/Tag/Avatar/StatusBadge/Stack으로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
 | B006 | File Manager / Document Explorer 템플릿 (자료실·첨부 탐색기) | pm-proposed | 완료 | 폴더·파일을 브레드크럼 경로와 목록/그리드로 탐색하고 파일 액션을 수행하는 자료실 레이아웃이 부재. WMS(Warehouse Management System) 문서, ERP 첨부, 계약·매뉴얼 자료실 등에 재활용도가 높음. DocumentCatalog(목차+본문 열람)와 달리 파일/폴더 탐색·관리가 목적으로 중복 없음. B001 조사 시 범위 밖으로 남긴 File Explorer 패턴에 해당. 기존 Table/Card/Breadcrumb/Tag/DropdownMenu/Grid로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
 | B007 | Global Search Results 템플릿 (통합 검색 결과) | pm-proposed | 완료 | 여러 엔티티(주문·파트너·문서 등)를 가로지르는 통합 검색 결과를 좌측 패싯 필터 + 그룹화된 결과 목록으로 표시하는 레이아웃이 부재. ERP·OMS(Order Management System)·WMS 통합 검색에 재활용 가능. ListSearchTable(단일 엔티티 필터 테이블)과 달리 크로스-엔티티 그룹 결과가 목적으로 중복 없음. 기존 List/Card/Tag/Breadcrumb/Divider/Stack으로 재구현 가능. | 2026-07-13 | cycles/2026-07-13.md |
+
 | B008 | Document Print / Invoice 템플릿 (출력용 문서·거래명세서) | pm-proposed | 완료 | 커버리지 갭 분석 결과, 발신처 헤더·거래 당사자 정보·품목 라인아이템·합계·약관·서명란을 갖춘 A4 출력 최적화 문서 레이아웃이 부재. ERP(Enterprise Resource Planning) 거래명세서·발주서·세금계산서 미리보기, WMS(Warehouse Management System) 출고 전표 등 인쇄·PDF 출력 화면에 재활용도가 높음. ReportLayout(분석형 리포트·차트/KPI 섹션)·DetailView(화면 조회)와 달리 단일 문서의 인쇄 산출물이 목적이라 중복 없음. 기존 Table/Divider/Stack/Grid/Tag로 재구현 가능. | 2026-07-20 | cycles/2026-07-20.md |
 | B009 | Bulk Data Import & Mapping 템플릿 (대량 업로드·컬럼 매핑) | pm-proposed | 완료 | 파일 업로드 → 원본 컬럼과 시스템 필드 매핑 → 검증 결과 미리보기 → 반영 확정 흐름을 갖춘 대량 데이터 반입 레이아웃이 부재. ERP·OMS(Order Management System)·WMS의 마스터/거래 데이터 일괄 반입에 재활용도가 높음. WizardForm(범용 단계형 입력 폼)과 달리 컬럼 매핑 테이블·행별 검증 오류 미리보기가 핵심이라 목적이 구분됨. 기존 Table/Alert/Progress/Tag/Stack/Grid로 재구현 가능. | 2026-07-20 | cycles/2026-07-20.md |
 | B010 | Comparison / Diff View 템플릿 (버전·변경 비교) | pm-proposed | 완료 | 두 레코드/버전을 좌우로 나란히 놓고 필드별 변경(추가·삭제·수정)을 강조 표시하는 비교 레이아웃이 부재. 승인 전 변경 대비(ERP 변경요청 전/후), 계약·정책 버전 비교, 설정 diff 등에 재활용도가 높음. ActivityTimeline(시간순 이력)·MasterDetail(목록-상세 탐색)과 달리 두 대상의 필드 단위 대비가 목적이라 중복 없음. 기존 Grid/Card/Tag/Divider/Stack으로 재구현 가능. | 2026-07-20 | cycles/2026-07-20.md |
+
