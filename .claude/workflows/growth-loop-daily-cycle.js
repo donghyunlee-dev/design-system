@@ -33,7 +33,7 @@ const REPRODUCE_SCHEMA = {
     filesChanged: { type: 'array', items: { type: 'string' } },
     storyTitle: { type: 'string' },
     storyExportName: { type: 'string' },
-    summary: { type: 'string' },
+    summary: { type: 'string', description: 'PR 제목에 쓰이는 한 줄 요약. 50자 이내, 상세 설명 없이 무엇을 만들었는지만.', maxLength: 50 },
   },
   required: ['filesChanged', 'storyTitle', 'storyExportName', 'summary'],
 }
@@ -183,7 +183,8 @@ ${contextBlock}
 
 ${(selection.source === 'human-added' || selection.source === 'eval-found') ? `완료 후 docs/loop/backlog.md에서 "${selection.backlogId}"의 status를 "완료"로, resolved_cycle을 "cycles/${date}.md"로 수정하세요.` : ''}
 
-변경된 파일 목록과, storyTitle(Storybook title), storyExportName(.stories.tsx에서 export한 실제 이름)을 반환하세요.${feedbackBlock}`
+변경된 파일 목록과, storyTitle(Storybook title), storyExportName(.stories.tsx에서 export한 실제 이름), 그리고 summary를 반환하세요.
+- summary는 PR 제목에 그대로 쓰입니다. 한 줄, 50자 이내의 간결한 요약으로 작성하세요. 상세 설명·근거·부연은 넣지 말고 "무엇을 만들었는지"만 적으세요 (예: "거래처 마스터 일괄 반입 화면 추가").${feedbackBlock}`
 }
 
 let reproduction = await agent(reproducePrompt(null), {
