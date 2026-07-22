@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Stepper } from '../../components/navigation/Stepper'
 import { Button } from '../../components/foundation/Button'
@@ -24,7 +23,6 @@ export interface ImportPreviewRow extends Record<string, unknown> {
   /** 유효성 검증 결과 */
   status: 'valid' | 'warning' | 'error'
   /** 경고/오류 상세 메시지 */
-
   message?: string
 }
 
@@ -90,90 +88,10 @@ export function DataImportWizard({
     setStep(s => Math.min(s + 1, STEP_LABELS.length - 1))
   }
   const handlePrev = () => setStep(s => Math.max(s - 1, 0))
- 
-  breadcrumb?: BreadcrumbItem[]
-  /** 현재 단계 인덱스 (0: 업로드, 1: 컬럼 매핑, 2: 검증, 3: 완료) */
-  step: number
-  onFileChange?: (files: FileList | null) => void
-  fileName?: string
-  fileSize?: string
-  mappings?: ImportColumnMapping[]
-  /** 검증 미리보기에 표시할 원본 컬럼 (상태/메시지 컬럼은 자동 추가) */
-  previewColumns?: { key: string; header: string }[]
-  previewRows?: ImportPreviewRow[]
-  /** 데이터 적재(커밋) 진행률 (0~100) */
-  commitProgress?: number
-  onPrev?: () => void
-  onNext?: () => void
-  nextLabel?: string
-  actions?: ReactNode
-  className?: string
-}
-
-const STEP_LABELS = ['업로드', '컬럼 매핑', '검증', '완료']
-
-export function DataImportWizard({
-  title = '데이터 일괄 업로드',
-  breadcrumb,
-  step,
-  onFileChange,
-  fileName,
-  fileSize,
-  mappings,
-  previewColumns,
-  previewRows,
-  commitProgress,
-  onPrev,
-  onNext,
-  nextLabel,
-  actions,
-  className,
-}: DataImportWizardProps) {
-  const summary = previewRows
-    ? {
-        total: previewRows.length,
-        error: previewRows.filter(r => r.status === 'error').length,
-        warning: previewRows.filter(r => r.status === 'warning').length,
-      }
-    : null
-
-  const mappingColumns: Column<ImportColumnMapping>[] = [
-    { key: 'sourceColumn', header: '원본 컬럼' },
-    { key: 'targetField', header: '매핑 필드' },
-    {
-      key: 'required',
-      header: '필수',
-      width: '80px',
-      render: m => (m.required
-        ? <span className="text-xs font-medium text-danger">필수</span>
-        : <span className="text-xs text-muted">선택</span>),
-    },
-  ]
-
-  const previewTableColumns: Column<ImportPreviewRow>[] = [
-    {
-      key: 'status',
-      header: '상태',
-      width: '90px',
-      render: r => (
-        <StatusBadge
-          status={r.status === 'valid' ? 'success' : r.status === 'warning' ? 'warning' : 'error'}
-          label={r.status === 'valid' ? '정상' : r.status === 'warning' ? '경고' : '오류'}
-        />
-      ),
-    },
-    ...(previewColumns ?? []).map(c => ({
-      key: c.key,
-      header: c.header,
-      render: (r: ImportPreviewRow) => String(r[c.key] ?? '-'),
-    })),
-    { key: 'message', header: '메시지', render: r => (r.message ? <span className="text-xs text-muted">{r.message}</span> : '-') },
-  ]
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-4xl mx-auto px-[var(--page-padding)] py-6">
-
         <h1 className="text-2xl font-bold text-foreground mb-6">{title}</h1>
 
         <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 flex justify-center overflow-x-auto">
@@ -244,7 +162,6 @@ export function DataImportWizard({
         </div>
 
         <div className="flex justify-between">
-
           <Button variant="secondary" onClick={step === 0 ? onCancel : handlePrev}>
             {step === 0 ? '취소' : '이전'}
           </Button>
@@ -253,7 +170,6 @@ export function DataImportWizard({
               {step === 2 ? '반영' : '다음'}
             </Button>
           )}
-
         </div>
       </div>
     </div>
