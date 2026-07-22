@@ -23,6 +23,9 @@ import { GlobalSearchResults } from '../../templates/business/GlobalSearchResult
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
+import { DataImportWizard } from '../../templates/business/DataImportWizard'
+import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
+import { ErrorState } from '../../templates/business/ErrorState'
 
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
@@ -948,33 +951,32 @@ export const Import: Story = {
 export const Permissions: Story = {
   name: 'Permission Matrix',
   render: () => {
-    const [granted, setGranted] = useState<Record<string, boolean>>({
-      '관리자:주문조회': true,
-      '관리자:주문등록': true,
-      '관리자:재고조회': true,
-      '담당자:주문조회': true,
-      '담당자:주문등록': true,
-      '조회전용:주문조회': true,
-      '조회전용:재고조회': true,
+    const [permissions, setPermissions] = useState<Record<string, Record<string, boolean>>>({
+      주문조회: { 관리자: true, 담당자: true, 조회전용: true },
+      주문등록: { 관리자: true, 담당자: true, 조회전용: false },
+      재고조회: { 관리자: true, 담당자: false, 조회전용: true },
+      거래처관리: { 관리자: true, 담당자: false, 조회전용: false },
     })
     return (
       <PermissionMatrix
         title="시스템 역할·권한 관리"
         roles={[
-          { id: '관리자', label: '관리자', description: '3명' },
-          { id: '담당자', label: '담당자', description: '12명' },
-          { id: '조회전용', label: '조회전용', description: '8명' },
+          { id: '관리자', label: '관리자', meta: '3명' },
+          { id: '담당자', label: '담당자', meta: '12명' },
+          { id: '조회전용', label: '조회전용', meta: '8명' },
         ]}
         resources={[
-          { id: '주문조회', label: '주문 조회', category: 'OMS' },
-          { id: '주문등록', label: '주문 등록', category: 'OMS' },
-          { id: '재고조회', label: '재고 조회', category: 'WMS' },
-          { id: '거래처관리', label: '거래처 관리', category: 'ERP' },
+          { id: '주문조회', label: '주문 조회', group: 'OMS' },
+          { id: '주문등록', label: '주문 등록', group: 'OMS' },
+          { id: '재고조회', label: '재고 조회', group: 'WMS' },
+          { id: '거래처관리', label: '거래처 관리', group: 'ERP' },
         ]}
-        granted={granted}
-        isLocked={(roleId, resourceId) => roleId === '관리자' && resourceId !== '거래처관리'}
-        onToggle={(roleId, resourceId, value) =>
-          setGranted(prev => ({ ...prev, [`${roleId}:${resourceId}`]: value }))
+        permissions={permissions}
+        onToggle={(resourceId, roleId, value) =>
+          setPermissions(prev => ({
+            ...prev,
+            [resourceId]: { ...prev[resourceId], [roleId]: value },
+          }))
         }
       />
     )
@@ -1081,7 +1083,7 @@ export const Print: Story = {
   ),
 }
 
-export const Import: Story = {
+export const BulkDataImport: Story = {
   name: 'Bulk Data Import & Mapping',
   render: () => (
     <BulkImport
