@@ -23,6 +23,7 @@ import { GlobalSearchResults } from '../../templates/business/GlobalSearchResult
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
+import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
@@ -1136,4 +1137,110 @@ export const Diff: Story = {
 
     />
   ),
+}
+
+const allIssues: IssueListItem[] = [
+  {
+    id: 'i1',
+    no: '#241',
+    title: 'OMS 주문 취소 시 재고가 자동 복구되지 않음',
+    status: 'open',
+    labels: ['OMS', '버그'],
+    meta: '김민준님이 2시간 전 등록',
+    commentCount: 4,
+    assignee: { name: '이서연', initials: '이서' },
+  },
+  {
+    id: 'i2',
+    no: '#240',
+    title: 'ERP 전표 승인 알림이 팀즈로 전송되지 않는 문제',
+    status: 'open',
+    labels: ['ERP', '긴급'],
+    meta: '박지훈님이 5시간 전 등록',
+    commentCount: 2,
+    assignee: { name: '최유진', initials: '최유' },
+  },
+  {
+    id: 'i3',
+    no: '#238',
+    title: 'WMS 입고 검수 화면 모바일 레이아웃 개선 요청',
+    status: 'open',
+    labels: ['WMS', '개선'],
+    meta: '정하은님이 1일 전 등록',
+    commentCount: 0,
+  },
+  {
+    id: 'i4',
+    no: '#235',
+    title: 'PRM 거래처 등록 시 사업자번호 중복 검증 오류',
+    status: 'open',
+    labels: ['PRM', '버그'],
+    meta: '한도윤님이 3일 전 등록',
+    commentCount: 6,
+    assignee: { name: '이서연', initials: '이서' },
+  },
+  {
+    id: 'i5',
+    no: '#229',
+    title: '그룹웨어 결재선 지정 오류 수정 완료',
+    status: 'closed',
+    labels: ['그룹웨어'],
+    meta: '최유진님이 6일 전 등록 · 김민준님이 닫음',
+    commentCount: 3,
+    assignee: { name: '김민준', initials: '김민' },
+  },
+  {
+    id: 'i6',
+    no: '#221',
+    title: 'OCI 배치 서버 야간 작업 지연 현상 조치',
+    status: 'closed',
+    labels: ['OCI', '긴급'],
+    meta: '박지훈님이 10일 전 등록 · 이서연님이 닫음',
+    commentCount: 8,
+  },
+]
+
+export const IssueList: Story = {
+  name: 'Issue List Board',
+  render: () => {
+    const [tab, setTab] = useState<'open' | 'closed'>('open')
+    const [keyword, setKeyword] = useState('')
+    const [labelFilter, setLabelFilter] = useState('')
+
+    const filtered = allIssues.filter(issue => {
+      if (issue.status !== tab) return false
+      if (keyword && !issue.title.includes(keyword)) return false
+      if (labelFilter && !issue.labels?.includes(labelFilter)) return false
+      return true
+    })
+
+    return (
+      <IssueListBoard
+        title="사내 시스템 이슈 트래커"
+        breadcrumb={[{ label: 'IT지원', href: '#' }, { label: '이슈 트래커' }]}
+        issues={filtered}
+        openCount={allIssues.filter(i => i.status === 'open').length}
+        closedCount={allIssues.filter(i => i.status === 'closed').length}
+        activeTab={tab}
+        onTabChange={setTab}
+        onSearch={setKeyword}
+        filters={
+          <Select
+            value={labelFilter}
+            onChange={e => setLabelFilter(e.target.value)}
+            placeholder="시스템 전체"
+            options={[
+              { value: 'ERP', label: 'ERP' },
+              { value: 'OMS', label: 'OMS' },
+              { value: 'WMS', label: 'WMS' },
+              { value: 'PRM', label: 'PRM' },
+              { value: '그룹웨어', label: '그룹웨어' },
+              { value: 'OCI', label: 'OCI' },
+            ]}
+          />
+        }
+        actions={<Button size="sm">새 이슈 등록</Button>}
+      />
+    )
+  },
 }
