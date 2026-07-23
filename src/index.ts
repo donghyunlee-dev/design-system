@@ -9,6 +9,8 @@ export { Avatar } from './components/foundation/Avatar'
 export type { AvatarProps } from './components/foundation/Avatar'
 export { StatusBadge } from './components/foundation/StatusBadge'
 export type { StatusBadgeProps, StatusVariant } from './components/foundation/StatusBadge'
+export { Icon } from './components/foundation/Icon'
+export type { IconProps, IconName } from './components/foundation/Icon'
 
 // Form
 export { Input } from './components/form/Input'
