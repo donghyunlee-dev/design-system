@@ -65,6 +65,8 @@ export { Popover } from './components/overlay/Popover'
 export type { PopoverProps } from './components/overlay/Popover'
 export { DropdownMenu } from './components/overlay/DropdownMenu'
 export type { DropdownMenuProps, DropdownItem } from './components/overlay/DropdownMenu'
+export { CommandPalette } from './components/overlay/CommandPalette'
+export type { CommandPaletteProps, CommandGroup, CommandItem } from './components/overlay/CommandPalette'
 
 // Navigation
 export { Tabs } from './components/navigation/Tabs'
