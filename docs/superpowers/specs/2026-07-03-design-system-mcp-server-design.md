@@ -1,5 +1,7 @@
 # SFOOD Design System MCP Server — 설계 문서
 
+> **상태 (2026-07-24)**: 미구현 상태로 보류. 상시 구동 서버 없이도 동작하는 더 가벼운 대안(Claude Code Skill, `.claude/skills/sfood-design-system/`)을 채택했습니다. 이 문서는 과거 설계 기록으로 보존합니다.
+
 ## 배경 및 목적
 
 `@sfood/ui`는 현재 `npm file:` 의존성으로 다른 프로젝트에 설치해 사용합니다(`docs/USAGE.md`). 이 설치 방식은 그대로 유지하되, 다른 프로젝트에서 작업하는 AI 에이전트(Claude Code 등)가 컴포넌트 목록·사용 예시·디자인 토큰·업무 템플릿 정보를 매번 `USAGE.md`/`TOKENS.md`를 컨텍스트에 붙여넣지 않고도 실시간으로 조회할 수 있도록, 로컬에서 상시 구동되는 MCP(Model Context Protocol) 서버를 추가합니다.
