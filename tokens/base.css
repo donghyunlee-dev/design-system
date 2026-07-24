@@ -9,26 +9,61 @@
   --gray-300: #d1d5db;
   --gray-400: #9ca3af;
   --gray-500: #6b7280;
+  --gray-600: #4b5563;
   --gray-700: #374151;
+  --gray-800: #1f2937;
   --gray-900: #111827;
+  --gray-950: #030712;
   --white:    #ffffff;
   --green-500: #22c55e;
   --yellow-500: #f59e0b;
   --red-500:   #ef4444;
   --blue-500:  #3b82f6;
 
-  /* Brand 컬러 스케일 (purple/indigo 기반) */
-  --brand-50:  #eef2ff;
-  --brand-100: #e0e7ff;
-  --brand-200: #c7d2fe;
-  --brand-300: #a5b4fc;
-  --brand-400: #818cf8;
-  --brand-500: #6366f1;
-  --brand-600: #4f46e5;
-  --brand-700: #4338ca;
-  --brand-800: #3730a3;
-  --brand-900: #312e81;
-  --brand-950: #1e1b4b;
+  /* Brand 컬러 스케일 (기본값) — s-food.co.kr 실제 사이트의 강조색(#d65050, 메뉴/아이콘 hover)을
+     600 기준으로 앵커해 도출. 이전 기본값(indigo)은 base.css 히스토리 참고. */
+  --brand-50:  #fcf3f3;
+  --brand-100: #f9e7e7;
+  --brand-200: #f3cbcb;
+  --brand-300: #ebabab;
+  --brand-400: #e07b7b;
+  --brand-500: #d85b5b;
+  --brand-600: #d65050;
+  --brand-700: #b02929;
+  --brand-800: #932323;
+  --brand-900: #7e1e1e;
+  --brand-950: #511313;
+
+  /* 브랜드 색 프리셋 — semantic.css에서 --color-brand* 를 아래 중 하나로 통째로 바꿔 톤앤매너를 교체합니다.
+     사용법은 docs/TOKENS.md의 "브랜드 컬러 프리셋" 참고. */
+  --blue-50:  #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+
+  --emerald-50:  #ecfdf5;
+  --emerald-100: #d1fae5;
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --emerald-700: #047857;
+
+  --rose-50:  #fff1f2;
+  --rose-100: #ffe4e6;
+  --rose-500: #f43f5e;
+  --rose-600: #e11d48;
+  --rose-700: #be123c;
+
+  --amber-50:  #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+
+  --teal-50:  #f0fdfa;
+  --teal-100: #ccfbf1;
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #0f766e;
 
   /* 타이포그래피 */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
