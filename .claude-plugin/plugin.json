@@ -1,0 +1,11 @@
+{
+  "name": "sfood-design-system",
+  "description": "SFOOD 사내 디자인 시스템(@sfood/ui) 사용 가이드. 기간계(내부 업무 시스템)와 일반 웹사이트(서비스) UI를 만들거나 리뷰할 때 사용. 디자인 토큰, 컴포넌트, 업무 템플릿 선택 기준, 배포 전 체크리스트를 안내합니다.",
+  "version": "0.1.0",
+  "author": {
+    "name": "sfood-it-dev-ax-org"
+  },
+  "license": "UNLICENSED",
+  "keywords": ["ui", "ux", "design-system", "sfood", "design-tokens"],
+  "skills": "./.claude/skills/"
+}
