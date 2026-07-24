@@ -64,4 +64,4 @@ React 18 · TypeScript · Tailwind CSS · Vite (라이브러리 빌드) · Story
 
 ## 브랜치 운영
 
-`main` 단일 브랜치로 운영합니다. 모든 변경은 PR로만 병합하며, `main` 직접 push와 사람 승인 없는 병합은 금지합니다 (`docs/loop/policy.md` 5항).
+작업은 `develop`을 대상으로 PR을 올려 병합하고, `develop`을 `main`으로 승격하는 것은 사람이 직접 판단해 별도로 병합합니다. `main`/`develop` 직접 push와 사람 승인 없는 병합은 금지합니다 (`docs/loop/policy.md` 5항).
