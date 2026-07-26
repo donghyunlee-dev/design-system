@@ -19,9 +19,7 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
-import { GlobalSearchResultsMedia } from '../../templates/business/GlobalSearchResultsMedia'
-import { Avatar } from '../../components/foundation/Avatar'
-
+import { FacetedSearchResults } from '../../templates/business/FacetedSearchResults'
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
@@ -29,7 +27,6 @@ import { IssueListBoard, IssueListItem } from '../../templates/business/IssueLis
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
-
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -1053,42 +1050,80 @@ export const Search: Story = {
   ),
 }
 
-export const SearchItemMaster: Story = {
-  name: 'Global Search Results - 품목 마스터',
+export const PartnerSearch: Story = {
+  name: 'Faceted Search Results',
   render: () => (
-    <GlobalSearchResultsMedia
-      title="품목 마스터 검색"
-      keyword="쌀"
+    <FacetedSearchResults
+      title="협력사 검색 결과"
+      keyword="식자재"
+      searchPlaceholder="협력사명, 사업자번호로 검색"
       facets={[
         {
           key: 'category',
-          title: '분류',
+          title: '사업분야',
           options: [
-            { value: 'grain', label: '곡물', count: 8 },
-            { value: 'sauce', label: '소스·장류', count: 3 },
-            { value: 'produce', label: '농산물', count: 2 },
+            { value: 'fresh', label: '신선식품', count: 18 },
+            { value: 'processed', label: '가공식품', count: 24 },
+            { value: 'logistics', label: '물류', count: 6 },
           ],
         },
         {
-          key: 'system',
-          title: '관리 시스템',
+          key: 'grade',
+          title: '협력사 등급',
           options: [
-            { value: 'erp', label: 'ERP', count: 11 },
-            { value: 'wms', label: 'WMS', count: 6 },
+            { value: 'a', label: 'A등급', count: 9 },
+            { value: 'b', label: 'B등급', count: 21 },
+            { value: 'c', label: 'C등급', count: 18 },
+          ],
+        },
+        {
+          key: 'region',
+          title: '지역',
+          options: [
+            { value: 'seoul', label: '서울', count: 15 },
+            { value: 'gyeonggi', label: '경기', count: 20 },
+            { value: 'etc', label: '기타', count: 13 },
           ],
         },
       ]}
-      selectedFacets={{ category: ['grain'] }}
-      groups={[
+      selectedFacets={{ category: ['fresh'] }}
+      sortOptions={[
+        { value: 'recent', label: '최근 등록순' },
+        { value: 'rating', label: '평가점수순' },
+        { value: 'name', label: '거래처명순' },
+      ]}
+      sortValue="recent"
+      items={[
         {
-          key: 'item',
-          label: '품목',
-          items: [
-            { id: 'i1', leading: <Avatar initials="쌀" size="sm" />, title: '국내산 쌀 20kg', description: '2026년산 1등급 백미, 20kg 포대', meta: 'ERP · 코드 RM-1002 · 재고 1,240', tags: ['곡물', '입고가능'] },
-            { id: 'i2', leading: <Avatar initials="찹" size="sm" />, title: '국내산 찹쌀 10kg', description: '2026년산 찹쌀, 10kg 포대', meta: 'ERP · 코드 RM-1015 · 재고 320', tags: ['곡물'] },
-            { id: 'i3', leading: <Avatar initials="장" size="sm" />, title: '수입 장립종 쌀 25kg', description: '베트남산 장립종, 25kg 포대', meta: 'ERP · 코드 RM-1040 · 재고 58', tags: ['곡물', '재고부족'] },
-            { id: 'i4', leading: <Avatar initials="현" size="sm" />, title: '현미 5kg', description: '국내산 현미, 5kg 소포장', meta: 'WMS · 코드 RM-1102 · 최근입고 2026-07-20', tags: ['곡물'] },
-          ],
+          id: 'p1',
+          title: '(주)한국식자재유통',
+          description: '신선 농산물 및 수산물 전문 유통. 전국 익일배송 네트워크 보유.',
+          badge: 'A등급',
+          stats: ['사업자번호 123-45-67890', '담당 MD 김도현', '최근 계약 2026-06-01'],
+          tags: ['식품안전인증', '우수협력사'],
+        },
+        {
+          id: 'p2',
+          title: '대한신선물류',
+          description: '냉장·냉동 전문 물류사. 콜드체인 온도 이력 관리 시스템 연동.',
+          badge: 'A등급',
+          stats: ['사업자번호 234-56-78901', '담당 MD 이서준', '최근 계약 2026-05-18'],
+          tags: ['콜드체인'],
+        },
+        {
+          id: 'p3',
+          title: '(주)초록농산',
+          description: '친환경 농산물 산지 직거래 공급업체.',
+          badge: 'B등급',
+          stats: ['사업자번호 345-67-89012', '담당 MD 박지현', '최근 계약 2026-04-22'],
+          tags: ['친환경인증'],
+        },
+        {
+          id: 'p4',
+          title: '동해수산유통',
+          description: '수산물 산지 직송 및 가공 위탁.',
+          badge: 'B등급',
+          stats: ['사업자번호 456-78-90123', '담당 MD 최유나', '최근 계약 2026-03-11'],
         },
       ]}
     />
