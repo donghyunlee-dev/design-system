@@ -19,6 +19,8 @@ import { ScheduleCalendar, ScheduleDay } from '../../templates/business/Schedule
 import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
+import { GlobalSearchResultsMedia } from '../../templates/business/GlobalSearchResultsMedia'
+import { Avatar } from '../../components/foundation/Avatar'
 
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
@@ -1044,6 +1046,48 @@ export const Search: Story = {
           label: '문서',
           items: [
             { id: 'd1', title: '한국식품 거래계약서', description: '2026년 갱신 계약', meta: '자료실 · 2026-01-15' },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
+export const SearchItemMaster: Story = {
+  name: 'Global Search Results - 품목 마스터',
+  render: () => (
+    <GlobalSearchResultsMedia
+      title="품목 마스터 검색"
+      keyword="쌀"
+      facets={[
+        {
+          key: 'category',
+          title: '분류',
+          options: [
+            { value: 'grain', label: '곡물', count: 8 },
+            { value: 'sauce', label: '소스·장류', count: 3 },
+            { value: 'produce', label: '농산물', count: 2 },
+          ],
+        },
+        {
+          key: 'system',
+          title: '관리 시스템',
+          options: [
+            { value: 'erp', label: 'ERP', count: 11 },
+            { value: 'wms', label: 'WMS', count: 6 },
+          ],
+        },
+      ]}
+      selectedFacets={{ category: ['grain'] }}
+      groups={[
+        {
+          key: 'item',
+          label: '품목',
+          items: [
+            { id: 'i1', leading: <Avatar initials="쌀" size="sm" />, title: '국내산 쌀 20kg', description: '2026년산 1등급 백미, 20kg 포대', meta: 'ERP · 코드 RM-1002 · 재고 1,240', tags: ['곡물', '입고가능'] },
+            { id: 'i2', leading: <Avatar initials="찹" size="sm" />, title: '국내산 찹쌀 10kg', description: '2026년산 찹쌀, 10kg 포대', meta: 'ERP · 코드 RM-1015 · 재고 320', tags: ['곡물'] },
+            { id: 'i3', leading: <Avatar initials="장" size="sm" />, title: '수입 장립종 쌀 25kg', description: '베트남산 장립종, 25kg 포대', meta: 'ERP · 코드 RM-1040 · 재고 58', tags: ['곡물', '재고부족'] },
+            { id: 'i4', leading: <Avatar initials="현" size="sm" />, title: '현미 5kg', description: '국내산 현미, 5kg 소포장', meta: 'WMS · 코드 RM-1102 · 최근입고 2026-07-20', tags: ['곡물'] },
           ],
         },
       ]}
