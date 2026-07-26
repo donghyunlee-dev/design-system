@@ -82,6 +82,8 @@ export { FileExplorer } from './business/FileExplorer'
 export type { FileExplorerProps, FileExplorerItem } from './business/FileExplorer'
 export { GlobalSearchResults } from './business/GlobalSearchResults'
 export type { GlobalSearchResultsProps, SearchResultGroup, SearchResultItem } from './business/GlobalSearchResults'
+export { FacetedSearchResults } from './business/FacetedSearchResults'
+export type { FacetedSearchResultsProps, FacetedSearchResultItem } from './business/FacetedSearchResults'
 
 export { DocumentPrint } from './business/DocumentPrint'
 export type { DocumentPrintProps, DocumentPrintParty, DocumentPrintLineItem, DocumentPrintSummaryItem } from './business/DocumentPrint'
