@@ -27,6 +27,7 @@ import { IssueListBoard, IssueListItem } from '../../templates/business/IssueLis
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
+import { TemplateGallery } from '../../templates/business/TemplateGallery'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -1322,4 +1323,123 @@ export const IssueList: Story = {
       />
     )
   },
+}
+
+export const Templates: Story = {
+  name: 'Template Gallery',
+  render: () => (
+    <TemplateGallery
+      title="업무 템플릿 갤러리"
+      description="ERP·OMS·WMS·PRM·그룹웨어에서 자주 쓰는 표준 서식을 골라 바로 작성을 시작하세요."
+      categories={[
+        { id: 'erp', label: 'ERP' },
+        { id: 'oms', label: 'OMS' },
+        { id: 'wms', label: 'WMS' },
+        { id: 'prm', label: 'PRM' },
+        { id: 'groupware', label: '그룹웨어' },
+      ]}
+      items={[
+        {
+          id: 't1',
+          icon: '🧾',
+          title: '발주서 양식',
+          description: '거래처·품목·수량·납기를 입력해 신규 발주를 등록하는 표준 서식입니다.',
+          categoryId: 'erp',
+          meta: '사용 1,204회',
+          featured: true,
+        },
+        {
+          id: 't2',
+          icon: '📑',
+          title: '전표 처리 신청서',
+          description: '매입·매출 전표 등록 시 필요한 계정과목과 증빙을 정리한 서식입니다.',
+          categoryId: 'erp',
+          meta: '사용 856회',
+        },
+        {
+          id: 't3',
+          icon: '🏢',
+          title: '거래처 마스터 등록 신청서',
+          description: '신규 거래처 등록에 필요한 사업자 정보와 계좌 정보를 입력합니다.',
+          categoryId: 'erp',
+          meta: '사용 214회',
+        },
+        {
+          id: 't4',
+          icon: '📦',
+          title: '주문 접수 처리 시트',
+          description: '접수된 주문 목록을 확인하고 피킹·출고 단계로 전환할 때 사용합니다.',
+          categoryId: 'oms',
+          meta: '사용 932회',
+          featured: true,
+        },
+        {
+          id: 't5',
+          icon: '🚚',
+          title: '배송 상태 변경 요청서',
+          description: '배송 지연·주소 변경 등 배송 상태를 수정할 때 사용하는 서식입니다.',
+          categoryId: 'oms',
+          meta: '사용 331회',
+        },
+        {
+          id: 't6',
+          icon: '🏭',
+          title: '재고 실사 조사서',
+          description: '월간 재고 실사 시 창고별 실사 수량과 오차를 기록하는 서식입니다.',
+          categoryId: 'wms',
+          meta: '사용 512회',
+        },
+        {
+          id: 't7',
+          icon: '📥',
+          title: '입고 처리 확인서',
+          description: '입고 예정 상품의 수량·상태를 확인하고 입고 완료를 등록합니다.',
+          categoryId: 'wms',
+          meta: '사용 478회',
+        },
+        {
+          id: 't8',
+          icon: '🤝',
+          title: '협력사 등록 신청서',
+          description: '신규 협력사의 사업자 정보와 계약 조건을 입력해 등록을 요청합니다.',
+          categoryId: 'prm',
+          meta: '사용 189회',
+          featured: true,
+        },
+        {
+          id: 't9',
+          icon: '⭐',
+          title: '협력사 정기 평가표',
+          description: '분기별 협력사 품질·납기 준수율을 평가해 등급을 산정하는 서식입니다.',
+          categoryId: 'prm',
+          meta: '사용 97회',
+        },
+        {
+          id: 't10',
+          icon: '🗂️',
+          title: '기안서 (품의서)',
+          description: '부서·결재라인을 지정해 사내 승인이 필요한 안건을 상신하는 서식입니다.',
+          categoryId: 'groupware',
+          meta: '사용 2,043회',
+          featured: true,
+        },
+        {
+          id: 't11',
+          icon: '🏖️',
+          title: '연차·휴가 신청서',
+          description: '연차, 반차, 경조사 휴가 등을 신청할 때 사용하는 표준 서식입니다.',
+          categoryId: 'groupware',
+          meta: '사용 3,120회',
+        },
+        {
+          id: 't12',
+          icon: '💳',
+          title: '법인카드 지출 결의서',
+          description: '법인카드 사용 내역과 증빙을 첨부해 지출을 결의하는 서식입니다.',
+          categoryId: 'groupware',
+          meta: '사용 1,587회',
+        },
+      ]}
+    />
+  ),
 }

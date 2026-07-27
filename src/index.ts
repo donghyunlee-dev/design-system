@@ -73,6 +73,8 @@ export type { CommandPaletteProps, CommandGroup, CommandItem } from './component
 // Navigation
 export { Tabs } from './components/navigation/Tabs'
 export type { TabItem } from './components/navigation/Tabs'
+export { ChipGroup } from './components/navigation/ChipGroup'
+export type { ChipGroupProps, ChipGroupItem } from './components/navigation/ChipGroup'
 export { Breadcrumb } from './components/navigation/Breadcrumb'
 export type { BreadcrumbItem } from './components/navigation/Breadcrumb'
 export { Pagination } from './components/navigation/Pagination'
