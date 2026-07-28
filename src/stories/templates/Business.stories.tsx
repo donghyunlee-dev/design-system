@@ -24,6 +24,7 @@ import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
+import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
@@ -1319,6 +1320,57 @@ export const IssueList: Story = {
           />
         }
         actions={<Button size="sm">새 이슈 등록</Button>}
+      />
+    )
+  },
+}
+
+// --- TemplateGallery 스토리용 데이터 ---
+// 카테고리별 커버 색상(단색 썸네일) — 시스템별로 한눈에 구분되는 시각적 미리보기를 제공한다.
+const templateCategories = [
+  { id: 'all', label: '전체', count: 12 },
+  { id: 'erp', label: 'ERP', count: 4 },
+  { id: 'oms', label: 'OMS', count: 3 },
+  { id: 'wms', label: 'WMS', count: 2 },
+  { id: 'prm', label: 'PRM', count: 2 },
+  { id: 'groupware', label: '그룹웨어', count: 1 },
+]
+const categoryCover: Record<string, TemplateGalleryMediaItem['cover']> = {
+  erp: 'brand',
+  oms: 'info',
+  wms: 'warning',
+  prm: 'success',
+  groupware: 'danger',
+}
+const templateItems: TemplateGalleryMediaItem[] = [
+  { id: 't1', categoryId: 'erp', cover: categoryCover.erp, title: '구매 발주서', description: '거래처·품목·수량을 입력해 발주를 기안합니다.', badge: '인기' },
+  { id: 't2', categoryId: 'erp', cover: categoryCover.erp, title: '월 결산 보고서', description: '부서별 매출·비용 실적을 취합하는 결산 양식입니다.' },
+  { id: 't3', categoryId: 'erp', cover: categoryCover.erp, title: '지출 품의서', description: '예산 항목별 지출 승인을 요청하는 품의 양식입니다.', badge: '인기' },
+  { id: 't4', categoryId: 'erp', cover: categoryCover.erp, title: '거래처 마스터 등록', description: '신규 거래처 기본정보와 계좌를 등록합니다.' },
+  { id: 't5', categoryId: 'oms', cover: categoryCover.oms, title: '주문 접수 양식', description: '채널별 주문 정보를 표준 형식으로 접수합니다.', badge: '인기' },
+  { id: 't6', categoryId: 'oms', cover: categoryCover.oms, title: '반품/교환 신청서', description: '고객 반품 사유와 처리 방침을 기록합니다.' },
+  { id: 't7', categoryId: 'oms', cover: categoryCover.oms, title: '출고 지시서', description: '주문 확정 건에 대한 출고 지시를 생성합니다.' },
+  { id: 't8', categoryId: 'wms', cover: categoryCover.wms, title: '재고 실사 시트', description: '창고별 실재고와 전산재고 차이를 기록합니다.' },
+  { id: 't9', categoryId: 'wms', cover: categoryCover.wms, title: '입고 검수 체크리스트', description: '입고 물품의 수량·상태를 검수합니다.' },
+  { id: 't10', categoryId: 'prm', cover: categoryCover.prm, title: '협력사 평가표', description: '분기별 협력사 품질·납기 평가를 기록합니다.' },
+  { id: 't11', categoryId: 'prm', cover: categoryCover.prm, title: '협력사 등록 신청서', description: '신규 협력사 심사에 필요한 정보를 수집합니다.' },
+  { id: 't12', categoryId: 'groupware', cover: categoryCover.groupware, title: '휴가 신청서', description: '연차·경조사 등 휴가 유형별 신청 양식입니다.' },
+]
+const templateFeatured: TemplateGalleryMediaItem[] = templateItems.filter(item => item.badge === '인기')
+
+export const TemplateGalleryStory: Story = {
+  name: 'Template Gallery',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="업무 템플릿 갤러리"
+        description="ERP · OMS · WMS · PRM · 그룹웨어에서 자주 쓰는 문서/업무 양식을 골라 바로 시작하세요."
+        categories={templateCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featured={templateFeatured}
+        items={templateItems}
       />
     )
   },
