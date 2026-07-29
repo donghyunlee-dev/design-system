@@ -87,6 +87,8 @@ export type { StepperProps } from './components/navigation/Stepper'
 // Data
 export { Card } from './components/data/Card'
 export type { CardProps } from './components/data/Card'
+export { MediaCard } from './components/data/MediaCard'
+export type { MediaCardProps } from './components/data/MediaCard'
 export { Tag } from './components/data/Tag'
 export type { TagProps } from './components/data/Tag'
 export { Stat } from './components/data/Stat'

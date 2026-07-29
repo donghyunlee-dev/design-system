@@ -93,5 +93,7 @@ export { DiffView } from './business/DiffView'
 export type { DiffViewProps, DiffField, DiffFieldStatus } from './business/DiffView'
 export { IssueListBoard } from './business/IssueListBoard'
 export type { IssueListBoardProps, IssueListItem, IssueStatus } from './business/IssueListBoard'
+export { TemplateGallery } from './business/TemplateGallery'
+export type { TemplateGalleryProps, TemplateGalleryCategory, TemplateGalleryItem } from './business/TemplateGallery'
 
 export type { DetailField } from './business/types'
