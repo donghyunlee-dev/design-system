@@ -28,6 +28,7 @@ import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
+import { TemplateGallery } from '../../templates/business/TemplateGallery'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
