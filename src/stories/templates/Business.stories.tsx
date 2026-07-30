@@ -1326,53 +1326,55 @@ export const IssueList: Story = {
   },
 }
 
-// --- TemplateGallery 스토리용 데이터 ---
-// 카테고리별 커버 색상(단색 썸네일) — 시스템별로 한눈에 구분되는 시각적 미리보기를 제공한다.
-const templateCategories = [
-  { id: 'all', label: '전체', count: 12 },
-  { id: 'erp', label: 'ERP', count: 4 },
-  { id: 'oms', label: 'OMS', count: 3 },
-  { id: 'wms', label: 'WMS', count: 2 },
-  { id: 'prm', label: 'PRM', count: 2 },
-  { id: 'groupware', label: '그룹웨어', count: 1 },
-]
-const categoryCover: Record<string, TemplateGalleryMediaItem['cover']> = {
-  erp: 'brand',
-  oms: 'info',
-  wms: 'warning',
-  prm: 'success',
-  groupware: 'danger',
-}
-const templateItems: TemplateGalleryMediaItem[] = [
-  { id: 't1', categoryId: 'erp', cover: categoryCover.erp, title: '구매 발주서', description: '거래처·품목·수량을 입력해 발주를 기안합니다.', badge: '인기' },
-  { id: 't2', categoryId: 'erp', cover: categoryCover.erp, title: '월 결산 보고서', description: '부서별 매출·비용 실적을 취합하는 결산 양식입니다.' },
-  { id: 't3', categoryId: 'erp', cover: categoryCover.erp, title: '지출 품의서', description: '예산 항목별 지출 승인을 요청하는 품의 양식입니다.', badge: '인기' },
-  { id: 't4', categoryId: 'erp', cover: categoryCover.erp, title: '거래처 마스터 등록', description: '신규 거래처 기본정보와 계좌를 등록합니다.' },
-  { id: 't5', categoryId: 'oms', cover: categoryCover.oms, title: '주문 접수 양식', description: '채널별 주문 정보를 표준 형식으로 접수합니다.', badge: '인기' },
-  { id: 't6', categoryId: 'oms', cover: categoryCover.oms, title: '반품/교환 신청서', description: '고객 반품 사유와 처리 방침을 기록합니다.' },
-  { id: 't7', categoryId: 'oms', cover: categoryCover.oms, title: '출고 지시서', description: '주문 확정 건에 대한 출고 지시를 생성합니다.' },
-  { id: 't8', categoryId: 'wms', cover: categoryCover.wms, title: '재고 실사 시트', description: '창고별 실재고와 전산재고 차이를 기록합니다.' },
-  { id: 't9', categoryId: 'wms', cover: categoryCover.wms, title: '입고 검수 체크리스트', description: '입고 물품의 수량·상태를 검수합니다.' },
-  { id: 't10', categoryId: 'prm', cover: categoryCover.prm, title: '협력사 평가표', description: '분기별 협력사 품질·납기 평가를 기록합니다.' },
-  { id: 't11', categoryId: 'prm', cover: categoryCover.prm, title: '협력사 등록 신청서', description: '신규 협력사 심사에 필요한 정보를 수집합니다.' },
-  { id: 't12', categoryId: 'groupware', cover: categoryCover.groupware, title: '휴가 신청서', description: '연차·경조사 등 휴가 유형별 신청 양식입니다.' },
-]
-const templateFeatured: TemplateGalleryMediaItem[] = templateItems.filter(item => item.badge === '인기')
-
 export const TemplateGalleryStory: Story = {
   name: 'Template Gallery',
-  render: () => {
-    const [category, setCategory] = useState('all')
-    return (
-      <TemplateGalleryMedia
-        title="업무 템플릿 갤러리"
-        description="ERP · OMS · WMS · PRM · 그룹웨어에서 자주 쓰는 문서/업무 양식을 골라 바로 시작하세요."
-        categories={templateCategories}
-        activeCategoryId={category}
-        onCategoryChange={setCategory}
-        featured={templateFeatured}
-        items={templateItems}
-      />
-    )
-  },
+  render: () => (
+    <TemplateGallery
+      title="업무 템플릿 갤러리"
+      description="ERP·OMS·WMS·PRM·그룹웨어에서 자주 쓰는 문서·워크플로우 템플릿을 골라 바로 새 항목을 생성하세요."
+      breadcrumb={[{ label: '업무 지원', href: '#' }, { label: '템플릿 갤러리' }]}
+      categories={[
+        {
+          id: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 't1', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀' },
+            { id: 't2', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀' },
+            { id: 't3', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀' },
+          ],
+        },
+        {
+          id: 'oms',
+          label: 'OMS',
+          items: [
+            { id: 't4', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀' },
+            { id: 't5', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀' },
+          ],
+        },
+        {
+          id: 'wms',
+          label: 'WMS',
+          items: [
+            { id: 't6', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀' },
+            { id: 't7', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀' },
+          ],
+        },
+        {
+          id: 'prm',
+          label: 'PRM',
+          items: [
+            { id: 't8', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀' },
+          ],
+        },
+        {
+          id: 'groupware',
+          label: '그룹웨어',
+          items: [
+            { id: 't9', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀' },
+            { id: 't10', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀' },
+          ],
+        },
+      ]}
+    />
+  ),
 }

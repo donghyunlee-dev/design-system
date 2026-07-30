@@ -95,7 +95,5 @@ export { IssueListBoard } from './business/IssueListBoard'
 export type { IssueListBoardProps, IssueListItem, IssueStatus } from './business/IssueListBoard'
 export { TemplateGallery } from './business/TemplateGallery'
 export type { TemplateGalleryProps, TemplateGalleryCategory, TemplateGalleryItem } from './business/TemplateGallery'
-export { TemplateGalleryMedia } from './business/TemplateGalleryMedia'
-export type { TemplateGalleryMediaProps, TemplateGalleryMediaCategory, TemplateGalleryMediaItem } from './business/TemplateGalleryMedia'
 
 export type { DetailField } from './business/types'

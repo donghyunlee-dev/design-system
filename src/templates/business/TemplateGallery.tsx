@@ -1,71 +1,99 @@
 import { useMemo, useState } from 'react'
-import { Input } from '../../components/form/Input'
-import { Card } from '../../components/data/Card'
+import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
+import { MediaCard } from '../../components/data/MediaCard'
 import { Tag } from '../../components/data/Tag'
 import { Grid } from '../../components/layout/Grid'
+import { Divider } from '../../components/layout/Divider'
+import { Input } from '../../components/form/Input'
+import { Button } from '../../components/foundation/Button'
 import { EmptyState } from '../../components/feedback/EmptyState'
 import { cn } from '../../utils/cn'
 
-export interface TemplateGalleryCategory {
-  id: string
-  /** 시스템/업무 분류 (예: ERP, OMS, WMS, PRM, 그룹웨어) */
-  label: string
-  count?: number
-}
-
 export interface TemplateGalleryItem {
   id: string
-  categoryId: string
   icon?: string
+  /** 템플릿 미리보기 썸네일 이미지 URL. 미지정 시 icon으로 대체됩니다. */
+  thumbnailSrc?: string
   title: string
   description?: string
-  /** 즐겨찾기·인기 등 강조 배지 */
+  /** 제공 부서/팀 (예: 재무팀, 구매팀) */
+  owner?: string
+  /** 카드 상단 태그 (예: 인기, 신규) */
   badge?: string
-  onClick?: () => void
+  onUse?: () => void
+}
+
+export interface TemplateGalleryCategory {
+  id: string
+  /** 소속 시스템 또는 업무 영역 (예: ERP, OMS, 그룹웨어) */
+  label: string
+  items: TemplateGalleryItem[]
 }
 
 export interface TemplateGalleryProps {
   title?: string
   description?: string
-  searchPlaceholder?: string
-  /** 좌측 카테고리 목록. 첫 항목은 보통 "전체" */
+  breadcrumb?: BreadcrumbItem[]
   categories: TemplateGalleryCategory[]
-  activeCategoryId?: string
+  /** 최초 활성화할 카테고리 id. 미지정 시 "전체" */
+  initialCategoryId?: string
+  searchPlaceholder?: string
+  onSearch?: (query: string) => void
   onCategoryChange?: (categoryId: string) => void
-  /** 상단에 노출할 추천/인기 템플릿 */
-  featuredTitle?: string
-  featured?: TemplateGalleryItem[]
-  /** 전체 템플릿 그리드 */
-  items: TemplateGalleryItem[]
   className?: string
 }
 
+const ALL_CATEGORY_ID = '__all__'
+
 export function TemplateGallery({
-  title = '템플릿 갤러리',
+  title = '업무 템플릿 갤러리',
   description,
-  searchPlaceholder = '템플릿 검색 (예: 발주서, 품의서, 재고실사)',
+  breadcrumb,
   categories,
-  activeCategoryId,
+  initialCategoryId,
+  searchPlaceholder = '템플릿 검색 (예: 발주서, 품의서, 재고 실사)',
+  onSearch,
   onCategoryChange,
-  featuredTitle = '많이 사용하는 템플릿',
-  featured,
-  items,
   className,
 }: TemplateGalleryProps) {
+  const [activeCategoryId, setActiveCategoryId] = useState(initialCategoryId ?? ALL_CATEGORY_ID)
   const [search, setSearch] = useState('')
 
-  const filteredItems = useMemo(() => {
-    const keyword = search.toLowerCase()
-    return items.filter(item => {
-      const matchesCategory = !activeCategoryId || activeCategoryId === 'all' || item.categoryId === activeCategoryId
-      const matchesKeyword = !keyword || item.title.toLowerCase().includes(keyword) || item.description?.toLowerCase().includes(keyword)
-      return matchesCategory && matchesKeyword
-    })
-  }, [items, activeCategoryId, search])
+  const handleSearch = (value: string) => {
+    setSearch(value)
+    onSearch?.(value)
+  }
+
+  const handleCategorySelect = (categoryId: string) => {
+    setActiveCategoryId(categoryId)
+    onCategoryChange?.(categoryId)
+  }
+
+  const totalCount = useMemo(() => categories.reduce((sum, c) => sum + c.items.length, 0), [categories])
+
+  const visibleCategories = useMemo(() => {
+    const keyword = search.trim().toLowerCase()
+    return categories
+      .filter(category => activeCategoryId === ALL_CATEGORY_ID || category.id === activeCategoryId)
+      .map(category => ({
+        ...category,
+        items: keyword
+          ? category.items.filter(item =>
+              item.title.toLowerCase().includes(keyword) ||
+              item.description?.toLowerCase().includes(keyword) ||
+              item.owner?.toLowerCase().includes(keyword)
+            )
+          : category.items,
+      }))
+      .filter(category => category.items.length > 0)
+  }, [categories, activeCategoryId, search])
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
+
+        {breadcrumb && <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>}
+
         <h1 className="text-2xl font-bold text-foreground mb-1">{title}</h1>
         {description && <p className="text-sm text-muted mb-5">{description}</p>}
         {!description && <div className="mb-5" />}
@@ -76,89 +104,85 @@ export function TemplateGallery({
             placeholder={searchPlaceholder}
             aria-label={searchPlaceholder}
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => handleSearch(e.target.value)}
           />
         </div>
 
         <div className="flex gap-6 items-start">
-          {/* 좌측 카테고리 목록 */}
-          <nav className="w-52 flex-shrink-0 hidden lg:block">
-            <ul className="space-y-1">
+          {/* 좌측: 업무 영역 카테고리 */}
+          <nav className="w-56 flex-shrink-0 hidden lg:block">
+            <ul>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => handleCategorySelect(ALL_CATEGORY_ID)}
+                  className={cn(
+                    'w-full flex items-center justify-between px-2.5 py-1.5 text-sm rounded-btn transition-colors',
+                    activeCategoryId === ALL_CATEGORY_ID
+                      ? 'bg-brand-subtle text-brand font-medium'
+                      : 'text-foreground hover:bg-surface-subtle'
+                  )}
+                >
+                  <span>전체</span>
+                  <span className="text-xs text-muted">{totalCount}</span>
+                </button>
+              </li>
               {categories.map(category => (
                 <li key={category.id}>
                   <button
                     type="button"
-                    onClick={() => onCategoryChange?.(category.id)}
+                    onClick={() => handleCategorySelect(category.id)}
                     className={cn(
-                      'w-full flex items-center justify-between px-2.5 py-1.5 rounded-btn text-sm text-left transition-colors',
-                      category.id === activeCategoryId
+                      'w-full flex items-center justify-between px-2.5 py-1.5 text-sm rounded-btn transition-colors',
+                      activeCategoryId === category.id
                         ? 'bg-brand-subtle text-brand font-medium'
                         : 'text-foreground hover:bg-surface-subtle'
                     )}
                   >
                     <span>{category.label}</span>
-                    {category.count !== undefined && (
-                      <span className="text-xs text-muted">{category.count}</span>
-                    )}
+                    <span className="text-xs text-muted">{category.items.length}</span>
                   </button>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* 우측 콘텐츠 */}
-          <div className="flex-1 min-w-0">
-            {featured && featured.length > 0 && (
-              <div className="mb-8">
-                <p className="text-sm font-semibold text-foreground mb-3">{featuredTitle}</p>
+          {/* 우측: 카테고리별 템플릿 카드 그리드 */}
+          <div className="flex-1 min-w-0 space-y-8">
+            {visibleCategories.length === 0 && (
+              <EmptyState title="템플릿을 찾을 수 없습니다" description="검색어나 카테고리를 변경해 보세요." />
+            )}
+            {visibleCategories.map((category, i) => (
+              <div key={category.id}>
+                {i > 0 && <Divider className="mb-8" />}
+                <p className="text-sm font-semibold text-foreground mb-3">{category.label}</p>
                 <Grid cols={3} gap={4}>
-                  {featured.map(item => (
-                    <Card
+                  {category.items.map(item => (
+                    <MediaCard
                       key={item.id}
-                      onClick={item.onClick}
-                      className={cn(item.onClick && 'cursor-pointer hover:bg-surface-raised transition-colors')}
+                      className="flex flex-col"
+                      coverSrc={item.thumbnailSrc}
+                      coverAlt={item.title}
+                      coverFallback={item.icon && <span className="text-2xl">{item.icon}</span>}
                     >
                       <div className="flex items-start justify-between mb-2">
-                        {item.icon && <span className="text-2xl">{item.icon}</span>}
+                        <p className="text-sm font-semibold text-foreground">{item.title}</p>
                         {item.badge && <Tag>{item.badge}</Tag>}
                       </div>
-                      <p className="text-sm font-semibold text-foreground">{item.title}</p>
                       {item.description && (
-                        <p className="text-xs text-muted mt-1 leading-relaxed">{item.description}</p>
+                        <p className="text-xs text-muted mt-1 leading-relaxed flex-1">{item.description}</p>
                       )}
-                    </Card>
+                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                        {item.owner ? (
+                          <span className="text-xs text-muted">{item.owner}</span>
+                        ) : <span />}
+                        <Button size="sm" variant="secondary" onClick={item.onUse}>이 템플릿 사용</Button>
+                      </div>
+                    </MediaCard>
                   ))}
                 </Grid>
               </div>
-            )}
-
-            <p className="text-sm font-semibold text-foreground mb-3">
-              전체 템플릿 <span className="text-muted font-normal">{filteredItems.length}건</span>
-            </p>
-            {filteredItems.length === 0 ? (
-              <div className="bg-surface border border-border rounded-card shadow-card">
-                <EmptyState title="템플릿을 찾을 수 없습니다" description="다른 검색어나 분류로 다시 시도해 보세요." />
-              </div>
-            ) : (
-              <Grid cols={3} gap={4}>
-                {filteredItems.map(item => (
-                  <Card
-                    key={item.id}
-                    onClick={item.onClick}
-                    className={cn(item.onClick && 'cursor-pointer hover:bg-surface-raised transition-colors')}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      {item.icon && <span className="text-2xl">{item.icon}</span>}
-                      {item.badge && <Tag>{item.badge}</Tag>}
-                    </div>
-                    <p className="text-sm font-semibold text-foreground">{item.title}</p>
-                    {item.description && (
-                      <p className="text-xs text-muted mt-1 leading-relaxed">{item.description}</p>
-                    )}
-                  </Card>
-                ))}
-              </Grid>
-            )}
+            ))}
           </div>
         </div>
       </div>
