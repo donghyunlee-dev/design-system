@@ -91,6 +91,7 @@ export function TemplateGallery({
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
+
         {breadcrumb && <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>}
 
         <h1 className="text-2xl font-bold text-foreground mb-1">{title}</h1>
