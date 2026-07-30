@@ -1,46 +1,76 @@
 import { useMemo, useState } from 'react'
 import { Input } from '../../components/form/Input'
-import { Card } from '../../components/data/Card'
+import { CardMedia, CardMediaCover } from '../../components/data/CardMedia'
 import { Tag } from '../../components/data/Tag'
 import { Grid } from '../../components/layout/Grid'
 import { EmptyState } from '../../components/feedback/EmptyState'
 import { cn } from '../../utils/cn'
 
-export interface TemplateGalleryCategory {
+export interface TemplateGalleryMediaCategory {
   id: string
   /** 시스템/업무 분류 (예: ERP, OMS, WMS, PRM, 그룹웨어) */
   label: string
   count?: number
 }
 
-export interface TemplateGalleryItem {
+export interface TemplateGalleryMediaItem {
   id: string
   categoryId: string
-  icon?: string
   title: string
   description?: string
+  /** 썸네일 이미지 URL. 지정 시 cover보다 우선한다. */
+  image?: string
+  imageAlt?: string
+  /** 이미지가 없을 때 표시할 단색 커버 */
+  cover?: CardMediaCover
   /** 즐겨찾기·인기 등 강조 배지 */
   badge?: string
   onClick?: () => void
 }
 
-export interface TemplateGalleryProps {
+/**
+ * TemplateGallery와 동일한 카테고리/검색/추천 구조를 유지하되,
+ * 각 항목을 썸네일/커버 이미지가 있는 카드(CardMedia)로 표시하는 변형.
+ * 시각적 미리보기가 중요한 갤러리(예: 보드/문서 템플릿 썸네일)에 사용한다.
+ */
+export interface TemplateGalleryMediaProps {
   title?: string
   description?: string
   searchPlaceholder?: string
   /** 좌측 카테고리 목록. 첫 항목은 보통 "전체" */
-  categories: TemplateGalleryCategory[]
+  categories: TemplateGalleryMediaCategory[]
   activeCategoryId?: string
   onCategoryChange?: (categoryId: string) => void
   /** 상단에 노출할 추천/인기 템플릿 */
   featuredTitle?: string
-  featured?: TemplateGalleryItem[]
+  featured?: TemplateGalleryMediaItem[]
   /** 전체 템플릿 그리드 */
-  items: TemplateGalleryItem[]
+  items: TemplateGalleryMediaItem[]
   className?: string
 }
 
-export function TemplateGallery({
+function TemplateCard({ item }: { item: TemplateGalleryMediaItem }) {
+  return (
+    <CardMedia
+      key={item.id}
+      image={item.image}
+      imageAlt={item.imageAlt}
+      cover={item.cover}
+      onClick={item.onClick}
+      className={cn(item.onClick && 'cursor-pointer hover:bg-surface-raised transition-colors')}
+    >
+      <div className="flex items-start justify-between mb-2">
+        <p className="text-sm font-semibold text-foreground">{item.title}</p>
+        {item.badge && <Tag>{item.badge}</Tag>}
+      </div>
+      {item.description && (
+        <p className="text-xs text-muted leading-relaxed">{item.description}</p>
+      )}
+    </CardMedia>
+  )
+}
+
+export function TemplateGalleryMedia({
   title = '템플릿 갤러리',
   description,
   searchPlaceholder = '템플릿 검색 (예: 발주서, 품의서, 재고실사)',
@@ -51,7 +81,7 @@ export function TemplateGallery({
   featured,
   items,
   className,
-}: TemplateGalleryProps) {
+}: TemplateGalleryMediaProps) {
   const [search, setSearch] = useState('')
 
   const filteredItems = useMemo(() => {
@@ -113,20 +143,7 @@ export function TemplateGallery({
                 <p className="text-sm font-semibold text-foreground mb-3">{featuredTitle}</p>
                 <Grid cols={3} gap={4}>
                   {featured.map(item => (
-                    <Card
-                      key={item.id}
-                      onClick={item.onClick}
-                      className={cn(item.onClick && 'cursor-pointer hover:bg-surface-raised transition-colors')}
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        {item.icon && <span className="text-2xl">{item.icon}</span>}
-                        {item.badge && <Tag>{item.badge}</Tag>}
-                      </div>
-                      <p className="text-sm font-semibold text-foreground">{item.title}</p>
-                      {item.description && (
-                        <p className="text-xs text-muted mt-1 leading-relaxed">{item.description}</p>
-                      )}
-                    </Card>
+                    <TemplateCard key={item.id} item={item} />
                   ))}
                 </Grid>
               </div>
@@ -142,20 +159,7 @@ export function TemplateGallery({
             ) : (
               <Grid cols={3} gap={4}>
                 {filteredItems.map(item => (
-                  <Card
-                    key={item.id}
-                    onClick={item.onClick}
-                    className={cn(item.onClick && 'cursor-pointer hover:bg-surface-raised transition-colors')}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      {item.icon && <span className="text-2xl">{item.icon}</span>}
-                      {item.badge && <Tag>{item.badge}</Tag>}
-                    </div>
-                    <p className="text-sm font-semibold text-foreground">{item.title}</p>
-                    {item.description && (
-                      <p className="text-xs text-muted mt-1 leading-relaxed">{item.description}</p>
-                    )}
-                  </Card>
+                  <TemplateCard key={item.id} item={item} />
                 ))}
               </Grid>
             )}

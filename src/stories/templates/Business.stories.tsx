@@ -24,6 +24,7 @@ import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
+import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
@@ -1325,121 +1326,53 @@ export const IssueList: Story = {
   },
 }
 
-export const Templates: Story = {
+// --- TemplateGallery 스토리용 데이터 ---
+// 카테고리별 커버 색상(단색 썸네일) — 시스템별로 한눈에 구분되는 시각적 미리보기를 제공한다.
+const templateCategories = [
+  { id: 'all', label: '전체', count: 12 },
+  { id: 'erp', label: 'ERP', count: 4 },
+  { id: 'oms', label: 'OMS', count: 3 },
+  { id: 'wms', label: 'WMS', count: 2 },
+  { id: 'prm', label: 'PRM', count: 2 },
+  { id: 'groupware', label: '그룹웨어', count: 1 },
+]
+const categoryCover: Record<string, TemplateGalleryMediaItem['cover']> = {
+  erp: 'brand',
+  oms: 'info',
+  wms: 'warning',
+  prm: 'success',
+  groupware: 'danger',
+}
+const templateItems: TemplateGalleryMediaItem[] = [
+  { id: 't1', categoryId: 'erp', cover: categoryCover.erp, title: '구매 발주서', description: '거래처·품목·수량을 입력해 발주를 기안합니다.', badge: '인기' },
+  { id: 't2', categoryId: 'erp', cover: categoryCover.erp, title: '월 결산 보고서', description: '부서별 매출·비용 실적을 취합하는 결산 양식입니다.' },
+  { id: 't3', categoryId: 'erp', cover: categoryCover.erp, title: '지출 품의서', description: '예산 항목별 지출 승인을 요청하는 품의 양식입니다.', badge: '인기' },
+  { id: 't4', categoryId: 'erp', cover: categoryCover.erp, title: '거래처 마스터 등록', description: '신규 거래처 기본정보와 계좌를 등록합니다.' },
+  { id: 't5', categoryId: 'oms', cover: categoryCover.oms, title: '주문 접수 양식', description: '채널별 주문 정보를 표준 형식으로 접수합니다.', badge: '인기' },
+  { id: 't6', categoryId: 'oms', cover: categoryCover.oms, title: '반품/교환 신청서', description: '고객 반품 사유와 처리 방침을 기록합니다.' },
+  { id: 't7', categoryId: 'oms', cover: categoryCover.oms, title: '출고 지시서', description: '주문 확정 건에 대한 출고 지시를 생성합니다.' },
+  { id: 't8', categoryId: 'wms', cover: categoryCover.wms, title: '재고 실사 시트', description: '창고별 실재고와 전산재고 차이를 기록합니다.' },
+  { id: 't9', categoryId: 'wms', cover: categoryCover.wms, title: '입고 검수 체크리스트', description: '입고 물품의 수량·상태를 검수합니다.' },
+  { id: 't10', categoryId: 'prm', cover: categoryCover.prm, title: '협력사 평가표', description: '분기별 협력사 품질·납기 평가를 기록합니다.' },
+  { id: 't11', categoryId: 'prm', cover: categoryCover.prm, title: '협력사 등록 신청서', description: '신규 협력사 심사에 필요한 정보를 수집합니다.' },
+  { id: 't12', categoryId: 'groupware', cover: categoryCover.groupware, title: '휴가 신청서', description: '연차·경조사 등 휴가 유형별 신청 양식입니다.' },
+]
+const templateFeatured: TemplateGalleryMediaItem[] = templateItems.filter(item => item.badge === '인기')
+
+export const TemplateGalleryStory: Story = {
   name: 'Template Gallery',
-  render: () => (
-    <TemplateGallery
-      title="업무 템플릿 갤러리"
-      description="ERP·OMS·WMS·PRM·그룹웨어에서 자주 쓰는 표준 서식을 골라 바로 작성을 시작하세요."
-      categories={[
-        { id: 'erp', label: 'ERP' },
-        { id: 'oms', label: 'OMS' },
-        { id: 'wms', label: 'WMS' },
-        { id: 'prm', label: 'PRM' },
-        { id: 'groupware', label: '그룹웨어' },
-      ]}
-      items={[
-        {
-          id: 't1',
-          icon: '🧾',
-          title: '발주서 양식',
-          description: '거래처·품목·수량·납기를 입력해 신규 발주를 등록하는 표준 서식입니다.',
-          categoryId: 'erp',
-          meta: '사용 1,204회',
-          featured: true,
-        },
-        {
-          id: 't2',
-          icon: '📑',
-          title: '전표 처리 신청서',
-          description: '매입·매출 전표 등록 시 필요한 계정과목과 증빙을 정리한 서식입니다.',
-          categoryId: 'erp',
-          meta: '사용 856회',
-        },
-        {
-          id: 't3',
-          icon: '🏢',
-          title: '거래처 마스터 등록 신청서',
-          description: '신규 거래처 등록에 필요한 사업자 정보와 계좌 정보를 입력합니다.',
-          categoryId: 'erp',
-          meta: '사용 214회',
-        },
-        {
-          id: 't4',
-          icon: '📦',
-          title: '주문 접수 처리 시트',
-          description: '접수된 주문 목록을 확인하고 피킹·출고 단계로 전환할 때 사용합니다.',
-          categoryId: 'oms',
-          meta: '사용 932회',
-          featured: true,
-        },
-        {
-          id: 't5',
-          icon: '🚚',
-          title: '배송 상태 변경 요청서',
-          description: '배송 지연·주소 변경 등 배송 상태를 수정할 때 사용하는 서식입니다.',
-          categoryId: 'oms',
-          meta: '사용 331회',
-        },
-        {
-          id: 't6',
-          icon: '🏭',
-          title: '재고 실사 조사서',
-          description: '월간 재고 실사 시 창고별 실사 수량과 오차를 기록하는 서식입니다.',
-          categoryId: 'wms',
-          meta: '사용 512회',
-        },
-        {
-          id: 't7',
-          icon: '📥',
-          title: '입고 처리 확인서',
-          description: '입고 예정 상품의 수량·상태를 확인하고 입고 완료를 등록합니다.',
-          categoryId: 'wms',
-          meta: '사용 478회',
-        },
-        {
-          id: 't8',
-          icon: '🤝',
-          title: '협력사 등록 신청서',
-          description: '신규 협력사의 사업자 정보와 계약 조건을 입력해 등록을 요청합니다.',
-          categoryId: 'prm',
-          meta: '사용 189회',
-          featured: true,
-        },
-        {
-          id: 't9',
-          icon: '⭐',
-          title: '협력사 정기 평가표',
-          description: '분기별 협력사 품질·납기 준수율을 평가해 등급을 산정하는 서식입니다.',
-          categoryId: 'prm',
-          meta: '사용 97회',
-        },
-        {
-          id: 't10',
-          icon: '🗂️',
-          title: '기안서 (품의서)',
-          description: '부서·결재라인을 지정해 사내 승인이 필요한 안건을 상신하는 서식입니다.',
-          categoryId: 'groupware',
-          meta: '사용 2,043회',
-          featured: true,
-        },
-        {
-          id: 't11',
-          icon: '🏖️',
-          title: '연차·휴가 신청서',
-          description: '연차, 반차, 경조사 휴가 등을 신청할 때 사용하는 표준 서식입니다.',
-          categoryId: 'groupware',
-          meta: '사용 3,120회',
-        },
-        {
-          id: 't12',
-          icon: '💳',
-          title: '법인카드 지출 결의서',
-          description: '법인카드 사용 내역과 증빙을 첨부해 지출을 결의하는 서식입니다.',
-          categoryId: 'groupware',
-          meta: '사용 1,587회',
-        },
-      ]}
-    />
-  ),
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="업무 템플릿 갤러리"
+        description="ERP · OMS · WMS · PRM · 그룹웨어에서 자주 쓰는 문서/업무 양식을 골라 바로 시작하세요."
+        categories={templateCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featured={templateFeatured}
+        items={templateItems}
+      />
+    )
+  },
 }
