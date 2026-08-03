@@ -13,6 +13,8 @@ import { WizardForm } from '../../templates/business/WizardForm'
 import { ApprovalView } from '../../templates/business/ApprovalView'
 import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { DocsHub } from '../../templates/business/DocsHub'
+import { HelpCenter } from '../../templates/business/HelpCenter'
+import { HelpArticleView } from '../../templates/business/HelpArticleView'
 import { KanbanBoard } from '../../templates/business/KanbanBoard'
 import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
 import { ScheduleCalendar, ScheduleDay } from '../../templates/business/ScheduleCalendar'
@@ -1418,4 +1420,69 @@ export const TemplateStore: Story = {
       />
     )
   },
+}
+
+export const HelpCenterHome: Story = {
+  name: 'Help Center',
+  render: () => (
+    <HelpCenter
+      title="사내 시스템 도움말 센터"
+      breadcrumb={[{ label: '지원', href: '#' }, { label: '도움말 센터' }]}
+      categories={[
+        { id: 'erp', icon: '🧾', label: 'ERP', description: '발주·전표·마스터 관리', count: 24 },
+        { id: 'oms', icon: '📦', label: 'OMS', description: '주문·배송 처리', count: 18 },
+        { id: 'wms', icon: '🏭', label: 'WMS', description: '입출고·재고 실사', count: 15 },
+        { id: 'prm', icon: '🤝', label: 'PRM', description: '협력사 등록·평가', count: 9 },
+        { id: 'account', icon: '🔐', label: '계정·권한', description: '로그인·권한 신청', count: 12 },
+        { id: 'groupware', icon: '🗂️', label: '그룹웨어', description: '전자결재·근태', count: 21 },
+      ]}
+      faqs={[
+        { id: 'f1', question: 'ERP 비밀번호를 잊어버렸어요. 어떻게 재설정하나요?', answer: '로그인 화면의 [비밀번호 찾기]를 눌러 사내 이메일로 인증 후 재설정할 수 있습니다. 인증 메일이 오지 않으면 IT 헬프데스크로 문의해 주세요.' },
+        { id: 'f2', question: '발주서를 잘못 등록했는데 취소할 수 있나요?', answer: '결재가 시작되기 전 상태에서는 발주 상세 화면의 [기안 취소]로 회수할 수 있습니다. 이미 결재가 진행 중이면 담당 결재자에게 반려를 요청해야 합니다.' },
+        { id: 'f3', question: 'WMS 재고 실사 결과가 실제 재고와 다르게 표시돼요.', answer: '실사 마감 전 임시 저장된 값일 수 있습니다. [재고 실사 > 마감 처리]를 완료해야 ERP 재고 마스터에 반영됩니다.' },
+      ]}
+      contactChannels={[
+        { id: 'c1', label: 'IT 헬프데스크', description: '평일 09:00~18:00 · 내선 1234', actionLabel: '문의 등록' },
+        { id: 'c2', label: '팀즈 #it-support 채널', description: 'Microsoft Teams에서 실시간 문의', actionLabel: '채널 열기' },
+      ]}
+    />
+  ),
+}
+
+export const HelpArticleDetail: Story = {
+  name: 'Help Article',
+  render: () => (
+    <HelpArticleView
+      breadcrumb={[
+        { label: '지원', href: '#' },
+        { label: 'ERP', href: '#' },
+        { label: '발주 등록 가이드' },
+      ]}
+      title="발주 등록 가이드"
+      system="ERP"
+      author="IT팀"
+      updatedAt="2026-07-28"
+      sections={[
+        { id: 'overview', label: '개요' },
+        { id: 'steps', label: '등록 절차' },
+        { id: 'tips', label: '주의사항' },
+      ]}
+      relatedArticles={[
+        { id: 'r1', title: '전표 처리 가이드', system: 'ERP' },
+        { id: 'r2', title: '거래처 마스터 관리', system: 'ERP' },
+        { id: 'r3', title: '주문 접수·처리', system: 'OMS' },
+      ]}
+    >
+      <h2 id="overview" className="text-lg font-semibold text-foreground">개요</h2>
+      <p>발주 등록 화면에서는 거래처, 품목, 수량을 입력하여 신규 발주를 생성할 수 있습니다. 등록된 발주는 결재 완료 후 확정되며, 확정 전까지는 기안자가 자유롭게 수정할 수 있습니다.</p>
+
+      <h2 id="steps" className="text-lg font-semibold text-foreground">등록 절차</h2>
+      <p>1. [구매관리 &gt; 발주 등록] 메뉴로 이동합니다.</p>
+      <p>2. 거래처와 납기일자를 선택한 뒤 발주 상세 품목을 입력합니다.</p>
+      <p>3. 저장 시 결재선이 자동으로 생성되며, 결재 완료 후 발주서가 확정됩니다.</p>
+
+      <h2 id="tips" className="text-lg font-semibold text-foreground">주의사항</h2>
+      <p>결재가 시작된 이후에는 품목·수량을 직접 수정할 수 없으므로, 결재자에게 반려를 요청한 뒤 다시 기안해야 합니다.</p>
+    </HelpArticleView>
+  ),
 }
