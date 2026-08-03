@@ -1378,3 +1378,44 @@ export const TemplateGalleryStory: Story = {
     />
   ),
 }
+
+const templateStoreCategories = [
+  { id: 'all', label: '전체', count: 9 },
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const templateStoreItems: TemplateGalleryMediaItem[] = [
+  { id: 'ts1', categoryId: 'erp', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', cover: 'brand', author: '구매팀', usageLabel: '312명 사용 중' },
+  { id: 'ts2', categoryId: 'erp', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', cover: 'info', author: '재무팀', usageLabel: '198명 사용 중' },
+  { id: 'ts3', categoryId: 'oms', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', cover: 'warning', badge: '신규', author: 'CS팀', usageLabel: '84명 사용 중' },
+  { id: 'ts4', categoryId: 'oms', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', cover: 'warning', author: '물류팀', usageLabel: '51명 사용 중' },
+  { id: 'ts5', categoryId: 'wms', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', cover: 'success', author: '물류팀', usageLabel: '127명 사용 중' },
+  { id: 'ts6', categoryId: 'wms', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', cover: 'success', author: '창고관리팀', usageLabel: '76명 사용 중' },
+  { id: 'ts7', categoryId: 'prm', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', cover: 'info', author: '구매팀', usageLabel: '63명 사용 중' },
+  { id: 'ts8', categoryId: 'groupware', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', cover: 'brand', badge: '인기', author: '인사팀', usageLabel: '540명 사용 중' },
+  { id: 'ts9', categoryId: 'groupware', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', cover: 'danger', author: '인사팀', usageLabel: '112명 사용 중' },
+]
+
+export const TemplateStore: Story = {
+  name: 'Template Store',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="사내 템플릿 스토어"
+        description="ERP·OMS·WMS·PRM·그룹웨어 전 부서가 등록한 문서·워크플로우 템플릿을 상단 분류로 빠르게 훑어보고 바로 사용하세요."
+        categoryLayout="top"
+        categories={templateStoreCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featuredTitle="가장 많이 사용된 템플릿"
+        featured={templateStoreItems.filter(item => item.badge)}
+        items={templateStoreItems}
+      />
+    )
+  },
+}
