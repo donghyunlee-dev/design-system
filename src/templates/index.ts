@@ -101,5 +101,7 @@ export { HelpArticleView } from './business/HelpArticleView'
 export type { HelpArticleViewProps, HelpArticleSection, HelpRelatedArticle } from './business/HelpArticleView'
 export { HelpCenter } from './business/HelpCenter'
 export type { HelpCenterProps, HelpCategory, HelpFaqItem, HelpContactChannel } from './business/HelpCenter'
+export { TemplateCommunity } from './business/TemplateCommunity'
+export type { TemplateCommunityProps, TemplateCommunityCategory, TemplateCommunityItem, TemplateCommunitySection } from './business/TemplateCommunity'
 
 export type { DetailField } from './business/types'

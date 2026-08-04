@@ -27,6 +27,7 @@ import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
 import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
+import { TemplateCommunity, TemplateCommunitySection } from '../../templates/business/TemplateCommunity'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
@@ -1417,6 +1418,65 @@ export const TemplateStore: Story = {
         featuredTitle="가장 많이 사용된 템플릿"
         featured={templateStoreItems.filter(item => item.badge)}
         items={templateStoreItems}
+      />
+    )
+  },
+}
+
+const templateCommunitySections: TemplateCommunitySection[] = [
+  {
+    id: 'popular',
+    title: '이번 주 인기 템플릿',
+    moreLabel: '전체보기',
+    onMoreClick: () => {},
+    items: [
+      { id: 'c1', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', coverFallback: '🧾', author: '구매팀', authorVerified: true, usageLabel: '312명 사용 중', likeCount: 128, badge: '인기', onDuplicate: () => {} },
+      { id: 'c2', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', coverFallback: '🗂️', author: '인사팀', authorVerified: true, usageLabel: '540명 사용 중', likeCount: 256, badge: '인기', onDuplicate: () => {} },
+      { id: 'c3', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', coverFallback: '💳', author: '재무팀', usageLabel: '198명 사용 중', likeCount: 94, onDuplicate: () => {} },
+      { id: 'c4', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', coverFallback: '📋', author: '물류팀', usageLabel: '127명 사용 중', likeCount: 61, onDuplicate: () => {} },
+    ],
+  },
+  {
+    id: 'oms',
+    title: 'OMS 추천 템플릿',
+    moreLabel: '전체보기',
+    onMoreClick: () => {},
+    items: [
+      { id: 'c5', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', coverFallback: '📦', author: 'CS팀', usageLabel: '84명 사용 중', likeCount: 33, badge: '신규', onDuplicate: () => {} },
+      { id: 'c6', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', coverFallback: '🚚', author: '물류팀', usageLabel: '51명 사용 중', likeCount: 18, onDuplicate: () => {} },
+    ],
+  },
+  {
+    id: 'prm',
+    title: 'PRM 추천 템플릿',
+    moreLabel: '전체보기',
+    onMoreClick: () => {},
+    items: [
+      { id: 'c7', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', coverFallback: '🤝', author: '구매팀', authorVerified: true, usageLabel: '63명 사용 중', likeCount: 21, onDuplicate: () => {} },
+      { id: 'c8', title: '협력사 평가표', description: '분기별 협력사 납기·품질 준수율을 평가해 등급을 산정하는 양식입니다.', coverFallback: '📊', author: '구매팀', usageLabel: '47명 사용 중', likeCount: 15, onDuplicate: () => {} },
+    ],
+  },
+]
+
+export const TemplateCommunityHome: Story = {
+  name: 'Template Community',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateCommunity
+        title="사내 템플릿 커뮤니티"
+        description="전 부서가 등록한 문서·업무 템플릿을 카테고리별로 훑어보고 바로 가져다 쓰세요."
+        categories={[
+          { id: 'all', label: '전체' },
+          { id: 'erp', label: 'ERP' },
+          { id: 'oms', label: 'OMS' },
+          { id: 'wms', label: 'WMS' },
+          { id: 'prm', label: 'PRM' },
+          { id: 'groupware', label: '그룹웨어' },
+        ]}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        sections={templateCommunitySections}
       />
     )
   },
