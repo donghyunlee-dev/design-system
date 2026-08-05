@@ -7,6 +7,8 @@ import { DashboardKPI } from '../../templates/business/DashboardKPI'
 import { FormRegister } from '../../templates/business/FormRegister'
 import { DetailView } from '../../templates/business/DetailView'
 import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
+import { SystemStatusBoard } from '../../templates/business/SystemStatusBoard'
+import { UptimeDay } from '../../components/data/UptimeHistoryStrip'
 import { SettingsPage } from '../../templates/business/SettingsPage'
 import { MasterDetail } from '../../templates/business/MasterDetail'
 import { WizardForm } from '../../templates/business/WizardForm'
@@ -349,6 +351,74 @@ export const Monitoring: Story = {
         { id: '4', name: 'D 라인', status: 'idle',    value: '점검 중' },
         { id: '5', name: 'E 라인', status: 'running', value: '250건 / 250목표' },
         { id: '6', name: 'F 라인', status: 'offline', value: '—' },
+      ]}
+    />
+  ),
+}
+
+/** 최근 90일 가동 이력을 생성한다. exceptions에 지정된 날짜만 상태를 덮어쓴다. */
+function makeUptimeHistory(exceptions: Record<string, { status: UptimeDay['status']; note?: string }> = {}): UptimeDay[] {
+  const days: UptimeDay[] = []
+  const end = new Date('2026-08-05')
+  for (let i = 89; i >= 0; i--) {
+    const d = new Date(end)
+    d.setDate(d.getDate() - i)
+    const date = d.toISOString().slice(0, 10)
+    const override = exceptions[date]
+    days.push({ date, status: override?.status ?? 'operational', note: override?.note })
+  }
+  return days
+}
+
+export const SystemStatus: Story = {
+  name: 'System Status Board',
+  render: () => (
+    <SystemStatusBoard
+      title="사내 시스템 상태"
+      lastUpdated="2026-08-05 09:00 기준"
+      overall={{
+        status: 'degraded',
+        message: '일부 시스템에서 지연이 발생하고 있습니다.',
+      }}
+      systems={[
+        { id: 'erp', name: 'ERP', description: 'Enterprise Resource Planning · 발주·전표·마스터 관리', status: 'operational', uptime: '99.98%', history: makeUptimeHistory() },
+        {
+          id: 'oms', name: 'OMS', description: 'Order Management System · 주문·배송 처리', status: 'degraded', uptime: '99.42%',
+          history: makeUptimeHistory({
+            '2026-08-05': { status: 'degraded', note: '09:12 주문 접수 응답 지연' },
+          }),
+        },
+        { id: 'wms', name: 'WMS', description: 'Warehouse Management System · 입출고·재고 관리', status: 'operational', uptime: '99.95%', history: makeUptimeHistory() },
+        { id: 'prm', name: 'PRM', description: 'Partner Management System · 협력사 관리', status: 'operational', uptime: '100%', history: makeUptimeHistory() },
+        { id: 'groupware', name: '그룹웨어', description: '전자결재·근태·게시판', status: 'operational', uptime: '99.99%', history: makeUptimeHistory() },
+        {
+          id: 'teams', name: '팀즈', description: 'Microsoft Teams · 사내 메신저', status: 'maintenance', uptime: '—',
+          history: makeUptimeHistory({
+            '2026-08-03': { status: 'maintenance', note: '00:00~02:00 정기 점검' },
+          }),
+        },
+      ]}
+      incidents={[
+        {
+          id: 'inc-1',
+          date: '2026-08-05',
+          title: 'OMS 주문 접수 지연',
+          status: 'monitoring',
+          updates: [
+            { time: '09:12', message: '주문 접수 응답 지연 현상을 확인했습니다. 원인을 조사 중입니다.' },
+            { time: '08:47', message: 'OMS 주문 접수 화면에서 응답 지연 신고가 접수되었습니다.' },
+          ],
+        },
+        {
+          id: 'inc-2',
+          date: '2026-08-03',
+          title: '팀즈 정기 점검 안내',
+          status: 'resolved',
+          updates: [
+            { time: '02:00', message: '정기 점검이 정상적으로 완료되었습니다.' },
+            { time: '00:00', message: '00:00~02:00 팀즈 서비스 정기 점검이 예정되어 있습니다.' },
+          ],
+        },
       ]}
     />
   ),
