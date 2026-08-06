@@ -22,6 +22,9 @@ export type { ProductListProps } from './service/catalog/ProductList'
 export { ProductDetail } from './service/catalog/ProductDetail'
 export type { ProductDetailProps } from './service/catalog/ProductDetail'
 
+export { ServiceCatalog } from './service/catalog/ServiceCatalog'
+export type { ServiceCatalogProps, ServiceCatalogCategory, ServiceCatalogItem } from './service/catalog/ServiceCatalog'
+
 // Service - Commerce
 export { CheckoutForm } from './service/commerce/CheckoutForm'
 export type { CheckoutFormProps, CheckoutOrderItem } from './service/commerce/CheckoutForm'

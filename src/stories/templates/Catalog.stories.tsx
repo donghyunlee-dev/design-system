@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { ProductGrid } from '../../templates/service/catalog/ProductGrid'
 import { ProductList } from '../../templates/service/catalog/ProductList'
 import { ProductDetail } from '../../templates/service/catalog/ProductDetail'
+import { ServiceCatalog } from '../../templates/service/catalog/ServiceCatalog'
 import { Button } from '../../components/foundation/Button'
 import { Badge } from '../../components/foundation/Badge'
 
@@ -44,6 +45,126 @@ export const List: StoryObj = {
           <p className="text-sm font-bold text-brand">{item.price}</p>
         </div>
       )}
+    />
+  ),
+}
+
+export const ServiceRequestCatalog: StoryObj = {
+  render: () => (
+    <ServiceCatalog
+      categories={[
+        {
+          id: 'erp',
+          label: 'ERP',
+          items: [
+            {
+              id: 'erp-account',
+              icon: '🧾',
+              title: 'ERP 계정 신청',
+              description: '신규 입사자·부서이동자를 위한 ERP(Enterprise Resource Planning) 계정 발급을 신청합니다.',
+              owner: 'IT지원팀',
+              etaLabel: '1일 이내 처리',
+              badge: '인기',
+              onRequest: () => {},
+            },
+            {
+              id: 'erp-cost-center',
+              icon: '📊',
+              title: '코스트센터 변경 신청',
+              description: '부서 개편에 따른 ERP 코스트센터 매핑 변경을 신청합니다.',
+              owner: '재무팀',
+              etaLabel: '3일 이내 처리',
+              onRequest: () => {},
+            },
+          ],
+        },
+        {
+          id: 'oms',
+          label: 'OMS',
+          items: [
+            {
+              id: 'oms-permission',
+              icon: '📦',
+              title: 'OMS 주문 조회 권한 신청',
+              description: 'OMS(Order Management System)에서 담당 거래처 주문 내역을 조회할 수 있는 권한을 신청합니다.',
+              owner: '영업지원팀',
+              etaLabel: '2일 이내 처리',
+              badge: '인기',
+              onRequest: () => {},
+            },
+          ],
+        },
+        {
+          id: 'wms',
+          label: 'WMS',
+          items: [
+            {
+              id: 'wms-access',
+              icon: '🏭',
+              title: 'WMS 창고 접근 권한 신청',
+              description: 'WMS(Warehouse Management System) 특정 창고의 입출고 처리 권한을 신청합니다.',
+              owner: '물류팀',
+              etaLabel: '2일 이내 처리',
+              onRequest: () => {},
+            },
+          ],
+        },
+        {
+          id: 'groupware',
+          label: '그룹웨어',
+          items: [
+            {
+              id: 'meeting-room',
+              icon: '🗓️',
+              title: '회의실 예약 시스템 이용 신청',
+              description: '그룹웨어 회의실 예약 기능 사용을 위한 초기 이용 신청입니다.',
+              owner: '총무팀',
+              etaLabel: '즉시 처리',
+              onRequest: () => {},
+            },
+            {
+              id: 'vpn',
+              icon: '🔒',
+              title: '사내망 VPN 신청',
+              description: '원격 근무 시 사내망 접속을 위한 VPN 계정을 신청합니다.',
+              owner: 'IT지원팀',
+              etaLabel: '1일 이내 처리',
+              onRequest: () => {},
+            },
+          ],
+        },
+      ]}
+      featured={[
+        {
+          id: 'erp-account',
+          icon: '🧾',
+          title: 'ERP 계정 신청',
+          description: '신규 입사자·부서이동자를 위한 ERP(Enterprise Resource Planning) 계정 발급을 신청합니다.',
+          owner: 'IT지원팀',
+          etaLabel: '1일 이내 처리',
+          badge: '인기',
+          onRequest: () => {},
+        },
+        {
+          id: 'oms-permission',
+          icon: '📦',
+          title: 'OMS 주문 조회 권한 신청',
+          description: 'OMS(Order Management System)에서 담당 거래처 주문 내역을 조회할 수 있는 권한을 신청합니다.',
+          owner: '영업지원팀',
+          etaLabel: '2일 이내 처리',
+          badge: '인기',
+          onRequest: () => {},
+        },
+        {
+          id: 'vpn',
+          icon: '🔒',
+          title: '사내망 VPN 신청',
+          description: '원격 근무 시 사내망 접속을 위한 VPN 계정을 신청합니다.',
+          owner: 'IT지원팀',
+          etaLabel: '1일 이내 처리',
+          onRequest: () => {},
+        },
+      ]}
     />
   ),
 }
