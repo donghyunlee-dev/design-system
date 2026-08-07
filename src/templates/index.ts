@@ -108,5 +108,7 @@ export { HelpCenter } from './business/HelpCenter'
 export type { HelpCenterProps, HelpCategory, HelpFaqItem, HelpContactChannel } from './business/HelpCenter'
 export { TemplateCommunity } from './business/TemplateCommunity'
 export type { TemplateCommunityProps, TemplateCommunityCategory, TemplateCommunityItem, TemplateCommunitySection } from './business/TemplateCommunity'
+export { SystemFeatureTour } from './business/SystemFeatureTour'
+export type { SystemFeatureTourProps, SystemFeatureTourSection } from './business/SystemFeatureTour'
 
 export type { DetailField } from './business/types'

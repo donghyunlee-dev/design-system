@@ -17,6 +17,7 @@ import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { DocsHub } from '../../templates/business/DocsHub'
 import { HelpCenter } from '../../templates/business/HelpCenter'
 import { HelpArticleView } from '../../templates/business/HelpArticleView'
+import { SystemFeatureTour } from '../../templates/business/SystemFeatureTour'
 import { KanbanBoard } from '../../templates/business/KanbanBoard'
 import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
 import { ScheduleCalendar, ScheduleDay } from '../../templates/business/ScheduleCalendar'
@@ -1614,5 +1615,74 @@ export const HelpArticleDetail: Story = {
       <h2 id="tips" className="text-lg font-semibold text-foreground">주의사항</h2>
       <p>결재가 시작된 이후에는 품목·수량을 직접 수정할 수 없으므로, 결재자에게 반려를 요청한 뒤 다시 기안해야 합니다.</p>
     </HelpArticleView>
+  ),
+}
+
+export const FeatureTour: Story = {
+  name: 'System Feature Tour',
+  render: () => (
+    <SystemFeatureTour
+      title="사내 시스템 기능 둘러보기"
+      description="ERP·OMS·WMS·PRM·그룹웨어가 제공하는 핵심 기능을 한눈에 살펴보세요. 신규 입사자 온보딩이나 시스템 도입 안내 시 참고할 수 있습니다."
+      breadcrumb={[{ label: '지원', href: '#' }, { label: '기능 둘러보기' }]}
+      ctaLabel="상세 가이드 보기"
+      sections={[
+        {
+          id: 'erp-order',
+          system: 'ERP',
+          title: '발주부터 전표까지, 결재 흐름 자동화',
+          description: '발주 등록 시 결재선이 자동으로 생성되고, 결재 완료 즉시 전표와 재고 마스터에 반영됩니다.',
+          highlights: [
+            '거래처·품목 마스터 연동으로 입력 오류 최소화',
+            '결재 진행 상태를 실시간으로 확인',
+            '확정된 발주는 전표로 자동 전환',
+          ],
+        },
+        {
+          id: 'oms-order',
+          system: 'OMS',
+          title: '주문 접수부터 배송까지 한 화면에서',
+          description: '여러 채널에서 들어온 주문을 통합해 처리하고, 배송 상태를 실시간으로 추적할 수 있습니다.',
+          highlights: [
+            '채널별 주문을 하나의 대기열로 통합',
+            '배송 지연 건 자동 알림',
+            'WMS 출고 현황과 자동 동기화',
+          ],
+        },
+        {
+          id: 'wms-stock',
+          system: 'WMS',
+          title: '입출고와 재고 실사를 정확하게',
+          description: '바코드 스캔 기반으로 입출고를 처리하고, 실사 마감 시 ERP 재고 마스터에 즉시 반영됩니다.',
+          highlights: [
+            '창고별·구역별 재고 현황 조회',
+            '실사 차이 발생 시 원인 항목 자동 표시',
+            '마감 처리 전까지 임시 저장 가능',
+          ],
+        },
+        {
+          id: 'prm-partner',
+          system: 'PRM',
+          title: '협력사 등록과 평가를 체계적으로',
+          description: '신규 협력사 등록 심사부터 정기 평가까지, 협력사 관리 전 과정을 표준화된 절차로 진행합니다.',
+          highlights: [
+            '등록 심사 서류를 온라인으로 제출·검토',
+            '정기 평가 결과를 누적 관리',
+            '평가 결과에 따른 등급 자동 산정',
+          ],
+        },
+        {
+          id: 'groupware-approval',
+          system: '그룹웨어',
+          title: '전자결재와 근태를 하나로',
+          description: '기안·결재·근태 신청을 그룹웨어에서 통합 처리하고, 처리 결과는 관련 시스템에 자동 반영됩니다.',
+          highlights: [
+            '결재선 템플릿으로 반복 기안 간소화',
+            '근태 신청 승인 시 인사 시스템에 자동 반영',
+            '팀즈 알림으로 결재 대기 건 즉시 확인',
+          ],
+        },
+      ]}
+    />
   ),
 }
