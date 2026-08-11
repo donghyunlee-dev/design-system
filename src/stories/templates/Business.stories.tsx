@@ -907,6 +907,37 @@ export const DocsHome: Story = {
         { id: 'n2', title: 'WMS 재고 실사 일정 변경', date: '2026-07-15' },
         { id: 'n3', title: '그룹웨어 정기 점검 (매주 일요일 02:00~04:00)', date: '2026-07-10', tag: '점검' },
       ]}
+      commandGroups={[
+        {
+          key: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 'c-erp-po', label: '발주 등록 가이드', description: '거래처·품목·수량 입력 방법', onSelect: () => {} },
+            { id: 'c-erp-voucher', label: '전표 처리 가이드', description: '전표 승인 절차', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'oms',
+          label: 'OMS',
+          items: [
+            { id: 'c-oms-order', label: '주문 접수·처리', description: '피킹·출고 전환 절차', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'wms',
+          label: 'WMS',
+          items: [
+            { id: 'c-wms-stock', label: '재고 실사 절차', description: '월간 재고 오차 반영 방법', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'groupware',
+          label: '그룹웨어',
+          items: [
+            { id: 'c-gw-approval', label: '전자결재 이용 안내', description: '기안부터 승인까지', onSelect: () => {} },
+          ],
+        },
+      ]}
     />
   ),
 }
