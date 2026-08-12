@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
 import { Card } from '../../components/data/Card'
 import { Tag } from '../../components/data/Tag'
 import { Grid } from '../../components/layout/Grid'
 import { Divider } from '../../components/layout/Divider'
 import { Input } from '../../components/form/Input'
+import { CommandPalette, CommandGroup } from '../../components/overlay/CommandPalette'
 import { cn } from '../../utils/cn'
 
 export interface DocsHubNavItem {
@@ -51,6 +53,8 @@ export interface DocsHubProps {
   breadcrumb?: BreadcrumbItem[]
   /** 검색창 placeholder */
   searchPlaceholder?: string
+  /** 지정 시 검색창이 Cmd/Ctrl+K 즉시검색 오버레이(CommandPalette)를 여는 버튼으로 표시됩니다 */
+  commandGroups?: CommandGroup[]
   /** 좌측 네비게이션에 표시할 시스템별 문서 섹션 */
   sections: DocsHubNavSection[]
   /** 현재 활성화된 네비게이션 항목 id */
@@ -71,6 +75,7 @@ export function DocsHub({
   description,
   breadcrumb,
   searchPlaceholder = '시스템 매뉴얼·API·FAQ 검색 (예: 발주 등록, 재고 조회)',
+  commandGroups,
   sections,
   activeItemId,
   onNavSelect,
@@ -80,6 +85,8 @@ export function DocsHub({
   announcements,
   className,
 }: DocsHubProps) {
+  const [paletteOpen, setPaletteOpen] = useState(false)
+
   return (
     <div className={cn('min-h-screen bg-background', className)}>
       <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
@@ -90,8 +97,28 @@ export function DocsHub({
         {!description && <div className="mb-5" />}
 
         <div className="mb-6 max-w-xl">
-          <Input type="search" placeholder={searchPlaceholder} aria-label={searchPlaceholder} />
+          {commandGroups ? (
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm text-muted bg-surface border border-border rounded-btn hover:bg-surface-subtle transition-colors"
+            >
+              <span className="truncate">{searchPlaceholder}</span>
+              <kbd className="text-xs text-muted border border-border rounded px-1.5 py-0.5 flex-shrink-0">⌘K</kbd>
+            </button>
+          ) : (
+            <Input type="search" placeholder={searchPlaceholder} aria-label={searchPlaceholder} />
+          )}
         </div>
+
+        {commandGroups && (
+          <CommandPalette
+            open={paletteOpen}
+            onClose={() => setPaletteOpen(false)}
+            placeholder={searchPlaceholder}
+            groups={commandGroups}
+          />
+        )}
 
         <div className="flex gap-6 items-start">
           {/* 좌측: 시스템별 문서 네비게이션 */}
