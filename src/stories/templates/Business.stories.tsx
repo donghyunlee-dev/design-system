@@ -1392,13 +1392,20 @@ export const IssueList: Story = {
     const [tab, setTab] = useState<'open' | 'closed'>('open')
     const [keyword, setKeyword] = useState('')
     const [labelFilter, setLabelFilter] = useState('')
+    const [assigneeFilter, setAssigneeFilter] = useState('')
+    const [sort, setSort] = useState('recent')
+    const [selectedIds, setSelectedIds] = useState<string[]>([])
+    const [page, setPage] = useState(1)
 
-    const filtered = allIssues.filter(issue => {
-      if (issue.status !== tab) return false
-      if (keyword && !issue.title.includes(keyword)) return false
-      if (labelFilter && !issue.labels?.includes(labelFilter)) return false
-      return true
-    })
+    const filtered = allIssues
+      .filter(issue => {
+        if (issue.status !== tab) return false
+        if (keyword && !issue.title.includes(keyword)) return false
+        if (labelFilter && !issue.labels?.includes(labelFilter)) return false
+        if (assigneeFilter && issue.assignee?.name !== assigneeFilter) return false
+        return true
+      })
+      .sort((a, b) => (sort === 'comments' ? (b.commentCount ?? 0) - (a.commentCount ?? 0) : 0))
 
     return (
       <IssueListBoard
@@ -1410,20 +1417,45 @@ export const IssueList: Story = {
         activeTab={tab}
         onTabChange={setTab}
         onSearch={setKeyword}
+        onItemClick={issue => alert(`${issue.no} 이슈 상세로 이동`)}
+        selectable
+        selectedIds={selectedIds}
+        onSelectedIdsChange={setSelectedIds}
+        pagination={{ page, total: filtered.length, pageSize: 4, onChange: setPage }}
         filters={
-          <Select
-            value={labelFilter}
-            onChange={e => setLabelFilter(e.target.value)}
-            placeholder="시스템 전체"
-            options={[
-              { value: 'ERP', label: 'ERP' },
-              { value: 'OMS', label: 'OMS' },
-              { value: 'WMS', label: 'WMS' },
-              { value: 'PRM', label: 'PRM' },
-              { value: '그룹웨어', label: '그룹웨어' },
-              { value: 'OCI', label: 'OCI' },
-            ]}
-          />
+          <>
+            <Select
+              value={labelFilter}
+              onChange={e => setLabelFilter(e.target.value)}
+              placeholder="시스템 전체"
+              options={[
+                { value: 'ERP', label: 'ERP' },
+                { value: 'OMS', label: 'OMS' },
+                { value: 'WMS', label: 'WMS' },
+                { value: 'PRM', label: 'PRM' },
+                { value: '그룹웨어', label: '그룹웨어' },
+                { value: 'OCI', label: 'OCI' },
+              ]}
+            />
+            <Select
+              value={assigneeFilter}
+              onChange={e => setAssigneeFilter(e.target.value)}
+              placeholder="담당자 전체"
+              options={[
+                { value: '김민준', label: '김민준' },
+                { value: '이서연', label: '이서연' },
+                { value: '박지훈', label: '박지훈' },
+              ]}
+            />
+            <Select
+              value={sort}
+              onChange={e => setSort(e.target.value)}
+              options={[
+                { value: 'recent', label: '최신순' },
+                { value: 'comments', label: '코멘트 많은순' },
+              ]}
+            />
+          </>
         }
         actions={<Button size="sm">새 이슈 등록</Button>}
       />
