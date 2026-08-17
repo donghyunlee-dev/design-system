@@ -29,6 +29,7 @@ import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
+import { SystemIssueTracker, SystemIssueItem } from '../../templates/business/SystemIssueTracker'
 import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
 import { TemplateCommunity, TemplateCommunitySection } from '../../templates/business/TemplateCommunity'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
@@ -1426,6 +1427,125 @@ export const IssueList: Story = {
           />
         }
         actions={<Button size="sm">새 이슈 등록</Button>}
+      />
+    )
+  },
+}
+
+const deskIssues: SystemIssueItem[] = [
+  {
+    id: 'd1',
+    no: '#412',
+    title: 'ERP 전표 승인 후 재고 반영 지연 문의',
+    status: 'open',
+    labels: ['ERP', '문의'],
+    meta: '오지훈님이 방금 전 등록',
+    commentCount: 1,
+    assignee: { name: '김민준', initials: '김민' },
+  },
+  {
+    id: 'd2',
+    no: '#409',
+    title: 'OMS 주문 상태값 API 응답 지연 조치 요청',
+    status: 'open',
+    labels: ['OMS', '버그', '긴급'],
+    meta: '한도윤님이 2시간 전 등록',
+    commentCount: 4,
+    assignee: { name: '이서연', initials: '이서' },
+  },
+  {
+    id: 'd3',
+    no: '#405',
+    title: 'WMS 피킹 리스트 출력 시 바코드 깨짐 현상',
+    status: 'open',
+    labels: ['WMS', '버그'],
+    meta: '정하은님이 1일 전 등록',
+    commentCount: 2,
+  },
+  {
+    id: 'd4',
+    no: '#398',
+    title: 'PRM 협력사 포털 로그인 2차 인증 도입 요청',
+    status: 'open',
+    labels: ['PRM', '개선'],
+    meta: '박지훈님이 3일 전 등록',
+    commentCount: 0,
+    assignee: { name: '최유진', initials: '최유' },
+  },
+  {
+    id: 'd5',
+    no: '#391',
+    title: '그룹웨어 결재 알림 미수신 건 원인 파악',
+    status: 'closed',
+    labels: ['그룹웨어'],
+    meta: '최유진님이 5일 전 등록 · 김민준님이 닫음',
+    commentCount: 5,
+    assignee: { name: '김민준', initials: '김민' },
+  },
+  {
+    id: 'd6',
+    no: '#384',
+    title: 'OCI 야간 배치 서버 디스크 용량 부족 조치',
+    status: 'closed',
+    labels: ['OCI', '긴급'],
+    meta: '이서연님이 9일 전 등록 · 이서연님이 닫음',
+    commentCount: 7,
+  },
+]
+
+export const SystemIssueTrackerStory: Story = {
+  name: 'System Issue Tracker',
+  render: () => {
+    const [tab, setTab] = useState<'open' | 'closed'>('open')
+    const [keyword, setKeyword] = useState('')
+    const [sort, setSort] = useState('latest')
+    const [selectedIds, setSelectedIds] = useState<string[]>([])
+
+    const filtered = deskIssues
+      .filter(issue => issue.status === tab)
+      .filter(issue => !keyword || issue.title.includes(keyword))
+
+    return (
+      <SystemIssueTracker
+        title="IT 서비스데스크 요청 트래커"
+        breadcrumb={[{ label: 'IT지원', href: '#' }, { label: '서비스데스크' }]}
+        issues={filtered}
+        openCount={deskIssues.filter(i => i.status === 'open').length}
+        closedCount={deskIssues.filter(i => i.status === 'closed').length}
+        activeTab={tab}
+        onTabChange={tab => { setTab(tab); setSelectedIds([]) }}
+        onSearch={setKeyword}
+        filterMenus={[
+          {
+            label: '담당 시스템',
+            items: ['ERP', 'OMS', 'WMS', 'PRM', '그룹웨어', 'OCI'].map(system => ({
+              label: system,
+              onClick: () => setKeyword(system),
+            })),
+          },
+          {
+            label: '담당자',
+            items: [
+              { label: '김민준', onClick: () => setKeyword('김민준') },
+              { label: '이서연', onClick: () => setKeyword('이서연') },
+              { label: '최유진', onClick: () => setKeyword('최유진') },
+            ],
+          },
+        ]}
+        sortOptions={[
+          { value: 'latest', label: '최신순' },
+          { value: 'comments', label: '댓글 많은순' },
+        ]}
+        sortValue={sort}
+        onSortChange={setSort}
+        selectedIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        bulkActions={[
+          { label: '담당자 지정', onClick: () => setSelectedIds([]) },
+          { label: '라벨 추가', onClick: () => setSelectedIds([]) },
+          { label: '닫기', onClick: () => setSelectedIds([]) },
+        ]}
+        actions={<Button size="sm">새 요청 등록</Button>}
       />
     )
   },
