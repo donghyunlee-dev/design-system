@@ -29,6 +29,7 @@ import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
+import { RequestQueueBoard, RequestQueueItem } from '../../templates/business/RequestQueueBoard'
 import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
 import { TemplateCommunity, TemplateCommunitySection } from '../../templates/business/TemplateCommunity'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
@@ -1716,4 +1717,157 @@ export const FeatureTour: Story = {
       ]}
     />
   ),
+}
+
+const allRequests: RequestQueueItem[] = [
+  {
+    id: 'r1',
+    no: '#1042',
+    title: 'ERP 자재 구매 전표 승인 요청',
+    status: 'pending',
+    labels: ['ERP', '긴급'],
+    meta: '김민준님이 2시간 전 신청',
+    commentCount: 3,
+    assignee: { name: '이서연', initials: '이서' },
+  },
+  {
+    id: 'r2',
+    no: '#1041',
+    title: 'OMS 대량 주문 취소 승인 요청',
+    status: 'pending',
+    labels: ['OMS'],
+    meta: '박지훈님이 3시간 전 신청',
+    commentCount: 1,
+    assignee: { name: '최유진', initials: '최유' },
+  },
+  {
+    id: 'r3',
+    no: '#1039',
+    title: 'WMS 재고 실사 차이 조정 승인 요청',
+    status: 'pending',
+    labels: ['WMS', '긴급'],
+    meta: '정하은님이 5시간 전 신청',
+  },
+  {
+    id: 'r4',
+    no: '#1037',
+    title: 'PRM 신규 협력사 등록 심사 요청',
+    status: 'pending',
+    labels: ['PRM'],
+    meta: '한도윤님이 1일 전 신청',
+    commentCount: 5,
+    assignee: { name: '김민준', initials: '김민' },
+  },
+  {
+    id: 'r5',
+    no: '#1035',
+    title: '그룹웨어 연차 신청 결재 요청',
+    status: 'pending',
+    labels: ['그룹웨어'],
+    meta: '최유진님이 1일 전 신청',
+  },
+  {
+    id: 'r6',
+    no: '#1033',
+    title: 'ERP 거래처 등록 정보 변경 승인 요청',
+    status: 'pending',
+    labels: ['ERP'],
+    meta: '박지훈님이 2일 전 신청',
+    commentCount: 2,
+    assignee: { name: '이서연', initials: '이서' },
+  },
+  {
+    id: 'r7',
+    no: '#1028',
+    title: 'OMS 반품 처리 승인 완료',
+    status: 'done',
+    labels: ['OMS'],
+    meta: '김민준님이 4일 전 신청 · 이서연님이 승인',
+    commentCount: 4,
+    assignee: { name: '이서연', initials: '이서' },
+  },
+  {
+    id: 'r8',
+    no: '#1020',
+    title: 'WMS 출고 지시 변경 승인 완료',
+    status: 'done',
+    labels: ['WMS'],
+    meta: '정하은님이 6일 전 신청 · 최유진님이 승인',
+  },
+]
+
+export const RequestQueue: Story = {
+  name: 'Request Queue Board',
+  render: () => {
+    const [tab, setTab] = useState<'pending' | 'done'>('pending')
+    const [systemFilter, setSystemFilter] = useState('')
+    const [assigneeFilter, setAssigneeFilter] = useState('')
+    const [selectedIds, setSelectedIds] = useState<string[]>([])
+    const [page, setPage] = useState(1)
+    const pageSize = 4
+
+    const filtered = allRequests.filter(item => {
+      if (item.status !== tab) return false
+      if (systemFilter && !item.labels?.includes(systemFilter)) return false
+      if (assigneeFilter && item.assignee?.name !== assigneeFilter) return false
+      return true
+    })
+    const paged = filtered.slice((page - 1) * pageSize, page * pageSize)
+
+    return (
+      <RequestQueueBoard
+        title="ERP 결재 대기함"
+        breadcrumb={[{ label: '그룹웨어', href: '#' }, { label: '결재 대기함' }]}
+        items={paged}
+        pendingCount={allRequests.filter(i => i.status === 'pending').length}
+        doneCount={allRequests.filter(i => i.status === 'done').length}
+        activeTab={tab}
+        onTabChange={tab => {
+          setTab(tab)
+          setSelectedIds([])
+          setPage(1)
+        }}
+        onSearch={() => setPage(1)}
+        filters={
+          <>
+            <Select
+              value={systemFilter}
+              onChange={e => { setSystemFilter(e.target.value); setPage(1) }}
+              placeholder="시스템 전체"
+              options={[
+                { value: 'ERP', label: 'ERP' },
+                { value: 'OMS', label: 'OMS' },
+                { value: 'WMS', label: 'WMS' },
+                { value: 'PRM', label: 'PRM' },
+                { value: '그룹웨어', label: '그룹웨어' },
+              ]}
+            />
+            <Select
+              value={assigneeFilter}
+              onChange={e => { setAssigneeFilter(e.target.value); setPage(1) }}
+              placeholder="담당자 전체"
+              options={[
+                { value: '이서연', label: '이서연' },
+                { value: '최유진', label: '최유진' },
+                { value: '김민준', label: '김민준' },
+              ]}
+            />
+          </>
+        }
+        selectedIds={selectedIds}
+        onSelectedIdsChange={setSelectedIds}
+        bulkActions={
+          <>
+            <Button size="sm" variant="secondary">일괄 반려</Button>
+            <Button size="sm">일괄 승인</Button>
+          </>
+        }
+        page={page}
+        pageSize={pageSize}
+        totalCount={filtered.length}
+        onPageChange={setPage}
+        onItemClick={item => alert(`${item.title} 상세로 이동`)}
+      />
+    )
+  },
 }
