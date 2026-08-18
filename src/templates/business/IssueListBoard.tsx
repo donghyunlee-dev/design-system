@@ -1,10 +1,12 @@
 import { ReactNode, useState } from 'react'
 import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
 import { Input } from '../../components/form/Input'
+import { Checkbox } from '../../components/form/Checkbox'
 import { Avatar } from '../../components/foundation/Avatar'
 import { Icon } from '../../components/foundation/Icon'
 import { Tag } from '../../components/data/Tag'
 import { EmptyState } from '../../components/feedback/EmptyState'
+import { Pagination, PaginationProps } from '../../components/navigation/Pagination'
 import { cn } from '../../utils/cn'
 
 export type IssueStatus = 'open' | 'closed'
@@ -38,6 +40,13 @@ export interface IssueListBoardProps {
   onItemClick?: (issue: IssueListItem) => void
   actions?: ReactNode
   className?: string
+  /** true면 행마다 일괄 선택용 체크박스를 표시 */
+  selectable?: boolean
+  /** 선택된 이슈 id 목록 (selectable일 때 사용) */
+  selectedIds?: string[]
+  onSelectedIdsChange?: (ids: string[]) => void
+  /** 목록 하단 페이지네이션 (지정 시 표시) */
+  pagination?: PaginationProps
 }
 
 export function IssueListBoard({
@@ -54,8 +63,26 @@ export function IssueListBoard({
   onItemClick,
   actions,
   className,
+  selectable = false,
+  selectedIds = [],
+  onSelectedIdsChange,
+  pagination,
 }: IssueListBoardProps) {
   const [search, setSearch] = useState('')
+
+  const allSelected = selectable && issues.length > 0 && issues.every(issue => selectedIds.includes(issue.id))
+
+  const toggleAll = () => {
+    if (!onSelectedIdsChange) return
+    onSelectedIdsChange(allSelected ? [] : issues.map(issue => issue.id))
+  }
+
+  const toggleOne = (id: string) => {
+    if (!onSelectedIdsChange) return
+    onSelectedIdsChange(
+      selectedIds.includes(id) ? selectedIds.filter(existing => existing !== id) : [...selectedIds, id]
+    )
+  }
 
   const handleSearch = (val: string) => {
     setSearch(val)
@@ -123,8 +150,19 @@ export function IssueListBoard({
           {filters && <div className="flex gap-2 flex-wrap items-center">{filters}</div>}
         </div>
 
+        {selectable && selectedIds.length > 0 && (
+          <div className="flex items-center gap-2 mb-2 text-sm text-foreground">
+            <span>{selectedIds.length}개 선택됨</span>
+          </div>
+        )}
+
         {/* 이슈 목록 */}
         <div className="bg-surface border border-border rounded-card shadow-card divide-y divide-border overflow-hidden">
+          {selectable && issues.length > 0 && (
+            <div className="flex items-center px-4 py-2 bg-surface-raised">
+              <Checkbox checked={allSelected} onChange={toggleAll} label="전체 선택" />
+            </div>
+          )}
           {issues.map(issue => (
             <div
               key={issue.id}
@@ -134,6 +172,11 @@ export function IssueListBoard({
                 onItemClick && 'cursor-pointer hover:bg-surface-raised'
               )}
             >
+              {selectable && (
+                <span onClick={e => e.stopPropagation()} className="mt-0.5 flex-shrink-0">
+                  <Checkbox checked={selectedIds.includes(issue.id)} onChange={() => toggleOne(issue.id)} />
+                </span>
+              )}
               <span
                 className={cn(
                   'w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0',
@@ -167,6 +210,12 @@ export function IssueListBoard({
             <EmptyState title="이슈가 없습니다" description="조건에 맞는 이슈가 없습니다." />
           )}
         </div>
+
+        {pagination && issues.length > 0 && (
+          <div className="flex justify-end mt-4">
+            <Pagination {...pagination} />
+          </div>
+        )}
       </div>
     </div>
   )
