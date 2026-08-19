@@ -1239,6 +1239,87 @@ export const PartnerSearch: Story = {
   ),
 }
 
+export const ItemMasterSearch: Story = {
+  name: 'Faceted Search Results (ERP 품목 검색)',
+  render: () => (
+    <FacetedSearchResults
+      title="품목 마스터 검색 결과"
+      keyword="고추장"
+      searchPlaceholder="품목명, 품목코드로 검색"
+      facets={[
+        {
+          key: 'category',
+          title: '품목분류',
+          options: [
+            { value: 'sauce', label: '장류/소스', count: 32 },
+            { value: 'fresh', label: '신선식품', count: 45 },
+            { value: 'processed', label: '가공식품', count: 58 },
+          ],
+        },
+        {
+          key: 'storage',
+          title: '보관유형',
+          options: [
+            { value: 'room', label: '실온', count: 61 },
+            { value: 'cold', label: '냉장', count: 40 },
+            { value: 'frozen', label: '냉동', count: 34 },
+          ],
+        },
+        {
+          key: 'stock',
+          title: '재고상태',
+          options: [
+            { value: 'in-stock', label: '재고보유', count: 102 },
+            { value: 'low', label: '재고부족', count: 21 },
+            { value: 'out', label: '품절', count: 12 },
+          ],
+        },
+      ]}
+      selectedFacets={{ category: ['sauce'] }}
+      sortOptions={[
+        { value: 'relevance', label: '정확도순' },
+        { value: 'stock', label: '재고많은순' },
+        { value: 'recent', label: '최근입고순' },
+      ]}
+      sortValue="relevance"
+      items={[
+        {
+          id: 'i1',
+          title: '해찬들 태양초 고추장 15kg',
+          description: '식당·급식용 대용량 고추장. 매운맛 표준형.',
+          badge: '장류/소스',
+          stats: ['품목코드 M-10231', '재고 320box', '최근 입고 2026-08-10'],
+          tags: ['실온', 'HACCP인증'],
+        },
+        {
+          id: 'i2',
+          title: '순창 재래식 고추장 10kg',
+          description: '전통 발효 방식의 재래식 고추장.',
+          badge: '장류/소스',
+          stats: ['품목코드 M-10245', '재고 84box', '최근 입고 2026-08-05'],
+          tags: ['실온'],
+        },
+        {
+          id: 'i3',
+          title: '초당 매운 고추장 소스 2kg',
+          description: '볶음·조리용 프리미엄 고추장 소스.',
+          badge: '장류/소스',
+          stats: ['품목코드 M-10298', '재고 12box', '최근 입고 2026-07-28'],
+          tags: ['냉장', '재고부족'],
+        },
+        {
+          id: 'i4',
+          title: '전통 순창 찰고추장 5kg',
+          description: '찰기가 강한 프리미엄 라인. 명절 세트 구성용.',
+          badge: '장류/소스',
+          stats: ['품목코드 M-10312', '재고 0box', '최근 입고 2026-06-30'],
+          tags: ['실온', '품절'],
+        },
+      ]}
+    />
+  ),
+}
+
 export const Print: Story = {
   name: 'Document Print',
   render: () => (
