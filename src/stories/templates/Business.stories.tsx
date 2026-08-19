@@ -1818,6 +1818,47 @@ export const TemplateCommunityHome: Story = {
   },
 }
 
+const departmentGalleryCategories = [
+  { id: 'all', label: '전체', count: 8 },
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+  { id: 'it', label: 'IT지원' },
+]
+
+const departmentGalleryItems: TemplateGalleryMediaItem[] = [
+  { id: 'dg1', categoryId: 'erp', title: '거래처 마스터 등록', description: '신규 거래처의 사업자 정보와 결제 조건을 등록하는 기준정보 양식입니다.', cover: 'brand', badge: '인기', author: '재무팀', usageLabel: '203명 사용 중' },
+  { id: 'dg2', categoryId: 'erp', title: '고정자산 취득 신청서', description: '설비·비품 등 고정자산 취득 내역과 감가상각 기준을 등록하는 양식입니다.', cover: 'info', author: '회계팀', usageLabel: '87명 사용 중' },
+  { id: 'dg3', categoryId: 'oms', title: '주문 우선순위 조정', description: '긴급 주문 건의 처리 우선순위를 변경 요청하는 양식입니다.', cover: 'warning', badge: '신규', author: '영업팀', usageLabel: '45명 사용 중' },
+  { id: 'dg4', categoryId: 'wms', title: '출고 이상 보고서', description: '출고 수량·품목 불일치 건의 원인과 조치 내역을 기록하는 보고서입니다.', cover: 'success', author: '창고관리팀', usageLabel: '69명 사용 중' },
+  { id: 'dg5', categoryId: 'prm', title: '협력사 계약 갱신 검토서', description: '만료 예정 협력사 계약의 조건 변경 여부를 검토하는 양식입니다.', cover: 'info', author: '구매팀', usageLabel: '38명 사용 중' },
+  { id: 'dg6', categoryId: 'groupware', title: '사내 공지문', description: '전사·부서 공지사항을 작성해 그룹웨어 게시판에 등록하는 양식입니다.', cover: 'brand', badge: '인기', author: '총무팀', usageLabel: '412명 사용 중' },
+  { id: 'dg7', categoryId: 'groupware', title: '회의록 양식', description: '회의 안건·결정사항·후속조치를 정리해 공유하는 표준 회의록입니다.', cover: 'danger', author: '경영지원팀', usageLabel: '256명 사용 중' },
+  { id: 'dg8', categoryId: 'it', title: 'IT 자산 지급 신청서', description: '노트북·모니터 등 업무용 IT 자산 지급을 요청하는 양식입니다.', cover: 'warning', author: 'IT지원팀', usageLabel: '124명 사용 중' },
+]
+
+export const TemplateGalleryDepartments: Story = {
+  name: 'Template Gallery (Sidebar Nav)',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="부서별 업무 템플릿 갤러리"
+        description="좌측에서 시스템·부서를 선택해 ERP·OMS·WMS·PRM·그룹웨어·IT지원 템플릿을 훑어보고 바로 사용하세요."
+        categoryLayout="sidebar"
+        categories={departmentGalleryCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featuredTitle="가장 많이 사용된 템플릿"
+        featured={departmentGalleryItems.filter(item => item.badge === '인기')}
+        items={departmentGalleryItems}
+      />
+    )
+  },
+}
+
 export const HelpCenterHome: Story = {
   name: 'Help Center',
   render: () => (
