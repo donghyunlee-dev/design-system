@@ -16,23 +16,15 @@ npm install
 
 ### 2. 디자인 시스템 의존성으로 추가
 
-`package.json`에 다음을 추가합니다:
-
-```json
-{
-  "dependencies": {
-    "@sfood/ui": "github:sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM#main"
-  }
-}
-```
+`@sfood/ui`는 public npm 레지스트리에 배포되어 있어 GitHub 저장소 접근 권한 없이 설치할 수 있습니다 (외부 조직/파트너 저장소에서도 동일하게 동작). 소스 저장소(`SFOOD-DESIGN-SYSTEM`)는 계속 비공개이며, 빌드된 결과물만 공개 배포됩니다.
 
 ```bash
-npm install
+npm install @sfood/ui
 ```
 
-> private 저장소이므로 설치하는 컴퓨터/CI에 이 GitHub 조직 저장소를 clone할 수 있는 권한(SSH 키 또는 PAT)이 있어야 합니다. 버전을 고정하고 싶다면 `#main` 대신 릴리즈 태그나 커밋 해시를 사용하세요 (예: `#v0.1.0`).
->
-> (로컬 경로에 sfood-design-system을 체크아웃해두고 `file:../sfood-design-system`로 참조하던 이전 방식은 같은 폴더 구조를 강제하고 다른 컴퓨터/CI에서 깨지기 쉬워 더 이상 권장하지 않습니다.)
+버전을 고정하고 싶다면 `npm install @sfood/ui@0.1.0`처럼 명시 버전을 사용하세요.
+
+> (과거에 사용하던 `github:sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
 ### 3. Tailwind CSS 설정
 

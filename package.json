@@ -11,6 +11,15 @@
     "./tailwind.config.js": "./tailwind.config.js",
     "./global.css": "./src/global.css"
   },
+  "files": [
+    "dist",
+    "tokens",
+    "tailwind.config.js",
+    "src/global.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "storybook dev -p 6006",
     "prepare": "npm run build",
