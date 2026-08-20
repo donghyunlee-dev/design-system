@@ -11,5 +11,6 @@ export default defineConfig({
     // jsdom 환경에서 실행하면 전역 URL이 jsdom의 URL로 교체되어
     // node:url의 fileURLToPath가 실패한다.
     exclude: ['**/node_modules/**', '**/mcp-server/**'],
+
   },
 })
