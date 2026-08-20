@@ -214,7 +214,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
             }}
             className={cn(
               'ml-0.5 text-xs leading-none opacity-60 hover:opacity-100 transition-opacity',
-              (filterVisible[col.id] || col.getFilterValue()) && 'text-brand opacity-100'
+              Boolean(filterVisible[col.id] || col.getFilterValue()) && 'text-brand opacity-100'
             )}
             aria-label={`${col.id} 필터`}
           >
