@@ -3,3 +3,4 @@ dist/
 storybook-static/
 .playwright-mcp/
 .superpowers/
+.vercel
