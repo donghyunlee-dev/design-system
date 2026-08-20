@@ -8,21 +8,31 @@ const preview: Preview = {
     docs: {
       autodocs: true,
     },
+    options: {
+      storySort: {
+        order: ['Docs', ['Getting Started', 'Introduction', 'Component Guide', 'Template Guide', 'Token Reference']],
+      },
+    },
     backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: '#f9fafb' },
-        { name: 'dark',  value: '#111827' },
-      ],
+      options: {
+        light: { name: 'light', value: '#f9fafb' },
+        dark: { name: 'dark',  value: '#111827' }
+      }
     },
     viewport: {
-      viewports: {
+      options: {
         mobile:  { name: 'Mobile',  styles: { width: '375px',  height: '812px' } },
         tablet:  { name: 'Tablet',  styles: { width: '768px',  height: '1024px' } },
         desktop: { name: 'Desktop', styles: { width: '1280px', height: '900px' } },
       },
     },
   },
+
+  initialGlobals: {
+    backgrounds: {
+      value: 'light'
+    }
+  }
 }
 
 export default preview
