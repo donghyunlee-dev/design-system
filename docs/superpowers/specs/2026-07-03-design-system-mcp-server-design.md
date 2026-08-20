@@ -1,6 +1,6 @@
 # SFOOD Design System MCP Server — 설계 문서
 
-> **상태 (2026-07-24)**: 미구현 상태로 보류. 상시 구동 서버 없이도 동작하는 더 가벼운 대안(Claude Code Skill, `.claude/skills/sfood-design-system/`)을 채택했습니다. 이 문서는 과거 설계 기록으로 보존합니다.
+> **상태 (2026-08-20)**: `mcp-server/`에 구현 완료. 사용법은 [docs/MCP.md](../../MCP.md) 참고. (2026-07-24 당시 보류하고 채택했던 Claude Code Skill 대안(`.claude/skills/sfood-design-system/`)은 계속 병행 유지합니다.)
 
 ## 배경 및 목적
 
