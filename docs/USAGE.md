@@ -37,7 +37,7 @@ export default {
   presets: [sfoodPreset],
   content: [
     './src/**/*.{ts,tsx}',
-    '../sfood-design-system/src/**/*.{ts,tsx}',  // 디자인 시스템 컴포넌트도 스캔
+    './node_modules/@sfood/ui/dist/**/*.js',  // 디자인 시스템 컴포넌트가 쓰는 클래스도 스캔
   ],
 }
 ```

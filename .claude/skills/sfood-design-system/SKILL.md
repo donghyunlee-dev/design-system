@@ -5,7 +5,7 @@ description: "SFOOD 사내 디자인 시스템(@sfood/ui) 사용 가이드. 기�
 
 # SFOOD Design System 사용 가이드
 
-`@sfood/ui`는 SFOOD 사내 컴포넌트 라이브러리입니다. 저장소: `sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM` (private).
+`@sfood/ui`는 SFOOD 사내 컴포넌트 라이브러리입니다. 소스 저장소는 `sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM` (private)이지만, 빌드된 패키지는 public npm 레지스트리(`@sfood/ui`)에 배포되어 있어 외부 조직 프로젝트에서도 저장소 접근 권한 없이 설치할 수 있습니다.
 
 ## 적용 시점
 
@@ -26,6 +26,7 @@ React/Tailwind로 화면을 만들거나 수정할 때, 특히 다음 판단이 
    gh api repos/sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM/contents/docs/USAGE.md --jq '.content' | base64 -d
    ```
    경로만 바꿔서 아래 문서도 동일하게 조회합니다.
+3. **외부 조직 프로젝트라 위 두 방법 모두 접근 권한이 없다면** — 이 문서(SKILL.md)와 설치된 `node_modules/@sfood/ui`의 `dist/index.d.ts`(타입 정의) 및 `README.md`만으로 판단합니다. `docs/TOKENS.md`, `docs/PATTERNS.md`, `docs/CHECKLIST.md`의 상세 근거는 아직 npm 패키지에 포함되어 있지 않아 조회할 수 없습니다.
 
 | 문서 | 용도 | 언제 읽나 |
 |---|---|---|
@@ -42,8 +43,8 @@ React/Tailwind로 화면을 만들거나 수정할 때, 특히 다음 판단이 
 
 ## 설치 (코드에 실제로 반영할 때)
 
-```json
-{ "dependencies": { "@sfood/ui": "github:sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM#main" } }
+```bash
+npm install @sfood/ui
 ```
 
-버전 고정은 `#main` 대신 릴리즈 태그/커밋 해시를 사용합니다. 자세한 설정(Tailwind preset, global.css)은 `docs/USAGE.md`를 조회하세요.
+버전을 고정하려면 `npm install @sfood/ui@0.1.1`처럼 명시 버전을 사용합니다. 자세한 설정(Tailwind preset, global.css)은 `docs/USAGE.md`를 조회하세요.

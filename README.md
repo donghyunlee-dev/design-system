@@ -32,8 +32,10 @@ npx storybook dev   # http://localhost:6006 에서 컴포넌트 전체 확인
 
 ## 다른 프로젝트에 적용하기
 
-```json
-{ "dependencies": { "@sfood/ui": "github:sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM#main" } }
+`@sfood/ui`는 public npm 레지스트리에 배포되어 있어, 외부 조직 저장소에서도 저장소 접근 권한 없이 그대로 설치할 수 있습니다 (소스는 계속 비공개, 빌드된 결과물만 공개 배포).
+
+```bash
+npm install @sfood/ui
 ```
 
 Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/USAGE.md](./docs/USAGE.md)를 참고하세요.
