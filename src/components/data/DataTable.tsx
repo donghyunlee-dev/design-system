@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useState, useMemo, useRef } from 'react'
+import { CSSProperties, useState, useMemo, useRef } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -32,19 +32,16 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { cn } from '../../utils/cn'
 import { Pagination } from '../navigation/Pagination'
+import { Column } from './Table'
 
 // ─── Public Types ────────────────────────────────────────────────────────────
 
 /**
- * DataTable 컬럼 정의.
+ * DataTable 컬럼 정의. `Table`의 `Column<T>`(key/header/render)을 확장해
+ * 정렬·필터·리사이즈 등 DataTable 전용 기능을 추가합니다.
+ * `width`는 `Column`과 단위가 달라(px 숫자 vs CSS 문자열) 재정의합니다.
  */
-export interface DataColumn<T extends Record<string, unknown>> {
-  /** 컬럼 식별자 */
-  key: string
-  /** 헤더 텍스트 */
-  header: string
-  /** 셀 커스텀 렌더러. 생략 시 row[key]를 문자열로 표시 */
-  render?: (row: T) => ReactNode
+export interface DataColumn<T extends Record<string, unknown>> extends Omit<Column<T>, 'width'> {
   /** 정렬 허용 여부 (기본 false) */
   sortable?: boolean
   /** 컬럼 헤더 아래 텍스트 필터 표시 여부 (기본 false) */
