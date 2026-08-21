@@ -1859,6 +1859,46 @@ export const TemplateGalleryDepartments: Story = {
   },
 }
 
+const automationGalleryCategories = [
+  { id: 'all', label: '전체', count: 8 },
+  { id: 'report', label: '엑셀·리포트 자동화' },
+  { id: 'notify', label: '알림·메신저 연동' },
+  { id: 'pipeline', label: '데이터 파이프라인' },
+  { id: 'approval', label: '승인·문서 자동화' },
+]
+
+const automationGalleryItems: TemplateGalleryMediaItem[] = [
+  { id: 'ag1', categoryId: 'report', title: 'ERP 매출 일보 자동 생성', description: '전일 매출·발주 데이터를 집계해 지정 시간에 엑셀 리포트를 만들어 메일로 발송합니다.', cover: 'brand', badge: 'AX 추천', author: 'AX팀', usageLabel: '89명 사용 중' },
+  { id: 'ag2', categoryId: 'report', title: 'WMS 재고 현황 리포트', description: '창고별 재고 수량·가용률을 취합해 주간 엑셀 리포트로 정리합니다.', cover: 'success', author: 'AX팀', usageLabel: '52명 사용 중' },
+  { id: 'ag3', categoryId: 'notify', title: 'OMS 지연 주문 팀즈 알림', description: '배송 지연 임계값을 넘긴 주문을 팀즈(Microsoft Teams) 채널로 자동 알립니다.', cover: 'warning', badge: '신규', author: 'AX팀', usageLabel: '41명 사용 중' },
+  { id: 'ag4', categoryId: 'notify', title: '그룹웨어 결재 임박 리마인드', description: '상신 후 대기 시간이 길어진 결재 문서를 결재자에게 팀즈로 리마인드합니다.', cover: 'info', author: 'AX팀', usageLabel: '73명 사용 중' },
+  { id: 'ag5', categoryId: 'pipeline', title: 'PRM 협력사 데이터 동기화', description: 'PRM(Partner Management System)의 협력사 마스터 변경분을 ERP로 매일 동기화합니다.', cover: 'brand', badge: 'AX 추천', author: 'AX팀', usageLabel: '35명 사용 중' },
+  { id: 'ag6', categoryId: 'pipeline', title: 'OMS-WMS 주문·재고 연계', description: '주문 접수 시 WMS 가용 재고를 조회해 OMS 상태를 자동 갱신합니다.', cover: 'success', author: 'AX팀', usageLabel: '28명 사용 중' },
+  { id: 'ag7', categoryId: 'approval', title: '지출 품의서 사전 검증', description: '품의서 상신 전 예산 초과 여부를 확인해 결재선 지정을 자동 추천합니다.', cover: 'danger', author: 'AX팀', usageLabel: '64명 사용 중' },
+  { id: 'ag8', categoryId: 'approval', title: '휴가 신청 자동 결재 라우팅', description: '신청자 부서 조직도를 기준으로 결재 라인을 자동으로 구성합니다.', cover: 'info', author: 'AX팀', usageLabel: '97명 사용 중' },
+]
+
+export const TemplateGalleryAutomation: Story = {
+  name: 'Template Gallery (Automation)',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="업무 자동화 템플릿 갤러리"
+        description="AX팀이 만든 리포트·알림·데이터 연계 자동화 템플릿을 상단 분류로 훑어보고 바로 내 업무에 적용하세요."
+        searchPlaceholder="자동화 템플릿 검색 (예: 매출 리포트, 지연 알림, 데이터 동기화)"
+        categoryLayout="top"
+        categories={automationGalleryCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featuredTitle="AX팀 추천 템플릿"
+        featured={automationGalleryItems.filter(item => item.badge === 'AX 추천')}
+        items={automationGalleryItems}
+      />
+    )
+  },
+}
+
 export const HelpCenterHome: Story = {
   name: 'Help Center',
   render: () => (
