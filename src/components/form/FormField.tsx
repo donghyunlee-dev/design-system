@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { ReactNode, useState, Children, cloneElement, isValidElement, FocusEvent, ChangeEvent } from 'react'
+import { ReactNode, useId, useState, Children, cloneElement, isValidElement, FocusEvent, ChangeEvent } from 'react'
 import { FieldRules } from '../../types/validation'
 
 /**
@@ -18,7 +18,7 @@ export interface FormFieldProps {
   required?: boolean
   /** 유효성 검사 규칙 — blur 시 자동 평가 */
   rules?: FieldRules
-  /** 폼 필드 내부에 렌더링할 입력 컴포넌트 */
+  /** 폼 필드 내부에 렌더링할 입력 컴포넌트 — 현재는 단일 자식 요소만 지원 (여러 자식 시 동일 id/aria가 모두에게 주입되어 중복 id 발생) */
   children: ReactNode
   /** 최상위 래퍼 요소에 적용할 추가 CSS 클래스 */
   className?: string
@@ -53,6 +53,8 @@ function runRules(value: string, rules: FieldRules): string {
 export function FormField({ label, error: externalError, hint, required, rules, children, className }: FormFieldProps) {
   const [internalError, setInternalError] = useState('')
   const [isDirty, setIsDirty] = useState(false)
+  const fieldId = useId()
+  const errorId = useId()
 
   const error = externalError ?? internalError
   const showRequired = required || !!rules?.required
@@ -68,35 +70,40 @@ export function FormField({ label, error: externalError, hint, required, rules, 
     setInternalError(runRules(e.target.value, rules))
   }
 
-  const childrenWithValidation = rules
-    ? Children.map(children, child => {
-        if (!isValidElement(child)) return child
-        const childProps = child.props as Record<string, unknown>
-        return cloneElement(child as React.ReactElement<Record<string, unknown>>, {
-          onBlur: (e: FocusEvent<HTMLInputElement>) => {
-            handleBlur(e)
-            ;(childProps.onBlur as ((e: FocusEvent) => void) | undefined)?.(e)
-          },
-          onChange: (e: ChangeEvent<HTMLInputElement>) => {
-            handleChange(e)
-            ;(childProps.onChange as ((e: ChangeEvent) => void) | undefined)?.(e)
-          },
-          error: !!error,
-        })
-      })
-    : children
+  const childrenWithProps = Children.map(children, child => {
+    if (!isValidElement(child)) return child
+    const childProps = child.props as Record<string, unknown>
+    return cloneElement(child as React.ReactElement<Record<string, unknown>>, {
+      id: (childProps.id as string | undefined) ?? fieldId,
+      error: !!error,
+      'aria-invalid': !!error,
+      'aria-describedby': error ? errorId : (childProps['aria-describedby'] as string | undefined),
+      ...(rules
+        ? {
+            onBlur: (e: FocusEvent<HTMLInputElement>) => {
+              handleBlur(e)
+              ;(childProps.onBlur as ((e: FocusEvent) => void) | undefined)?.(e)
+            },
+            onChange: (e: ChangeEvent<HTMLInputElement>) => {
+              handleChange(e)
+              ;(childProps.onChange as ((e: ChangeEvent) => void) | undefined)?.(e)
+            },
+          }
+        : {}),
+    })
+  })
 
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
       {label && (
-        <label className="text-sm font-medium text-foreground">
+        <label htmlFor={fieldId} className="text-sm font-medium text-foreground">
           {label}
           {showRequired && <span className="text-danger ml-0.5">*</span>}
         </label>
       )}
-      {childrenWithValidation}
+      {childrenWithProps}
       {hint && !error && <p className="text-xs text-muted">{hint}</p>}
-      {error && <p className="text-xs text-danger">{error}</p>}
+      {error && <p id={errorId} className="text-xs text-danger">{error}</p>}
     </div>
   )
 }

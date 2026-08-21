@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { SelectHTMLAttributes } from 'react'
+import { SelectHTMLAttributes, forwardRef } from 'react'
 
 /**
  * 드롭다운 선택 컴포넌트.
@@ -14,9 +14,13 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   placeholder?: string
 }
 
-export function Select({ error, options, placeholder, className, ...props }: SelectProps) {
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
+  { error, options, placeholder, className, ...props },
+  ref
+) {
   return (
     <select
+      ref={ref}
       className={cn(
         'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground',
         'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
@@ -32,4 +36,4 @@ export function Select({ error, options, placeholder, className, ...props }: Sel
       ))}
     </select>
   )
-}
+})

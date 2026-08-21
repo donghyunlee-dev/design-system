@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
 import { Button } from './Button'
 
 describe('Button', () => {
@@ -25,5 +26,11 @@ describe('Button', () => {
   it('variant=danger 클래스가 적용된다', () => {
     render(<Button variant="danger">삭제</Button>)
     expect(screen.getByRole('button')).toHaveClass('bg-danger')
+  })
+
+  it('ref가 실제 button DOM 엘리먼트를 가리킨다', () => {
+    const ref = createRef<HTMLButtonElement>()
+    render(<Button ref={ref}>저장</Button>)
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   })
 })

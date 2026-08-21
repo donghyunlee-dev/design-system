@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { TextareaHTMLAttributes } from 'react'
+import { TextareaHTMLAttributes, forwardRef } from 'react'
 
 /**
  * 여러 줄 텍스트 입력 컴포넌트.
@@ -10,11 +10,15 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   error?: boolean
 }
 
-export function Textarea({ error, className, ...props }: TextareaProps) {
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
+  { error, className, ...props },
+  ref
+) {
   return (
     <textarea
+      ref={ref}
       className={cn(
-        'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground placeholder:text-placeholder resize-y min-h-[80px]',
+        'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground placeholder:text-placeholder resize-y min-h-20',
         'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
         'disabled:opacity-50',
         error ? 'border-danger' : 'border-border',
@@ -23,4 +27,4 @@ export function Textarea({ error, className, ...props }: TextareaProps) {
       {...props}
     />
   )
-}
+})
