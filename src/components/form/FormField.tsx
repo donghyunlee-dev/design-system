@@ -18,7 +18,7 @@ export interface FormFieldProps {
   required?: boolean
   /** 유효성 검사 규칙 — blur 시 자동 평가 */
   rules?: FieldRules
-  /** 폼 필드 내부에 렌더링할 입력 컴포넌트 */
+  /** 폼 필드 내부에 렌더링할 입력 컴포넌트 — 현재는 단일 자식 요소만 지원 (여러 자식 시 동일 id/aria가 모두에게 주입되어 중복 id 발생) */
   children: ReactNode
   /** 최상위 래퍼 요소에 적용할 추가 CSS 클래스 */
   className?: string
