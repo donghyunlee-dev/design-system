@@ -21,7 +21,7 @@ export const Default: Story = {
       <MediaCard
         title="표준 발주서"
         description="거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다."
-        coverFallback={<span className="text-2xl">🧾</span>}
+        fallback={<span className="text-2xl">🧾</span>}
       />
     </MediaCardHoverActions>
   ),

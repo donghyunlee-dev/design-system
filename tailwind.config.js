@@ -28,6 +28,9 @@ export default {
         info:              'var(--color-info)',
         background:        'var(--color-background)',
         placeholder:       'var(--color-placeholder)',
+        // 반전 표면 (Tooltip 등)
+        'inverse-surface':    'var(--color-inverse-surface)',
+        'inverse-foreground': 'var(--color-inverse-foreground)',
       },
       borderRadius: {
         btn:   'var(--radius-btn)',

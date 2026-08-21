@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 
 /**
  * 단일 줄 텍스트 입력 컴포넌트.
@@ -10,9 +10,13 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean
 }
 
-export function Input({ error, className, ...props }: InputProps) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  { error, className, ...props },
+  ref
+) {
   return (
     <input
+      ref={ref}
       className={cn(
         'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground placeholder:text-placeholder',
         'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
@@ -23,4 +27,4 @@ export function Input({ error, className, ...props }: InputProps) {
       {...props}
     />
   )
-}
+})

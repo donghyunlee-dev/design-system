@@ -1,9 +1,10 @@
 import { cn } from '../../utils/cn'
+import { ButtonHTMLAttributes, forwardRef } from 'react'
 
 /**
  * 토글 스위치 컴포넌트. controlled 방식으로 동작합니다.
  */
-export interface SwitchProps {
+export interface SwitchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'role' | 'onChange'> {
   /** 현재 활성화 여부 */
   checked: boolean
   /** 상태 변경 콜백 */
@@ -14,9 +15,14 @@ export interface SwitchProps {
   disabled?: boolean
 }
 
-export function Switch({ checked, onChange, label, disabled }: SwitchProps) {
+export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
+  { checked, onChange, label, disabled, className, ...props },
+  ref
+) {
   return (
     <button
+      ref={ref}
+      type="button"
       role="switch"
       aria-checked={checked}
       disabled={disabled}
@@ -24,14 +30,16 @@ export function Switch({ checked, onChange, label, disabled }: SwitchProps) {
       className={cn(
         'relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand',
         checked ? 'bg-brand' : 'bg-border',
-        disabled && 'opacity-50 pointer-events-none'
+        disabled && 'opacity-50 pointer-events-none',
+        className
       )}
+      {...props}
     >
       <span className={cn(
-        'inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform',
+        'inline-block h-3.5 w-3.5 rounded-full bg-surface shadow transition-transform',
         checked ? 'translate-x-4' : 'translate-x-1'
       )} />
       {label && <span className="sr-only">{label}</span>}
     </button>
   )
-}
+})

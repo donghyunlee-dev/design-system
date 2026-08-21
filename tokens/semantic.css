@@ -69,4 +69,44 @@
   --motion-fast:    100ms ease;
   --motion-default: 150ms ease;
   --motion-slow:    300ms ease;
+
+  /* 반전 표면 (Tooltip 등 항상 반대 톤을 쓰는 요소용) */
+  --color-inverse-surface:    var(--gray-900);
+  --color-inverse-foreground: var(--white);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-background:         var(--gray-950);
+    --color-surface:            var(--gray-900);
+    --color-surface-raised:     var(--gray-800);
+    --color-surface-overlay:    var(--gray-800);
+    --color-surface-subtle:     var(--gray-800);
+    --color-foreground:         var(--gray-50);
+    --color-secondary:          var(--gray-300);
+    --color-muted:              var(--gray-400);
+    --color-placeholder:        var(--gray-500);
+    --color-border-subtle:      var(--gray-800);
+    --color-border:              var(--gray-700);
+    --color-border-strong:      var(--gray-600);
+    --color-inverse-surface:    var(--gray-50);
+    --color-inverse-foreground: var(--gray-900);
+  }
+}
+
+[data-theme="dark"] {
+  --color-background:         var(--gray-950);
+  --color-surface:            var(--gray-900);
+  --color-surface-raised:     var(--gray-800);
+  --color-surface-overlay:    var(--gray-800);
+  --color-surface-subtle:     var(--gray-800);
+  --color-foreground:         var(--gray-50);
+  --color-secondary:          var(--gray-300);
+  --color-muted:              var(--gray-400);
+  --color-placeholder:        var(--gray-500);
+  --color-border-subtle:      var(--gray-800);
+  --color-border:              var(--gray-700);
+  --color-border-strong:      var(--gray-600);
+  --color-inverse-surface:    var(--gray-50);
+  --color-inverse-foreground: var(--gray-900);
 }

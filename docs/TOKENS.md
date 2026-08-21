@@ -128,25 +128,6 @@ semantic.css                tailwind.config.js               컴포넌트
 
 ---
 
-## 테마 적용 예시 (다크 모드)
+## 다크 모드
 
-```css
-/* tokens/semantic.css에 추가 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--gray-950);
-    --color-surface:    var(--gray-900);
-    --color-foreground: var(--gray-50);
-    --color-border:     var(--gray-700);
-  }
-}
-```
-
-또는 `data-theme` 속성으로 수동 전환:
-
-```css
-[data-theme="dark"] {
-  --color-background: var(--gray-950);
-  /* ... */
-}
-```
+`tokens/semantic.css`에 다크모드 오버라이드가 이미 구현되어 있습니다. 사용자 OS 설정(`prefers-color-scheme: dark`)에 따라 자동으로 전환되며, 앱 자체 토글이 필요하면 `<html data-theme="dark">`처럼 `data-theme` 속성을 지정해 시스템 설정과 무관하게 강제 전환할 수 있습니다. 색상은 컴포넌트가 아니라 이 토큰 레이어에서만 전환되므로, 컴포넌트에 색상을 하드코딩하면 다크모드에서 깨집니다([CHECKLIST.md](./CHECKLIST.md) "다크 모드" 항목 참고).

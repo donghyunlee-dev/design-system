@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Input } from '../../components/form/Input'
-import { CardMedia, CardMediaCover } from '../../components/data/CardMedia'
+import { MediaCard, MediaCardCover } from '../../components/data/MediaCard'
 import { Tag } from '../../components/data/Tag'
 import { Grid } from '../../components/layout/Grid'
 import { EmptyState } from '../../components/feedback/EmptyState'
@@ -23,7 +23,7 @@ export interface TemplateGalleryMediaItem {
   image?: string
   imageAlt?: string
   /** 이미지가 없을 때 표시할 단색 커버 */
-  cover?: CardMediaCover
+  cover?: MediaCardCover
   /** 즐겨찾기·인기 등 강조 배지 */
   badge?: string
   /** 템플릿 제공 부서/작성자 (예: 구매팀) */
@@ -37,7 +37,7 @@ export interface TemplateGalleryMediaItem {
 
 /**
  * TemplateGallery와 동일한 카테고리/검색/추천 구조를 유지하되,
- * 각 항목을 썸네일/커버 이미지가 있는 카드(CardMedia)로 표시하는 변형.
+ * 각 항목을 썸네일/커버 이미지가 있는 카드(MediaCard)로 표시하는 변형.
  * 시각적 미리보기가 중요한 갤러리(예: 보드/문서 템플릿 썸네일)에 사용한다.
  */
 export interface TemplateGalleryMediaProps {
@@ -60,7 +60,7 @@ export interface TemplateGalleryMediaProps {
 
 function TemplateCard({ item }: { item: TemplateGalleryMediaItem }) {
   return (
-    <CardMedia
+    <MediaCard
       key={item.id}
       image={item.image}
       imageAlt={item.imageAlt}
@@ -86,7 +86,7 @@ function TemplateCard({ item }: { item: TemplateGalleryMediaItem }) {
           {item.usageLabel && <span className="text-xs text-muted flex-shrink-0">{item.usageLabel}</span>}
         </div>
       )}
-    </CardMedia>
+    </MediaCard>
   )
 }
 

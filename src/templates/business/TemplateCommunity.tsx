@@ -68,9 +68,9 @@ export interface TemplateCommunityProps {
 function CommunityCard({ item }: { item: TemplateCommunityItem }) {
   const card = (
     <MediaCard
-      coverSrc={item.image}
-      coverAlt={item.imageAlt}
-      coverFallback={item.coverFallback && <span className="text-2xl">{item.coverFallback}</span>}
+      image={item.image}
+      imageAlt={item.imageAlt}
+      fallback={item.coverFallback && <span className="text-2xl">{item.coverFallback}</span>}
       onClick={item.onClick}
       className={cn('w-64', item.onClick && 'cursor-pointer hover:shadow-card transition-shadow')}
     >

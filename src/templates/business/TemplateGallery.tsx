@@ -161,9 +161,9 @@ export function TemplateGallery({
                     <MediaCard
                       key={item.id}
                       className="flex flex-col"
-                      coverSrc={item.thumbnailSrc}
-                      coverAlt={item.title}
-                      coverFallback={item.icon && <span className="text-2xl">{item.icon}</span>}
+                      image={item.thumbnailSrc}
+                      imageAlt={item.title}
+                      fallback={item.icon && <span className="text-2xl">{item.icon}</span>}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <p className="text-sm font-semibold text-foreground">{item.title}</p>
