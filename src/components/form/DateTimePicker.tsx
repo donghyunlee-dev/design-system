@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 import { Input } from './Input'
 
 /** date | time | datetime-local 중 하나 */
@@ -22,6 +22,9 @@ const MODE_TYPE: Record<DateTimeMode, string> = {
   datetime: 'datetime-local',
 }
 
-export function DateTimePicker({ mode = 'date', error, ...props }: DateTimePickerProps) {
-  return <Input type={MODE_TYPE[mode]} error={error} {...props} />
-}
+export const DateTimePicker = forwardRef<HTMLInputElement, DateTimePickerProps>(function DateTimePicker(
+  { mode = 'date', error, ...props },
+  ref
+) {
+  return <Input ref={ref} type={MODE_TYPE[mode]} error={error} {...props} />
+})
