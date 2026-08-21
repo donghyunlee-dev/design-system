@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 import { Input } from './Input'
 import { cn } from '../../utils/cn'
 
@@ -14,13 +14,17 @@ export interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElem
   error?: boolean
 }
 
-export function NumberInput({ unit, error, className, ...props }: NumberInputProps) {
+export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(function NumberInput(
+  { unit, error, className, ...props },
+  ref
+) {
   if (!unit) {
-    return <Input type="number" error={error} className={className} {...props} />
+    return <Input ref={ref} type="number" error={error} className={className} {...props} />
   }
   return (
     <div className="relative">
       <Input
+        ref={ref}
         type="number"
         error={error}
         className={cn('pr-10', className)}
@@ -31,4 +35,4 @@ export function NumberInput({ unit, error, className, ...props }: NumberInputPro
       </span>
     </div>
   )
-}
+})
