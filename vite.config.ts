@@ -15,7 +15,18 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'recharts'],
+      external: [
+        'react',
+        'react-dom',
+        'recharts',
+        '@dnd-kit/core',
+        '@dnd-kit/sortable',
+        '@dnd-kit/utilities',
+        '@tanstack/react-table',
+      ],
+      output: {
+        banner: '"use client";',
+      },
     },
   },
 })
