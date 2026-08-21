@@ -22,14 +22,16 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Link Vercel project
-        run: vercel link --yes --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Copy build output outside the git checkout
+        # Vercel CLI attaches git commit metadata whenever the deploy runs inside a
+        # .git working directory, and private-org-repo + Hobby plan then blocks the
+        # deployment as "commit author lacks contributing access" — even for a pure
+        # static upload. Deploying from a git-free copy avoids that check entirely.
+        run: cp -r storybook-static "$RUNNER_TEMP/storybook-deploy"
 
       - name: Deploy to Vercel
-        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} storybook-static
+        working-directory: ${{ runner.temp }}/storybook-deploy
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
