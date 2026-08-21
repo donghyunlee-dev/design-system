@@ -1,5 +1,7 @@
 import { cn } from '../../utils/cn'
-import { ReactNode, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { useFocusTrap } from '../../utils/useFocusTrap'
+import { useBodyScrollLock } from '../../utils/useBodyScrollLock'
 
 /**
  * 커맨드 팔레트의 개별 항목.
@@ -77,6 +79,7 @@ export function CommandPalette({
 }: CommandPaletteProps) {
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   const filtered = useMemo(() => filterGroups(groups, query), [groups, query])
   const flatItems = useMemo(() => filtered.flatMap(g => g.items), [filtered])
@@ -115,6 +118,9 @@ export function CommandPalette({
     return () => document.removeEventListener('keydown', handler)
   }, [open, onClose, flatItems, activeIndex])
 
+  useFocusTrap(panelRef, open)
+  useBodyScrollLock(open)
+
   if (!open) return null
 
   let renderedIndex = -1
@@ -122,10 +128,17 @@ export function CommandPalette({
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-surface rounded-card shadow-lg w-full max-w-xl overflow-hidden">
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={placeholder}
+        className="relative bg-surface rounded-card shadow-lg w-full max-w-xl overflow-hidden"
+      >
         <div className="border-b border-border px-4">
           <input
             autoFocus
+            aria-label={placeholder}
             value={query}
             onChange={e => {
               setQuery(e.target.value)
@@ -136,7 +149,7 @@ export function CommandPalette({
           />
         </div>
 
-        <div className="max-h-80 overflow-y-auto py-2">
+        <div role="listbox" className="max-h-80 overflow-y-auto py-2">
           {flatItems.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-muted">{emptyMessage}</p>
           ) : (
@@ -152,6 +165,8 @@ export function CommandPalette({
                     <button
                       key={item.id}
                       type="button"
+                      role="option"
+                      aria-selected={active}
                       onMouseEnter={() => setActiveIndex(renderedIndex)}
                       onClick={() => {
                         item.onSelect()
