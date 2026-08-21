@@ -1,18 +1,33 @@
 import { cn } from '../../utils/cn'
 import { HTMLAttributes, ReactNode } from 'react'
 
+export type MediaCardCover = 'brand' | 'success' | 'warning' | 'danger' | 'info'
+
+const COVER_CLASS: Record<MediaCardCover, string> = {
+  brand: 'bg-brand',
+  success: 'bg-success',
+  warning: 'bg-warning',
+  danger: 'bg-danger',
+  info: 'bg-info',
+}
+
 /**
- * 커버 이미지(썸네일)를 상단에 지원하는 카드 컴포넌트.
- * 템플릿/보드/문서 갤러리처럼 카드 자체가 시각적 미리보기를 가져야 하는 화면에 사용합니다.
- * 텍스트 중심 카드는 `Card`를 사용하세요.
+ * 상단에 썸네일/커버 슬롯이 있는 카드 컴포넌트.
+ * image를 지정하면 실제 썸네일을, 없으면 cover 색상 또는 fallback 콘텐츠를 표시합니다.
+ * aspect="video"는 미디어 영역을 항상 16:9 비율로 표시하고(템플릿/갤러리 카드에 적합),
+ * aspect="fixed"(기본값)는 고정 높이를 쓰며 image/cover/fallback이 전혀 없으면 영역 자체를 생략합니다.
  */
 export interface MediaCardProps extends HTMLAttributes<HTMLDivElement> {
-  /** 커버 이미지 URL. 제공하면 실제 썸네일 이미지를 렌더링합니다. */
-  coverSrc?: string
-  /** 커버 이미지 대체 텍스트 (coverSrc와 함께 사용) */
-  coverAlt?: string
-  /** coverSrc가 없을 때 커버 영역에 표시할 대체 콘텐츠 (예: 아이콘) */
-  coverFallback?: ReactNode
+  /** 카드 상단 썸네일 이미지 URL. 지정 시 cover/fallback보다 우선한다. */
+  image?: string
+  /** 썸네일 이미지의 대체 텍스트 */
+  imageAlt?: string
+  /** 이미지가 없을 때 표시할 단색 커버 */
+  cover?: MediaCardCover
+  /** 이미지가 없을 때 표시할 커스텀 콘텐츠 (예: 아이콘) */
+  fallback?: ReactNode
+  /** 미디어 영역 방식 — "fixed": 고정 높이, 미디어 관련 prop이 없으면 생략(기본값) / "video": 16:9 비율로 항상 표시 */
+  aspect?: 'fixed' | 'video'
   /** 카드 제목 */
   title?: string
   /** 카드 부제목 */
@@ -24,9 +39,11 @@ export interface MediaCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function MediaCard({
-  coverSrc,
-  coverAlt = '',
-  coverFallback,
+  image,
+  imageAlt = '',
+  cover,
+  fallback,
+  aspect = 'fixed',
   title,
   description,
   footer,
@@ -36,13 +53,20 @@ export function MediaCard({
   ...props
 }: MediaCardProps) {
   const p = { sm: 'p-3', md: 'p-4', lg: 'p-6' }[padding]
+  const hasMedia = Boolean(image || cover || fallback)
+  const showMediaArea = aspect === 'video' || hasMedia
+
   return (
     <div className={cn('bg-surface border border-border rounded-card shadow-sm overflow-hidden', className)} {...props}>
-      {coverSrc ? (
-        <img src={coverSrc} alt={coverAlt} className="w-full aspect-video object-cover border-b border-border" />
-      ) : (
-        <div className="w-full aspect-video bg-surface-overlay border-b border-border flex items-center justify-center text-muted text-sm">
-          {coverFallback}
+      {showMediaArea && (
+        <div className={cn(
+          'w-full flex items-center justify-center overflow-hidden',
+          aspect === 'video' ? 'aspect-video border-b border-border' : 'h-2xl',
+          !image && (cover ? COVER_CLASS[cover] : 'bg-surface-overlay'),
+        )}>
+          {image ? (
+            <img src={image} alt={imageAlt} className="w-full h-full object-cover" />
+          ) : fallback}
         </div>
       )}
       {(title || description) && (
@@ -51,7 +75,7 @@ export function MediaCard({
           {description && <p className="text-sm text-muted mt-0.5">{description}</p>}
         </div>
       )}
-      <div className={p}>{children}</div>
+      {children && <div className={p}>{children}</div>}
       {footer && <div className={cn(p, 'border-t border-border')}>{footer}</div>}
     </div>
   )

@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>
 export const WithIconFallback: Story = {
   name: '이미지 없음 (아이콘 대체)',
   render: (args) => (
-    <MediaCard {...args} coverFallback={<span className="text-2xl">🧾</span>} className="max-w-xs" />
+    <MediaCard {...args} fallback={<span className="text-2xl">🧾</span>} className="max-w-xs" />
   ),
 }
 
@@ -33,7 +33,7 @@ const DEMO_THUMBNAIL =
 export const WithThumbnail: Story = {
   name: '썸네일 이미지',
   render: (args) => (
-    <MediaCard {...args} coverSrc={DEMO_THUMBNAIL} coverAlt={args.title} className="max-w-xs" />
+    <MediaCard {...args} image={DEMO_THUMBNAIL} imageAlt={args.title} className="max-w-xs" />
   ),
 }
 
@@ -41,7 +41,7 @@ export const WithFooter: Story = {
   render: (args) => (
     <MediaCard
       {...args}
-      coverFallback={<span className="text-2xl">🧾</span>}
+      fallback={<span className="text-2xl">🧾</span>}
       className="max-w-xs"
       footer={
         <div className="flex justify-end gap-2">
@@ -51,4 +51,14 @@ export const WithFooter: Story = {
       }
     />
   ),
+}
+
+export const WithCoverColor: Story = {
+  name: '단색 커버 (aspect=fixed)',
+  render: (args) => <MediaCard {...args} aspect="fixed" cover="brand" className="max-w-xs" />,
+}
+
+export const WithoutMedia: Story = {
+  name: '미디어 영역 없음 (aspect=fixed 기본값)',
+  render: (args) => <MediaCard {...args} className="max-w-xs" />,
 }

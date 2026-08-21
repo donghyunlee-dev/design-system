@@ -58,9 +58,9 @@ function ServiceCard({ item }: { item: ServiceCatalogItem }) {
   return (
     <MediaCard
       className="flex flex-col"
-      coverSrc={item.thumbnailSrc}
-      coverAlt={item.title}
-      coverFallback={item.icon && <span className="text-2xl">{item.icon}</span>}
+      image={item.thumbnailSrc}
+      imageAlt={item.title}
+      fallback={item.icon && <span className="text-2xl">{item.icon}</span>}
     >
       <div className="flex items-start justify-between gap-2 mb-2">
         <p className="text-sm font-semibold text-foreground">{item.title}</p>
