@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { ReactNode, useId, useState } from 'react'
+import { ReactNode, useId, useState, cloneElement, isValidElement } from 'react'
 
 /**
  * 요소에 hover 또는 포커스 시 추가 정보를 표시하는 툴팁 컴포넌트.
@@ -16,16 +16,21 @@ export function Tooltip({ content, children, side = 'top' }: TooltipProps) {
   const [show, setShow] = useState(false)
   const tooltipId = useId()
 
+  const target = isValidElement(children)
+    ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+        'aria-describedby': show ? tooltipId : undefined,
+      })
+    : children
+
   return (
     <span
       className="relative inline-flex"
-      aria-describedby={show ? tooltipId : undefined}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
       onFocus={() => setShow(true)}
       onBlur={() => setShow(false)}
     >
-      {children}
+      {target}
       {show && (
         <span
           id={tooltipId}
