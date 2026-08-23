@@ -17,6 +17,7 @@ import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { DocsHub } from '../../templates/business/DocsHub'
 import { HelpCenter } from '../../templates/business/HelpCenter'
 import { HelpArticleView } from '../../templates/business/HelpArticleView'
+import { HelpCategoryArticles } from '../../templates/business/HelpCategoryArticles'
 import { SystemFeatureTour } from '../../templates/business/SystemFeatureTour'
 import { KanbanBoard } from '../../templates/business/KanbanBoard'
 import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
@@ -1961,6 +1962,56 @@ export const HelpArticleDetail: Story = {
       <h2 id="tips" className="text-lg font-semibold text-foreground">주의사항</h2>
       <p>결재가 시작된 이후에는 품목·수량을 직접 수정할 수 없으므로, 결재자에게 반려를 요청한 뒤 다시 기안해야 합니다.</p>
     </HelpArticleView>
+  ),
+}
+
+export const HelpCategoryArticlesList: Story = {
+  name: 'Help Category Articles',
+  render: () => (
+    <HelpCategoryArticles
+      breadcrumb={[
+        { label: '지원', href: '#' },
+        { label: '도움말 센터', href: '#' },
+        { label: 'ERP' },
+      ]}
+      title="ERP"
+      description="발주·전표·마스터 데이터 관리와 관련된 문서를 모아두었습니다."
+      sections={[
+        {
+          id: 'purchase',
+          label: '구매·발주',
+          description: '발주 등록부터 결재, 확정까지의 절차를 안내합니다.',
+          articles: [
+            { id: 'a1', title: '발주 등록 가이드', updatedAt: '2026-07-28' },
+            { id: 'a2', title: '발주 기안 취소·반려 처리', updatedAt: '2026-07-20' },
+            { id: 'a3', title: '긴급 발주 승인 절차', updatedAt: '2026-06-15' },
+          ],
+        },
+        {
+          id: 'voucher',
+          label: '전표·회계',
+          description: '전표 작성, 승인, 마감 처리 관련 문서입니다.',
+          articles: [
+            { id: 'a4', title: '전표 처리 가이드', updatedAt: '2026-07-10' },
+            { id: 'a5', title: '월마감 전 확인해야 할 체크리스트', updatedAt: '2026-06-30' },
+          ],
+        },
+        {
+          id: 'master',
+          label: '마스터 데이터',
+          articles: [
+            { id: 'a6', title: '거래처 마스터 관리', updatedAt: '2026-05-22' },
+            { id: 'a7', title: '품목 마스터 등록·수정', updatedAt: '2026-05-02' },
+            { id: 'a8', title: '단가 마스터 일괄 반입', updatedAt: '2026-04-18' },
+          ],
+        },
+      ]}
+      popularArticles={[
+        { id: 'a1', title: '발주 등록 가이드' },
+        { id: 'a6', title: '거래처 마스터 관리' },
+        { id: 'a4', title: '전표 처리 가이드' },
+      ]}
+    />
   ),
 }
 
