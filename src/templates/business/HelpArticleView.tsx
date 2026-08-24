@@ -2,6 +2,7 @@ import { ReactNode, useState } from 'react'
 import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
 import { Card } from '../../components/data/Card'
 import { Tag } from '../../components/data/Tag'
+import { CommentThread, Comment } from '../../components/data/CommentThread'
 import { Button } from '../../components/foundation/Button'
 import { Divider } from '../../components/layout/Divider'
 import { cn } from '../../utils/cn'
@@ -34,6 +35,10 @@ export interface HelpArticleViewProps {
   relatedArticles?: HelpRelatedArticle[]
   /** "도움이 되었나요?" 피드백 제출 콜백 */
   onFeedback?: (helpful: boolean) => void
+  /** 댓글/토론 스레드 (지정 시에만 하단에 표시) */
+  comments?: Comment[]
+  onCommentSubmit?: (body: string) => void
+  onCommentReply?: (commentId: string, body: string) => void
   className?: string
 }
 
@@ -47,6 +52,9 @@ export function HelpArticleView({
   children,
   relatedArticles,
   onFeedback,
+  comments,
+  onCommentSubmit,
+  onCommentReply,
   className,
 }: HelpArticleViewProps) {
   const [feedback, setFeedback] = useState<'helpful' | 'not-helpful' | null>(null)
@@ -102,6 +110,18 @@ export function HelpArticleView({
                 </>
               )}
             </div>
+
+            {/* 댓글/토론 */}
+            {comments && (
+              <div className="mt-10">
+                <h2 className="text-base font-semibold text-foreground mb-3">댓글 {comments.length > 0 && comments.length}</h2>
+                <CommentThread
+                  comments={comments}
+                  onSubmit={onCommentSubmit}
+                  onReply={onCommentReply}
+                />
+              </div>
+            )}
 
             {/* 관련 문서 */}
             {relatedArticles && relatedArticles.length > 0 && (
