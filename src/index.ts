@@ -107,6 +107,8 @@ export { DataTable } from './components/data/DataTable'
 export type { DataColumn, DataTableProps, DataTablePagination } from './components/data/DataTable'
 export { UptimeHistoryStrip } from './components/data/UptimeHistoryStrip'
 export type { UptimeHistoryStripProps, UptimeDay, UptimeDayStatus } from './components/data/UptimeHistoryStrip'
+export { CommentThread } from './components/data/CommentThread'
+export type { CommentThreadProps, Comment } from './components/data/CommentThread'
 
 // Chart
 export { LineChart } from './components/chart/LineChart'

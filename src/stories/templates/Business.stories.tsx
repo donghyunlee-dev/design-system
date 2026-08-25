@@ -38,6 +38,7 @@ import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
 import { TemplateGallery } from '../../templates/business/TemplateGallery'
+import { Comment } from '../../components/data/CommentThread'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
@@ -1929,7 +1930,45 @@ export const HelpCenterHome: Story = {
 
 export const HelpArticleDetail: Story = {
   name: 'Help Article',
-  render: () => (
+  render: () => {
+    const [comments, setComments] = useState<Comment[]>([
+      {
+        id: 'c1',
+        author: { name: '김철수', initials: '김' },
+        time: '2026-08-21 14:02',
+        body: '결재 상신 전에는 품목 수정이 가능한가요? 화면에서는 잠긴 것처럼 보여요.',
+        replies: [
+          {
+            id: 'c1-r1',
+            author: { name: 'IT팀', initials: 'IT' },
+            time: '2026-08-21 15:10',
+            body: '네, 결재 시작 전(기안 상태)에는 자유롭게 수정하실 수 있습니다. 결재선이 생성된 이후에는 반려 요청이 필요합니다.',
+          },
+        ],
+      },
+      {
+        id: 'c2',
+        author: { name: '이영희', initials: '이' },
+        time: '2026-08-22 09:15',
+        body: '설명 감사합니다. 스크린샷도 함께 있으면 더 이해하기 쉬울 것 같아요.',
+      },
+    ])
+
+    const handleCommentSubmit = (body: string) => {
+      setComments(prev => [...prev, { id: `c${Date.now()}`, author: { name: '나', initials: '나' }, time: '방금 전', body }])
+    }
+
+    const handleCommentReply = (commentId: string, body: string) => {
+      setComments(prev =>
+        prev.map(c =>
+          c.id === commentId
+            ? { ...c, replies: [...(c.replies ?? []), { id: `${commentId}-r${Date.now()}`, author: { name: '나', initials: '나' }, time: '방금 전', body }] }
+            : c
+        )
+      )
+    }
+
+    return (
     <HelpArticleView
       breadcrumb={[
         { label: '지원', href: '#' },
@@ -1950,6 +1989,9 @@ export const HelpArticleDetail: Story = {
         { id: 'r2', title: '거래처 마스터 관리', system: 'ERP' },
         { id: 'r3', title: '주문 접수·처리', system: 'OMS' },
       ]}
+      comments={comments}
+      onCommentSubmit={handleCommentSubmit}
+      onCommentReply={handleCommentReply}
     >
       <h2 id="overview" className="text-lg font-semibold text-foreground">개요</h2>
       <p>발주 등록 화면에서는 거래처, 품목, 수량을 입력하여 신규 발주를 생성할 수 있습니다. 등록된 발주는 결재 완료 후 확정되며, 확정 전까지는 기안자가 자유롭게 수정할 수 있습니다.</p>
@@ -1962,7 +2004,8 @@ export const HelpArticleDetail: Story = {
       <h2 id="tips" className="text-lg font-semibold text-foreground">주의사항</h2>
       <p>결재가 시작된 이후에는 품목·수량을 직접 수정할 수 없으므로, 결재자에게 반려를 요청한 뒤 다시 기안해야 합니다.</p>
     </HelpArticleView>
-  ),
+    )
+  },
 }
 
 export const HelpCategoryArticlesList: Story = {
