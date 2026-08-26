@@ -8,6 +8,7 @@ import { FormRegister } from '../../templates/business/FormRegister'
 import { DetailView } from '../../templates/business/DetailView'
 import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
 import { SystemStatusBoard } from '../../templates/business/SystemStatusBoard'
+import { IncidentComposer, IncidentComposerChannel } from '../../templates/business/IncidentComposer'
 import { UptimeDay } from '../../components/data/UptimeHistoryStrip'
 import { SettingsPage } from '../../templates/business/SettingsPage'
 import { MasterDetail } from '../../templates/business/MasterDetail'
@@ -427,6 +428,58 @@ export const SystemStatus: Story = {
       ]}
     />
   ),
+}
+
+function IncidentComposerDemo() {
+  const systems = [
+    { id: 'erp', name: 'ERP' },
+    { id: 'oms', name: 'OMS' },
+    { id: 'wms', name: 'WMS' },
+    { id: 'prm', name: 'PRM' },
+    { id: 'groupware', name: '그룹웨어' },
+    { id: 'teams', name: '팀즈' },
+  ]
+  const [selectedSystemIds, setSelectedSystemIds] = useState<string[]>(['oms'])
+  const [incidentStatus, setIncidentStatus] = useState<'investigating' | 'monitoring' | 'resolved'>('investigating')
+  const [incidentTitle, setIncidentTitle] = useState('OMS 주문 접수 지연')
+  const [message, setMessage] = useState('09:12부터 OMS 주문 접수 화면에서 응답 지연이 발생하고 있습니다. 원인을 조사 중이며 확인되는 대로 업데이트하겠습니다.')
+  const [channels, setChannels] = useState<IncidentComposerChannel[]>([
+    { id: 'email', label: '이메일', checked: true },
+    { id: 'teams', label: '팀즈', checked: true },
+    { id: 'sms', label: 'SMS', checked: false },
+  ])
+
+  return (
+    <IncidentComposer
+      title="장애 공지 작성"
+      breadcrumb={[{ label: '시스템 상태 관리', href: '#' }, { label: '장애 공지 작성' }]}
+      systems={systems}
+      selectedSystemIds={selectedSystemIds}
+      onToggleSystem={id =>
+        setSelectedSystemIds(prev => (prev.includes(id) ? prev.filter(v => v !== id) : [...prev, id]))
+      }
+      incidentStatus={incidentStatus}
+      onIncidentStatusChange={setIncidentStatus}
+      incidentTitle={incidentTitle}
+      onIncidentTitleChange={setIncidentTitle}
+      message={message}
+      onMessageChange={setMessage}
+      channels={channels}
+      onToggleChannel={id =>
+        setChannels(prev => prev.map(c => (c.id === id ? { ...c, checked: !c.checked } : c)))
+      }
+      recentUpdates={[
+        { time: '08:47', message: 'OMS 주문 접수 화면에서 응답 지연 신고가 접수되었습니다.' },
+      ]}
+      onPublish={() => alert('공지가 게시되고 구독자에게 알림이 발송되었습니다.')}
+      onCancel={() => alert('작성이 취소되었습니다.')}
+    />
+  )
+}
+
+export const IncidentComposerStory: Story = {
+  name: 'Incident Composer',
+  render: () => <IncidentComposerDemo />,
 }
 
 type Vendor = { id: number; name: string; code: string; category: string; phone: string; active: boolean }
