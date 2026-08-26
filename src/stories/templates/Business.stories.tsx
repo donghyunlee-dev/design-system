@@ -1901,6 +1901,47 @@ export const TemplateGalleryAutomation: Story = {
   },
 }
 
+const dashboardGalleryCategories = [
+  { id: 'all', label: '전체', count: 8 },
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const dashboardGalleryItems: TemplateGalleryMediaItem[] = [
+  { id: 'db1', categoryId: 'erp', title: '월별 매출·매입 현황', description: '전표 데이터를 기준으로 월별 매출·매입 추이와 전월 대비 변동을 보여주는 대시보드입니다.', cover: 'brand', badge: '즐겨찾기', author: '재무팀', usageLabel: '156명 조회 중' },
+  { id: 'db2', categoryId: 'erp', title: '거래처별 미수금 현황', description: '거래처별 미수금 잔액과 연체 기간을 한눈에 확인하는 대시보드입니다.', cover: 'info', author: '재무팀', usageLabel: '68명 조회 중' },
+  { id: 'db3', categoryId: 'oms', title: '주문 처리 현황', description: '접수·피킹·출고 단계별 주문 건수와 평균 처리 시간을 보여주는 대시보드입니다.', cover: 'warning', badge: '즐겨찾기', author: '영업팀', usageLabel: '203명 조회 중' },
+  { id: 'db4', categoryId: 'oms', title: '배송 지연율 추이', description: '주간 배송 지연율과 지연 사유별 비중을 비교하는 대시보드입니다.', cover: 'warning', author: '물류팀', usageLabel: '77명 조회 중' },
+  { id: 'db5', categoryId: 'wms', title: '창고별 재고 가용률', description: '창고별 재고 가용률과 회전율을 비교해 보여주는 대시보드입니다.', cover: 'success', author: '창고관리팀', usageLabel: '94명 조회 중' },
+  { id: 'db6', categoryId: 'prm', title: '협력사 납기·품질 스코어', description: '협력사별 납기 준수율과 품질 평가 점수를 분기별로 비교하는 대시보드입니다.', cover: 'info', author: '구매팀', usageLabel: '41명 조회 중' },
+  { id: 'db7', categoryId: 'groupware', title: '전자결재 처리 현황', description: '부서별 결재 대기 건수와 평균 승인 소요 시간을 보여주는 대시보드입니다.', cover: 'brand', badge: '즐겨찾기', author: '경영지원팀', usageLabel: '132명 조회 중' },
+  { id: 'db8', categoryId: 'groupware', title: '연차·근태 현황', description: '부서별 연차 사용률과 근태 이상 현황을 집계하는 대시보드입니다.', cover: 'danger', author: '인사팀', usageLabel: '58명 조회 중' },
+]
+
+export const TemplateGalleryDashboards: Story = {
+  name: 'Template Gallery (Dashboards)',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="사내 대시보드 갤러리"
+        description="ERP·OMS·WMS·PRM·그룹웨어 부서가 공유한 실시간 현황 대시보드를 상단 분류로 훑어보고 바로 열어보세요."
+        searchPlaceholder="대시보드 검색 (예: 매출 현황, 배송 지연율, 재고 가용률)"
+        categoryLayout="top"
+        categories={dashboardGalleryCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featuredTitle="가장 많이 조회한 대시보드"
+        featured={dashboardGalleryItems.filter(item => item.badge === '즐겨찾기')}
+        items={dashboardGalleryItems}
+      />
+    )
+  },
+}
+
 export const HelpCenterHome: Story = {
   name: 'Help Center',
   render: () => (
