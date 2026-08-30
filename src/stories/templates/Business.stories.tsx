@@ -2446,3 +2446,60 @@ export const RequestQueue: Story = {
     )
   },
 }
+
+const heroGalleryErpItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg1', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀' },
+  { id: 'hg2', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀' },
+  { id: 'hg3', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀' },
+]
+
+const heroGalleryOmsItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg4', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀' },
+  { id: 'hg5', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀' },
+]
+
+const heroGalleryWmsItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg6', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀' },
+  { id: 'hg7', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀' },
+]
+
+const heroGalleryPrmItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg8', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀' },
+]
+
+const heroGalleryGroupwareItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg9', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀' },
+  { id: 'hg10', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀' },
+]
+
+export const TemplateGalleryHeroStory: Story = {
+  name: 'Template Gallery (Hero)',
+  render: () => (
+    <TemplateGalleryHero
+      title="업무 템플릿 갤러리"
+      subtitle="ERP·OMS·WMS·PRM·그룹웨어에서 자주 쓰는 문서·워크플로우 템플릿을 골라 바로 시작하세요"
+      searchPlaceholder="템플릿 검색 (예: 발주서, 품의서, 재고 실사)"
+      teamsTitle="업무 영역별로 찾기"
+      teams={[
+        { id: 'erp', icon: '🧾', label: 'ERP', count: 3 },
+        { id: 'oms', icon: '📦', label: 'OMS', count: 2 },
+        { id: 'wms', icon: '🏭', label: 'WMS', count: 2 },
+        { id: 'prm', icon: '🤝', label: 'PRM', count: 1 },
+        { id: 'groupware', icon: '🗂️', label: '그룹웨어', count: 2 },
+      ]}
+      featuredTitle="많이 사용하는 템플릿"
+      featured={[heroGalleryErpItems[0], heroGalleryGroupwareItems[0], heroGalleryOmsItems[0]]}
+      sections={[
+        { id: 'erp', icon: '🧾', label: 'ERP', description: 'Enterprise Resource Planning', items: heroGalleryErpItems },
+        { id: 'oms', icon: '📦', label: 'OMS', description: 'Order Management System', items: heroGalleryOmsItems },
+        { id: 'wms', icon: '🏭', label: 'WMS', description: 'Warehouse Management System', items: heroGalleryWmsItems },
+        { id: 'prm', icon: '🤝', label: 'PRM', description: 'Partner Management System', items: heroGalleryPrmItems },
+        { id: 'groupware', icon: '🗂️', label: '그룹웨어', items: heroGalleryGroupwareItems },
+      ]}
+      ctaTitle="필요한 템플릿이 없나요?"
+      ctaDescription="IT담당·AX팀에 새 템플릿 제작을 요청할 수 있습니다."
+      ctaActionLabel="템플릿 요청하기"
+      onCtaAction={() => alert('템플릿 요청 폼으로 이동')}
+    />
+  ),
+}
