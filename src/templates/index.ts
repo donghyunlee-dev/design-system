@@ -14,6 +14,9 @@ export type { LoginSplitProps } from './service/auth/LoginSplit'
 export { SignupPage } from './service/auth/SignupPage'
 export type { SignupPageProps } from './service/auth/SignupPage'
 
+export { FeatureShowcase } from './service/landing/FeatureShowcase'
+export type { FeatureShowcaseProps, FeatureShowcaseSection } from './service/landing/FeatureShowcase'
+
 // Service - Catalog
 export { ProductGrid } from './service/catalog/ProductGrid'
 export type { ProductGridProps } from './service/catalog/ProductGrid'
