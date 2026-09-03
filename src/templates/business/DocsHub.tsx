@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Breadcrumb, BreadcrumbItem } from '../../components/navigation/Breadcrumb'
 import { Card } from '../../components/data/Card'
 import { Tag } from '../../components/data/Tag'
@@ -23,7 +23,8 @@ export interface DocsHubNavSection {
 
 export interface DocsHubGuideCard {
   id: string
-  icon?: string
+  /** 이모지 문자열(기존 방식) 또는 벡터 아이콘 요소(예: <HubIcon name="account" />) */
+  icon?: ReactNode
   /** 소속 시스템 태그 (예: ERP) */
   system?: string
   title: string
