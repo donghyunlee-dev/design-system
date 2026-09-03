@@ -16,6 +16,7 @@ import { WizardForm } from '../../templates/business/WizardForm'
 import { ApprovalView } from '../../templates/business/ApprovalView'
 import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { DocsHub } from '../../templates/business/DocsHub'
+import { HubIcon } from '../../components/foundation/HubIcon'
 import { HelpCenter } from '../../templates/business/HelpCenter'
 import { HelpArticleView } from '../../templates/business/HelpArticleView'
 import { HelpCategoryArticles } from '../../templates/business/HelpCategoryArticles'
@@ -1208,6 +1209,102 @@ export const Search: Story = {
           label: '문서',
           items: [
             { id: 'd1', title: '한국식품 거래계약서', description: '2026년 갱신 계약', meta: '자료실 · 2026-01-15' },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
+export const OnboardingDocsHub: Story = {
+  name: 'Docs Hub - 신규 입사자 온보딩',
+  render: () => (
+    <DocsHub
+      title="신규 입사자 온보딩 문서 허브"
+      description="입사 첫 주에 필요한 계정 발급, 사내 시스템 이용법, 필수 교육 자료를 한 곳에서 확인하세요."
+      breadcrumb={[{ label: '인사', href: '#' }, { label: '온보딩 문서 허브' }]}
+      activeItemId="ob-account"
+      searchPlaceholder="온보딩 자료 검색 (예: 사번 발급, PC 신청, 그룹웨어 가입)"
+      sections={[
+        {
+          id: 'account',
+          label: '계정·장비',
+          items: [
+            { id: 'ob-account', label: '사번·이메일 계정 발급' },
+            { id: 'ob-pc', label: 'PC·사내망 VPN 신청' },
+            { id: 'ob-badge', label: '출입증 발급 절차' },
+          ],
+        },
+        {
+          id: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 'erp-intro', label: 'ERP 첫 로그인 가이드' },
+            { id: 'erp-role', label: '부서별 권한 신청' },
+          ],
+        },
+        {
+          id: 'oms',
+          label: 'OMS',
+          items: [{ id: 'oms-intro', label: 'OMS 화면 구성 둘러보기' }],
+        },
+        {
+          id: 'groupware',
+          label: '그룹웨어',
+          items: [
+            { id: 'gw-approval', label: '전자결재 첫 기안 작성' },
+            { id: 'gw-leave', label: '연차·근태 등록 방법' },
+          ],
+        },
+        {
+          id: 'education',
+          label: '필수 교육',
+          items: [
+            { id: 'edu-security', label: '정보보안 교육' },
+            { id: 'edu-compliance', label: '윤리·컴플라이언스 교육' },
+          ],
+        },
+      ]}
+      featuredTitle="입사 첫 주 체크리스트"
+      featured={[
+        { id: 'o1', icon: <HubIcon name="account" size="md" />, system: '계정·장비', title: '사번·이메일 계정 발급', description: '인사팀에서 발급한 사번으로 이메일·그룹웨어 계정을 활성화하는 방법입니다.' },
+        { id: 'o2', icon: <HubIcon name="device" size="md" />, system: '계정·장비', title: 'PC·사내망 VPN 신청', description: 'IT담당에 PC를 신청하고 사내망 VPN 접속을 설정하는 절차입니다.' },
+        { id: 'o3', icon: <HubIcon name="document" size="md" />, system: 'ERP', title: 'ERP 첫 로그인 가이드', description: '초기 비밀번호 발급부터 부서별 메뉴 권한 신청까지 안내합니다.' },
+        { id: 'o4', icon: <HubIcon name="folder" size="md" />, system: '그룹웨어', title: '전자결재 첫 기안 작성', description: '휴가 신청서 등 자주 쓰는 문서로 기안·상신하는 방법을 연습합니다.' },
+        { id: 'o5', icon: <HubIcon name="lock" size="md" />, system: '필수 교육', title: '정보보안 교육 수강', description: '입사 후 2주 이내 이수해야 하는 필수 정보보안 교육 안내입니다.' },
+        { id: 'o6', icon: <HubIcon name="box" size="md" />, system: 'OMS', title: 'OMS 화면 구성 둘러보기', description: '주문·배송 현황을 확인하는 기본 화면 구성을 소개합니다.' },
+      ]}
+      quickLinks={[
+        { id: 'q1', label: '인사팀 문의', description: '평일 09:00~18:00 · 내선 1000' },
+        { id: 'q2', label: 'IT 헬프데스크 문의', description: '평일 09:00~18:00 · 내선 1234' },
+        { id: 'q3', label: '팀즈 #new-hire 채널', description: 'Microsoft Teams' },
+      ]}
+      announcements={[
+        { id: 'n1', title: '9월 신규 입사자 오리엔테이션 일정 안내', date: '2026-09-01', tag: '공지' },
+        { id: 'n2', title: '정보보안 교육 이수 마감 (입사 후 2주 이내)', date: '2026-08-28', tag: '필수' },
+        { id: 'n3', title: 'ERP 권한 신청 양식 개편', date: '2026-08-20' },
+      ]}
+      commandGroups={[
+        {
+          key: 'account',
+          label: '계정·장비',
+          items: [
+            { id: 'c-ob-account', label: '사번·이메일 계정 발급', description: '이메일·그룹웨어 계정 활성화', onSelect: () => {} },
+            { id: 'c-ob-pc', label: 'PC·사내망 VPN 신청', description: 'IT담당 신청 절차', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 'c-erp-intro', label: 'ERP 첫 로그인 가이드', description: '초기 비밀번호 발급 방법', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'education',
+          label: '필수 교육',
+          items: [
+            { id: 'c-edu-security', label: '정보보안 교육', description: '입사 후 2주 이내 이수', onSelect: () => {} },
           ],
         },
       ]}

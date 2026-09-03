@@ -13,6 +13,8 @@ export { Icon } from './components/foundation/Icon'
 export type { IconProps, IconName } from './components/foundation/Icon'
 export { VerifiedBadge } from './components/foundation/VerifiedBadge'
 export type { VerifiedBadgeProps } from './components/foundation/VerifiedBadge'
+export { HubIcon } from './components/foundation/HubIcon'
+export type { HubIconProps, HubIconName } from './components/foundation/HubIcon'
 
 // Form
 export { Input } from './components/form/Input'
