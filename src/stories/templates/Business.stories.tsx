@@ -34,6 +34,8 @@ import { DiffView } from '../../templates/business/DiffView'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
 import { SystemIssueTracker, SystemIssueItem } from '../../templates/business/SystemIssueTracker'
 import { RequestQueueBoard, RequestQueueItem } from '../../templates/business/RequestQueueBoard'
+import { SavedViewIssueBoard, SavedViewIssueItem, SavedViewIssueLabel } from '../../templates/business/SavedViewIssueBoard'
+import { ColorTagVariant } from '../../components/data/ColorTag'
 import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
 import { TemplateCommunity, TemplateCommunitySection } from '../../templates/business/TemplateCommunity'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
@@ -2539,6 +2541,136 @@ export const RequestQueue: Story = {
         totalCount={filtered.length}
         onPageChange={setPage}
         onItemClick={item => alert(`${item.title} 상세로 이동`)}
+      />
+    )
+  },
+}
+
+/** 라벨 텍스트 → 색상 변형. GitHub 라벨처럼 구분별 색상을 부여합니다. */
+const PRM_LABEL_VARIANTS: Record<string, ColorTagVariant> = {
+  PRM: 'brand',
+  정산: 'info',
+  계약: 'neutral',
+  포털: 'warning',
+  발주: 'success',
+  긴급: 'danger',
+}
+const prmLabel = (text: string): SavedViewIssueLabel => ({ text, variant: PRM_LABEL_VARIANTS[text] })
+
+const prmInquiries: SavedViewIssueItem[] = [
+  {
+    id: 'pi1',
+    no: '#312',
+    title: '[정산] 6월 매입 정산서 금액 불일치 문의',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('정산')],
+    meta: '(주)신선유통 · 김도윤 담당자가 2시간 전 등록',
+    commentCount: 4,
+    assignee: { name: '박서준', initials: '박서준' },
+  },
+  {
+    id: 'pi2',
+    no: '#309',
+    title: '[계약] 표준 계약서 조항 변경 요청',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('계약')],
+    meta: '대한식자재(주) · 이하은 담당자가 5시간 전 등록',
+    commentCount: 1,
+  },
+  {
+    id: 'pi3',
+    no: '#305',
+    title: '[포털] 협력사 포털 로그인 오류 문의',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('긴급'), prmLabel('포털')],
+    meta: '(주)청정농산 · 최유진 담당자가 1일 전 등록',
+    commentCount: 6,
+    assignee: { name: '김민준', initials: '김민준' },
+  },
+  {
+    id: 'pi4',
+    no: '#298',
+    title: '[발주] 발주서 PDF 다운로드 시 품목 누락',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('발주')],
+    meta: '(주)신선유통 · 김도윤 담당자가 3일 전 등록',
+    commentCount: 0,
+    assignee: { name: '박서준', initials: '박서준' },
+  },
+  {
+    id: 'pi5',
+    no: '#287',
+    title: '[정산] 정산 주기 변경 협의 완료',
+    status: 'closed',
+    labels: [prmLabel('PRM'), prmLabel('정산')],
+    meta: '대한식자재(주) · 이하은 담당자가 8일 전 등록 · 박서준님이 닫음',
+    commentCount: 3,
+  },
+  {
+    id: 'pi6',
+    no: '#276',
+    title: '[포털] 협력사 담당자 계정 추가 처리 완료',
+    status: 'closed',
+    labels: [prmLabel('PRM'), prmLabel('포털')],
+    meta: '(주)청정농산 · 최유진 담당자가 12일 전 등록 · 김민준님이 닫음',
+    commentCount: 2,
+  },
+]
+
+export const SavedViewIssueBoardStory: Story = {
+  name: 'Saved View Issue Board',
+  render: () => {
+    const [view, setView] = useState('all')
+    const [tab, setTab] = useState<'open' | 'closed'>('open')
+    const [keyword, setKeyword] = useState('')
+    const [sort, setSort] = useState('latest')
+    const [labelFilter, setLabelFilter] = useState<string | null>(null)
+
+    const filtered = prmInquiries
+      .filter(item => item.status === tab)
+      .filter(item => !keyword || item.title.includes(keyword))
+      .filter(item => !labelFilter || item.labels?.some(l => (typeof l === 'string' ? l : l.text) === labelFilter))
+      .filter(item => view !== 'mine' || item.assignee?.name === '박서준')
+
+    const appliedFilters = labelFilter ? [{ id: 'label', label: `구분: ${labelFilter}` }] : []
+
+    return (
+      <SavedViewIssueBoard
+        title="협력사 문의·이슈 게시판"
+        breadcrumb={[{ label: 'PRM', href: '#' }, { label: '협력사 문의' }]}
+        views={[
+          { id: 'all', label: '전체 보기' },
+          { id: 'mine', label: '나에게 할당된' },
+        ]}
+        activeViewId={view}
+        onViewChange={setView}
+        issues={filtered}
+        openCount={prmInquiries.filter(i => i.status === 'open').length}
+        closedCount={prmInquiries.filter(i => i.status === 'closed').length}
+        activeTab={tab}
+        onTabChange={setTab}
+        onSearch={setKeyword}
+        filterMenus={[
+          {
+            label: '구분',
+            items: ['정산', '계약', '포털', '발주'].map(label => ({
+              label,
+              onClick: () => setLabelFilter(label),
+            })),
+          },
+        ]}
+        appliedFilters={appliedFilters}
+        onRemoveFilter={() => setLabelFilter(null)}
+        onClearFilters={() => setLabelFilter(null)}
+        sortOptions={[
+          { value: 'latest', label: '최신순' },
+          { value: 'comments', label: '댓글 많은순' },
+        ]}
+        sortValue={sort}
+        onSortChange={setSort}
+        pagination={{ page: 1, total: filtered.length, pageSize: 10, onChange: () => {} }}
+        onItemClick={item => alert(`${item.title} 상세로 이동`)}
+        actions={<Button size="sm">새 문의 등록</Button>}
       />
     )
   },
