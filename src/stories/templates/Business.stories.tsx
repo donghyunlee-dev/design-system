@@ -2732,3 +2732,122 @@ export const TemplateGalleryHeroStory: Story = {
     />
   ),
 }
+
+const wmsIssues: SystemIssueItem[] = [
+  {
+    id: 'w1',
+    no: '#221',
+    title: '평택 2센터 A동 랙 재고 수량 시스템-실사 불일치',
+    status: 'open',
+    labels: ['평택2센터', '재고불일치', '긴급'],
+    meta: '정하은님이 방금 전 등록',
+    commentCount: 3,
+    assignee: { name: '정하은', initials: '정하' },
+  },
+  {
+    id: 'w2',
+    no: '#219',
+    title: '이천센터 피킹 완료 후 WMS 출고 확정 처리 지연',
+    status: 'open',
+    labels: ['이천센터', '출고지연'],
+    meta: '오지훈님이 1시간 전 등록',
+    commentCount: 5,
+    assignee: { name: '오지훈', initials: '오지' },
+  },
+  {
+    id: 'w3',
+    no: '#215',
+    title: '냉동 3구역 로케이션 바코드 라벨 스캔 오류',
+    status: 'open',
+    labels: ['이천센터', '바코드오류'],
+    meta: '박지훈님이 4시간 전 등록',
+    commentCount: 0,
+  },
+  {
+    id: 'w4',
+    no: '#208',
+    title: '입고 검수 시 발주 수량 대비 과입고 처리 방법 문의',
+    status: 'open',
+    labels: ['평택2센터', '입고문의'],
+    meta: '최유진님이 1일 전 등록',
+    commentCount: 2,
+    assignee: { name: '최유진', initials: '최유' },
+  },
+  {
+    id: 'w5',
+    no: '#199',
+    title: '순환 실사 결과 반영 후 가용재고 재계산 완료',
+    status: 'closed',
+    labels: ['평택2센터', '재고불일치'],
+    meta: '정하은님이 3일 전 등록 · 오지훈님이 닫음',
+    commentCount: 6,
+    assignee: { name: '오지훈', initials: '오지' },
+  },
+  {
+    id: 'w6',
+    no: '#191',
+    title: '이천센터 지게차 단말기 WMS 앱 강제 종료 현상 조치',
+    status: 'closed',
+    labels: ['이천센터', '바코드오류', '긴급'],
+    meta: '박지훈님이 6일 전 등록 · 박지훈님이 닫음',
+    commentCount: 4,
+  },
+]
+
+export const WmsInventoryIssueTracker: Story = {
+  name: 'WMS Inventory Issue Tracker',
+  render: () => {
+    const [tab, setTab] = useState<'open' | 'closed'>('open')
+    const [keyword, setKeyword] = useState('')
+    const [sort, setSort] = useState('latest')
+    const [selectedIds, setSelectedIds] = useState<string[]>([])
+
+    const filtered = wmsIssues
+      .filter(issue => issue.status === tab)
+      .filter(issue => !keyword || issue.title.includes(keyword) || issue.labels?.some(label => label.includes(keyword)))
+
+    return (
+      <SystemIssueTracker
+        title="WMS 재고 불일치 이슈 트래커"
+        breadcrumb={[{ label: 'WMS', href: '#' }, { label: '재고 불일치 이슈' }]}
+        issues={filtered}
+        openCount={wmsIssues.filter(i => i.status === 'open').length}
+        closedCount={wmsIssues.filter(i => i.status === 'closed').length}
+        activeTab={tab}
+        onTabChange={tab => { setTab(tab); setSelectedIds([]) }}
+        onSearch={setKeyword}
+        filterMenus={[
+          {
+            label: '센터',
+            items: ['평택2센터', '이천센터'].map(center => ({
+              label: center,
+              onClick: () => setKeyword(center),
+            })),
+          },
+          {
+            label: '유형',
+            items: [
+              { label: '재고불일치', onClick: () => setKeyword('재고불일치') },
+              { label: '출고지연', onClick: () => setKeyword('출고지연') },
+              { label: '바코드오류', onClick: () => setKeyword('바코드오류') },
+            ],
+          },
+        ]}
+        sortOptions={[
+          { value: 'latest', label: '최신순' },
+          { value: 'comments', label: '댓글 많은순' },
+        ]}
+        sortValue={sort}
+        onSortChange={setSort}
+        selectedIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        bulkActions={[
+          { label: '담당자 지정', onClick: () => setSelectedIds([]) },
+          { label: '센터 재배정', onClick: () => setSelectedIds([]) },
+          { label: '종결 처리', onClick: () => setSelectedIds([]) },
+        ]}
+        actions={<Button size="sm">이슈 등록</Button>}
+      />
+    )
+  },
+}
