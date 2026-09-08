@@ -47,6 +47,7 @@ import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
+import { MultiSelect } from '../../components/form/MultiSelect'
 import { StatusBadge } from '../../components/foundation/StatusBadge'
 import { DataColumn } from '../../components/data/DataTable'
 import { FormField } from '../../components/form/FormField'
@@ -1627,7 +1628,7 @@ export const IssueList: Story = {
   render: () => {
     const [tab, setTab] = useState<'open' | 'closed'>('open')
     const [keyword, setKeyword] = useState('')
-    const [labelFilter, setLabelFilter] = useState('')
+    const [labelFilter, setLabelFilter] = useState<string[]>([])
     const [assigneeFilter, setAssigneeFilter] = useState('')
     const [sort, setSort] = useState('recent')
     const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -1637,7 +1638,7 @@ export const IssueList: Story = {
       .filter(issue => {
         if (issue.status !== tab) return false
         if (keyword && !issue.title.includes(keyword)) return false
-        if (labelFilter && !issue.labels?.includes(labelFilter)) return false
+        if (labelFilter.length > 0 && !labelFilter.some(label => issue.labels?.includes(label))) return false
         if (assigneeFilter && issue.assignee?.name !== assigneeFilter) return false
         return true
       })
@@ -1660,10 +1661,11 @@ export const IssueList: Story = {
         pagination={{ page, total: filtered.length, pageSize: 4, onChange: setPage }}
         filters={
           <>
-            <Select
+            <MultiSelect
               value={labelFilter}
-              onChange={e => setLabelFilter(e.target.value)}
-              placeholder="시스템 전체"
+              onChange={setLabelFilter}
+              placeholder="라벨 전체"
+              searchPlaceholder="라벨 검색"
               options={[
                 { value: 'ERP', label: 'ERP' },
                 { value: 'OMS', label: 'OMS' },
@@ -1671,6 +1673,10 @@ export const IssueList: Story = {
                 { value: 'PRM', label: 'PRM' },
                 { value: '그룹웨어', label: '그룹웨어' },
                 { value: 'OCI', label: 'OCI' },
+                { value: '버그', label: '버그' },
+                { value: '개선', label: '개선' },
+                { value: '긴급', label: '긴급' },
+                { value: '문의', label: '문의' },
               ]}
             />
             <Select
