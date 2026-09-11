@@ -29,6 +29,7 @@ import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
 import { FacetedSearchResults } from '../../templates/business/FacetedSearchResults'
 import { HighlightedEntitySearchExplorer } from '../../templates/business/HighlightedEntitySearchExplorer'
+import { TabbedSearchResults } from '../../templates/business/TabbedSearchResults'
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
@@ -1597,6 +1598,127 @@ export const ItemMasterSearch: Story = {
       ]}
     />
   ),
+}
+
+export const IntegratedSearch: Story = {
+  name: 'Tabbed Search Results (사내 통합검색)',
+  render: () => {
+    function Demo() {
+      const [activeScope, setActiveScope] = useState('board')
+      const scopes = [
+        {
+          key: 'board',
+          label: '게시판',
+          count: 128,
+          facets: [
+            {
+              key: 'department',
+              title: '작성 부서',
+              options: [
+                { value: 'it', label: 'IT담당', count: 34 },
+                { value: 'hr', label: '인사팀', count: 21 },
+                { value: 'logistics', label: '물류운영팀', count: 40 },
+              ],
+            },
+          ],
+          selectedFacets: { department: ['it'] },
+          sortOptions: [
+            { value: 'relevance', label: '관련도순' },
+            { value: 'recent', label: '최신순' },
+          ],
+          sortValue: 'relevance',
+          items: [
+            {
+              id: 'b1',
+              title: 'ERP 정기 점검 안내 (9/12 02:00~04:00)',
+              description: 'ERP(Enterprise Resource Planning) 야간 정기 점검으로 접속이 제한됩니다.',
+              badge: '공지',
+              stats: ['IT담당 · 그룹웨어', '조회 312', '2026-09-05'],
+              tags: ['정기점검'],
+            },
+            {
+              id: 'b2',
+              title: 'WMS 신규 입고 프로세스 매뉴얼 공유',
+              description: 'WMS(Warehouse Management System) 개편에 따른 입고 검수 절차 변경 안내.',
+              badge: '공지',
+              stats: ['물류운영팀 · 그룹웨어', '조회 189', '2026-08-28'],
+            },
+          ],
+        },
+        {
+          key: 'document',
+          label: '문서함',
+          count: 56,
+          facets: [
+            {
+              key: 'type',
+              title: '문서유형',
+              options: [
+                { value: 'manual', label: '매뉴얼', count: 18 },
+                { value: 'form', label: '양식', count: 15 },
+                { value: 'report', label: '보고서', count: 23 },
+              ],
+            },
+          ],
+          sortOptions: [
+            { value: 'relevance', label: '관련도순' },
+            { value: 'recent', label: '최신순' },
+          ],
+          sortValue: 'relevance',
+          items: [
+            {
+              id: 'd1',
+              title: 'OMS 주문 취소 처리 가이드.pdf',
+              description: 'OMS(Order Management System) 주문 취소·환불 처리 절차 매뉴얼.',
+              badge: '매뉴얼',
+              stats: ['등록 2026-07-14', '버전 v2.1'],
+              tags: ['OMS'],
+            },
+          ],
+        },
+        {
+          key: 'partner',
+          label: '거래처',
+          count: 34,
+          sortOptions: [
+            { value: 'relevance', label: '관련도순' },
+            { value: 'name', label: '거래처명순' },
+          ],
+          sortValue: 'relevance',
+          items: [
+            {
+              id: 'p1',
+              title: '(주)한국식자재유통',
+              description: 'PRM(Partner Management System) 등록 협력사. 신선 농산물 전문.',
+              badge: 'A등급',
+              stats: ['사업자번호 123-45-67890', '담당 MD 김도현'],
+              tags: ['우수협력사'],
+            },
+          ],
+        },
+        {
+          key: 'asset',
+          label: '자산',
+          count: 9,
+          sortOptions: [{ value: 'relevance', label: '관련도순' }],
+          sortValue: 'relevance',
+          items: [],
+        },
+      ]
+
+      return (
+        <TabbedSearchResults
+          title="통합 검색 결과"
+          keyword="ERP"
+          searchPlaceholder="게시판, 문서, 거래처, 자산을 검색하세요"
+          scopes={scopes}
+          activeScope={activeScope}
+          onScopeChange={setActiveScope}
+        />
+      )
+    }
+    return <Demo />
+  },
 }
 
 export const Print: Story = {
