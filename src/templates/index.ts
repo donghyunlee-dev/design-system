@@ -125,6 +125,8 @@ export { HelpCategoryArticles } from './business/HelpCategoryArticles'
 export type { HelpCategoryArticlesProps, HelpCategorySection, HelpCategoryArticle } from './business/HelpCategoryArticles'
 export { TemplateCommunity } from './business/TemplateCommunity'
 export type { TemplateCommunityProps, TemplateCommunityCategory, TemplateCommunityItem, TemplateCommunitySection } from './business/TemplateCommunity'
+export { TemplateGalleryFiltered } from './business/TemplateGalleryFiltered'
+export type { TemplateGalleryFilteredProps, TemplateGalleryFilteredFacet, TemplateGalleryFilteredFacetOption, TemplateGalleryFilteredItem } from './business/TemplateGalleryFiltered'
 export { SystemFeatureTour } from './business/SystemFeatureTour'
 export type { SystemFeatureTourProps, SystemFeatureTourSection } from './business/SystemFeatureTour'
 

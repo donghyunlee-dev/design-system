@@ -44,6 +44,7 @@ import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
 import { TemplateGallery } from '../../templates/business/TemplateGallery'
 import { TemplateGalleryDirectory, TemplateGalleryDirectorySection } from '../../templates/business/TemplateGalleryDirectory'
+import { TemplateGalleryFiltered, TemplateGalleryFilteredFacet, TemplateGalleryFilteredItem } from '../../templates/business/TemplateGalleryFiltered'
 import { Comment } from '../../components/data/CommentThread'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
@@ -2293,6 +2294,71 @@ export const TemplateGalleryDirectoryHome: Story = {
       sections={directorySections}
     />
   ),
+}
+
+const filteredGalleryFacets: TemplateGalleryFilteredFacet[] = [
+  {
+    id: 'system',
+    label: '업무 시스템',
+    options: [
+      { id: 'sys-erp', label: 'ERP', count: 4 },
+      { id: 'sys-oms', label: 'OMS', count: 2 },
+      { id: 'sys-wms', label: 'WMS', count: 2 },
+      { id: 'sys-prm', label: 'PRM', count: 1 },
+      { id: 'sys-groupware', label: '그룹웨어', count: 2 },
+    ],
+  },
+  {
+    id: 'scale',
+    label: '적용 규모',
+    options: [
+      { id: 'scale-team', label: '팀 단위', count: 6 },
+      { id: 'scale-dept', label: '부서 단위', count: 4 },
+      { id: 'scale-company', label: '전사', count: 3 },
+    ],
+  },
+]
+
+const filteredGalleryPinned: TemplateGalleryFilteredItem[] = [
+  { id: 'fg-p1', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀', facetOptionIds: ['sys-erp', 'scale-team'] },
+  { id: 'fg-p2', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀', facetOptionIds: ['sys-groupware', 'scale-company'] },
+]
+
+const filteredGalleryItems: TemplateGalleryFilteredItem[] = [
+  { id: 'fg1', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀', facetOptionIds: ['sys-erp', 'scale-dept'] },
+  { id: 'fg2', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀', facetOptionIds: ['sys-erp', 'scale-company'] },
+  { id: 'fg3', icon: '🧮', title: '거래처 마스터 등록', description: '신규 거래처의 사업자 정보와 결제 조건을 등록하는 기준정보 양식입니다.', owner: '재무팀', facetOptionIds: ['sys-erp', 'scale-dept'] },
+  { id: 'fg4', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀', facetOptionIds: ['sys-oms', 'scale-team'] },
+  { id: 'fg5', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀', facetOptionIds: ['sys-oms', 'scale-team'] },
+  { id: 'fg6', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀', facetOptionIds: ['sys-wms', 'scale-dept'] },
+  { id: 'fg7', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀', facetOptionIds: ['sys-wms', 'scale-team'] },
+  { id: 'fg8', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀', facetOptionIds: ['sys-prm', 'scale-dept'] },
+  { id: 'fg9', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀', facetOptionIds: ['sys-groupware', 'scale-company'] },
+]
+
+export const TemplateGalleryFilteredStory: Story = {
+  name: 'Template Gallery (Filtered)',
+  render: () => {
+    const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([])
+    const toggleOption = (optionId: string) => {
+      setSelectedOptionIds(prev =>
+        prev.includes(optionId) ? prev.filter(id => id !== optionId) : [...prev, optionId]
+      )
+    }
+    return (
+      <TemplateGalleryFiltered
+        title="업무 템플릿 갤러리"
+        description="업무 시스템과 적용 규모를 함께 선택해 조건에 맞는 템플릿만 골라 보세요."
+        breadcrumb={[{ label: '업무 지원', href: '#' }, { label: '템플릿 갤러리' }]}
+        facets={filteredGalleryFacets}
+        selectedOptionIds={selectedOptionIds}
+        onToggleOption={toggleOption}
+        onResetFilters={() => setSelectedOptionIds([])}
+        pinned={filteredGalleryPinned}
+        items={filteredGalleryItems}
+      />
+    )
+  },
 }
 
 export const HelpCenterHome: Story = {
