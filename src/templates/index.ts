@@ -94,6 +94,8 @@ export { GlobalSearchResults } from './business/GlobalSearchResults'
 export type { GlobalSearchResultsProps, SearchResultGroup, SearchResultItem } from './business/GlobalSearchResults'
 export { FacetedSearchResults } from './business/FacetedSearchResults'
 export type { FacetedSearchResultsProps, FacetedSearchResultItem } from './business/FacetedSearchResults'
+export { TabbedSearchResults } from './business/TabbedSearchResults'
+export type { TabbedSearchResultsProps, TabbedSearchResultScope } from './business/TabbedSearchResults'
 
 export { DocumentPrint } from './business/DocumentPrint'
 export type { DocumentPrintProps, DocumentPrintParty, DocumentPrintLineItem, DocumentPrintSummaryItem } from './business/DocumentPrint'
