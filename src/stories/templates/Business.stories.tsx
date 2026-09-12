@@ -44,6 +44,7 @@ import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
 import { TemplateGallery } from '../../templates/business/TemplateGallery'
 import { TemplateGalleryDirectory, TemplateGalleryDirectorySection } from '../../templates/business/TemplateGalleryDirectory'
+import { TemplateGallerySpotlight, TemplateGallerySpotlightItem } from '../../templates/business/TemplateGallerySpotlight'
 import { Comment } from '../../components/data/CommentThread'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
@@ -2291,6 +2292,40 @@ export const TemplateGalleryDirectoryHome: Story = {
       departments={directoryDepartments}
       blankStart={{ icon: '➕', label: '빈 문서로 시작하기', description: '양식 없이 새 문서를 바로 작성합니다.' }}
       sections={directorySections}
+    />
+  ),
+}
+
+const spotlightCategories = [
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const spotlightItems: TemplateGallerySpotlightItem[] = [
+  { id: 's1', categoryId: 'erp', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀' },
+  { id: 's2', categoryId: 'erp', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀' },
+  { id: 's3', categoryId: 'erp', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀' },
+  { id: 's4', categoryId: 'oms', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀' },
+  { id: 's5', categoryId: 'oms', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀' },
+  { id: 's6', categoryId: 'wms', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀' },
+  { id: 's7', categoryId: 'wms', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀' },
+  { id: 's8', categoryId: 'prm', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀' },
+  { id: 's9', categoryId: 'groupware', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀' },
+  { id: 's10', categoryId: 'groupware', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀' },
+]
+
+export const TemplateGallerySpotlightHome: Story = {
+  name: 'Template Gallery (Spotlight)',
+  render: () => (
+    <TemplateGallerySpotlight
+      title="업무 템플릿 갤러리"
+      description="상단 탭에서 시스템을 고르고, 가장 많이 쓰는 템플릿은 큰 카드로 먼저 확인하세요."
+      categories={spotlightCategories}
+      spotlight={spotlightItems.filter(item => item.badge)}
+      items={spotlightItems}
     />
   ),
 }
