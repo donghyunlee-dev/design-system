@@ -28,6 +28,7 @@ import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
 import { FacetedSearchResults } from '../../templates/business/FacetedSearchResults'
+import { HighlightedEntitySearchExplorer } from '../../templates/business/HighlightedEntitySearchExplorer'
 import { TabbedSearchResults } from '../../templates/business/TabbedSearchResults'
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
@@ -1394,6 +1395,128 @@ export const PartnerSearch: Story = {
       ]}
     />
   ),
+}
+
+export const GroupwareSearchExplorer: Story = {
+  name: 'Entity Search Explorer (그룹웨어 통합검색)',
+  render: () => {
+    const [activeTab, setActiveTab] = useState('post')
+    const [page, setPage] = useState(1)
+
+    const itemsByTab: Record<string, { id: string; title: string; description?: string; badge?: string; stats?: string[]; tags?: string[] }[]> = {
+      post: [
+        {
+          id: 'post-1',
+          title: '2026년 3분기 냉동창고 안전점검 결과 공유',
+          description: '안전보건팀 · WMS 연동 냉동창고 3개소 점검 결과 및 후속 조치 안내',
+          badge: '공지사항',
+          stats: ['작성자 이도현', '게시일 2026-09-02', '조회 312'],
+          tags: ['안전보건'],
+        },
+        {
+          id: 'post-2',
+          title: 'ERP 발주 승인 프로세스 변경 안내',
+          description: '9월 15일부터 500만원 이상 발주 건은 팀장 1차 승인 후 재무팀 2차 승인으로 변경됩니다.',
+          badge: '사내소식',
+          stats: ['작성자 박서연', '게시일 2026-08-28', '조회 578'],
+          tags: ['ERP', '프로세스변경'],
+        },
+        {
+          id: 'post-3',
+          title: '물류센터 리크루팅 - WMS 운영 담당자 모집',
+          description: '경기 이천 물류센터 WMS 운영/재고관리 담당자를 채용합니다.',
+          badge: '채용공고',
+          stats: ['작성자 인사팀', '게시일 2026-08-20', '조회 145'],
+        },
+      ],
+      file: [
+        {
+          id: 'file-1',
+          title: '2026년 냉동창고 안전점검 체크리스트.xlsx',
+          description: '안전보건팀 게시글 첨부파일',
+          stats: ['업로드 이도현', '2026-09-02', '245KB'],
+          tags: ['엑셀'],
+        },
+        {
+          id: 'file-2',
+          title: 'ERP 발주 승인 프로세스 변경안(v2).pdf',
+          description: '재무팀·구매팀 공동 검토안',
+          stats: ['업로드 박서연', '2026-08-27', '1.2MB'],
+          tags: ['PDF'],
+        },
+      ],
+      event: [
+        {
+          id: 'event-1',
+          title: '냉동창고 안전점검 후속 조치 회의',
+          description: '안전보건팀 · 본사 3층 대회의실',
+          stats: ['2026-09-15 14:00', '참석 8명'],
+          tags: ['회의'],
+        },
+      ],
+      member: [
+        {
+          id: 'member-1',
+          title: '이도현 (안전보건팀 · 과장)',
+          description: '내선 1024 · 본사 3층',
+          stats: ['입사일 2019-03-02'],
+        },
+        {
+          id: 'member-2',
+          title: '박서연 (재무팀 · 대리)',
+          description: '내선 1108 · 본사 5층',
+          stats: ['입사일 2021-07-19'],
+        },
+      ],
+    }
+
+    return (
+      <HighlightedEntitySearchExplorer
+        title="그룹웨어 통합검색"
+        keyword="냉동창고"
+        searchPlaceholder="게시글, 첨부파일, 일정, 구성원을 검색하세요"
+        tabs={[
+          { key: 'post', label: '게시글', count: 3 },
+          { key: 'file', label: '첨부파일', count: 2 },
+          { key: 'event', label: '일정', count: 1 },
+          { key: 'member', label: '구성원', count: 2 },
+        ]}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        facets={[
+          {
+            key: 'dept',
+            title: '부서',
+            options: [
+              { value: 'safety', label: '안전보건팀', count: 1 },
+              { value: 'finance', label: '재무팀', count: 1 },
+              { value: 'hr', label: '인사팀', count: 1 },
+            ],
+          },
+          {
+            key: 'period',
+            title: '기간',
+            options: [
+              { value: '7d', label: '최근 7일', count: 1 },
+              { value: '30d', label: '최근 30일', count: 3 },
+              { value: 'all', label: '전체', count: 3 },
+            ],
+          },
+        ]}
+        selectedFacets={{ period: ['30d'] }}
+        sortOptions={[
+          { value: 'relevance', label: '관련도순' },
+          { value: 'recent', label: '최신순' },
+        ]}
+        sortValue="relevance"
+        items={itemsByTab[activeTab]}
+        page={page}
+        pageSize={10}
+        totalCount={itemsByTab[activeTab].length}
+        onPageChange={setPage}
+      />
+    )
+  },
 }
 
 export const ItemMasterSearch: Story = {
