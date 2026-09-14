@@ -15,19 +15,19 @@ jobs:
           node-version: 20
           cache: npm
 
-      - run: npm ci
-
-      - run: npm run build-storybook
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Copy build output outside the git checkout
+      - name: Prepare source outside the git checkout
         # Vercel CLI attaches git commit metadata whenever the deploy runs inside a
         # .git working directory, and private-org-repo + Hobby plan then blocks the
-        # deployment as "commit author lacks contributing access" — even for a pure
-        # static upload. Deploying from a git-free copy avoids that check entirely.
-        run: cp -r storybook-static "$RUNNER_TEMP/storybook-deploy"
+        # deployment as "commit author lacks contributing access". Archive the full
+        # source (including api/mcp.ts and vercel.json) without .git so Vercel can run
+        # the configured Storybook + MCP build while avoiding that check.
+        run: |
+          mkdir -p "$RUNNER_TEMP/storybook-deploy"
+          git archive --format=tar HEAD -o "$RUNNER_TEMP/storybook-deploy.tar"
+          tar -xf "$RUNNER_TEMP/storybook-deploy.tar" -C "$RUNNER_TEMP/storybook-deploy"
 
       - name: Deploy to Vercel
         working-directory: ${{ runner.temp }}/storybook-deploy
