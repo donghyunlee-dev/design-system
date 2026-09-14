@@ -28,6 +28,7 @@ import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
 import { FacetedSearchResults } from '../../templates/business/FacetedSearchResults'
+import { HighlightedEntitySearchExplorer } from '../../templates/business/HighlightedEntitySearchExplorer'
 import { TabbedSearchResults } from '../../templates/business/TabbedSearchResults'
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
@@ -45,6 +46,7 @@ import { ErrorState } from '../../templates/business/ErrorState'
 import { TemplateGallery } from '../../templates/business/TemplateGallery'
 import { TemplateGalleryDirectory, TemplateGalleryDirectorySection } from '../../templates/business/TemplateGalleryDirectory'
 import { TemplateGallerySpotlight, TemplateGallerySpotlightItem } from '../../templates/business/TemplateGallerySpotlight'
+import { TemplateGalleryFiltered, TemplateGalleryFilteredFacet, TemplateGalleryFilteredItem } from '../../templates/business/TemplateGalleryFiltered'
 import { Comment } from '../../components/data/CommentThread'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
@@ -1397,6 +1399,128 @@ export const PartnerSearch: Story = {
   ),
 }
 
+export const GroupwareSearchExplorer: Story = {
+  name: 'Entity Search Explorer (그룹웨어 통합검색)',
+  render: () => {
+    const [activeTab, setActiveTab] = useState('post')
+    const [page, setPage] = useState(1)
+
+    const itemsByTab: Record<string, { id: string; title: string; description?: string; badge?: string; stats?: string[]; tags?: string[] }[]> = {
+      post: [
+        {
+          id: 'post-1',
+          title: '2026년 3분기 냉동창고 안전점검 결과 공유',
+          description: '안전보건팀 · WMS 연동 냉동창고 3개소 점검 결과 및 후속 조치 안내',
+          badge: '공지사항',
+          stats: ['작성자 이도현', '게시일 2026-09-02', '조회 312'],
+          tags: ['안전보건'],
+        },
+        {
+          id: 'post-2',
+          title: 'ERP 발주 승인 프로세스 변경 안내',
+          description: '9월 15일부터 500만원 이상 발주 건은 팀장 1차 승인 후 재무팀 2차 승인으로 변경됩니다.',
+          badge: '사내소식',
+          stats: ['작성자 박서연', '게시일 2026-08-28', '조회 578'],
+          tags: ['ERP', '프로세스변경'],
+        },
+        {
+          id: 'post-3',
+          title: '물류센터 리크루팅 - WMS 운영 담당자 모집',
+          description: '경기 이천 물류센터 WMS 운영/재고관리 담당자를 채용합니다.',
+          badge: '채용공고',
+          stats: ['작성자 인사팀', '게시일 2026-08-20', '조회 145'],
+        },
+      ],
+      file: [
+        {
+          id: 'file-1',
+          title: '2026년 냉동창고 안전점검 체크리스트.xlsx',
+          description: '안전보건팀 게시글 첨부파일',
+          stats: ['업로드 이도현', '2026-09-02', '245KB'],
+          tags: ['엑셀'],
+        },
+        {
+          id: 'file-2',
+          title: 'ERP 발주 승인 프로세스 변경안(v2).pdf',
+          description: '재무팀·구매팀 공동 검토안',
+          stats: ['업로드 박서연', '2026-08-27', '1.2MB'],
+          tags: ['PDF'],
+        },
+      ],
+      event: [
+        {
+          id: 'event-1',
+          title: '냉동창고 안전점검 후속 조치 회의',
+          description: '안전보건팀 · 본사 3층 대회의실',
+          stats: ['2026-09-15 14:00', '참석 8명'],
+          tags: ['회의'],
+        },
+      ],
+      member: [
+        {
+          id: 'member-1',
+          title: '이도현 (안전보건팀 · 과장)',
+          description: '내선 1024 · 본사 3층',
+          stats: ['입사일 2019-03-02'],
+        },
+        {
+          id: 'member-2',
+          title: '박서연 (재무팀 · 대리)',
+          description: '내선 1108 · 본사 5층',
+          stats: ['입사일 2021-07-19'],
+        },
+      ],
+    }
+
+    return (
+      <HighlightedEntitySearchExplorer
+        title="그룹웨어 통합검색"
+        keyword="냉동창고"
+        searchPlaceholder="게시글, 첨부파일, 일정, 구성원을 검색하세요"
+        tabs={[
+          { key: 'post', label: '게시글', count: 3 },
+          { key: 'file', label: '첨부파일', count: 2 },
+          { key: 'event', label: '일정', count: 1 },
+          { key: 'member', label: '구성원', count: 2 },
+        ]}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        facets={[
+          {
+            key: 'dept',
+            title: '부서',
+            options: [
+              { value: 'safety', label: '안전보건팀', count: 1 },
+              { value: 'finance', label: '재무팀', count: 1 },
+              { value: 'hr', label: '인사팀', count: 1 },
+            ],
+          },
+          {
+            key: 'period',
+            title: '기간',
+            options: [
+              { value: '7d', label: '최근 7일', count: 1 },
+              { value: '30d', label: '최근 30일', count: 3 },
+              { value: 'all', label: '전체', count: 3 },
+            ],
+          },
+        ]}
+        selectedFacets={{ period: ['30d'] }}
+        sortOptions={[
+          { value: 'relevance', label: '관련도순' },
+          { value: 'recent', label: '최신순' },
+        ]}
+        sortValue="relevance"
+        items={itemsByTab[activeTab]}
+        page={page}
+        pageSize={10}
+        totalCount={itemsByTab[activeTab].length}
+        onPageChange={setPage}
+      />
+    )
+  },
+}
+
 export const ItemMasterSearch: Story = {
   name: 'Faceted Search Results (ERP 품목 검색)',
   render: () => (
@@ -2328,6 +2452,70 @@ export const TemplateGallerySpotlightHome: Story = {
       items={spotlightItems}
     />
   ),
+
+const filteredGalleryFacets: TemplateGalleryFilteredFacet[] = [
+  {
+    id: 'system',
+    label: '업무 시스템',
+    options: [
+      { id: 'sys-erp', label: 'ERP', count: 4 },
+      { id: 'sys-oms', label: 'OMS', count: 2 },
+      { id: 'sys-wms', label: 'WMS', count: 2 },
+      { id: 'sys-prm', label: 'PRM', count: 1 },
+      { id: 'sys-groupware', label: '그룹웨어', count: 2 },
+    ],
+  },
+  {
+    id: 'scale',
+    label: '적용 규모',
+    options: [
+      { id: 'scale-team', label: '팀 단위', count: 6 },
+      { id: 'scale-dept', label: '부서 단위', count: 4 },
+      { id: 'scale-company', label: '전사', count: 3 },
+    ],
+  },
+]
+
+const filteredGalleryPinned: TemplateGalleryFilteredItem[] = [
+  { id: 'fg-p1', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀', facetOptionIds: ['sys-erp', 'scale-team'] },
+  { id: 'fg-p2', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀', facetOptionIds: ['sys-groupware', 'scale-company'] },
+]
+
+const filteredGalleryItems: TemplateGalleryFilteredItem[] = [
+  { id: 'fg1', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀', facetOptionIds: ['sys-erp', 'scale-dept'] },
+  { id: 'fg2', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀', facetOptionIds: ['sys-erp', 'scale-company'] },
+  { id: 'fg3', icon: '🧮', title: '거래처 마스터 등록', description: '신규 거래처의 사업자 정보와 결제 조건을 등록하는 기준정보 양식입니다.', owner: '재무팀', facetOptionIds: ['sys-erp', 'scale-dept'] },
+  { id: 'fg4', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀', facetOptionIds: ['sys-oms', 'scale-team'] },
+  { id: 'fg5', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀', facetOptionIds: ['sys-oms', 'scale-team'] },
+  { id: 'fg6', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀', facetOptionIds: ['sys-wms', 'scale-dept'] },
+  { id: 'fg7', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀', facetOptionIds: ['sys-wms', 'scale-team'] },
+  { id: 'fg8', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀', facetOptionIds: ['sys-prm', 'scale-dept'] },
+  { id: 'fg9', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀', facetOptionIds: ['sys-groupware', 'scale-company'] },
+]
+
+export const TemplateGalleryFilteredStory: Story = {
+  name: 'Template Gallery (Filtered)',
+  render: () => {
+    const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([])
+    const toggleOption = (optionId: string) => {
+      setSelectedOptionIds(prev =>
+        prev.includes(optionId) ? prev.filter(id => id !== optionId) : [...prev, optionId]
+      )
+    }
+    return (
+      <TemplateGalleryFiltered
+        title="업무 템플릿 갤러리"
+        description="업무 시스템과 적용 규모를 함께 선택해 조건에 맞는 템플릿만 골라 보세요."
+        breadcrumb={[{ label: '업무 지원', href: '#' }, { label: '템플릿 갤러리' }]}
+        facets={filteredGalleryFacets}
+        selectedOptionIds={selectedOptionIds}
+        onToggleOption={toggleOption}
+        onResetFilters={() => setSelectedOptionIds([])}
+        pinned={filteredGalleryPinned}
+        items={filteredGalleryItems}
+      />
+    )
+  },
 }
 
 export const HelpCenterHome: Story = {
