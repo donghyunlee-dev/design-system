@@ -8,6 +8,7 @@ import { FormRegister } from '../../templates/business/FormRegister'
 import { DetailView } from '../../templates/business/DetailView'
 import { MonitoringBoard } from '../../templates/business/MonitoringBoard'
 import { SystemStatusBoard } from '../../templates/business/SystemStatusBoard'
+import { IncidentComposer, IncidentComposerChannel } from '../../templates/business/IncidentComposer'
 import { UptimeDay } from '../../components/data/UptimeHistoryStrip'
 import { SettingsPage } from '../../templates/business/SettingsPage'
 import { MasterDetail } from '../../templates/business/MasterDetail'
@@ -15,8 +16,10 @@ import { WizardForm } from '../../templates/business/WizardForm'
 import { ApprovalView } from '../../templates/business/ApprovalView'
 import { DocumentCatalog } from '../../templates/business/DocumentCatalog'
 import { DocsHub } from '../../templates/business/DocsHub'
+import { HubIcon } from '../../components/foundation/HubIcon'
 import { HelpCenter } from '../../templates/business/HelpCenter'
 import { HelpArticleView } from '../../templates/business/HelpArticleView'
+import { HelpCategoryArticles } from '../../templates/business/HelpCategoryArticles'
 import { SystemFeatureTour } from '../../templates/business/SystemFeatureTour'
 import { KanbanBoard } from '../../templates/business/KanbanBoard'
 import { ActivityTimeline } from '../../templates/business/ActivityTimeline'
@@ -25,6 +28,8 @@ import { InboxCenter } from '../../templates/business/InboxCenter'
 import { FileExplorer } from '../../templates/business/FileExplorer'
 import { GlobalSearchResults } from '../../templates/business/GlobalSearchResults'
 import { FacetedSearchResults } from '../../templates/business/FacetedSearchResults'
+import { HighlightedEntitySearchExplorer } from '../../templates/business/HighlightedEntitySearchExplorer'
+import { TabbedSearchResults } from '../../templates/business/TabbedSearchResults'
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
@@ -32,17 +37,24 @@ import { RolesPermissionsMatrix } from '../../templates/business/RolesPermission
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
 import { SystemIssueTracker, SystemIssueItem } from '../../templates/business/SystemIssueTracker'
 import { RequestQueueBoard, RequestQueueItem } from '../../templates/business/RequestQueueBoard'
+import { SavedViewIssueBoard, SavedViewIssueItem, SavedViewIssueLabel } from '../../templates/business/SavedViewIssueBoard'
+import { ColorTagVariant } from '../../components/data/ColorTag'
 import { TemplateGalleryMedia, TemplateGalleryMediaItem } from '../../templates/business/TemplateGalleryMedia'
 import { TemplateCommunity, TemplateCommunitySection } from '../../templates/business/TemplateCommunity'
 import { DataImportWizard } from '../../templates/business/DataImportWizard'
 import { PermissionMatrix } from '../../templates/business/PermissionMatrix'
 import { ErrorState } from '../../templates/business/ErrorState'
 import { TemplateGallery } from '../../templates/business/TemplateGallery'
+import { TemplateGalleryDirectory, TemplateGalleryDirectorySection } from '../../templates/business/TemplateGalleryDirectory'
+import { TemplateGallerySpotlight, TemplateGallerySpotlightItem } from '../../templates/business/TemplateGallerySpotlight'
+import { TemplateGalleryFiltered, TemplateGalleryFilteredFacet, TemplateGalleryFilteredItem } from '../../templates/business/TemplateGalleryFiltered'
+import { Comment } from '../../components/data/CommentThread'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
 import { LineChart } from '../../components/chart/LineChart'
 import { Button } from '../../components/foundation/Button'
 import { Select } from '../../components/form/Select'
+import { MultiSelect } from '../../components/form/MultiSelect'
 import { StatusBadge } from '../../components/foundation/StatusBadge'
 import { DataColumn } from '../../components/data/DataTable'
 import { FormField } from '../../components/form/FormField'
@@ -426,6 +438,58 @@ export const SystemStatus: Story = {
       ]}
     />
   ),
+}
+
+function IncidentComposerDemo() {
+  const systems = [
+    { id: 'erp', name: 'ERP' },
+    { id: 'oms', name: 'OMS' },
+    { id: 'wms', name: 'WMS' },
+    { id: 'prm', name: 'PRM' },
+    { id: 'groupware', name: '그룹웨어' },
+    { id: 'teams', name: '팀즈' },
+  ]
+  const [selectedSystemIds, setSelectedSystemIds] = useState<string[]>(['oms'])
+  const [incidentStatus, setIncidentStatus] = useState<'investigating' | 'monitoring' | 'resolved'>('investigating')
+  const [incidentTitle, setIncidentTitle] = useState('OMS 주문 접수 지연')
+  const [message, setMessage] = useState('09:12부터 OMS 주문 접수 화면에서 응답 지연이 발생하고 있습니다. 원인을 조사 중이며 확인되는 대로 업데이트하겠습니다.')
+  const [channels, setChannels] = useState<IncidentComposerChannel[]>([
+    { id: 'email', label: '이메일', checked: true },
+    { id: 'teams', label: '팀즈', checked: true },
+    { id: 'sms', label: 'SMS', checked: false },
+  ])
+
+  return (
+    <IncidentComposer
+      title="장애 공지 작성"
+      breadcrumb={[{ label: '시스템 상태 관리', href: '#' }, { label: '장애 공지 작성' }]}
+      systems={systems}
+      selectedSystemIds={selectedSystemIds}
+      onToggleSystem={id =>
+        setSelectedSystemIds(prev => (prev.includes(id) ? prev.filter(v => v !== id) : [...prev, id]))
+      }
+      incidentStatus={incidentStatus}
+      onIncidentStatusChange={setIncidentStatus}
+      incidentTitle={incidentTitle}
+      onIncidentTitleChange={setIncidentTitle}
+      message={message}
+      onMessageChange={setMessage}
+      channels={channels}
+      onToggleChannel={id =>
+        setChannels(prev => prev.map(c => (c.id === id ? { ...c, checked: !c.checked } : c)))
+      }
+      recentUpdates={[
+        { time: '08:47', message: 'OMS 주문 접수 화면에서 응답 지연 신고가 접수되었습니다.' },
+      ]}
+      onPublish={() => alert('공지가 게시되고 구독자에게 알림이 발송되었습니다.')}
+      onCancel={() => alert('작성이 취소되었습니다.')}
+    />
+  )
+}
+
+export const IncidentComposerStory: Story = {
+  name: 'Incident Composer',
+  render: () => <IncidentComposerDemo />,
 }
 
 type Vendor = { id: number; name: string; code: string; category: string; phone: string; active: boolean }
@@ -1160,6 +1224,102 @@ export const Search: Story = {
   ),
 }
 
+export const OnboardingDocsHub: Story = {
+  name: 'Docs Hub - 신규 입사자 온보딩',
+  render: () => (
+    <DocsHub
+      title="신규 입사자 온보딩 문서 허브"
+      description="입사 첫 주에 필요한 계정 발급, 사내 시스템 이용법, 필수 교육 자료를 한 곳에서 확인하세요."
+      breadcrumb={[{ label: '인사', href: '#' }, { label: '온보딩 문서 허브' }]}
+      activeItemId="ob-account"
+      searchPlaceholder="온보딩 자료 검색 (예: 사번 발급, PC 신청, 그룹웨어 가입)"
+      sections={[
+        {
+          id: 'account',
+          label: '계정·장비',
+          items: [
+            { id: 'ob-account', label: '사번·이메일 계정 발급' },
+            { id: 'ob-pc', label: 'PC·사내망 VPN 신청' },
+            { id: 'ob-badge', label: '출입증 발급 절차' },
+          ],
+        },
+        {
+          id: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 'erp-intro', label: 'ERP 첫 로그인 가이드' },
+            { id: 'erp-role', label: '부서별 권한 신청' },
+          ],
+        },
+        {
+          id: 'oms',
+          label: 'OMS',
+          items: [{ id: 'oms-intro', label: 'OMS 화면 구성 둘러보기' }],
+        },
+        {
+          id: 'groupware',
+          label: '그룹웨어',
+          items: [
+            { id: 'gw-approval', label: '전자결재 첫 기안 작성' },
+            { id: 'gw-leave', label: '연차·근태 등록 방법' },
+          ],
+        },
+        {
+          id: 'education',
+          label: '필수 교육',
+          items: [
+            { id: 'edu-security', label: '정보보안 교육' },
+            { id: 'edu-compliance', label: '윤리·컴플라이언스 교육' },
+          ],
+        },
+      ]}
+      featuredTitle="입사 첫 주 체크리스트"
+      featured={[
+        { id: 'o1', icon: <HubIcon name="account" size="md" />, system: '계정·장비', title: '사번·이메일 계정 발급', description: '인사팀에서 발급한 사번으로 이메일·그룹웨어 계정을 활성화하는 방법입니다.' },
+        { id: 'o2', icon: <HubIcon name="device" size="md" />, system: '계정·장비', title: 'PC·사내망 VPN 신청', description: 'IT담당에 PC를 신청하고 사내망 VPN 접속을 설정하는 절차입니다.' },
+        { id: 'o3', icon: <HubIcon name="document" size="md" />, system: 'ERP', title: 'ERP 첫 로그인 가이드', description: '초기 비밀번호 발급부터 부서별 메뉴 권한 신청까지 안내합니다.' },
+        { id: 'o4', icon: <HubIcon name="folder" size="md" />, system: '그룹웨어', title: '전자결재 첫 기안 작성', description: '휴가 신청서 등 자주 쓰는 문서로 기안·상신하는 방법을 연습합니다.' },
+        { id: 'o5', icon: <HubIcon name="lock" size="md" />, system: '필수 교육', title: '정보보안 교육 수강', description: '입사 후 2주 이내 이수해야 하는 필수 정보보안 교육 안내입니다.' },
+        { id: 'o6', icon: <HubIcon name="box" size="md" />, system: 'OMS', title: 'OMS 화면 구성 둘러보기', description: '주문·배송 현황을 확인하는 기본 화면 구성을 소개합니다.' },
+      ]}
+      quickLinks={[
+        { id: 'q1', label: '인사팀 문의', description: '평일 09:00~18:00 · 내선 1000' },
+        { id: 'q2', label: 'IT 헬프데스크 문의', description: '평일 09:00~18:00 · 내선 1234' },
+        { id: 'q3', label: '팀즈 #new-hire 채널', description: 'Microsoft Teams' },
+      ]}
+      announcements={[
+        { id: 'n1', title: '9월 신규 입사자 오리엔테이션 일정 안내', date: '2026-09-01', tag: '공지' },
+        { id: 'n2', title: '정보보안 교육 이수 마감 (입사 후 2주 이내)', date: '2026-08-28', tag: '필수' },
+        { id: 'n3', title: 'ERP 권한 신청 양식 개편', date: '2026-08-20' },
+      ]}
+      commandGroups={[
+        {
+          key: 'account',
+          label: '계정·장비',
+          items: [
+            { id: 'c-ob-account', label: '사번·이메일 계정 발급', description: '이메일·그룹웨어 계정 활성화', onSelect: () => {} },
+            { id: 'c-ob-pc', label: 'PC·사내망 VPN 신청', description: 'IT담당 신청 절차', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'erp',
+          label: 'ERP',
+          items: [
+            { id: 'c-erp-intro', label: 'ERP 첫 로그인 가이드', description: '초기 비밀번호 발급 방법', onSelect: () => {} },
+          ],
+        },
+        {
+          key: 'education',
+          label: '필수 교육',
+          items: [
+            { id: 'c-edu-security', label: '정보보안 교육', description: '입사 후 2주 이내 이수', onSelect: () => {} },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
 export const PartnerSearch: Story = {
   name: 'Faceted Search Results',
   render: () => (
@@ -1238,6 +1398,128 @@ export const PartnerSearch: Story = {
       ]}
     />
   ),
+}
+
+export const GroupwareSearchExplorer: Story = {
+  name: 'Entity Search Explorer (그룹웨어 통합검색)',
+  render: () => {
+    const [activeTab, setActiveTab] = useState('post')
+    const [page, setPage] = useState(1)
+
+    const itemsByTab: Record<string, { id: string; title: string; description?: string; badge?: string; stats?: string[]; tags?: string[] }[]> = {
+      post: [
+        {
+          id: 'post-1',
+          title: '2026년 3분기 냉동창고 안전점검 결과 공유',
+          description: '안전보건팀 · WMS 연동 냉동창고 3개소 점검 결과 및 후속 조치 안내',
+          badge: '공지사항',
+          stats: ['작성자 이도현', '게시일 2026-09-02', '조회 312'],
+          tags: ['안전보건'],
+        },
+        {
+          id: 'post-2',
+          title: 'ERP 발주 승인 프로세스 변경 안내',
+          description: '9월 15일부터 500만원 이상 발주 건은 팀장 1차 승인 후 재무팀 2차 승인으로 변경됩니다.',
+          badge: '사내소식',
+          stats: ['작성자 박서연', '게시일 2026-08-28', '조회 578'],
+          tags: ['ERP', '프로세스변경'],
+        },
+        {
+          id: 'post-3',
+          title: '물류센터 리크루팅 - WMS 운영 담당자 모집',
+          description: '경기 이천 물류센터 WMS 운영/재고관리 담당자를 채용합니다.',
+          badge: '채용공고',
+          stats: ['작성자 인사팀', '게시일 2026-08-20', '조회 145'],
+        },
+      ],
+      file: [
+        {
+          id: 'file-1',
+          title: '2026년 냉동창고 안전점검 체크리스트.xlsx',
+          description: '안전보건팀 게시글 첨부파일',
+          stats: ['업로드 이도현', '2026-09-02', '245KB'],
+          tags: ['엑셀'],
+        },
+        {
+          id: 'file-2',
+          title: 'ERP 발주 승인 프로세스 변경안(v2).pdf',
+          description: '재무팀·구매팀 공동 검토안',
+          stats: ['업로드 박서연', '2026-08-27', '1.2MB'],
+          tags: ['PDF'],
+        },
+      ],
+      event: [
+        {
+          id: 'event-1',
+          title: '냉동창고 안전점검 후속 조치 회의',
+          description: '안전보건팀 · 본사 3층 대회의실',
+          stats: ['2026-09-15 14:00', '참석 8명'],
+          tags: ['회의'],
+        },
+      ],
+      member: [
+        {
+          id: 'member-1',
+          title: '이도현 (안전보건팀 · 과장)',
+          description: '내선 1024 · 본사 3층',
+          stats: ['입사일 2019-03-02'],
+        },
+        {
+          id: 'member-2',
+          title: '박서연 (재무팀 · 대리)',
+          description: '내선 1108 · 본사 5층',
+          stats: ['입사일 2021-07-19'],
+        },
+      ],
+    }
+
+    return (
+      <HighlightedEntitySearchExplorer
+        title="그룹웨어 통합검색"
+        keyword="냉동창고"
+        searchPlaceholder="게시글, 첨부파일, 일정, 구성원을 검색하세요"
+        tabs={[
+          { key: 'post', label: '게시글', count: 3 },
+          { key: 'file', label: '첨부파일', count: 2 },
+          { key: 'event', label: '일정', count: 1 },
+          { key: 'member', label: '구성원', count: 2 },
+        ]}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        facets={[
+          {
+            key: 'dept',
+            title: '부서',
+            options: [
+              { value: 'safety', label: '안전보건팀', count: 1 },
+              { value: 'finance', label: '재무팀', count: 1 },
+              { value: 'hr', label: '인사팀', count: 1 },
+            ],
+          },
+          {
+            key: 'period',
+            title: '기간',
+            options: [
+              { value: '7d', label: '최근 7일', count: 1 },
+              { value: '30d', label: '최근 30일', count: 3 },
+              { value: 'all', label: '전체', count: 3 },
+            ],
+          },
+        ]}
+        selectedFacets={{ period: ['30d'] }}
+        sortOptions={[
+          { value: 'relevance', label: '관련도순' },
+          { value: 'recent', label: '최신순' },
+        ]}
+        sortValue="relevance"
+        items={itemsByTab[activeTab]}
+        page={page}
+        pageSize={10}
+        totalCount={itemsByTab[activeTab].length}
+        onPageChange={setPage}
+      />
+    )
+  },
 }
 
 export const ItemMasterSearch: Story = {
@@ -1319,6 +1601,127 @@ export const ItemMasterSearch: Story = {
       ]}
     />
   ),
+}
+
+export const IntegratedSearch: Story = {
+  name: 'Tabbed Search Results (사내 통합검색)',
+  render: () => {
+    function Demo() {
+      const [activeScope, setActiveScope] = useState('board')
+      const scopes = [
+        {
+          key: 'board',
+          label: '게시판',
+          count: 128,
+          facets: [
+            {
+              key: 'department',
+              title: '작성 부서',
+              options: [
+                { value: 'it', label: 'IT담당', count: 34 },
+                { value: 'hr', label: '인사팀', count: 21 },
+                { value: 'logistics', label: '물류운영팀', count: 40 },
+              ],
+            },
+          ],
+          selectedFacets: { department: ['it'] },
+          sortOptions: [
+            { value: 'relevance', label: '관련도순' },
+            { value: 'recent', label: '최신순' },
+          ],
+          sortValue: 'relevance',
+          items: [
+            {
+              id: 'b1',
+              title: 'ERP 정기 점검 안내 (9/12 02:00~04:00)',
+              description: 'ERP(Enterprise Resource Planning) 야간 정기 점검으로 접속이 제한됩니다.',
+              badge: '공지',
+              stats: ['IT담당 · 그룹웨어', '조회 312', '2026-09-05'],
+              tags: ['정기점검'],
+            },
+            {
+              id: 'b2',
+              title: 'WMS 신규 입고 프로세스 매뉴얼 공유',
+              description: 'WMS(Warehouse Management System) 개편에 따른 입고 검수 절차 변경 안내.',
+              badge: '공지',
+              stats: ['물류운영팀 · 그룹웨어', '조회 189', '2026-08-28'],
+            },
+          ],
+        },
+        {
+          key: 'document',
+          label: '문서함',
+          count: 56,
+          facets: [
+            {
+              key: 'type',
+              title: '문서유형',
+              options: [
+                { value: 'manual', label: '매뉴얼', count: 18 },
+                { value: 'form', label: '양식', count: 15 },
+                { value: 'report', label: '보고서', count: 23 },
+              ],
+            },
+          ],
+          sortOptions: [
+            { value: 'relevance', label: '관련도순' },
+            { value: 'recent', label: '최신순' },
+          ],
+          sortValue: 'relevance',
+          items: [
+            {
+              id: 'd1',
+              title: 'OMS 주문 취소 처리 가이드.pdf',
+              description: 'OMS(Order Management System) 주문 취소·환불 처리 절차 매뉴얼.',
+              badge: '매뉴얼',
+              stats: ['등록 2026-07-14', '버전 v2.1'],
+              tags: ['OMS'],
+            },
+          ],
+        },
+        {
+          key: 'partner',
+          label: '거래처',
+          count: 34,
+          sortOptions: [
+            { value: 'relevance', label: '관련도순' },
+            { value: 'name', label: '거래처명순' },
+          ],
+          sortValue: 'relevance',
+          items: [
+            {
+              id: 'p1',
+              title: '(주)한국식자재유통',
+              description: 'PRM(Partner Management System) 등록 협력사. 신선 농산물 전문.',
+              badge: 'A등급',
+              stats: ['사업자번호 123-45-67890', '담당 MD 김도현'],
+              tags: ['우수협력사'],
+            },
+          ],
+        },
+        {
+          key: 'asset',
+          label: '자산',
+          count: 9,
+          sortOptions: [{ value: 'relevance', label: '관련도순' }],
+          sortValue: 'relevance',
+          items: [],
+        },
+      ]
+
+      return (
+        <TabbedSearchResults
+          title="통합 검색 결과"
+          keyword="ERP"
+          searchPlaceholder="게시판, 문서, 거래처, 자산을 검색하세요"
+          scopes={scopes}
+          activeScope={activeScope}
+          onScopeChange={setActiveScope}
+        />
+      )
+    }
+    return <Demo />
+  },
 }
 
 export const Print: Story = {
@@ -1475,7 +1878,7 @@ export const IssueList: Story = {
   render: () => {
     const [tab, setTab] = useState<'open' | 'closed'>('open')
     const [keyword, setKeyword] = useState('')
-    const [labelFilter, setLabelFilter] = useState('')
+    const [labelFilter, setLabelFilter] = useState<string[]>([])
     const [assigneeFilter, setAssigneeFilter] = useState('')
     const [sort, setSort] = useState('recent')
     const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -1485,7 +1888,7 @@ export const IssueList: Story = {
       .filter(issue => {
         if (issue.status !== tab) return false
         if (keyword && !issue.title.includes(keyword)) return false
-        if (labelFilter && !issue.labels?.includes(labelFilter)) return false
+        if (labelFilter.length > 0 && !labelFilter.some(label => issue.labels?.includes(label))) return false
         if (assigneeFilter && issue.assignee?.name !== assigneeFilter) return false
         return true
       })
@@ -1508,10 +1911,11 @@ export const IssueList: Story = {
         pagination={{ page, total: filtered.length, pageSize: 4, onChange: setPage }}
         filters={
           <>
-            <Select
+            <MultiSelect
               value={labelFilter}
-              onChange={e => setLabelFilter(e.target.value)}
-              placeholder="시스템 전체"
+              onChange={setLabelFilter}
+              placeholder="라벨 전체"
+              searchPlaceholder="라벨 검색"
               options={[
                 { value: 'ERP', label: 'ERP' },
                 { value: 'OMS', label: 'OMS' },
@@ -1519,6 +1923,10 @@ export const IssueList: Story = {
                 { value: 'PRM', label: 'PRM' },
                 { value: '그룹웨어', label: '그룹웨어' },
                 { value: 'OCI', label: 'OCI' },
+                { value: '버그', label: '버그' },
+                { value: '개선', label: '개선' },
+                { value: '긴급', label: '긴급' },
+                { value: '문의', label: '문의' },
               ]}
             />
             <Select
@@ -1900,6 +2308,218 @@ export const TemplateGalleryAutomation: Story = {
   },
 }
 
+const dashboardGalleryCategories = [
+  { id: 'all', label: '전체', count: 8 },
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const dashboardGalleryItems: TemplateGalleryMediaItem[] = [
+  { id: 'db1', categoryId: 'erp', title: '월별 매출·매입 현황', description: '전표 데이터를 기준으로 월별 매출·매입 추이와 전월 대비 변동을 보여주는 대시보드입니다.', cover: 'brand', badge: '즐겨찾기', author: '재무팀', usageLabel: '156명 조회 중' },
+  { id: 'db2', categoryId: 'erp', title: '거래처별 미수금 현황', description: '거래처별 미수금 잔액과 연체 기간을 한눈에 확인하는 대시보드입니다.', cover: 'info', author: '재무팀', usageLabel: '68명 조회 중' },
+  { id: 'db3', categoryId: 'oms', title: '주문 처리 현황', description: '접수·피킹·출고 단계별 주문 건수와 평균 처리 시간을 보여주는 대시보드입니다.', cover: 'warning', badge: '즐겨찾기', author: '영업팀', usageLabel: '203명 조회 중' },
+  { id: 'db4', categoryId: 'oms', title: '배송 지연율 추이', description: '주간 배송 지연율과 지연 사유별 비중을 비교하는 대시보드입니다.', cover: 'warning', author: '물류팀', usageLabel: '77명 조회 중' },
+  { id: 'db5', categoryId: 'wms', title: '창고별 재고 가용률', description: '창고별 재고 가용률과 회전율을 비교해 보여주는 대시보드입니다.', cover: 'success', author: '창고관리팀', usageLabel: '94명 조회 중' },
+  { id: 'db6', categoryId: 'prm', title: '협력사 납기·품질 스코어', description: '협력사별 납기 준수율과 품질 평가 점수를 분기별로 비교하는 대시보드입니다.', cover: 'info', author: '구매팀', usageLabel: '41명 조회 중' },
+  { id: 'db7', categoryId: 'groupware', title: '전자결재 처리 현황', description: '부서별 결재 대기 건수와 평균 승인 소요 시간을 보여주는 대시보드입니다.', cover: 'brand', badge: '즐겨찾기', author: '경영지원팀', usageLabel: '132명 조회 중' },
+  { id: 'db8', categoryId: 'groupware', title: '연차·근태 현황', description: '부서별 연차 사용률과 근태 이상 현황을 집계하는 대시보드입니다.', cover: 'danger', author: '인사팀', usageLabel: '58명 조회 중' },
+]
+
+export const TemplateGalleryDashboards: Story = {
+  name: 'Template Gallery (Dashboards)',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="사내 대시보드 갤러리"
+        description="ERP·OMS·WMS·PRM·그룹웨어 부서가 공유한 실시간 현황 대시보드를 상단 분류로 훑어보고 바로 열어보세요."
+        searchPlaceholder="대시보드 검색 (예: 매출 현황, 배송 지연율, 재고 가용률)"
+        categoryLayout="top"
+        categories={dashboardGalleryCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featuredTitle="가장 많이 조회한 대시보드"
+        featured={dashboardGalleryItems.filter(item => item.badge === '즐겨찾기')}
+        items={dashboardGalleryItems}
+      />
+    )
+  },
+}
+
+const directoryDepartments = [
+  { id: 'erp', icon: '🧾', label: 'ERP', count: 3 },
+  { id: 'oms', icon: '📦', label: 'OMS', count: 2 },
+  { id: 'wms', icon: '🏭', label: 'WMS', count: 2 },
+  { id: 'prm', icon: '🤝', label: 'PRM', count: 1 },
+  { id: 'groupware', icon: '🗂️', label: '그룹웨어', count: 2 },
+  { id: 'it', icon: '💻', label: 'IT지원', count: 1 },
+]
+
+const directorySections: TemplateGalleryDirectorySection[] = [
+  {
+    id: 'popular',
+    title: '가장 많이 사용된 템플릿',
+    items: [
+      { id: 'd1', departmentId: 'erp', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀' },
+      { id: 'd2', departmentId: 'groupware', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀' },
+      { id: 'd3', departmentId: 'wms', icon: '📋', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀' },
+    ],
+  },
+  {
+    id: 'erp',
+    title: 'ERP 추천 템플릿',
+    items: [
+      { id: 'd4', departmentId: 'erp', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀' },
+      { id: 'd5', departmentId: 'erp', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀' },
+    ],
+  },
+  {
+    id: 'oms',
+    title: 'OMS 추천 템플릿',
+    items: [
+      { id: 'd6', departmentId: 'oms', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀' },
+      { id: 'd7', departmentId: 'oms', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀' },
+    ],
+  },
+  {
+    id: 'prm-it',
+    title: 'PRM·IT지원 추천 템플릿',
+    items: [
+      { id: 'd8', departmentId: 'prm', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀' },
+      { id: 'd9', departmentId: 'it', icon: '💻', title: 'IT 자산 지급 신청서', description: '노트북·모니터 등 업무용 IT 자산 지급을 요청하는 양식입니다.', owner: 'IT지원팀' },
+    ],
+  },
+  {
+    id: 'wms2',
+    title: 'WMS 추천 템플릿',
+    items: [
+      { id: 'd10', departmentId: 'wms', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀' },
+    ],
+  },
+  {
+    id: 'groupware2',
+    title: '그룹웨어 추천 템플릿',
+    items: [
+      { id: 'd11', departmentId: 'groupware', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀' },
+    ],
+  },
+]
+
+export const TemplateGalleryDirectoryHome: Story = {
+  name: 'Template Gallery (Directory)',
+  render: () => (
+    <TemplateGalleryDirectory
+      title="업무 템플릿 디렉토리"
+      description="부서·시스템 타일을 눌러 ERP·OMS·WMS·PRM·그룹웨어·IT지원 템플릿을 바로 찾아 쓰세요."
+      departments={directoryDepartments}
+      blankStart={{ icon: '➕', label: '빈 문서로 시작하기', description: '양식 없이 새 문서를 바로 작성합니다.' }}
+      sections={directorySections}
+    />
+  ),
+}
+
+const spotlightCategories = [
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const spotlightItems: TemplateGallerySpotlightItem[] = [
+  { id: 's1', categoryId: 'erp', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀' },
+  { id: 's2', categoryId: 'erp', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀' },
+  { id: 's3', categoryId: 'erp', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀' },
+  { id: 's4', categoryId: 'oms', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀' },
+  { id: 's5', categoryId: 'oms', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀' },
+  { id: 's6', categoryId: 'wms', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀' },
+  { id: 's7', categoryId: 'wms', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀' },
+  { id: 's8', categoryId: 'prm', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀' },
+  { id: 's9', categoryId: 'groupware', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀' },
+  { id: 's10', categoryId: 'groupware', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀' },
+]
+
+export const TemplateGallerySpotlightHome: Story = {
+  name: 'Template Gallery (Spotlight)',
+  render: () => (
+    <TemplateGallerySpotlight
+      title="업무 템플릿 갤러리"
+      description="상단 탭에서 시스템을 고르고, 가장 많이 쓰는 템플릿은 큰 카드로 먼저 확인하세요."
+      categories={spotlightCategories}
+      spotlight={spotlightItems.filter(item => item.badge)}
+      items={spotlightItems}
+    />
+  ),
+}
+
+const filteredGalleryFacets: TemplateGalleryFilteredFacet[] = [
+  {
+    id: 'system',
+    label: '업무 시스템',
+    options: [
+      { id: 'sys-erp', label: 'ERP', count: 4 },
+      { id: 'sys-oms', label: 'OMS', count: 2 },
+      { id: 'sys-wms', label: 'WMS', count: 2 },
+      { id: 'sys-prm', label: 'PRM', count: 1 },
+      { id: 'sys-groupware', label: '그룹웨어', count: 2 },
+    ],
+  },
+  {
+    id: 'scale',
+    label: '적용 규모',
+    options: [
+      { id: 'scale-team', label: '팀 단위', count: 6 },
+      { id: 'scale-dept', label: '부서 단위', count: 4 },
+      { id: 'scale-company', label: '전사', count: 3 },
+    ],
+  },
+]
+
+const filteredGalleryPinned: TemplateGalleryFilteredItem[] = [
+  { id: 'fg-p1', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀', facetOptionIds: ['sys-erp', 'scale-team'] },
+  { id: 'fg-p2', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀', facetOptionIds: ['sys-groupware', 'scale-company'] },
+]
+
+const filteredGalleryItems: TemplateGalleryFilteredItem[] = [
+  { id: 'fg1', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀', facetOptionIds: ['sys-erp', 'scale-dept'] },
+  { id: 'fg2', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀', facetOptionIds: ['sys-erp', 'scale-company'] },
+  { id: 'fg3', icon: '🧮', title: '거래처 마스터 등록', description: '신규 거래처의 사업자 정보와 결제 조건을 등록하는 기준정보 양식입니다.', owner: '재무팀', facetOptionIds: ['sys-erp', 'scale-dept'] },
+  { id: 'fg4', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀', facetOptionIds: ['sys-oms', 'scale-team'] },
+  { id: 'fg5', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀', facetOptionIds: ['sys-oms', 'scale-team'] },
+  { id: 'fg6', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀', facetOptionIds: ['sys-wms', 'scale-dept'] },
+  { id: 'fg7', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀', facetOptionIds: ['sys-wms', 'scale-team'] },
+  { id: 'fg8', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀', facetOptionIds: ['sys-prm', 'scale-dept'] },
+  { id: 'fg9', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀', facetOptionIds: ['sys-groupware', 'scale-company'] },
+]
+
+export const TemplateGalleryFilteredStory: Story = {
+  name: 'Template Gallery (Filtered)',
+  render: () => {
+    const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([])
+    const toggleOption = (optionId: string) => {
+      setSelectedOptionIds(prev =>
+        prev.includes(optionId) ? prev.filter(id => id !== optionId) : [...prev, optionId]
+      )
+    }
+    return (
+      <TemplateGalleryFiltered
+        title="업무 템플릿 갤러리"
+        description="업무 시스템과 적용 규모를 함께 선택해 조건에 맞는 템플릿만 골라 보세요."
+        breadcrumb={[{ label: '업무 지원', href: '#' }, { label: '템플릿 갤러리' }]}
+        facets={filteredGalleryFacets}
+        selectedOptionIds={selectedOptionIds}
+        onToggleOption={toggleOption}
+        onResetFilters={() => setSelectedOptionIds([])}
+        pinned={filteredGalleryPinned}
+        items={filteredGalleryItems}
+      />
+    )
+  },
+}
+
 export const HelpCenterHome: Story = {
   name: 'Help Center',
   render: () => (
@@ -1929,7 +2549,45 @@ export const HelpCenterHome: Story = {
 
 export const HelpArticleDetail: Story = {
   name: 'Help Article',
-  render: () => (
+  render: () => {
+    const [comments, setComments] = useState<Comment[]>([
+      {
+        id: 'c1',
+        author: { name: '김철수', initials: '김' },
+        time: '2026-08-21 14:02',
+        body: '결재 상신 전에는 품목 수정이 가능한가요? 화면에서는 잠긴 것처럼 보여요.',
+        replies: [
+          {
+            id: 'c1-r1',
+            author: { name: 'IT팀', initials: 'IT' },
+            time: '2026-08-21 15:10',
+            body: '네, 결재 시작 전(기안 상태)에는 자유롭게 수정하실 수 있습니다. 결재선이 생성된 이후에는 반려 요청이 필요합니다.',
+          },
+        ],
+      },
+      {
+        id: 'c2',
+        author: { name: '이영희', initials: '이' },
+        time: '2026-08-22 09:15',
+        body: '설명 감사합니다. 스크린샷도 함께 있으면 더 이해하기 쉬울 것 같아요.',
+      },
+    ])
+
+    const handleCommentSubmit = (body: string) => {
+      setComments(prev => [...prev, { id: `c${Date.now()}`, author: { name: '나', initials: '나' }, time: '방금 전', body }])
+    }
+
+    const handleCommentReply = (commentId: string, body: string) => {
+      setComments(prev =>
+        prev.map(c =>
+          c.id === commentId
+            ? { ...c, replies: [...(c.replies ?? []), { id: `${commentId}-r${Date.now()}`, author: { name: '나', initials: '나' }, time: '방금 전', body }] }
+            : c
+        )
+      )
+    }
+
+    return (
     <HelpArticleView
       breadcrumb={[
         { label: '지원', href: '#' },
@@ -1950,6 +2608,9 @@ export const HelpArticleDetail: Story = {
         { id: 'r2', title: '거래처 마스터 관리', system: 'ERP' },
         { id: 'r3', title: '주문 접수·처리', system: 'OMS' },
       ]}
+      comments={comments}
+      onCommentSubmit={handleCommentSubmit}
+      onCommentReply={handleCommentReply}
     >
       <h2 id="overview" className="text-lg font-semibold text-foreground">개요</h2>
       <p>발주 등록 화면에서는 거래처, 품목, 수량을 입력하여 신규 발주를 생성할 수 있습니다. 등록된 발주는 결재 완료 후 확정되며, 확정 전까지는 기안자가 자유롭게 수정할 수 있습니다.</p>
@@ -1962,6 +2623,57 @@ export const HelpArticleDetail: Story = {
       <h2 id="tips" className="text-lg font-semibold text-foreground">주의사항</h2>
       <p>결재가 시작된 이후에는 품목·수량을 직접 수정할 수 없으므로, 결재자에게 반려를 요청한 뒤 다시 기안해야 합니다.</p>
     </HelpArticleView>
+    )
+  },
+}
+
+export const HelpCategoryArticlesList: Story = {
+  name: 'Help Category Articles',
+  render: () => (
+    <HelpCategoryArticles
+      breadcrumb={[
+        { label: '지원', href: '#' },
+        { label: '도움말 센터', href: '#' },
+        { label: 'ERP' },
+      ]}
+      title="ERP"
+      description="발주·전표·마스터 데이터 관리와 관련된 문서를 모아두었습니다."
+      sections={[
+        {
+          id: 'purchase',
+          label: '구매·발주',
+          description: '발주 등록부터 결재, 확정까지의 절차를 안내합니다.',
+          articles: [
+            { id: 'a1', title: '발주 등록 가이드', updatedAt: '2026-07-28' },
+            { id: 'a2', title: '발주 기안 취소·반려 처리', updatedAt: '2026-07-20' },
+            { id: 'a3', title: '긴급 발주 승인 절차', updatedAt: '2026-06-15' },
+          ],
+        },
+        {
+          id: 'voucher',
+          label: '전표·회계',
+          description: '전표 작성, 승인, 마감 처리 관련 문서입니다.',
+          articles: [
+            { id: 'a4', title: '전표 처리 가이드', updatedAt: '2026-07-10' },
+            { id: 'a5', title: '월마감 전 확인해야 할 체크리스트', updatedAt: '2026-06-30' },
+          ],
+        },
+        {
+          id: 'master',
+          label: '마스터 데이터',
+          articles: [
+            { id: 'a6', title: '거래처 마스터 관리', updatedAt: '2026-05-22' },
+            { id: 'a7', title: '품목 마스터 등록·수정', updatedAt: '2026-05-02' },
+            { id: 'a8', title: '단가 마스터 일괄 반입', updatedAt: '2026-04-18' },
+          ],
+        },
+      ]}
+      popularArticles={[
+        { id: 'a1', title: '발주 등록 가이드' },
+        { id: 'a6', title: '거래처 마스터 관리' },
+        { id: 'a4', title: '전표 처리 가이드' },
+      ]}
+    />
   ),
 }
 
@@ -2214,4 +2926,309 @@ export const RolesPermissions: Story = {
       actions={<Button size="sm">변경사항 저장</Button>}
     />
   ),
+}
+/** 라벨 텍스트 → 색상 변형. GitHub 라벨처럼 구분별 색상을 부여합니다. */
+const PRM_LABEL_VARIANTS: Record<string, ColorTagVariant> = {
+  PRM: 'brand',
+  정산: 'info',
+  계약: 'neutral',
+  포털: 'warning',
+  발주: 'success',
+  긴급: 'danger',
+}
+const prmLabel = (text: string): SavedViewIssueLabel => ({ text, variant: PRM_LABEL_VARIANTS[text] })
+
+const prmInquiries: SavedViewIssueItem[] = [
+  {
+    id: 'pi1',
+    no: '#312',
+    title: '[정산] 6월 매입 정산서 금액 불일치 문의',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('정산')],
+    meta: '(주)신선유통 · 김도윤 담당자가 2시간 전 등록',
+    commentCount: 4,
+    assignee: { name: '박서준', initials: '박서준' },
+  },
+  {
+    id: 'pi2',
+    no: '#309',
+    title: '[계약] 표준 계약서 조항 변경 요청',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('계약')],
+    meta: '대한식자재(주) · 이하은 담당자가 5시간 전 등록',
+    commentCount: 1,
+  },
+  {
+    id: 'pi3',
+    no: '#305',
+    title: '[포털] 협력사 포털 로그인 오류 문의',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('긴급'), prmLabel('포털')],
+    meta: '(주)청정농산 · 최유진 담당자가 1일 전 등록',
+    commentCount: 6,
+    assignee: { name: '김민준', initials: '김민준' },
+  },
+  {
+    id: 'pi4',
+    no: '#298',
+    title: '[발주] 발주서 PDF 다운로드 시 품목 누락',
+    status: 'open',
+    labels: [prmLabel('PRM'), prmLabel('발주')],
+    meta: '(주)신선유통 · 김도윤 담당자가 3일 전 등록',
+    commentCount: 0,
+    assignee: { name: '박서준', initials: '박서준' },
+  },
+  {
+    id: 'pi5',
+    no: '#287',
+    title: '[정산] 정산 주기 변경 협의 완료',
+    status: 'closed',
+    labels: [prmLabel('PRM'), prmLabel('정산')],
+    meta: '대한식자재(주) · 이하은 담당자가 8일 전 등록 · 박서준님이 닫음',
+    commentCount: 3,
+  },
+  {
+    id: 'pi6',
+    no: '#276',
+    title: '[포털] 협력사 담당자 계정 추가 처리 완료',
+    status: 'closed',
+    labels: [prmLabel('PRM'), prmLabel('포털')],
+    meta: '(주)청정농산 · 최유진 담당자가 12일 전 등록 · 김민준님이 닫음',
+    commentCount: 2,
+  },
+]
+
+export const SavedViewIssueBoardStory: Story = {
+  name: 'Saved View Issue Board',
+  render: () => {
+    const [view, setView] = useState('all')
+    const [tab, setTab] = useState<'open' | 'closed'>('open')
+    const [keyword, setKeyword] = useState('')
+    const [sort, setSort] = useState('latest')
+    const [labelFilter, setLabelFilter] = useState<string | null>(null)
+
+    const filtered = prmInquiries
+      .filter(item => item.status === tab)
+      .filter(item => !keyword || item.title.includes(keyword))
+      .filter(item => !labelFilter || item.labels?.some(l => (typeof l === 'string' ? l : l.text) === labelFilter))
+      .filter(item => view !== 'mine' || item.assignee?.name === '박서준')
+
+    const appliedFilters = labelFilter ? [{ id: 'label', label: `구분: ${labelFilter}` }] : []
+
+    return (
+      <SavedViewIssueBoard
+        title="협력사 문의·이슈 게시판"
+        breadcrumb={[{ label: 'PRM', href: '#' }, { label: '협력사 문의' }]}
+        views={[
+          { id: 'all', label: '전체 보기' },
+          { id: 'mine', label: '나에게 할당된' },
+        ]}
+        activeViewId={view}
+        onViewChange={setView}
+        issues={filtered}
+        openCount={prmInquiries.filter(i => i.status === 'open').length}
+        closedCount={prmInquiries.filter(i => i.status === 'closed').length}
+        activeTab={tab}
+        onTabChange={setTab}
+        onSearch={setKeyword}
+        filterMenus={[
+          {
+            label: '구분',
+            items: ['정산', '계약', '포털', '발주'].map(label => ({
+              label,
+              onClick: () => setLabelFilter(label),
+            })),
+          },
+        ]}
+        appliedFilters={appliedFilters}
+        onRemoveFilter={() => setLabelFilter(null)}
+        onClearFilters={() => setLabelFilter(null)}
+        sortOptions={[
+          { value: 'latest', label: '최신순' },
+          { value: 'comments', label: '댓글 많은순' },
+        ]}
+        sortValue={sort}
+        onSortChange={setSort}
+        pagination={{ page: 1, total: filtered.length, pageSize: 10, onChange: () => {} }}
+        onItemClick={item => alert(`${item.title} 상세로 이동`)}
+        actions={<Button size="sm">새 문의 등록</Button>}
+      />
+    )
+  },
+}
+
+const heroGalleryErpItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg1', icon: '🧾', badge: '인기', title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.', owner: '구매팀' },
+  { id: 'hg2', icon: '📑', title: '지출 품의서', description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.', owner: '재무팀' },
+  { id: 'hg3', icon: '📊', title: '월차 마감 전표', description: '월 마감 시 계정별 전표를 일괄 등록하는 템플릿입니다.', owner: '회계팀' },
+]
+
+const heroGalleryOmsItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg4', icon: '📦', badge: '신규', title: '주문 취소·반품 처리', description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.', owner: 'CS팀' },
+  { id: 'hg5', icon: '🚚', title: '배송 지연 안내', description: '배송 지연 건을 대상 주문 목록과 함께 정리하는 보고 템플릿입니다.', owner: '물류팀' },
+]
+
+const heroGalleryWmsItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg6', icon: '🏭', title: '재고 실사 체크리스트', description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.', owner: '물류팀' },
+  { id: 'hg7', icon: '📥', title: '입고 검수 보고서', description: '입고 품목의 수량·상태를 검수하고 이상 유무를 보고하는 양식입니다.', owner: '창고관리팀' },
+]
+
+const heroGalleryPrmItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg8', icon: '🤝', title: '협력사 신규 등록', description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.', owner: '구매팀' },
+]
+
+const heroGalleryGroupwareItems: TemplateGalleryHeroItem[] = [
+  { id: 'hg9', icon: '🗂️', badge: '인기', title: '휴가 신청서', description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.', owner: '인사팀' },
+  { id: 'hg10', icon: '💼', title: '출장 보고서', description: '출장 일정·비용·결과를 정리해 보고하는 표준 양식입니다.', owner: '인사팀' },
+]
+
+export const TemplateGalleryHeroStory: Story = {
+  name: 'Template Gallery (Hero)',
+  render: () => (
+    <TemplateGalleryHero
+      title="업무 템플릿 갤러리"
+      subtitle="ERP·OMS·WMS·PRM·그룹웨어에서 자주 쓰는 문서·워크플로우 템플릿을 골라 바로 시작하세요"
+      searchPlaceholder="템플릿 검색 (예: 발주서, 품의서, 재고 실사)"
+      teamsTitle="업무 영역별로 찾기"
+      teams={[
+        { id: 'erp', icon: '🧾', label: 'ERP', count: 3 },
+        { id: 'oms', icon: '📦', label: 'OMS', count: 2 },
+        { id: 'wms', icon: '🏭', label: 'WMS', count: 2 },
+        { id: 'prm', icon: '🤝', label: 'PRM', count: 1 },
+        { id: 'groupware', icon: '🗂️', label: '그룹웨어', count: 2 },
+      ]}
+      featuredTitle="많이 사용하는 템플릿"
+      featured={[heroGalleryErpItems[0], heroGalleryGroupwareItems[0], heroGalleryOmsItems[0]]}
+      sections={[
+        { id: 'erp', icon: '🧾', label: 'ERP', description: 'Enterprise Resource Planning', items: heroGalleryErpItems },
+        { id: 'oms', icon: '📦', label: 'OMS', description: 'Order Management System', items: heroGalleryOmsItems },
+        { id: 'wms', icon: '🏭', label: 'WMS', description: 'Warehouse Management System', items: heroGalleryWmsItems },
+        { id: 'prm', icon: '🤝', label: 'PRM', description: 'Partner Management System', items: heroGalleryPrmItems },
+        { id: 'groupware', icon: '🗂️', label: '그룹웨어', items: heroGalleryGroupwareItems },
+      ]}
+      ctaTitle="필요한 템플릿이 없나요?"
+      ctaDescription="IT담당·AX팀에 새 템플릿 제작을 요청할 수 있습니다."
+      ctaActionLabel="템플릿 요청하기"
+      onCtaAction={() => alert('템플릿 요청 폼으로 이동')}
+    />
+  ),
+}
+
+const wmsIssues: SystemIssueItem[] = [
+  {
+    id: 'w1',
+    no: '#221',
+    title: '평택 2센터 A동 랙 재고 수량 시스템-실사 불일치',
+    status: 'open',
+    labels: ['평택2센터', '재고불일치', '긴급'],
+    meta: '정하은님이 방금 전 등록',
+    commentCount: 3,
+    assignee: { name: '정하은', initials: '정하' },
+  },
+  {
+    id: 'w2',
+    no: '#219',
+    title: '이천센터 피킹 완료 후 WMS 출고 확정 처리 지연',
+    status: 'open',
+    labels: ['이천센터', '출고지연'],
+    meta: '오지훈님이 1시간 전 등록',
+    commentCount: 5,
+    assignee: { name: '오지훈', initials: '오지' },
+  },
+  {
+    id: 'w3',
+    no: '#215',
+    title: '냉동 3구역 로케이션 바코드 라벨 스캔 오류',
+    status: 'open',
+    labels: ['이천센터', '바코드오류'],
+    meta: '박지훈님이 4시간 전 등록',
+    commentCount: 0,
+  },
+  {
+    id: 'w4',
+    no: '#208',
+    title: '입고 검수 시 발주 수량 대비 과입고 처리 방법 문의',
+    status: 'open',
+    labels: ['평택2센터', '입고문의'],
+    meta: '최유진님이 1일 전 등록',
+    commentCount: 2,
+    assignee: { name: '최유진', initials: '최유' },
+  },
+  {
+    id: 'w5',
+    no: '#199',
+    title: '순환 실사 결과 반영 후 가용재고 재계산 완료',
+    status: 'closed',
+    labels: ['평택2센터', '재고불일치'],
+    meta: '정하은님이 3일 전 등록 · 오지훈님이 닫음',
+    commentCount: 6,
+    assignee: { name: '오지훈', initials: '오지' },
+  },
+  {
+    id: 'w6',
+    no: '#191',
+    title: '이천센터 지게차 단말기 WMS 앱 강제 종료 현상 조치',
+    status: 'closed',
+    labels: ['이천센터', '바코드오류', '긴급'],
+    meta: '박지훈님이 6일 전 등록 · 박지훈님이 닫음',
+    commentCount: 4,
+  },
+]
+
+export const WmsInventoryIssueTracker: Story = {
+  name: 'WMS Inventory Issue Tracker',
+  render: () => {
+    const [tab, setTab] = useState<'open' | 'closed'>('open')
+    const [keyword, setKeyword] = useState('')
+    const [sort, setSort] = useState('latest')
+    const [selectedIds, setSelectedIds] = useState<string[]>([])
+
+    const filtered = wmsIssues
+      .filter(issue => issue.status === tab)
+      .filter(issue => !keyword || issue.title.includes(keyword) || issue.labels?.some(label => label.includes(keyword)))
+
+    return (
+      <SystemIssueTracker
+        title="WMS 재고 불일치 이슈 트래커"
+        breadcrumb={[{ label: 'WMS', href: '#' }, { label: '재고 불일치 이슈' }]}
+        issues={filtered}
+        openCount={wmsIssues.filter(i => i.status === 'open').length}
+        closedCount={wmsIssues.filter(i => i.status === 'closed').length}
+        activeTab={tab}
+        onTabChange={tab => { setTab(tab); setSelectedIds([]) }}
+        onSearch={setKeyword}
+        filterMenus={[
+          {
+            label: '센터',
+            items: ['평택2센터', '이천센터'].map(center => ({
+              label: center,
+              onClick: () => setKeyword(center),
+            })),
+          },
+          {
+            label: '유형',
+            items: [
+              { label: '재고불일치', onClick: () => setKeyword('재고불일치') },
+              { label: '출고지연', onClick: () => setKeyword('출고지연') },
+              { label: '바코드오류', onClick: () => setKeyword('바코드오류') },
+            ],
+          },
+        ]}
+        sortOptions={[
+          { value: 'latest', label: '최신순' },
+          { value: 'comments', label: '댓글 많은순' },
+        ]}
+        sortValue={sort}
+        onSortChange={setSort}
+        selectedIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        bulkActions={[
+          { label: '담당자 지정', onClick: () => setSelectedIds([]) },
+          { label: '센터 재배정', onClick: () => setSelectedIds([]) },
+          { label: '종결 처리', onClick: () => setSelectedIds([]) },
+        ]}
+        actions={<Button size="sm">이슈 등록</Button>}
+      />
+    )
+  },
 }
