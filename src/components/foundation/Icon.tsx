@@ -33,6 +33,7 @@ const paths: Record<IconName, JSX.Element> = {
   ),
 }
 
+/** 검색과 댓글 등 시스템 공용 아이콘을 표시합니다. */
 export function Icon({ name, size = 'sm', className, ...props }: IconProps) {
   return (
     <svg

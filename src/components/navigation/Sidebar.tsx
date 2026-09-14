@@ -15,6 +15,7 @@ export interface SidebarItem {
   active?: boolean
 }
 
+/** 애플리케이션의 주요 탐색 메뉴를 세로 사이드바로 표시합니다. */
 export function Sidebar({ items, className }: { items: SidebarItem[]; className?: string }) {
   return (
     <aside className={cn('w-56 bg-surface border-r border-border flex flex-col py-2', className)}>

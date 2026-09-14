@@ -1,5 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build-storybook",
+  "framework": null,
+  "buildCommand": "npm install --prefix mcp-server --include=dev && npm run generate:manifest --prefix mcp-server && npm run build-storybook",
   "outputDirectory": "storybook-static"
 }

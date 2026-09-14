@@ -20,6 +20,7 @@ export interface ChipGroupProps {
   className?: string
 }
 
+/** 단일 선택 필터를 칩 형태로 표시하고 선택 상태를 외부에 전달합니다. */
 export function ChipGroup({ items, value, onChange, className }: ChipGroupProps) {
   return (
     <div role="tablist" className={cn('flex flex-wrap gap-2', className)}>

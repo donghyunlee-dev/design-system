@@ -259,6 +259,54 @@ const data = [
 
 ---
 
+## 데이터·검색 컴포넌트
+
+```tsx
+import { CommentThread } from '@sfood/ui'
+<CommentThread comments={comments} onSubmit={body => saveComment(body)} />
+```
+
+```tsx
+import { ColorTag } from '@sfood/ui'
+<ColorTag variant="brand">PRM</ColorTag>
+```
+
+```tsx
+import { Highlight } from '@sfood/ui'
+<Highlight>검색어</Highlight>
+
+// 문자열에서 검색어를 찾아 자동으로 강조할 때
+import { highlightMatches } from '@sfood/ui'
+<p>{highlightMatches('검색어가 포함된 문장', '검색어')}</p>
+```
+
+```tsx
+import { MultiSelect } from '@sfood/ui'
+<MultiSelect options={options} value={selected} onChange={setSelected} />
+```
+
+```tsx
+import { MediaCard } from '@sfood/ui'
+<MediaCard title="상품명" description="상품 설명" />
+```
+
+```tsx
+import { ChipGroup } from '@sfood/ui'
+<ChipGroup value={category} onChange={setCategory} items={categories} />
+```
+
+```tsx
+import { CommandPalette } from '@sfood/ui'
+<CommandPalette open={open} groups={groups} onClose={() => setOpen(false)} />
+```
+
+```tsx
+import { List } from '@sfood/ui'
+<List items={items} onItemClick={item => openItem(item.id)} />
+```
+
+---
+
 ## 레이아웃 유틸리티
 
 ```tsx

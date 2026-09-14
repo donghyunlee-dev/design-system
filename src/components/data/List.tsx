@@ -17,6 +17,7 @@ export interface ListItem {
   trailing?: ReactNode
 }
 
+/** 목록 데이터를 행 단위로 표시하는 컴포넌트. 항목 클릭과 leading/trailing 슬롯을 지원합니다. */
 export function List({ items, onItemClick, className }: { items: ListItem[]; onItemClick?: (item: ListItem) => void; className?: string }) {
   return (
     <ul className={cn('divide-y divide-border border border-border rounded-card overflow-hidden', className)}>

@@ -13,6 +13,7 @@ export interface TabItem {
   content: ReactNode
 }
 
+/** 여러 콘텐츠 패널을 탭으로 전환해 표시합니다. */
 export function Tabs({ items }: { items: TabItem[] }) {
   const [active, setActive] = useState(items[0]?.key)
   return (

@@ -13,6 +13,7 @@ export interface BreadcrumbProps {
   items: BreadcrumbItem[]
 }
 
+/** 현재 페이지까지의 탐색 경로를 링크 목록으로 표시합니다. */
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
     <nav aria-label="breadcrumb">

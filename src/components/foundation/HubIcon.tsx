@@ -67,6 +67,7 @@ const paths: Record<HubIconName, JSX.Element> = {
   ),
 }
 
+/** 허브와 가이드 화면에서 사용하는 업무 카테고리 아이콘을 표시합니다. */
 export function HubIcon({ name, size = 'sm', className, ...props }: HubIconProps) {
   return (
     <svg
