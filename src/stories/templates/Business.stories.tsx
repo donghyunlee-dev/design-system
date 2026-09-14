@@ -48,6 +48,7 @@ import { TemplateGallery } from '../../templates/business/TemplateGallery'
 import { TemplateGalleryDirectory, TemplateGalleryDirectorySection } from '../../templates/business/TemplateGalleryDirectory'
 import { TemplateGallerySpotlight, TemplateGallerySpotlightItem } from '../../templates/business/TemplateGallerySpotlight'
 import { TemplateGalleryFiltered, TemplateGalleryFilteredFacet, TemplateGalleryFilteredItem } from '../../templates/business/TemplateGalleryFiltered'
+import { TemplateGalleryPreview, TemplateGalleryPreviewItem } from '../../templates/business/TemplateGalleryPreview'
 import { Comment } from '../../components/data/CommentThread'
 import { Textarea } from '../../components/form/Textarea'
 import { cn } from '../../utils/cn'
@@ -3110,6 +3111,104 @@ export const TemplateGalleryHeroStory: Story = {
       ctaDescription="IT담당·AX팀에 새 템플릿 제작을 요청할 수 있습니다."
       ctaActionLabel="템플릿 요청하기"
       onCtaAction={() => alert('템플릿 요청 폼으로 이동')}
+    />
+  ),
+}
+
+const previewGalleryCategories = [
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const previewGalleryItems: TemplateGalleryPreviewItem[] = [
+  {
+    id: 'pv1',
+    categoryId: 'erp',
+    icon: '🧾',
+    badge: '인기',
+    title: '표준 발주서',
+    description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.',
+    longDescription: '거래처와 품목을 선택하면 최근 단가·리드타임이 자동으로 채워지며, 결재선을 지정해 바로 상신할 수 있습니다. 발주 확정 시 ERP 재고 예정수량에 즉시 반영됩니다.',
+    owner: '구매팀',
+    usageLabel: '128명 사용 중',
+    updatedLabel: '2026-08 갱신',
+    tags: ['발주', '구매', '거래처'],
+  },
+  {
+    id: 'pv2',
+    categoryId: 'erp',
+    icon: '📑',
+    title: '지출 품의서',
+    description: '예산 항목별 지출 내역을 정리해 결재 상신하는 품의 양식입니다.',
+    longDescription: '예산 계정과목을 선택하면 부서별 잔여 예산이 함께 표시되어 초과 지출 여부를 미리 확인할 수 있습니다.',
+    owner: '재무팀',
+    usageLabel: '64명 사용 중',
+    updatedLabel: '2026-07 갱신',
+    tags: ['품의', '예산', '결재'],
+  },
+  {
+    id: 'pv3',
+    categoryId: 'oms',
+    icon: '📦',
+    badge: '신규',
+    title: '주문 취소·반품 처리',
+    description: '고객 주문의 취소·반품 사유와 환불 절차를 기록하는 양식입니다.',
+    longDescription: '취소·반품 사유 코드를 선택하면 환불 방식(전액/부분)과 재입고 여부 체크리스트가 함께 제공됩니다.',
+    owner: 'CS팀',
+    usageLabel: '41명 사용 중',
+    updatedLabel: '2026-09 갱신',
+    tags: ['주문', '반품', 'CS'],
+  },
+  {
+    id: 'pv4',
+    categoryId: 'wms',
+    icon: '🏭',
+    title: '재고 실사 체크리스트',
+    description: '창고별 재고 실사 항목과 오차 원인을 기록하는 점검표입니다.',
+    longDescription: '로케이션 단위로 시스템 수량과 실사 수량을 나란히 입력하면 오차 수량과 원인 후보(입출고 미반영, 파손 등)가 자동 정리됩니다.',
+    owner: '물류팀',
+    usageLabel: '35명 사용 중',
+    updatedLabel: '2026-06 갱신',
+    tags: ['재고실사', 'WMS', '창고'],
+  },
+  {
+    id: 'pv5',
+    categoryId: 'prm',
+    icon: '🤝',
+    title: '협력사 신규 등록',
+    description: '신규 협력사의 사업자 정보와 계약 조건을 등록하는 온보딩 양식입니다.',
+    longDescription: '사업자등록번호를 입력하면 국세청 진위확인 결과가 함께 표시되고, 계약 조건 승인 후 PRM 협력사 마스터에 자동 등록됩니다.',
+    owner: '구매팀',
+    usageLabel: '19명 사용 중',
+    updatedLabel: '2026-08 갱신',
+    tags: ['협력사', '계약', 'PRM'],
+  },
+  {
+    id: 'pv6',
+    categoryId: 'groupware',
+    icon: '🗂️',
+    badge: '인기',
+    title: '휴가 신청서',
+    description: '연차·반차 신청 사유와 기간을 입력해 결재 라인에 상신합니다.',
+    longDescription: '신청 기간을 선택하면 잔여 연차 일수가 자동 계산되어 표시되며, 팀장→인사팀 순서의 기본 결재선이 미리 지정되어 있습니다.',
+    owner: '인사팀',
+    usageLabel: '312명 사용 중',
+    updatedLabel: '2026-09 갱신',
+    tags: ['휴가', '전자결재', '인사'],
+  },
+]
+
+export const TemplateGalleryPreviewStory: Story = {
+  name: 'Template Gallery (Preview)',
+  render: () => (
+    <TemplateGalleryPreview
+      title="업무 템플릿 갤러리"
+      description="카드를 선택하면 우측 미리보기에서 상세 내용을 확인하고 바로 사용할 수 있습니다."
+      categories={previewGalleryCategories}
+      items={previewGalleryItems.map(item => ({ ...item, onUse: () => alert(`"${item.title}" 템플릿을 사용합니다`) }))}
     />
   ),
 }
