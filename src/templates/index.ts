@@ -114,5 +114,7 @@ export { TemplateCommunity } from './business/TemplateCommunity'
 export type { TemplateCommunityProps, TemplateCommunityCategory, TemplateCommunityItem, TemplateCommunitySection } from './business/TemplateCommunity'
 export { SystemFeatureTour } from './business/SystemFeatureTour'
 export type { SystemFeatureTourProps, SystemFeatureTourSection } from './business/SystemFeatureTour'
+export { RolesPermissionsMatrix } from './business/RolesPermissionsMatrix'
+export type { RolesPermissionsMatrixProps, PermissionRole, PermissionRow } from './business/RolesPermissionsMatrix'
 
 export type { DetailField } from './business/types'

@@ -59,6 +59,7 @@ Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/U
 | [docs/PATTERNS.md](./docs/PATTERNS.md) | 기간계/일반 웹사이트 두 축 구분, PRD에서 템플릿 판단하기 |
 | [docs/CHECKLIST.md](./docs/CHECKLIST.md) | 배포 전 접근성/모션/폼/반응형 체크리스트 |
 | [docs/loop/policy.md](./docs/loop/policy.md) | 자동 성장 루프의 고정 정책 (사람만 수정 가능) |
+| [CHANGELOG.md](./CHANGELOG.md) | 버전별 변경 이력, 버전 관리 원칙 |
 
 ## 기술 스택
 

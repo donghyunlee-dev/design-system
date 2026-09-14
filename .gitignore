@@ -4,3 +4,7 @@ storybook-static/
 .playwright-mcp/
 .superpowers/
 .vercel
+.env.local
+debug-storybook.log
+/storybook-*.png
+.env*

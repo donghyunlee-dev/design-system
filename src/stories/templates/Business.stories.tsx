@@ -28,6 +28,7 @@ import { FacetedSearchResults } from '../../templates/business/FacetedSearchResu
 import { DocumentPrint } from '../../templates/business/DocumentPrint'
 import { BulkImport } from '../../templates/business/BulkImport'
 import { DiffView } from '../../templates/business/DiffView'
+import { RolesPermissionsMatrix } from '../../templates/business/RolesPermissionsMatrix'
 import { IssueListBoard, IssueListItem } from '../../templates/business/IssueListBoard'
 import { SystemIssueTracker, SystemIssueItem } from '../../templates/business/SystemIssueTracker'
 import { RequestQueueBoard, RequestQueueItem } from '../../templates/business/RequestQueueBoard'
@@ -2184,4 +2185,33 @@ export const RequestQueue: Story = {
       />
     )
   },
+}
+
+export const RolesPermissions: Story = {
+  name: 'Roles & Permissions Matrix',
+  render: () => (
+    <RolesPermissionsMatrix
+      title="역할·권한 관리"
+      roles={[
+        { key: 'admin', label: '관리자', description: '전체 시스템 관리' },
+        { key: 'manager', label: '매니저' },
+        { key: 'staff', label: '실무자' },
+      ]}
+      rows={[
+        { key: 'order-view', label: '주문 조회', group: 'OMS' },
+        { key: 'order-edit', label: '주문 수정', group: 'OMS' },
+        { key: 'stock-view', label: '재고 조회', group: 'WMS' },
+        { key: 'stock-adjust', label: '재고 조정', group: 'WMS' },
+        { key: 'partner-manage', label: '거래처 관리', group: 'PRM' },
+      ]}
+      granted={{
+        'order-view:admin': true, 'order-view:manager': true, 'order-view:staff': true,
+        'order-edit:admin': true, 'order-edit:manager': true, 'order-edit:staff': false,
+        'stock-view:admin': true, 'stock-view:manager': true, 'stock-view:staff': true,
+        'stock-adjust:admin': true, 'stock-adjust:manager': false, 'stock-adjust:staff': false,
+        'partner-manage:admin': true, 'partner-manage:manager': false, 'partner-manage:staff': false,
+      }}
+      actions={<Button size="sm">변경사항 저장</Button>}
+    />
+  ),
 }
