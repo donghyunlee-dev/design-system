@@ -2,7 +2,7 @@
 import type { Manifest } from '../manifest.js'
 
 export const staticManifest: Manifest = {
-  "generatedAt": "2026-09-15T01:32:04.879Z",
+  "generatedAt": "2026-09-15T01:43:28.052Z",
   "components": [
     {
       "name": "Button",
@@ -586,6 +586,11 @@ export const staticManifest: Manifest = {
       "name": "TemplateGalleryFiltered",
       "filePath": "src/templates/business/TemplateGalleryFiltered.tsx",
       "description": "Trello 템플릿 갤러리(카테고리 페이지)의 우측 다중 조건 필터 패널 구조를 참고한 변형. TemplateGallery/TemplateGalleryMedia/TemplateGalleryDirectory가 좌측 또는 상단의 단일 선택 카테고리 내비게이션인 것과 달리, 우측 패널에서 여러 패싯(업무 시스템, 적용 규모 등)을 동시에 체크박스로 다중 선택해 좁혀가는 교차 필터링(패싯 간 AND, 패싯 내 OR)에 사용한다."
+    },
+    {
+      "name": "TemplateGalleryPreview",
+      "filePath": "src/templates/business/TemplateGalleryPreview.tsx",
+      "description": "Notion 템플릿 갤러리의 \"카드 클릭 → 우측 미리보기 패널에서 상세를 확인하고 바로 사용\" 동선을 참고한 변형. 다른 TemplateGallery* 계열은 카드를 누르면 페이지 이동(onClick/onUse)으로 끝나는 반면, 이 템플릿은 그리드를 벗어나지 않고 Drawer로 큰 미리보기 이미지·상세 설명·태그를 먼저 확인한 뒤 같은 자리에서 \"사용\" 여부를 결정하는 인라인 미리보기 구조에 사용한다."
     },
     {
       "name": "SystemFeatureTour",

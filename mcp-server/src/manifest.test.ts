@@ -81,7 +81,7 @@ describe('buildManifest', () => {
 
   test('indexes only public business templates with descriptions', () => {
     const names = manifest.businessTemplates.map((template) => template.name)
-    expect(names).toHaveLength(42)
+    expect(names).toHaveLength(43)
     expect(new Set(names).size).toBe(names.length)
     expect(names).not.toContain('TicketDetail')
     expect(names).not.toContain('TemplateGalleryHero')
