@@ -11,7 +11,7 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Docs', ['Getting Started', 'Introduction', 'Component Guide', 'Template Guide', 'Token Reference']],
+        order: ['Docs', ['Getting Started', 'MCP Guide', 'Introduction', 'Component Guide', 'Template Guide', 'Token Reference']],
       },
     },
     backgrounds: {

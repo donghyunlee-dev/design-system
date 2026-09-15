@@ -1,17 +1,179 @@
-# MCP 서버로 디자인 시스템 조회하기
+# MCP로 디자인 시스템 조회하기
 
-> 다른 프로젝트에서 작업하는 AI 에이전트(Claude Code 등)가 `docs/USAGE.md`, `docs/TOKENS.md`를 매번 컨텍스트에 붙여넣지 않고도, 컴포넌트 목록·사용 예시·디자인 토큰·업무 템플릿 정보를 실시간으로 조회할 수 있게 하는 로컬 MCP(Model Context Protocol) 서버입니다.
+SFOOD Design System MCP(Model Context Protocol)는 다른 프로젝트의 AI 에이전트가 컴포넌트, 사용 예시, 디자인 토큰, 업무 템플릿을 직접 검색할 수 있게 하는 읽기 전용 조회 서비스입니다.
 
-> **운영 범위:** 현재 MCP 서버는 별도 사용자 인증을 적용하지 않는 **사내 전용 서비스**입니다.
-> 운영 URL과 연결 설정은 사내 구성원에게만 공유하며 외부 서비스나 공개 문서에는 노출하지 않습니다.
+```text
+MCP 연결 → 컴포넌트·템플릿 검색 → @sfood/ui 설치·import → 서비스 화면 구현
+```
 
-서버는 `sfood-design-system` 저장소의 `src/components/`, `src/templates/business/`, `tokens/*.css`, `docs/USAGE.md`를 직접 스캔해 응답하므로, 소스가 바뀌어도 별도 배포 없이 `refresh_manifest` 도구 호출만으로 최신 정보를 반영합니다.
+> **운영 범위:** 현재 운영 MCP에는 별도 사용자 인증이 없습니다. 인터넷에서 접근 가능한 엔드포인트지만 사내 프로젝트에서만 사용하며, 외부 고객 서비스 연결은 지원하지 않습니다. MCP는 공개 컴포넌트 메타데이터를 반환하며 업무 데이터나 저장소 소스 코드를 제공하지 않습니다.
 
 ---
 
-## 1. 서버 실행
+## 1. 운영 MCP 연결
 
-`sfood-design-system` 저장소를 체크아웃한 컴퓨터에서:
+운영 Storybook과 같은 Vercel 프로젝트에서 stateless MCP 서버가 실행됩니다.
+
+```text
+https://sfood-design-system.vercel.app/api/mcp
+```
+
+Claude Code를 사용할 프로젝트 디렉터리에서 한 번 등록합니다.
+
+```bash
+claude mcp add sfood-ds --transport http https://sfood-design-system.vercel.app/api/mcp
+claude mcp list
+```
+
+다른 MCP 클라이언트에서는 HTTP 타입 서버로 같은 URL을 등록합니다. 클라이언트마다 설정 파일의 위치와 필드 이름은 다를 수 있지만 기본 형태는 다음과 같습니다.
+
+```json
+{
+  "mcpServers": {
+    "sfood-ds": {
+      "type": "http",
+      "url": "https://sfood-design-system.vercel.app/api/mcp"
+    }
+  }
+}
+```
+
+연결 후 에이전트에게 다음과 같이 요청해 동작을 확인할 수 있습니다.
+
+```text
+SFOOD MCP에서 Button 컴포넌트의 사용 예시를 조회해줘.
+검색과 다중 선택에 사용할 수 있는 form 컴포넌트를 찾아줘.
+다크 모드 semantic 토큰을 조회해줘.
+```
+
+---
+
+## 2. 제공 도구
+
+운영 서버는 다음 6개 조회 도구를 제공합니다.
+
+| 도구 | 입력 | 용도 |
+|---|---|---|
+| `list_components` | `{ category?: string }` | 카테고리별 컴포넌트 목록. category 생략 시 전체 조회 |
+| `get_component` | `{ name: string }` | 컴포넌트 경로, 설명, 사용 예시 조회 |
+| `search_components` | `{ query: string }` | 이름·설명·사용 예시 키워드 검색 |
+| `get_tokens` | `{ group?: 'base' \| 'semantic', theme?: 'light' \| 'dark' }` | base 또는 테마별 semantic 토큰 조회 |
+| `get_business_templates` | `{ name?: string }` | 업무 템플릿 목록 또는 단일 템플릿 조회 |
+| `get_setup_guide` | `{}` | npm 설치 및 사용 가이드 조회 |
+
+로컬 개발 서버에만 소스 재스캔용 `refresh_manifest`가 추가로 제공됩니다. 운영 서버는 배포 시 생성된 정적 매니페스트를 사용하므로 이 도구가 없습니다.
+
+### 도구 활용 예시
+
+```text
+list_components({ category: "form" })
+  → Input, Select, MultiSelect 등 form 컴포넌트 목록
+
+get_component({ name: "Button" })
+  → { name, category, filePath, description, usageSnippet }
+
+search_components({ query: "필터" })
+  → 이름·설명·사용 예시에 "필터"가 포함된 컴포넌트 목록
+
+get_tokens({ group: "semantic" })
+  → 라이트 테마 semantic 토큰
+
+get_tokens({ group: "semantic", theme: "dark" })
+  → 라이트 기본값에 다크 오버라이드를 병합한 semantic 토큰
+
+get_business_templates({ name: "ListSearchTable" })
+  → 지정한 업무 템플릿의 경로와 용도
+```
+
+컴포넌트나 템플릿 이름을 잘못 입력하면 유사한 이름이 `suggestions`로 반환됩니다.
+
+---
+
+## 3. Postman으로 직접 확인
+
+브라우저 주소창은 `GET` 요청을 보내므로 `/api/mcp`에서 `405 Method Not Allowed`가 나오는 것이 정상입니다. MCP 요청은 `POST`와 JSON-RPC 본문을 사용합니다.
+
+Postman에서 다음 요청을 만듭니다.
+
+- Method: `POST`
+- URL: `https://sfood-design-system.vercel.app/api/mcp`
+- Header: `Content-Type: application/json`
+- Header: `Accept: application/json, text/event-stream`
+- Body: `raw` → `JSON`
+
+### 도구 목록 조회
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/list",
+  "params": {}
+}
+```
+
+### 컴포넌트 조회
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/call",
+  "params": {
+    "name": "get_component",
+    "arguments": {
+      "name": "Button"
+    }
+  }
+}
+```
+
+### 다크 모드 토큰 조회
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "get_tokens",
+    "arguments": {
+      "group": "semantic",
+      "theme": "dark"
+    }
+  }
+}
+```
+
+---
+
+## 4. 패키지 설치와 적용
+
+MCP는 무엇을 사용할지 찾는 조회 서비스이며 컴포넌트 코드를 프로젝트에 설치하지 않습니다. 조회한 컴포넌트는 npm 패키지에서 가져옵니다.
+
+`@sfood/ui@0.1.3`의 공식 지원 범위는 React 18입니다. React 19 프로젝트는 React 18로 맞춰 사용하세요.
+
+```bash
+npm install react@18.3.1 react-dom@18.3.1
+npm install @sfood/ui@0.1.3
+```
+
+```tsx
+import '@sfood/ui/global.css'
+import { Button } from '@sfood/ui'
+
+export function SaveButton() {
+  return <Button variant="primary">저장</Button>
+}
+```
+
+브랜드 색상은 별도 색상값을 하드코딩하지 않고 디자인 시스템의 `--color-brand` 토큰을 사용합니다.
+
+---
+
+## 5. 로컬 MCP 서버
+
+디자인 시스템 자체를 개발하면서 아직 배포하지 않은 소스를 확인할 때만 로컬 서버를 사용합니다.
 
 ```bash
 cd sfood-design-system/mcp-server
@@ -19,91 +181,31 @@ npm install
 npm run dev
 ```
 
-`http://localhost:4500/mcp` 에서 상시 구동됩니다. (포트를 바꾸려면 `PORT=5000 npm run dev`)
-
-운영 배포에서는 Storybook과 같은 Vercel 프로젝트의
-`https://sfood-design-system.vercel.app/api/mcp`를 사용합니다. 운영 서버는
-서버리스 확장에 맞춘 stateless 모드이며, 로컬 서버와 동일한 조회 도구를 제공합니다.
-
-운영 엔드포인트에는 애플리케이션 레벨 인증이 없습니다. URL을 아는 사용자는 호출할 수 있으므로
-Vercel 프로젝트와 MCP URL은 내부 운영 정보로 취급합니다.
-
----
-
-## 2. 다른 프로젝트에 등록
-
-사용하려는 프로젝트 디렉터리에서 1회만 등록하면 됩니다.
+로컬 엔드포인트는 `http://localhost:4500/mcp`입니다.
 
 ```bash
-claude mcp add sfood-ds --transport http http://localhost:4500/mcp
-```
-
-등록 후 해당 프로젝트의 Claude Code 세션에서 바로 도구를 호출할 수 있습니다.
-
----
-
-## 3. 제공 도구
-
-| 도구 | 입력 | 용도 |
-|---|---|---|
-| `list_components` | `{ category?: string }` | 카테고리별 컴포넌트 목록 (category 생략 시 전체) |
-| `get_component` | `{ name: string }` | 컴포넌트 상세 정보 (경로, 설명, 사용 예시) |
-| `search_components` | `{ query: string }` | 이름/설명/사용 예시 텍스트 키워드 검색 |
-| `get_tokens` | `{ group?: 'base' \| 'semantic', theme?: 'light' \| 'dark' }` | 디자인 토큰 조회 (기본 테마는 light, group 생략 시 base+semantic 둘 다) |
-| `get_business_templates` | `{ name?: string }` | 업무 템플릿 목록 또는 단일 템플릿 상세 |
-| `get_setup_guide` | `{}` | `docs/USAGE.md` 원문 (설치 방법) |
-| `refresh_manifest` | `{}` | 소스 변경 후 재스캔 트리거 |
-
-이름을 잘못 입력하면(`get_component`, `get_business_templates`) 에러와 함께 비슷한 이름의 `suggestions`를 함께 반환합니다.
-
-### 사용 예시
-
-```
-list_components({ category: "form" })
-  → Input, Select, Checkbox 등 form 카테고리 컴포넌트 목록
-
-get_component({ name: "Button" })
-  → { name, category, filePath, description, usageSnippet }
-
-get_tokens({ group: "semantic" })
-  → { theme: "light", semantic: { "--color-brand": "...", ... } }
-
-get_tokens({ group: "semantic", theme: "dark" })
-  → 라이트 기본값에 다크 모드 오버라이드를 병합한 semantic 토큰
-
-search_components({ query: "필터" })
-  → 이름/설명/사용 예시에 "필터"가 포함된 컴포넌트 목록 (점수순 정렬)
-```
-
----
-
-## 4. 소스 변경 후 최신화
-
-서버는 기동 시점에 한 번 스캔한 결과를 메모리에 유지합니다. 컴포넌트를 추가/수정한 뒤 서버를 재시작하지 않고 반영하려면 `refresh_manifest`를 호출하세요.
-
-Vercel 운영 서버는 배포 파일에 포함된 정적 매니페스트를 사용하므로 배포 전에 다음 명령으로 갱신해야 합니다.
-
-```bash
-cd mcp-server
-npm run generate:manifest
-```
-
-운영 서버에는 `refresh_manifest`가 등록되지 않으며, 새 배포가 최신 매니페스트를 반영합니다.
-
----
-
-## 5. 동작 확인 (수동 검증)
-
-```bash
+claude mcp add sfood-ds-local --transport http http://localhost:4500/mcp
 npx @modelcontextprotocol/inspector http://localhost:4500/mcp
 ```
 
-Inspector UI에서 7개 도구를 각각 호출해 응답 형태를 확인할 수 있습니다.
+소스 변경 후 서버를 재시작하지 않고 다시 스캔하려면 로컬 MCP의 `refresh_manifest`를 호출합니다.
+
+운영 MCP는 정적 매니페스트를 사용합니다. 배포 담당자는 소스 변경 후 다음 명령을 실행하고 Storybook과 MCP를 함께 다시 배포해야 합니다.
+
+```bash
+npm run generate:manifest --prefix mcp-server
+```
 
 ---
 
-## 참고
+## 6. 문제 해결
 
-- 이 서버는 컴포넌트 **소스 코드 자체를 복사 배포하지 않습니다.** 실제 프로젝트에 설치하는 방법은 여전히 [USAGE.md](./USAGE.md)의 `npm` 의존성 설치 방식을 따릅니다. 이 MCP 서버는 "무엇을 어떻게 쓸지 조회"하는 용도입니다.
-- Vercel 운영 엔드포인트는 인터넷에서 접근 가능한 주소이지만, 현재 운영 정책상 사내 구성원만 사용합니다.
-- 운영 배포본은 사내 사용만 허용합니다. 별도 인증 서비스를 도입하기 전까지 외부 공개·외부 고객 연동은 지원하지 않습니다.
+| 증상 | 확인 사항 |
+|---|---|
+| 브라우저에서 열면 405가 반환됨 | 정상 동작. MCP는 브라우저 GET이 아니라 JSON-RPC POST 요청 사용 |
+| Postman에서 응답 형식 오류 | `Content-Type`과 `Accept` 헤더가 모두 설정됐는지 확인 |
+| Claude Code에서 도구가 보이지 않음 | 프로젝트 디렉터리에서 등록했는지 확인하고 세션을 다시 시작한 뒤 `claude mcp list` 실행 |
+| React 19 설치 충돌 | React와 React DOM을 18.3.1로 맞춘 뒤 `@sfood/ui` 설치 |
+| 최신 컴포넌트가 운영 MCP에 없음 | 정적 매니페스트 생성 및 Vercel 재배포 여부 확인 |
+
+운영 엔드포인트는 인증 도입 전까지 사내 프로젝트에서만 사용합니다.
