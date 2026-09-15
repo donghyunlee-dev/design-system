@@ -16,8 +16,8 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'react',
-        'react-dom',
+        /^react($|\/)/,
+        /^react-dom($|\/)/,
         'recharts',
         '@dnd-kit/core',
         '@dnd-kit/sortable',

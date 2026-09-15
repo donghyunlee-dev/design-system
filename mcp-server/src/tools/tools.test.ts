@@ -19,6 +19,7 @@ const manifest: Manifest = {
   tokens: {
     base: { '--purple-500': '#6366f1' },
     semantic: { '--color-brand': 'var(--purple-500)' },
+    semanticDark: { '--color-surface': 'var(--gray-900)' },
   },
   setupGuideMarkdown: '# 사용법 가이드',
 }
@@ -87,6 +88,15 @@ describe('getTokens', () => {
     const result = getTokens(manifest, 'base')
     expect(result.base).toBeDefined()
     expect(result.semantic).toBeUndefined()
+  })
+
+  test('merges dark overrides onto semantic defaults', () => {
+    const result = getTokens(manifest, 'semantic', 'dark')
+    expect(result.theme).toBe('dark')
+    expect(result.semantic).toEqual({
+      '--color-brand': 'var(--purple-500)',
+      '--color-surface': 'var(--gray-900)',
+    })
   })
 
   test('errors on an unknown group', () => {

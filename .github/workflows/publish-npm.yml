@@ -20,8 +20,9 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - run: npm ci
-      - run: npm test
       - run: npm run build
+      - run: npm run verify:package
+      - run: npm test
 
       - name: Verify tag matches package.json version
         run: |

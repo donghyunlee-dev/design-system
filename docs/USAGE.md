@@ -22,7 +22,13 @@ npm install
 npm install @sfood/ui
 ```
 
-버전을 고정하고 싶다면 `npm install @sfood/ui@0.1.0`처럼 명시 버전을 사용하세요.
+`@sfood/ui@0.1.3`은 React 18을 공식 지원합니다. React 19 프로젝트에서는 호환성 오류가 발생하므로 React 18로 맞춰 사용하세요.
+
+```bash
+npm install react@18.3.1 react-dom@18.3.1
+```
+
+버전을 고정하고 싶다면 `npm install @sfood/ui@0.1.3`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
@@ -380,7 +386,7 @@ npx storybook dev
 ## 자주 묻는 질문
 
 **Q. 브랜드 컬러를 바꾸고 싶어요.**
-→ `tokens/semantic.css`에서 `--color-brand` 값만 변경하면 됩니다. [TOKENS.md](./TOKENS.md) 참고.
+→ SFOOD 서비스는 디자인 시스템의 `--color-brand` 토큰(`#d65050` 기준 스케일)을 그대로 사용합니다. 소비 서비스에서 별도 브랜드 색을 하드코딩하지 않습니다. [TOKENS.md](./TOKENS.md) 참고.
 
 **Q. 컴포넌트 스타일을 일부만 바꾸고 싶어요.**
 → 모든 컴포넌트는 `className` prop을 받습니다. Tailwind 클래스를 추가하면 됩니다.
@@ -389,7 +395,7 @@ npx storybook dev
 ```
 
 **Q. 다크 모드는 어떻게 적용하나요?**
-→ `tokens/semantic.css`에 `@media (prefers-color-scheme: dark)` 블록을 추가합니다. [TOKENS.md](./TOKENS.md#테마-적용-예시-다크-모드) 참고.
+→ 이미 포함된 다크 토큰은 OS 설정을 따르며 `<html data-theme="dark">`로 강제 적용할 수 있습니다. MCP에서는 `get_tokens({ group: "semantic", theme: "dark" })`로 조회합니다. [TOKENS.md](./TOKENS.md#다크-모드) 참고.
 
 **Q. 새 컴포넌트를 추가하고 싶어요.**
 → `src/components/{카테고리}/` 폴더에 파일을 만들고 `src/index.ts`에 export를 추가합니다.

@@ -43,6 +43,12 @@ describe('buildManifest', () => {
     expect(manifest.tokens.semantic['--color-foreground']).toBe('var(--gray-900)')
   })
 
+  test('extracts explicit dark theme overrides separately', () => {
+    expect(manifest.tokens.semanticDark['--color-surface']).toBe('var(--gray-900)')
+    expect(manifest.tokens.semanticDark['--color-foreground']).toBe('var(--gray-50)')
+    expect(manifest.tokens.semanticDark['--color-brand']).toBeUndefined()
+  })
+
   test('matches usage snippets by exact JSX component name', () => {
     for (const name of ['CommentThread', 'ColorTag', 'Highlight', 'MultiSelect', 'MediaCard', 'ChipGroup', 'CommandPalette', 'List']) {
       expect(manifest.components.find((component) => component.name === name)?.usageSnippet).toContain(`<${name}`)

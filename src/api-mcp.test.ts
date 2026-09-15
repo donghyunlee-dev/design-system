@@ -68,6 +68,7 @@ describe('Vercel MCP function', () => {
     const chipGroup = await callTool('get_component', { name: 'ChipGroup' })
     const search = await callTool('search_components', { query: 'comment' })
     const tokens = await callTool('get_tokens', { group: 'semantic' })
+    const darkTokens = await callTool('get_tokens', { group: 'semantic', theme: 'dark' })
     const templates = await callTool('get_business_templates', {})
 
     expect(commentThread.name).toBe('CommentThread')
@@ -77,6 +78,9 @@ describe('Vercel MCP function', () => {
     expect(search.results.map((component: { name: string }) => component.name)).toContain('CommentThread')
     expect(tokens.semantic['--color-surface']).toBe('var(--white)')
     expect(tokens.semantic['--color-foreground']).toBe('var(--gray-900)')
+    expect(darkTokens.theme).toBe('dark')
+    expect(darkTokens.semantic['--color-surface']).toBe('var(--gray-900)')
+    expect(darkTokens.semantic['--color-foreground']).toBe('var(--gray-50)')
     expect(templates.templates).toHaveLength(42)
     expect(templates.templates.filter((template: { description?: string }) => !template.description)).toEqual([])
   })
