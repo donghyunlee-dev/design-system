@@ -19,7 +19,11 @@ export interface Manifest {
   generatedAt: string
   components: ComponentEntry[]
   businessTemplates: TemplateEntry[]
-  tokens: { base: Record<string, string>; semantic: Record<string, string> }
+  tokens: {
+    base: Record<string, string>
+    semantic: Record<string, string>
+    semanticDark: Record<string, string>
+  }
   setupGuideMarkdown: string
 }
 
@@ -127,6 +131,11 @@ function parseCssVariables(css: string): Record<string, string> {
   return result
 }
 
+function parseDarkCssVariables(css: string): Record<string, string> {
+  const darkBlock = css.match(/\[data-theme=["']dark["']\]\s*\{([\s\S]*?)\}/)?.[1]
+  return darkBlock ? parseCssVariables(darkBlock) : {}
+}
+
 function scanComponents(root: string): ComponentEntry[] {
   const indexSource = readFileSync(join(root, 'src/index.ts'), 'utf8')
   const exportPattern = /export\s*\{([^}]+)\}\s*from\s*['"]\.\/components\/([^/'"]+)\/([^'"]+)['"]/g
@@ -181,6 +190,7 @@ function scanBusinessTemplates(root: string): TemplateEntry[] {
 export function buildManifest(root: string): Manifest {
   const components = scanComponents(root)
   const usageMarkdown = readFileSync(join(root, 'docs/USAGE.md'), 'utf8')
+  const semanticCss = readFileSync(join(root, 'tokens/semantic.css'), 'utf8')
   for (const component of components) {
     component.usageSnippet = extractUsageSnippet(usageMarkdown, component.name)
   }
@@ -191,7 +201,8 @@ export function buildManifest(root: string): Manifest {
     businessTemplates: scanBusinessTemplates(root),
     tokens: {
       base: parseCssVariables(readFileSync(join(root, 'tokens/base.css'), 'utf8')),
-      semantic: parseCssVariables(readFileSync(join(root, 'tokens/semantic.css'), 'utf8')),
+      semantic: parseCssVariables(semanticCss),
+      semanticDark: parseDarkCssVariables(semanticCss),
     },
     setupGuideMarkdown: usageMarkdown,
   }

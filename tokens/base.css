@@ -20,8 +20,8 @@
   --red-500:   #ef4444;
   --blue-500:  #3b82f6;
 
-  /* Brand 컬러 스케일 (기본값) — s-food.co.kr 실제 사이트의 강조색(#d65050, 메뉴/아이콘 hover)을
-     600 기준으로 앵커해 도출. 이전 기본값(indigo)은 base.css 히스토리 참고. */
+  /* SFOOD 디자인 시스템 공식 브랜드 스케일. --brand-600(#d65050)을 기준색으로 사용하며,
+     소비 서비스는 별도 브랜드 색을 하드코딩하지 않고 이 토큰을 단일 기준으로 사용합니다. */
   --brand-50:  #fcf3f3;
   --brand-100: #f9e7e7;
   --brand-200: #f3cbcb;
@@ -66,7 +66,7 @@
   --teal-700: #0f766e;
 
   /* 타이포그래피 */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Pretendard Variable', Pretendard, 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* 간격 스케일 (4px 기준) */

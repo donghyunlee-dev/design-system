@@ -52,10 +52,13 @@ export function createMcpServer({ getManifest, refreshManifest }: CreateMcpServe
   server.registerTool(
     'get_tokens',
     {
-      description: '디자인 토큰(base/semantic)을 조회합니다. group을 생략하면 둘 다 반환합니다.',
-      inputSchema: { group: z.enum(['base', 'semantic']).optional() },
+      description: '디자인 토큰(base/semantic)을 조회합니다. semantic 토큰은 theme(light/dark)을 선택할 수 있습니다.',
+      inputSchema: {
+        group: z.enum(['base', 'semantic']).optional(),
+        theme: z.enum(['light', 'dark']).optional(),
+      },
     },
-    async ({ group }) => json(getTokens(getManifest(), group))
+    async ({ group, theme }) => json(getTokens(getManifest(), group, theme))
   )
 
   server.registerTool(

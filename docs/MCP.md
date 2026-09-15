@@ -49,7 +49,7 @@ claude mcp add sfood-ds --transport http http://localhost:4500/mcp
 | `list_components` | `{ category?: string }` | 카테고리별 컴포넌트 목록 (category 생략 시 전체) |
 | `get_component` | `{ name: string }` | 컴포넌트 상세 정보 (경로, 설명, 사용 예시) |
 | `search_components` | `{ query: string }` | 이름/설명/사용 예시 텍스트 키워드 검색 |
-| `get_tokens` | `{ group?: 'base' \| 'semantic' }` | 디자인 토큰 조회 (group 생략 시 base+semantic 둘 다) |
+| `get_tokens` | `{ group?: 'base' \| 'semantic', theme?: 'light' \| 'dark' }` | 디자인 토큰 조회 (기본 테마는 light, group 생략 시 base+semantic 둘 다) |
 | `get_business_templates` | `{ name?: string }` | 업무 템플릿 목록 또는 단일 템플릿 상세 |
 | `get_setup_guide` | `{}` | `docs/USAGE.md` 원문 (설치 방법) |
 | `refresh_manifest` | `{}` | 소스 변경 후 재스캔 트리거 |
@@ -66,7 +66,10 @@ get_component({ name: "Button" })
   → { name, category, filePath, description, usageSnippet }
 
 get_tokens({ group: "semantic" })
-  → { semantic: { "--color-brand": "...", ... } }
+  → { theme: "light", semantic: { "--color-brand": "...", ... } }
+
+get_tokens({ group: "semantic", theme: "dark" })
+  → 라이트 기본값에 다크 모드 오버라이드를 병합한 semantic 토큰
 
 search_components({ query: "필터" })
   → 이름/설명/사용 예시에 "필터"가 포함된 컴포넌트 목록 (점수순 정렬)
