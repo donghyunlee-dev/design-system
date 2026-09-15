@@ -81,7 +81,7 @@ describe('Vercel MCP function', () => {
     expect(darkTokens.theme).toBe('dark')
     expect(darkTokens.semantic['--color-surface']).toBe('var(--gray-900)')
     expect(darkTokens.semantic['--color-foreground']).toBe('var(--gray-50)')
-    expect(templates.templates).toHaveLength(42)
+    expect(templates.templates).toHaveLength(43)
     expect(templates.templates.filter((template: { description?: string }) => !template.description)).toEqual([])
   })
 
