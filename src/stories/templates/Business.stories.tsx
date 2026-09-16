@@ -63,6 +63,7 @@ import { Input } from '../../components/form/Input'
 import { NumberInput } from '../../components/form/NumberInput'
 import { DateTimePicker } from '../../components/form/DateTimePicker'
 import { Switch } from '../../components/form/Switch'
+import { FileUpload } from '../../components/form/FileUpload'
 
 const meta: Meta = {
   title: 'Templates/Business',
@@ -2626,6 +2627,80 @@ export const HelpArticleDetail: Story = {
     </HelpArticleView>
     )
   },
+}
+
+export const HelpRequestForm: Story = {
+  name: 'Help Request Form',
+  render: () => (
+    <FormRegister
+      title="지원 요청 등록"
+      breadcrumb={[
+        { label: '지원', href: '#' },
+        { label: '도움말 센터', href: '#' },
+        { label: '지원 요청 등록' },
+      ]}
+      sections={[
+        {
+          title: '요청 정보',
+          description: '문의할 시스템과 유형을 선택하고 제목을 입력하세요',
+          children: (
+            <>
+              <FormField label="대상 시스템" required>
+                <Select
+                  options={[
+                    { value: 'erp', label: 'ERP' },
+                    { value: 'oms', label: 'OMS' },
+                    { value: 'wms', label: 'WMS' },
+                    { value: 'prm', label: 'PRM' },
+                    { value: 'groupware', label: '그룹웨어' },
+                    { value: 'account', label: '계정·권한' },
+                  ]}
+                  placeholder="시스템 선택"
+                />
+              </FormField>
+              <FormField label="요청 유형" required>
+                <Select
+                  options={[
+                    { value: 'bug', label: '오류 신고' },
+                    { value: 'access', label: '권한 신청' },
+                    { value: 'howto', label: '사용 방법 문의' },
+                    { value: 'etc', label: '기타' },
+                  ]}
+                  placeholder="유형 선택"
+                />
+              </FormField>
+              <div className="md:col-span-2">
+                <FormField label="제목" required>
+                  <Input placeholder="예: OMS 주문 접수 화면에서 저장이 안 됩니다" />
+                </FormField>
+              </div>
+            </>
+          ),
+        },
+        {
+          title: '상세 내용',
+          description: '발생 상황과 재현 방법을 구체적으로 작성해 주시면 빠르게 확인할 수 있습니다',
+          children: (
+            <>
+              <div className="md:col-span-2">
+                <FormField label="상세 설명" required>
+                  <Textarea rows={5} placeholder="언제, 어떤 화면에서, 어떤 문제가 발생했는지 입력하세요" />
+                </FormField>
+              </div>
+              <div className="md:col-span-2">
+                <FormField label="첨부파일" hint="스크린샷 등 참고 자료를 첨부하면 처리 시간이 단축됩니다">
+                  <FileUpload accept="image/*,.pdf" multiple label="파일 선택 또는 드래그" />
+                </FormField>
+              </div>
+            </>
+          ),
+        },
+      ]}
+      saveLabel="요청 제출"
+      onSave={() => alert('요청 제출')}
+      onCancel={() => alert('취소')}
+    />
+  ),
 }
 
 export const HelpCategoryArticlesList: Story = {
