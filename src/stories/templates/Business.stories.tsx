@@ -3288,6 +3288,48 @@ export const TemplateGalleryPreviewStory: Story = {
   ),
 }
 
+const widgetGalleryCategories = [
+  { id: 'all', label: '전체', count: 9 },
+  { id: 'erp', label: 'ERP' },
+  { id: 'oms', label: 'OMS' },
+  { id: 'wms', label: 'WMS' },
+  { id: 'prm', label: 'PRM' },
+  { id: 'groupware', label: '그룹웨어' },
+]
+
+const widgetGalleryItems: TemplateGalleryMediaItem[] = [
+  { id: 'wg1', categoryId: 'groupware', title: '공지사항 위젯', description: '전사·부서 공지 최신 3건을 홈 화면 상단에 노출합니다.', cover: 'brand', badge: '인기', author: '총무팀', usageLabel: '486명 설치' },
+  { id: 'wg2', categoryId: 'groupware', title: '전자결재 현황 위젯', description: '내 상신 문서의 결재 대기·반려 건수를 홈 화면에서 바로 확인합니다.', cover: 'info', badge: '인기', author: '경영지원팀', usageLabel: '392명 설치' },
+  { id: 'wg3', categoryId: 'groupware', title: '팀 캘린더 위젯', description: '오늘·이번 주 팀 일정과 회의실 예약 현황을 요약해 보여줍니다.', cover: 'success', author: '인사팀', usageLabel: '214명 설치' },
+  { id: 'wg4', categoryId: 'erp', title: '매출 현황 위젯', description: '전일 매출·전월 대비 증감률을 카드 한 장으로 요약합니다.', cover: 'brand', badge: '신규', author: '재무팀', usageLabel: '167명 설치' },
+  { id: 'wg5', categoryId: 'erp', title: '미수금 알림 위젯', description: '연체 임박 거래처 목록을 상위 5건까지 보여줍니다.', cover: 'warning', author: '재무팀', usageLabel: '58명 설치' },
+  { id: 'wg6', categoryId: 'oms', title: '주문 처리 현황 위젯', description: '접수·피킹·출고 단계별 실시간 주문 건수를 표시합니다.', cover: 'warning', author: '영업팀', usageLabel: '203명 설치' },
+  { id: 'wg7', categoryId: 'wms', title: '재고 가용률 위젯', description: '창고별 재고 가용률을 막대로 요약해 보여줍니다.', cover: 'success', author: '창고관리팀', usageLabel: '94명 설치' },
+  { id: 'wg8', categoryId: 'prm', title: '협력사 납기 준수율 위젯', description: '이번 달 협력사별 납기 준수율 상·하위 3곳을 보여줍니다.', cover: 'info', author: '구매팀', usageLabel: '41명 설치' },
+  { id: 'wg9', categoryId: 'groupware', title: '근태 요약 위젯', description: '오늘 출근·연차·재택 인원 수를 부서별로 요약합니다.', cover: 'danger', author: '인사팀', usageLabel: '128명 설치' },
+]
+
+export const TemplateGalleryWidgets: Story = {
+  name: 'Template Gallery (Widgets)',
+  render: () => {
+    const [category, setCategory] = useState('all')
+    return (
+      <TemplateGalleryMedia
+        title="사내 홈 위젯 마켓"
+        description="ERP·OMS·WMS·PRM·그룹웨어 각 시스템이 제공하는 홈 화면 위젯을 둘러보고 내 그룹웨어 홈에 바로 설치하세요."
+        searchPlaceholder="위젯 검색 (예: 공지사항, 결재 현황, 재고 가용률)"
+        categoryLayout="top"
+        categories={widgetGalleryCategories}
+        activeCategoryId={category}
+        onCategoryChange={setCategory}
+        featuredTitle="가장 많이 설치한 위젯"
+        featured={widgetGalleryItems.filter(item => item.badge === '인기')}
+        items={widgetGalleryItems}
+      />
+    )
+  },
+}
+
 const wmsIssues: SystemIssueItem[] = [
   {
     id: 'w1',
