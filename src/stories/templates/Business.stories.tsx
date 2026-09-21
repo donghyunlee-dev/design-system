@@ -442,6 +442,58 @@ export const SystemStatus: Story = {
   ),
 }
 
+export const SystemStatusGrouped: Story = {
+  name: 'System Status Board (Grouped + Maintenance)',
+  render: () => (
+    <SystemStatusBoard
+      title="사내 시스템 상태"
+      lastUpdated="2026-09-21 09:00 기준"
+      overall={{
+        status: 'operational',
+        message: '모든 시스템이 정상적으로 동작하고 있습니다.',
+      }}
+      systems={[
+        { id: 'erp', name: 'ERP', description: 'Enterprise Resource Planning · 발주·전표·마스터 관리', status: 'operational', uptime: '99.98%', history: makeUptimeHistory(), group: '핵심 업무 시스템' },
+        { id: 'oms', name: 'OMS', description: 'Order Management System · 주문·배송 처리', status: 'operational', uptime: '99.95%', history: makeUptimeHistory(), group: '핵심 업무 시스템' },
+        { id: 'wms', name: 'WMS', description: 'Warehouse Management System · 입출고·재고 관리', status: 'operational', uptime: '99.97%', history: makeUptimeHistory(), group: '핵심 업무 시스템' },
+        { id: 'prm', name: 'PRM', description: 'Partner Management System · 협력사 관리', status: 'operational', uptime: '100%', history: makeUptimeHistory(), group: '핵심 업무 시스템' },
+        { id: 'groupware', name: '그룹웨어', description: '전자결재·근태·게시판', status: 'operational', uptime: '99.99%', history: makeUptimeHistory(), group: '협업 도구' },
+        { id: 'teams', name: '팀즈', description: 'Microsoft Teams · 사내 메신저', status: 'operational', uptime: '99.9%', history: makeUptimeHistory(), group: '협업 도구' },
+      ]}
+      maintenances={[
+        {
+          id: 'maint-1',
+          window: '2026-09-27 00:00 ~ 02:00',
+          title: 'ERP DB 서버 정기 점검',
+          status: 'scheduled',
+          affected: ['ERP', 'OMS'],
+          description: 'DB 서버 패치 적용을 위해 해당 시간 동안 ERP·OMS 접속이 제한됩니다.',
+        },
+        {
+          id: 'maint-2',
+          window: '2026-09-14 00:00 ~ 01:30',
+          title: '그룹웨어 스토리지 증설',
+          status: 'completed',
+          affected: ['그룹웨어'],
+          description: '첨부파일 저장소 용량 증설 작업을 완료했습니다.',
+        },
+      ]}
+      incidents={[
+        {
+          id: 'inc-1',
+          date: '2026-09-10',
+          title: 'WMS 입고 처리 지연 (해결됨)',
+          status: 'resolved',
+          updates: [
+            { time: '15:40', message: '입고 처리 지연 현상이 해소되어 정상화되었습니다.' },
+            { time: '14:55', message: 'WMS 입고 처리 화면에서 응답 지연 신고가 접수되었습니다.' },
+          ],
+        },
+      ]}
+    />
+  ),
+}
+
 function IncidentComposerDemo() {
   const systems = [
     { id: 'erp', name: 'ERP' },

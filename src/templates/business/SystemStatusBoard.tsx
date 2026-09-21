@@ -15,6 +15,21 @@ export interface SystemStatusItem {
   uptime?: string
   /** 최근 90일 등 일별 가동 이력 (오래된 날짜 → 최근 날짜 순) */
   history?: UptimeDay[]
+  /** 소속 그룹명 (예: "핵심 업무 시스템", "협업 도구"). 생략 시 미분류 목록에 표시 */
+  group?: string
+}
+
+export type MaintenanceStatus = 'scheduled' | 'in-progress' | 'completed'
+
+export interface MaintenanceRecord {
+  id: string
+  /** "2026-08-10 00:00 ~ 02:00" 등 표시용 점검 기간 */
+  window: string
+  title: string
+  status: MaintenanceStatus
+  description?: string
+  /** 점검 대상 시스템명 (예: ["ERP", "OMS"]) */
+  affected?: string[]
 }
 
 export interface IncidentUpdate {
@@ -42,6 +57,8 @@ export interface SystemStatusBoardProps {
   }
   systems: SystemStatusItem[]
   incidents?: IncidentRecord[]
+  /** 예정/진행중/완료된 점검 목록 (장애 이력과 별도 섹션으로 표시) */
+  maintenances?: MaintenanceRecord[]
   actions?: ReactNode
   className?: string
 }
@@ -72,12 +89,32 @@ const INCIDENT_STATUS_CLASS: Record<IncidentRecord['status'], string> = {
   resolved:      'text-success border-success/30 bg-success/10',
 }
 
+const MAINTENANCE_STATUS_LABEL: Record<MaintenanceStatus, string> = {
+  scheduled: '예정',
+  'in-progress': '진행중',
+  completed: '완료',
+}
+
+const MAINTENANCE_STATUS_CLASS: Record<MaintenanceStatus, string> = {
+  scheduled: 'text-info border-info/30 bg-info/10',
+  'in-progress': 'text-warning border-warning/30 bg-warning/10',
+  completed: 'text-muted border-border bg-surface-subtle',
+}
+
+function groupSystems(systems: SystemStatusItem[]): Array<{ label: string | null; items: SystemStatusItem[] }> {
+  const ungrouped = systems.filter(s => !s.group)
+  const groupLabels = Array.from(new Set(systems.filter(s => s.group).map(s => s.group as string)))
+  const groups = groupLabels.map(label => ({ label, items: systems.filter(s => s.group === label) }))
+  return ungrouped.length > 0 ? [...groups, { label: null, items: ungrouped }] : groups
+}
+
 export function SystemStatusBoard({
   title,
   lastUpdated,
   overall,
   systems,
   incidents,
+  maintenances,
   actions,
   className,
 }: SystemStatusBoardProps) {
@@ -104,42 +141,82 @@ export function SystemStatusBoard({
           <p className="text-sm font-semibold">{overall.message}</p>
         </div>
 
-        {/* 시스템별 상태 */}
-        <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden mb-6">
-          {systems.map((system, i) => {
-            const cfg = HEALTH_CONFIG[system.status]
-            return (
-              <div
-                key={system.id}
-                className={cn(
-                  'px-5 py-4',
-                  i < systems.length - 1 && 'border-b border-border'
-                )}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{system.name}</p>
-                    {system.description && (
-                      <p className="text-xs text-muted mt-0.5">{system.description}</p>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-4">
-                    {system.uptime && (
-                      <span className="text-xs text-muted">{system.uptime}</span>
-                    )}
-                    <span className={cn('inline-flex items-center gap-1.5 text-sm font-medium', cfg.text)}>
-                      <span className={cn('w-2 h-2 rounded-full flex-shrink-0', cfg.dot)} />
-                      {cfg.label}
+        {/* 시스템별 상태 (그룹 지정 시 그룹별로 묶어 표시) */}
+        <div className="space-y-6 mb-6">
+          {groupSystems(systems).map((group, gi) => (
+            <div key={group.label ?? `ungrouped-${gi}`}>
+              {group.label && (
+                <h2 className="text-sm font-semibold text-foreground mb-2">{group.label}</h2>
+              )}
+              <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden">
+                {group.items.map((system, i) => {
+                  const cfg = HEALTH_CONFIG[system.status]
+                  return (
+                    <div
+                      key={system.id}
+                      className={cn(
+                        'px-5 py-4',
+                        i < group.items.length - 1 && 'border-b border-border'
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-foreground">{system.name}</p>
+                          {system.description && (
+                            <p className="text-xs text-muted mt-0.5">{system.description}</p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-4">
+                          {system.uptime && (
+                            <span className="text-xs text-muted">{system.uptime}</span>
+                          )}
+                          <span className={cn('inline-flex items-center gap-1.5 text-sm font-medium', cfg.text)}>
+                            <span className={cn('w-2 h-2 rounded-full flex-shrink-0', cfg.dot)} />
+                            {cfg.label}
+                          </span>
+                        </div>
+                      </div>
+                      {system.history && system.history.length > 0 && (
+                        <UptimeHistoryStrip days={system.history} className="mt-3" />
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 예정된 점검 */}
+        {maintenances && maintenances.length > 0 && (
+          <div className="mb-6">
+            <h2 className="text-sm font-semibold text-foreground mb-3">예정된 점검</h2>
+            <div className="space-y-3">
+              {maintenances.map(maintenance => (
+                <div key={maintenance.id} className="bg-surface border border-border rounded-card shadow-card p-4">
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-semibold text-foreground">{maintenance.title}</p>
+                    <span
+                      className={cn(
+                        'text-xs font-medium px-2 py-0.5 rounded-full border',
+                        MAINTENANCE_STATUS_CLASS[maintenance.status]
+                      )}
+                    >
+                      {MAINTENANCE_STATUS_LABEL[maintenance.status]}
                     </span>
                   </div>
+                  <p className="text-xs text-muted mb-2">{maintenance.window}</p>
+                  {maintenance.affected && maintenance.affected.length > 0 && (
+                    <p className="text-xs text-muted mb-2">대상: {maintenance.affected.join(', ')}</p>
+                  )}
+                  {maintenance.description && (
+                    <p className="text-xs text-foreground">{maintenance.description}</p>
+                  )}
                 </div>
-                {system.history && system.history.length > 0 && (
-                  <UptimeHistoryStrip days={system.history} className="mt-3" />
-                )}
-              </div>
-            )
-          })}
-        </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* 장애/공지 이력 */}
         {incidents && incidents.length > 0 && (
