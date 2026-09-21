@@ -1,7 +1,7 @@
 ---
 type: benchmark-suite
 last_updated: 2026-07-14
-cursor: 7
+cursor: 8
 ---
 
 # 벤치마크 재현 대상 목록
