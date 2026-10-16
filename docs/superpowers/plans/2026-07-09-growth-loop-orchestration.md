@@ -161,7 +161,7 @@ if (!date) {
 }
 
 function planPrompt() {
-  return `당신은 @sfood/ui 디자인 시스템 자동 성장 루프의 마스터 PM입니다. 오늘은 ${date}입니다.
+  return `당신은 @windsoft/ui 디자인 시스템 자동 성장 루프의 마스터 PM입니다. 오늘은 ${date}입니다.
 
 읽어야 할 파일:
 - docs/loop/policy.md (가드레일, 절대 수정하지 마세요)
@@ -213,7 +213,7 @@ let collected = null
 if (plan.needsSourceCollection) {
   phase('Collect')
   function collectPrompt() {
-    return `당신은 @sfood/ui 디자인 시스템의 소스 수집 담당입니다. 오늘(${date}) 스코프 항목: ${plan.scopeItems.join(', ')}.
+    return `당신은 @windsoft/ui 디자인 시스템의 소스 수집 담당입니다. 오늘(${date}) 스코프 항목: ${plan.scopeItems.join(', ')}.
 
 docs/loop/policy.md의 가드레일(라이선스, 중복 금지, 내부 업무 적합성, 의존성 제한)을 먼저 읽으세요.
 docs/loop/backlog.md에서 위 스코프 항목의 rationale을 확인하고, 관련된 외부 디자인 시스템/패턴을 조사하세요.
@@ -236,7 +236,7 @@ function implementPrompt(feedback) {
   const feedbackBlock = feedback
     ? `\n\n이전 시도가 QA를 통과하지 못했습니다. 실패 내용:\n${feedback}\n위 문제를 고치세요.`
     : ''
-  return `당신은 @sfood/ui의 컴포넌트/템플릿 개발 담당입니다. 브랜치 "${plan.branchName}"에서 작업 중입니다 (이미 체크아웃되어 있습니다).
+  return `당신은 @windsoft/ui의 컴포넌트/템플릿 개발 담당입니다. 브랜치 "${plan.branchName}"에서 작업 중입니다 (이미 체크아웃되어 있습니다).
 
 오늘(${date}) 구현할 backlog.md 항목: ${plan.scopeItems.join(', ')}. docs/loop/backlog.md를 읽어 각 항목의 rationale을 확인하세요.
 ${collected ? (collected.adopted ? `소스 수집 결과: "${collected.sourceName}"(${collected.sourceUrl}) 패턴 채택 승인, 레이아웃/구조만 참고해 재구현하세요.` : '소스 수집 결과: 외부 소스 채택이 반려되었습니다 — 자체 판단으로 내부 업무 화면에 맞게 구현하세요.') : ''}

@@ -29,7 +29,7 @@
 - Storybook 카탈로그 및 GitHub Pages 배포
 - 컴포넌트/토큰/템플릿을 조회하는 MCP 서버 (`mcp-server/`)
 - 벤치마크 페이지 재현·평가로 구조적 갭을 찾아내는 자동 성장 루프 (`docs/loop/`)
-- public npm(`@sfood/ui`) 배포 워크플로우
+- public npm(`@windsoft/ui`) 배포 워크플로우
 
 ### Fixed
 - 의존성 설치·CI 빌드 관련 문제 다수 (`docs/loop/cycles/`, git 로그 참고)

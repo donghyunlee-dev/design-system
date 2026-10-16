@@ -178,7 +178,7 @@ last_updated: 2026-07-14
 
 이 문서는 마스터 PM이 읽기만 하는 문서다. 정책을 바꾸려면 사람이 직접 이 파일을 수정해야 한다.
 
-1. **라이선스**: MIT/Apache/BSD 등 permissive 라이선스의 디자인 시스템만 참고 대상으로 삼는다. 코드를 그대로 복사하지 않고, 레이아웃/구조만 참고해 `@sfood/ui` 기존 컴포넌트로 재구현한다.
+1. **라이선스**: MIT/Apache/BSD 등 permissive 라이선스의 디자인 시스템만 참고 대상으로 삼는다. 코드를 그대로 복사하지 않고, 레이아웃/구조만 참고해 `@windsoft/ui` 기존 컴포넌트로 재구현한다.
 2. **중복 금지 (DRY)**: 기존 `src/components/`, `src/templates/`와 목적이 겹치는 패턴은 채택하지 않는다. 채택 전 반드시 기존 컴포넌트/템플릿 목록과 대조한다.
 3. **적합성**: 소비자용 마케팅/랜딩 트렌드보다 내부 업무 시스템에 적용 가능한 패턴(목록, 폼, 대시보드, 승인, 설정 등)을 우선한다.
 4. **의존성 제한**: 신규 npm 패키지를 추가하지 않는다. 기존 디자인 토큰과 컴포넌트만으로 구현한다.
@@ -323,7 +323,7 @@ if (!date) {
 }
 
 function selectPrompt() {
-  return `당신은 @sfood/ui 디자인 시스템 자동 성장 루프의 마스터 PM입니다. 오늘은 ${date}입니다.
+  return `당신은 @windsoft/ui 디자인 시스템 자동 성장 루프의 마스터 PM입니다. 오늘은 ${date}입니다.
 
 읽어야 할 파일:
 - docs/loop/policy.md (가드레일, 절대 수정하지 마세요)
@@ -381,7 +381,7 @@ function reproducePrompt(feedback) {
   const contextBlock = selection.source === 'benchmark-suite'
     ? `벤치마크: "${selection.benchmarkName}" (${selection.benchmarkUrl}), 패턴: ${selection.pattern}. 이 페이지의 레이아웃/구조/정보 위계를 참고해 내부 업무 시스템 맥락(ERP/OMS/WMS/PRM/그룹웨어 등)에 맞는 화면으로 재해석해 구현하세요. 코드는 절대 가져오지 말고 구조만 참고하세요(docs/loop/policy.md 1항).`
     : `docs/loop/backlog.md 항목 "${selection.backlogId}"의 rationale을 확인해 구현하세요.`
-  return `당신은 @sfood/ui의 컴포넌트/템플릿 개발 담당입니다. 브랜치 "${selection.branchName}"에서 작업 중입니다 (이미 체크아웃되어 있습니다).
+  return `당신은 @windsoft/ui의 컴포넌트/템플릿 개발 담당입니다. 브랜치 "${selection.branchName}"에서 작업 중입니다 (이미 체크아웃되어 있습니다).
 
 ${contextBlock}
 
@@ -649,7 +649,7 @@ git commit -m "feat(loop): rewrite growth-loop-daily-cycle as evaluation-driven 
 
 ### Task 6: claude.ai 원격 루틴 프롬프트 재확인 (변경 불필요 확인)
 
-**컨텍스트:** 원격 루틴(`trig_013LG2gkU8J7H1J5JNawdPZY`, name: `sfood-design-system-growth-loop-daily`)의 프롬프트는 `Workflow({ name: "growth-loop-daily-cycle", args: { date } })`만 호출하고 있어, 워크플로 스크립트 내부 로직이 바뀌어도 트리거 자체는 그대로 재사용 가능할 가능성이 높다. 실제로 그런지 확인만 하고 변경하지 않는다.
+**컨텍스트:** 원격 루틴(`trig_013LG2gkU8J7H1J5JNawdPZY`, name: `windsoft-design-system-growth-loop-daily`)의 프롬프트는 `Workflow({ name: "growth-loop-daily-cycle", args: { date } })`만 호출하고 있어, 워크플로 스크립트 내부 로직이 바뀌어도 트리거 자체는 그대로 재사용 가능할 가능성이 높다. 실제로 그런지 확인만 하고 변경하지 않는다.
 
 **Files:** 없음 (조회만)
 

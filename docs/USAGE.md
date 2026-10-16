@@ -16,34 +16,34 @@ npm install
 
 ### 2. 디자인 시스템 의존성으로 추가
 
-`@sfood/ui`는 public npm 레지스트리에 배포되어 있어 GitHub 저장소 접근 권한 없이 설치할 수 있습니다 (외부 조직/파트너 저장소에서도 동일하게 동작). 소스 저장소(`SFOOD-DESIGN-SYSTEM`)는 계속 비공개이며, 빌드된 결과물만 공개 배포됩니다.
+`@windsoft/ui`는 WindSoft용 새 npm 패키지 이름입니다. npm 배포 설정을 마친 뒤에는 GitHub 저장소 접근 권한 없이 설치할 수 있습니다.
 
 ```bash
-npm install @sfood/ui
+npm install @windsoft/ui
 ```
 
-`@sfood/ui@0.1.3`은 React 18을 공식 지원합니다. React 19 프로젝트에서는 호환성 오류가 발생하므로 React 18로 맞춰 사용하세요.
+`@windsoft/ui@0.1.3`은 React 18을 공식 지원합니다. React 19 프로젝트에서는 호환성 오류가 발생하므로 React 18로 맞춰 사용하세요.
 
 ```bash
 npm install react@18.3.1 react-dom@18.3.1
 ```
 
-버전을 고정하고 싶다면 `npm install @sfood/ui@0.1.3`처럼 명시 버전을 사용하세요.
+버전을 고정하고 싶다면 `npm install @windsoft/ui@0.1.3`처럼 명시 버전을 사용하세요.
 
-> (과거에 사용하던 `github:sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
+> (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
 ### 3. Tailwind CSS 설정
 
 `tailwind.config.js`:
 
 ```js
-import windsoftPreset from '@sfood/ui/tailwind.config.js'
+import windsoftPreset from '@windsoft/ui/tailwind.config.js'
 
 export default {
   presets: [windsoftPreset],
   content: [
     './src/**/*.{ts,tsx}',
-    './node_modules/@sfood/ui/dist/**/*.js',  // 디자인 시스템 컴포넌트가 쓰는 클래스도 스캔
+    './node_modules/@windsoft/ui/dist/**/*.js',  // 디자인 시스템 컴포넌트가 쓰는 클래스도 스캔
   ],
 }
 ```
@@ -53,7 +53,7 @@ export default {
 `src/main.tsx` (또는 진입점 파일):
 
 ```tsx
-import '@sfood/ui/global.css'   // 토큰 + Tailwind 기본 스타일
+import '@windsoft/ui/global.css'   // 토큰 + Tailwind 기본 스타일
 import './index.css'             // 프로젝트 자체 스타일 (있다면)
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -73,7 +73,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 ### 버튼
 
 ```tsx
-import { Button } from '@sfood/ui'
+import { Button } from '@windsoft/ui'
 
 // 종류
 <Button variant="primary">저장</Button>
@@ -93,7 +93,7 @@ import { Button } from '@sfood/ui'
 ### 입력 폼
 
 ```tsx
-import { FormField, Input, Select, Checkbox } from '@sfood/ui'
+import { FormField, Input, Select, Checkbox } from '@windsoft/ui'
 
 // 레이블 + 에러 메시지 포함
 <FormField label="이메일" error="올바른 이메일 형식이 아닙니다" required>
@@ -118,7 +118,7 @@ import { FormField, Input, Select, Checkbox } from '@sfood/ui'
 ### 카드 + 통계
 
 ```tsx
-import { Card, Stat, Grid } from '@sfood/ui'
+import { Card, Stat, Grid } from '@windsoft/ui'
 
 <Grid cols={3} gap={4}>
   <Stat
@@ -149,7 +149,7 @@ import { Card, Stat, Grid } from '@sfood/ui'
 ### 테이블
 
 ```tsx
-import { Table, Badge } from '@sfood/ui'
+import { Table, Badge } from '@windsoft/ui'
 
 <Table
   rowKey="id"
@@ -170,7 +170,7 @@ import { Table, Badge } from '@sfood/ui'
 ### 모달
 
 ```tsx
-import { Modal, Button } from '@sfood/ui'
+import { Modal, Button } from '@windsoft/ui'
 import { useState } from 'react'
 
 function MyPage() {
@@ -204,7 +204,7 @@ Toast는 전체 앱을 `ToastProvider`로 감싸야 합니다:
 
 ```tsx
 // main.tsx
-import { ToastProvider } from '@sfood/ui'
+import { ToastProvider } from '@windsoft/ui'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ToastProvider>
@@ -216,7 +216,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 사용하는 곳에서:
 
 ```tsx
-import { useToast, Button } from '@sfood/ui'
+import { useToast, Button } from '@windsoft/ui'
 
 function MyComponent() {
   const { toast } = useToast()
@@ -232,7 +232,7 @@ function MyComponent() {
 ### 차트
 
 ```tsx
-import { LineChart, BarChart, PieChart } from '@sfood/ui'
+import { LineChart, BarChart, PieChart } from '@windsoft/ui'
 
 const data = [
   { month: '1월', 주문: 120, 매출: 240 },
@@ -268,46 +268,46 @@ const data = [
 ## 데이터·검색 컴포넌트
 
 ```tsx
-import { CommentThread } from '@sfood/ui'
+import { CommentThread } from '@windsoft/ui'
 <CommentThread comments={comments} onSubmit={body => saveComment(body)} />
 ```
 
 ```tsx
-import { ColorTag } from '@sfood/ui'
+import { ColorTag } from '@windsoft/ui'
 <ColorTag variant="brand">PRM</ColorTag>
 ```
 
 ```tsx
-import { Highlight } from '@sfood/ui'
+import { Highlight } from '@windsoft/ui'
 <Highlight>검색어</Highlight>
 
 // 문자열에서 검색어를 찾아 자동으로 강조할 때
-import { highlightMatches } from '@sfood/ui'
+import { highlightMatches } from '@windsoft/ui'
 <p>{highlightMatches('검색어가 포함된 문장', '검색어')}</p>
 ```
 
 ```tsx
-import { MultiSelect } from '@sfood/ui'
+import { MultiSelect } from '@windsoft/ui'
 <MultiSelect options={options} value={selected} onChange={setSelected} />
 ```
 
 ```tsx
-import { MediaCard } from '@sfood/ui'
+import { MediaCard } from '@windsoft/ui'
 <MediaCard title="상품명" description="상품 설명" />
 ```
 
 ```tsx
-import { ChipGroup } from '@sfood/ui'
+import { ChipGroup } from '@windsoft/ui'
 <ChipGroup value={category} onChange={setCategory} items={categories} />
 ```
 
 ```tsx
-import { CommandPalette } from '@sfood/ui'
+import { CommandPalette } from '@windsoft/ui'
 <CommandPalette open={open} groups={groups} onClose={() => setOpen(false)} />
 ```
 
 ```tsx
-import { List } from '@sfood/ui'
+import { List } from '@windsoft/ui'
 <List items={items} onItemClick={item => openItem(item.id)} />
 ```
 
@@ -316,7 +316,7 @@ import { List } from '@sfood/ui'
 ## 레이아웃 유틸리티
 
 ```tsx
-import { Stack, Grid, Container } from '@sfood/ui'
+import { Stack, Grid, Container } from '@windsoft/ui'
 
 // 세로 정렬
 <Stack gap={4}>
@@ -352,8 +352,8 @@ import { Stack, Grid, Container } from '@sfood/ui'
 적용 프로젝트에서 한 번만 등록하면, 이후 Claude Code가 화면을 만들 때마다 이 디자인 시스템의 토큰/컴포넌트/템플릿 선택 규칙을 자동으로 참고합니다.
 
 ```
-/plugin marketplace add sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM
-/plugin install sfood-design-system@sfood-design-system
+/plugin marketplace add donghyunlee-dev/design-system
+/plugin install windsoft-design-system@windsoft-design-system
 ```
 
 ### 수동 프롬프트로 사용
@@ -361,8 +361,8 @@ import { Stack, Grid, Container } from '@sfood/ui'
 Skill을 설치하지 않았다면, 다음 지시문을 프롬프트에 포함해도 됩니다:
 
 ```
-@sfood/ui 디자인 시스템을 사용해서 구현해줘.
-import는 @sfood/ui에서 하고, 토큰 색상은 CSS Variables(var(--color-brand) 등)로 참조해줘.
+@windsoft/ui 디자인 시스템을 사용해서 구현해줘.
+import는 @windsoft/ui에서 하고, 토큰 색상은 CSS Variables(var(--color-brand) 등)로 참조해줘.
 ```
 
 ---

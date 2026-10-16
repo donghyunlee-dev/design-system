@@ -1,4 +1,4 @@
-# WindSoft Design System (`@sfood/ui`)
+# WindSoft Design System (`@windsoft/ui`)
 
 WindSoft의 React + Tailwind CSS 컴포넌트 라이브러리입니다. 색상·간격 같은 디자인 결정을 토큰으로 관리하고, 반복되는 업무 화면/서비스 화면을 템플릿으로 제공해 어느 프로젝트에서든 일관된 UI를 빠르게 만들 수 있게 합니다.
 
@@ -32,10 +32,10 @@ npx storybook dev   # http://localhost:6006 에서 컴포넌트 전체 확인
 
 ## 다른 프로젝트에 적용하기
 
-`@sfood/ui`는 public npm 레지스트리에 배포되어 있어, 외부 조직 저장소에서도 저장소 접근 권한 없이 그대로 설치할 수 있습니다 (소스는 계속 비공개, 빌드된 결과물만 공개 배포).
+`@windsoft/ui`는 새 npm 패키지 이름입니다. 외부 프로젝트에서 설치할 수 있도록 npm 배포 설정은 별도로 마무리해야 합니다.
 
 ```bash
-npm install @sfood/ui
+npm install @windsoft/ui
 ```
 
 Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/USAGE.md](./docs/USAGE.md)를 참고하세요.
@@ -43,11 +43,11 @@ Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/U
 ### AI 에이전트(Claude Code)로 사용하기
 
 ```
-/plugin marketplace add sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM
-/plugin install sfood-design-system@sfood-design-system
+/plugin marketplace add donghyunlee-dev/design-system
+/plugin install windsoft-design-system@windsoft-design-system
 ```
 
-설치하면 Claude Code가 화면을 만들 때마다 이 저장소의 토큰/컴포넌트/템플릿 선택 규칙을 자동으로 참고합니다 (`.claude/skills/design-system/SKILL.md`).
+설치하면 Claude Code가 화면을 만들 때마다 이 저장소의 토큰/컴포넌트/템플릿 선택 규칙을 자동으로 참고합니다 (`.claude/skills/windsoft-design-system/SKILL.md`).
 
 ## 문서
 

@@ -3,7 +3,7 @@
 WindSoft Design System MCP(Model Context Protocol)는 다른 프로젝트의 AI 에이전트가 컴포넌트, 사용 예시, 디자인 토큰, 업무 템플릿을 직접 검색할 수 있게 하는 읽기 전용 조회 서비스입니다.
 
 ```text
-MCP 연결 → 컴포넌트·템플릿 검색 → @sfood/ui 설치·import → 서비스 화면 구현
+MCP 연결 → 컴포넌트·템플릿 검색 → @windsoft/ui 설치·import → 서비스 화면 구현
 ```
 
 > **운영 범위:** 현재 운영 MCP에는 별도 사용자 인증이 없습니다. 인터넷에서 접근 가능한 엔드포인트지만 사내 프로젝트에서만 사용하며, 외부 고객 서비스 연결은 지원하지 않습니다. MCP는 공개 컴포넌트 메타데이터를 반환하며 업무 데이터나 저장소 소스 코드를 제공하지 않습니다.
@@ -15,13 +15,13 @@ MCP 연결 → 컴포넌트·템플릿 검색 → @sfood/ui 설치·import → �
 운영 Storybook과 같은 Vercel 프로젝트에서 stateless MCP 서버가 실행됩니다.
 
 ```text
-https://sfood-design-system.vercel.app/api/mcp
+https://windsoft-design-system.vercel.app/api/mcp
 ```
 
 Claude Code를 사용할 프로젝트 디렉터리에서 한 번 등록합니다.
 
 ```bash
-claude mcp add windsoft-ds --transport http https://sfood-design-system.vercel.app/api/mcp
+claude mcp add windsoft-ds --transport http https://windsoft-design-system.vercel.app/api/mcp
 claude mcp list
 ```
 
@@ -32,7 +32,7 @@ claude mcp list
   "mcpServers": {
     "windsoft-ds": {
       "type": "http",
-      "url": "https://sfood-design-system.vercel.app/api/mcp"
+      "url": "https://windsoft-design-system.vercel.app/api/mcp"
     }
   }
 }
@@ -96,7 +96,7 @@ get_business_templates({ name: "ListSearchTable" })
 Postman에서 다음 요청을 만듭니다.
 
 - Method: `POST`
-- URL: `https://sfood-design-system.vercel.app/api/mcp`
+- URL: `https://windsoft-design-system.vercel.app/api/mcp`
 - Header: `Content-Type: application/json`
 - Header: `Accept: application/json, text/event-stream`
 - Body: `raw` → `JSON`
@@ -151,16 +151,16 @@ Postman에서 다음 요청을 만듭니다.
 
 MCP는 무엇을 사용할지 찾는 조회 서비스이며 컴포넌트 코드를 프로젝트에 설치하지 않습니다. 조회한 컴포넌트는 npm 패키지에서 가져옵니다.
 
-`@sfood/ui@0.1.3`의 공식 지원 범위는 React 18입니다. React 19 프로젝트는 React 18로 맞춰 사용하세요.
+`@windsoft/ui@0.1.3`의 공식 지원 범위는 React 18입니다. React 19 프로젝트는 React 18로 맞춰 사용하세요.
 
 ```bash
 npm install react@18.3.1 react-dom@18.3.1
-npm install @sfood/ui@0.1.3
+npm install @windsoft/ui@0.1.3
 ```
 
 ```tsx
-import '@sfood/ui/global.css'
-import { Button } from '@sfood/ui'
+import '@windsoft/ui/global.css'
+import { Button } from '@windsoft/ui'
 
 export function SaveButton() {
   return <Button variant="primary">저장</Button>
@@ -205,7 +205,7 @@ npm run generate:manifest --prefix mcp-server
 | 브라우저에서 열면 405가 반환됨 | 정상 동작. MCP는 브라우저 GET이 아니라 JSON-RPC POST 요청 사용 |
 | Postman에서 응답 형식 오류 | `Content-Type`과 `Accept` 헤더가 모두 설정됐는지 확인 |
 | Claude Code에서 도구가 보이지 않음 | 프로젝트 디렉터리에서 등록했는지 확인하고 세션을 다시 시작한 뒤 `claude mcp list` 실행 |
-| React 19 설치 충돌 | React와 React DOM을 18.3.1로 맞춘 뒤 `@sfood/ui` 설치 |
+| React 19 설치 충돌 | React와 React DOM을 18.3.1로 맞춘 뒤 `@windsoft/ui` 설치 |
 | 최신 컴포넌트가 운영 MCP에 없음 | 정적 매니페스트 생성 및 Vercel 재배포 여부 확인 |
 
 운영 엔드포인트는 인증 도입 전까지 사내 프로젝트에서만 사용합니다.

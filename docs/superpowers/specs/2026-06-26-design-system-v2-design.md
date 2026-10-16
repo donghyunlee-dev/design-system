@@ -4,7 +4,7 @@
 
 **Goal:** 토큰 강화 + 15개 페이지 템플릿 + Storybook 문서화로 AI 바이브코딩에서 즉시 활용 가능한 프로덕션급 디자인 시스템 구축
 
-**Architecture:** 기존 40+ 컴포넌트 위에 3개 레이어 추가 — (1) 확장된 디자인 토큰, (2) 조합형 페이지 템플릿, (3) Storybook 인터랙티브 문서. 템플릿은 `@sfood/ui`에서 직접 import 가능하며 props로 커스터마이징한다.
+**Architecture:** 기존 40+ 컴포넌트 위에 3개 레이어 추가 — (1) 확장된 디자인 토큰, (2) 조합형 페이지 템플릿, (3) Storybook 인터랙티브 문서. 템플릿은 `@windsoft/ui`에서 직접 import 가능하며 props로 커스터마이징한다.
 
 **Tech Stack:** React 18, TypeScript, Tailwind CSS v3, CSS Variables, Storybook 8 (MDX), Recharts
 
@@ -422,4 +422,4 @@ export { DataFormPage }   from './admin/DataFormPage'
 - `npm run build` 타입 오류 없이 통과
 - `npx storybook dev` 실행 시 모든 템플릿이 Storybook에서 렌더링됨
 - MDX 5개가 Storybook 사이드바 "Docs" 섹션에 표시됨
-- `import { LoginSplit, DashboardFull } from '@sfood/ui'` 동작 확인
+- `import { LoginSplit, DashboardFull } from '@windsoft/ui'` 동작 확인

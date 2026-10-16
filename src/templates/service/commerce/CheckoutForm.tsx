@@ -1,4 +1,4 @@
-// Astryx(facebook/astryx, MIT)의 Checkout Form 패턴에서 착안 — 코드는 @sfood/ui 컴포넌트로 재구현
+// Astryx(facebook/astryx, MIT)의 Checkout Form 패턴에서 착안 — 코드는 @windsoft/ui 컴포넌트로 재구현
 import { useState } from 'react'
 import { Card } from '../../../components/data/Card'
 import { Button } from '../../../components/foundation/Button'

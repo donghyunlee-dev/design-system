@@ -1908,8 +1908,8 @@ WindSoft AI 바이브코딩 프로젝트를 위한 컴포넌트 라이브러리�
 ## 빠른 시작
 
 ```tsx
-import '@sfood/ui/global.css'
-import { Button, LoginSplit, DashboardFull } from '@sfood/ui'
+import '@windsoft/ui/global.css'
+import { Button, LoginSplit, DashboardFull } from '@windsoft/ui'
 ```
 
 자세한 설치 방법은 **Getting Started**를 참고하세요.
@@ -1933,7 +1933,7 @@ import { Meta } from '@storybook/blocks'
 ```json
 {
   "dependencies": {
-    "@sfood/ui": "file:../design-system"
+    "@windsoft/ui": "file:../design-system"
   }
 }
 ```
@@ -1947,7 +1947,7 @@ npm install
 `tailwind.config.js`:
 
 ```js
-import windsoftPreset from '@sfood/ui/tailwind.config.js'
+import windsoftPreset from '@windsoft/ui/tailwind.config.js'
 
 export default {
   presets: [windsoftPreset],
@@ -1963,13 +1963,13 @@ export default {
 `src/main.tsx`:
 
 ```tsx
-import '@sfood/ui/global.css'
+import '@windsoft/ui/global.css'
 ```
 
 ## 4. 첫 페이지 완성 (5분)
 
 ```tsx
-import { LoginSimple } from '@sfood/ui'
+import { LoginSimple } from '@windsoft/ui'
 
 export default function App() {
   return (
@@ -1988,7 +1988,7 @@ Claude Code 프로젝트에 `CLAUDE.md` 추가:
 
 ```markdown
 # CLAUDE.md
-UI 컴포넌트는 @sfood/ui 디자인 시스템을 사용한다.
+UI 컴포넌트는 @windsoft/ui 디자인 시스템을 사용한다.
 템플릿이 있으면 템플릿을 우선 사용한다.
 커스텀 색상은 CSS Variables(var(--color-brand) 등)로 참조한다.
 ```
@@ -2342,7 +2342,7 @@ Expected: `OK`
 
 ```bash
 git add src/templates/index.ts src/index.ts
-git commit -m "feat: export all templates from @sfood/ui — design system v2 complete"
+git commit -m "feat: export all templates from @windsoft/ui — design system v2 complete"
 ```
 
 ---
@@ -2350,7 +2350,7 @@ git commit -m "feat: export all templates from @sfood/ui — design system v2 co
 ## 완성 기준
 
 - [ ] `npm run build` 타입 오류 없이 통과
-- [ ] `import { LoginSplit, DashboardFull, ProductGrid } from '@sfood/ui'` 동작
+- [ ] `import { LoginSplit, DashboardFull, ProductGrid } from '@windsoft/ui'` 동작
 - [ ] Storybook 사이드바에 `Templates/Service/Landing`, `Templates/Admin` 등 표시
 - [ ] Storybook 사이드바에 `Docs/Introduction`, `Docs/Template Guide` 등 MDX 문서 표시
 - [ ] 각 템플릿 3개 이상 변형이 Storybook에서 렌더링됨

@@ -84,7 +84,7 @@
 
 ```json
 {
-  "name": "@sfood/ui",
+  "name": "@windsoft/ui",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -2568,7 +2568,7 @@ git commit -m "feat: package entry point and build config"
 - [ ] **Step 1: docs/README.md 작성**
 
 ```markdown
-# @sfood/ui — Design System
+# @windsoft/ui — Design System
 
 ## 디자인 시스템이란?
 
@@ -2626,7 +2626,7 @@ design-system/
 // 사용할 프로젝트의 package.json
 {
   "dependencies": {
-    "@sfood/ui": "file:../design-system"
+    "@windsoft/ui": "file:../design-system"
   }
 }
 ```
@@ -2641,14 +2641,14 @@ npm install
 
 ```css
 /* src/index.css 또는 App.css */
-@import '@sfood/ui/tokens/base.css';
-@import '@sfood/ui/tokens/semantic.css';
+@import '@windsoft/ui/tokens/base.css';
+@import '@windsoft/ui/tokens/semantic.css';
 ```
 
 Tailwind를 쓴다면 tailwind.config.js에 추가:
 
 ```js
-import windsoftConfig from '@sfood/ui/tailwind.config.js'
+import windsoftConfig from '@windsoft/ui/tailwind.config.js'
 
 export default {
   presets: [windsoftConfig],
@@ -2659,7 +2659,7 @@ export default {
 ## 3. 컴포넌트 사용
 
 ```tsx
-import { Button, Input, Card, FormField } from '@sfood/ui'
+import { Button, Input, Card, FormField } from '@windsoft/ui'
 
 function LoginForm() {
   return (
@@ -2697,7 +2697,7 @@ Toast는 Provider가 필요합니다:
 
 ```tsx
 // App.tsx
-import { ToastProvider } from '@sfood/ui'
+import { ToastProvider } from '@windsoft/ui'
 
 function App() {
   return (
@@ -2708,7 +2708,7 @@ function App() {
 }
 
 // 사용할 컴포넌트
-import { useToast } from '@sfood/ui'
+import { useToast } from '@windsoft/ui'
 
 function SaveButton() {
   const { toast } = useToast()
@@ -2809,5 +2809,5 @@ git commit -m "docs: README, USAGE, TOKENS 문서 작성"
 | Storybook 실행 | `npm run dev` → localhost:6006 에서 모든 컴포넌트 표시 |
 | 전체 테스트 통과 | `npm test` → PASS |
 | 빌드 성공 | `npm run build` → dist/ 생성 |
-| 로컬 패키지 연결 | 다른 프로젝트 package.json에 `"@sfood/ui": "file:../design-system"` 추가 후 import 성공 |
+| 로컬 패키지 연결 | 다른 프로젝트 package.json에 `"@windsoft/ui": "file:../design-system"` 추가 후 import 성공 |
 | 테마 교체 | semantic.css 수정 → Storybook 새로고침 → 색상 변경 확인 |

@@ -4,7 +4,7 @@
 
 **Goal:** Add a `CheckoutForm` service template (order info form + order summary, 2-column layout) inspired by Astryx's "Checkout Form" pattern, register it in Storybook, and export it from the package.
 
-**Architecture:** Follows the existing `src/templates/service/{domain}/` convention (same as `auth`, `catalog`, `account`, `landing`). Adds a new `commerce` domain folder with one component, built entirely from existing `@sfood/ui` primitives (`Card`, `Grid`, `FormField`, `Input`, `Textarea`, `Button`). No new dependencies, no new tokens.
+**Architecture:** Follows the existing `src/templates/service/{domain}/` convention (same as `auth`, `catalog`, `account`, `landing`). Adds a new `commerce` domain folder with one component, built entirely from existing `@windsoft/ui` primitives (`Card`, `Grid`, `FormField`, `Input`, `Textarea`, `Button`). No new dependencies, no new tokens.
 
 **Tech Stack:** React 18, TypeScript, Tailwind (via existing design tokens), Storybook 8.
 
@@ -26,7 +26,7 @@ The original spec proposed 3 patterns (`LoginScreen`, `CheckoutForm`, `CatalogGr
 - [ ] **Step 1: Write the component**
 
 ```tsx
-// Astryx(facebook/astryx, MIT)의 Checkout Form 패턴에서 착안 — 코드는 @sfood/ui 컴포넌트로 재구현
+// Astryx(facebook/astryx, MIT)의 Checkout Form 패턴에서 착안 — 코드는 @windsoft/ui 컴포넌트로 재구현
 import { useState } from 'react'
 import { Card } from '../../../components/data/Card'
 import { Button } from '../../../components/foundation/Button'

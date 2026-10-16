@@ -113,7 +113,7 @@ if (!date) {
 }
 
 function selectPrompt() {
-  return `당신은 @sfood/ui 디자인 시스템 자동 성장 루프의 마스터 PM입니다. 오늘은 ${date}입니다.
+  return `당신은 @windsoft/ui 디자인 시스템 자동 성장 루프의 마스터 PM입니다. 오늘은 ${date}입니다.
 
 읽어야 할 파일:
 - docs/loop/policy.md (가드레일, 절대 수정하지 마세요)
@@ -171,7 +171,7 @@ function reproducePrompt(feedback) {
   const contextBlock = selection.source === 'benchmark-suite'
     ? `벤치마크: "${selection.benchmarkName}" (${selection.benchmarkUrl}), 패턴: ${selection.pattern}. 이 페이지의 레이아웃/구조/정보 위계를 참고해 내부 업무 시스템 맥락(ERP/OMS/WMS/PRM/그룹웨어 등)에 맞는 화면으로 재해석해 구현하세요. 코드는 절대 가져오지 말고 구조만 참고하세요(docs/loop/policy.md 1항).`
     : `docs/loop/backlog.md 항목 "${selection.backlogId}"의 rationale을 확인해 구현하세요.`
-  return `당신은 @sfood/ui의 컴포넌트/템플릿 개발 담당입니다. 브랜치 "${selection.branchName}"에서 작업 중입니다 (이미 체크아웃되어 있습니다).
+  return `당신은 @windsoft/ui의 컴포넌트/템플릿 개발 담당입니다. 브랜치 "${selection.branchName}"에서 작업 중입니다 (이미 체크아웃되어 있습니다).
 
 ${contextBlock}
 

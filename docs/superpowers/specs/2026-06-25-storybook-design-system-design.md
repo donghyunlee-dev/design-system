@@ -58,7 +58,7 @@ design-system/
 │   ├── README.md           ← 디자인 시스템 개요, Storybook 설명
 │   ├── USAGE.md            ← 프로젝트 연결법, 컴포넌트 사용법
 │   └── TOKENS.md           ← 토큰 목록 및 용도 설명
-└── package.json            ← name: "@sfood/ui"
+└── package.json            ← name: "@windsoft/ui"
 ```
 
 ---
@@ -226,7 +226,7 @@ AI가 컴포넌트를 조합해 UI 생성 → Stripe 감성 완성
 
 1. `npx storybook dev` 실행 시 전체 컴포넌트 브라우저에서 확인 가능
 2. `tokens/semantic.css` 교체만으로 전체 테마 변경 확인
-3. 다른 프로젝트에서 `"@sfood/ui": "file:../design-system"` 한 줄로 설치 가능
+3. 다른 프로젝트에서 `"@windsoft/ui": "file:../design-system"` 한 줄로 설치 가능
 4. DESIGN.md 스킬이 semantic.css를 자동 생성해 테마 연동 동작 확인 (1차: 수동 교체, 2차: 스킬 자동화)
 5. 디자인 지식 없는 사용자가 README/USAGE 문서만 읽고 사용 가능
 

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** `@sfood/ui`가 다른(외부) 프로젝트에서 npm 패키지로 소비되기 전에, 컴포넌트 품질 평가에서 발견된 결함 중 배포 전 필수 항목(패키지 배포 설정, 다크모드 실제 구현, 오버레이 6종 접근성, Button/폼 컴포넌트 forwardRef, FormField/Tag 접근성)을 수정한다.
+**Goal:** `@windsoft/ui`가 다른(외부) 프로젝트에서 npm 패키지로 소비되기 전에, 컴포넌트 품질 평가에서 발견된 결함 중 배포 전 필수 항목(패키지 배포 설정, 다크모드 실제 구현, 오버레이 6종 접근성, Button/폼 컴포넌트 forwardRef, FormField/Tag 접근성)을 수정한다.
 
 **Architecture:** 기존 컴포넌트 파일을 그대로 두고 필요한 부분만 외과수술식으로 수정한다. 오버레이 컴포넌트가 공통으로 필요로 하는 포커스 트랩·body 스크롤 잠금 로직은 `src/utils/`에 훅으로 추출해 6개 컴포넌트가 재사용한다. 다크모드는 `tokens/semantic.css`에 실제 오버라이드 블록을 추가해(기존 문서의 "예시"를 실제 구현으로 전환) 별도 다크 컴포넌트 코드 없이 전 컴포넌트에 자동 적용되게 한다. 새 npm 의존성은 추가하지 않는다.
 
@@ -28,7 +28,7 @@ Expected: `vite`, `typescript`, `tailwindcss`, `postcss`, `autoprefixer`, `vite-
 
 ```json
 {
-  "name": "@sfood/ui",
+  "name": "@windsoft/ui",
   "version": "0.1.1",
   "type": "module",
   "main": "./dist/index.js",

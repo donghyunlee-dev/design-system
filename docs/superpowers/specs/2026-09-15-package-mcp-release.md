@@ -2,7 +2,7 @@
 
 ## 결정
 
-- `@sfood/ui`의 공식 React 지원 범위는 React 18이다. React 19 소비자는 React 18.3.1로 내려서 사용한다.
+- `@windsoft/ui`의 공식 React 지원 범위는 React 18이다. React 19 소비자는 React 18.3.1로 내려서 사용한다.
 - React와 React DOM의 모든 서브패스는 라이브러리 번들에서 제외한다.
 - WindSoft 브랜드 색상은 디자인 시스템의 `--brand-600: #d65050` 스케일을 단일 기준으로 사용한다.
 - 기본 본문 폰트는 Pretendard를 우선하고 Noto Sans KR과 OS 한글 폰트로 폴백한다.

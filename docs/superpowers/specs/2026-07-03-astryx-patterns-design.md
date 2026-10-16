@@ -4,9 +4,9 @@
 
 ## 배경 및 목적
 
-Meta의 오픈소스 디자인 시스템 [Astryx](https://astryx.atmeta.com)(`facebook/astryx`, MIT 라이선스, 완전 공개)를 조사해, `/templates`에 소개된 18개 화면 패턴 중 기존 컴포넌트와 겹치지 않고 내부 업무 시스템에 실용적인 패턴을 골라 `@sfood/ui`에 내재화한다.
+Meta의 오픈소스 디자인 시스템 [Astryx](https://astryx.atmeta.com)(`facebook/astryx`, MIT 라이선스, 완전 공개)를 조사해, `/templates`에 소개된 18개 화면 패턴 중 기존 컴포넌트와 겹치지 않고 내부 업무 시스템에 실용적인 패턴을 골라 `@windsoft/ui`에 내재화한다.
 
-**방식**: Astryx 코드를 가져오지 않는다. 화면 구성(레이아웃·정보 구조)만 참고해 기존 `@sfood/ui` 컴포넌트(Card, Input, FormField, Textarea, Button, Grid 등)만으로 처음부터 재구현한다. 신규 외부 의존성 없음, 기존 디자인 토큰만 사용.
+**방식**: Astryx 코드를 가져오지 않는다. 화면 구성(레이아웃·정보 구조)만 참고해 기존 `@windsoft/ui` 컴포넌트(Card, Input, FormField, Textarea, Button, Grid 등)만으로 처음부터 재구현한다. 신규 외부 의존성 없음, 기존 디자인 토큰만 사용.
 
 **Phase 1 범위** (1개 패턴):
 
@@ -33,7 +33,7 @@ src/
 
 `src/templates/index.ts`에 `CheckoutForm`/`CheckoutFormProps`/`CheckoutOrderItem` export를 추가한다(기존 Service 섹션들과 동일한 방식).
 
-템플릿 파일 상단에 한 줄 주석으로 출처를 남긴다: `// Astryx(facebook/astryx, MIT)의 Checkout Form 패턴에서 착안 — 코드는 @sfood/ui 컴포넌트로 재구현`
+템플릿 파일 상단에 한 줄 주석으로 출처를 남긴다: `// Astryx(facebook/astryx, MIT)의 Checkout Form 패턴에서 착안 — 코드는 @windsoft/ui 컴포넌트로 재구현`
 
 ## 컴포넌트별 설계
 
