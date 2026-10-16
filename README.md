@@ -32,7 +32,7 @@ npx storybook dev   # http://localhost:6006 에서 컴포넌트 전체 확인
 
 ## 다른 프로젝트에 적용하기
 
-`@windsoft/ui`는 새 npm 패키지 이름입니다. 외부 프로젝트에서 설치할 수 있도록 npm 배포 설정은 별도로 마무리해야 합니다.
+패키지 이름은 `@windsoft/ui`이며, npm 공개 배포는 릴리스 태그를 통해 진행합니다. 현재 배포 버전은 npm에 공개되기 전이므로, 공개 후 아래 명령으로 설치할 수 있습니다.
 
 ```bash
 npm install @windsoft/ui

@@ -16,7 +16,7 @@ npm install
 
 ### 2. 디자인 시스템 의존성으로 추가
 
-`@windsoft/ui`는 WindSoft용 새 npm 패키지 이름입니다. npm 배포 설정을 마친 뒤에는 GitHub 저장소 접근 권한 없이 설치할 수 있습니다.
+`@windsoft/ui`는 WindSoft 디자인 시스템 npm 패키지입니다. npm에 릴리스된 뒤에는 GitHub 저장소 접근 권한 없이 설치할 수 있습니다.
 
 ```bash
 npm install @windsoft/ui
