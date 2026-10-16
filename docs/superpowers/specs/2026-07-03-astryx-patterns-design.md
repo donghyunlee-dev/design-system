@@ -58,7 +58,7 @@ export interface CheckoutFormProps {
 
 ## Storybook 등록
 
-`Commerce.stories.tsx`는 `Auth.stories.tsx`와 동일한 컨벤션을 따른다: `title: 'Templates/Service/Commerce'`, `parameters: { layout: 'fullscreen' }`, 에쓰푸드 도메인 한글 예시 데이터(식품 품목·거래처)로 1개 Story 작성.
+`Commerce.stories.tsx`는 `Auth.stories.tsx`와 동일한 컨벤션을 따른다: `title: 'Templates/Service/Commerce'`, `parameters: { layout: 'fullscreen' }`, WindSoft 도메인 한글 예시 데이터(식품 품목·거래처)로 1개 Story 작성.
 
 ## 테스트 계획
 

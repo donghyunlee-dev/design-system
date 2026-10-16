@@ -551,7 +551,7 @@ export const Minimal: StoryObj = {
       nav={NAV}
       eyebrow="식품 관리의 새로운 기준"
       headline="운영을 단순하게, 성과는 크게"
-      subheadline="에쓰푸드의 모든 운영 데이터를 하나의 플랫폼에서."
+      subheadline="WindSoft의 모든 운영 데이터를 하나의 플랫폼에서."
       ctaPrimary={{ label: '지금 시작하기', onClick: () => {} }}
       ctaSecondary={{ label: '자세히 알아보기', onClick: () => {} }}
     />
@@ -845,7 +845,7 @@ export const Split: StoryObj = {
   render: () => (
     <LoginSplit
       logo={<span className="text-2xl font-bold">WindSoft</span>}
-      brandTitle="에쓰푸드 운영 플랫폼"
+      brandTitle="WindSoft 운영 플랫폼"
       brandDescription="식품 공급망 관리를 더 스마트하게."
       onLogin={(e, p) => alert(`${e} / ${p}`)}
       onForgotPassword={() => {}}
@@ -1662,7 +1662,7 @@ export default meta
 const ProfileForm = () => (
   <div className="flex flex-col gap-4">
     <FormField label="이름"><Input defaultValue="홍길동" /></FormField>
-    <FormField label="이메일"><Input type="email" defaultValue="hong@sfood.com" /></FormField>
+    <FormField label="이메일"><Input type="email" defaultValue="hong@windsoft.com" /></FormField>
     <Button className="self-start">저장</Button>
   </div>
 )
@@ -1876,7 +1876,7 @@ import { Meta } from '@storybook/blocks'
 
 # WindSoft Design System
 
-에쓰푸드 AI 바이브코딩 프로젝트를 위한 컴포넌트 라이브러리입니다.
+WindSoft AI 바이브코딩 프로젝트를 위한 컴포넌트 라이브러리입니다.
 
 ## 구조
 
@@ -1933,7 +1933,7 @@ import { Meta } from '@storybook/blocks'
 ```json
 {
   "dependencies": {
-    "@sfood/ui": "file:../sfood-design-system"
+    "@sfood/ui": "file:../design-system"
   }
 }
 ```
@@ -1947,13 +1947,13 @@ npm install
 `tailwind.config.js`:
 
 ```js
-import sfoodPreset from '@sfood/ui/tailwind.config.js'
+import windsoftPreset from '@sfood/ui/tailwind.config.js'
 
 export default {
-  presets: [sfoodPreset],
+  presets: [windsoftPreset],
   content: [
     './src/**/*.{ts,tsx}',
-    '../sfood-design-system/src/**/*.{ts,tsx}',
+    '../design-system/src/**/*.{ts,tsx}',
   ],
 }
 ```

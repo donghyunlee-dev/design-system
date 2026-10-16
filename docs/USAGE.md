@@ -37,10 +37,10 @@ npm install react@18.3.1 react-dom@18.3.1
 `tailwind.config.js`:
 
 ```js
-import sfoodPreset from '@sfood/ui/tailwind.config.js'
+import windsoftPreset from '@sfood/ui/tailwind.config.js'
 
 export default {
-  presets: [sfoodPreset],
+  presets: [windsoftPreset],
   content: [
     './src/**/*.{ts,tsx}',
     './node_modules/@sfood/ui/dist/**/*.js',  // 디자인 시스템 컴포넌트가 쓰는 클래스도 스캔
@@ -370,7 +370,7 @@ import는 @sfood/ui에서 하고, 토큰 색상은 CSS Variables(var(--color-bra
 ## Storybook으로 컴포넌트 탐색하기
 
 ```bash
-cd sfood-design-system
+cd design-system
 npx storybook dev
 ```
 

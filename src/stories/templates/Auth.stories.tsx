@@ -21,7 +21,7 @@ export const Split: StoryObj = {
   render: () => (
     <LoginSplit
       logo={<span className="text-2xl font-bold">WindSoft</span>}
-      brandTitle="에쓰푸드 운영 플랫폼"
+      brandTitle="WindSoft 운영 플랫폼"
       brandDescription="식품 공급망 관리를 더 스마트하게."
       onLogin={(e, p) => alert(`${e} / ${p}`)}
       onForgotPassword={() => {}}

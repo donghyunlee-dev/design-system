@@ -73,7 +73,7 @@ export interface FieldRules {
 - [ ] **Step 2: 빌드 확인**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm run build 2>&1 | tail -3
+cd /home/donghyunlee/projects/design-system && npm run build 2>&1 | tail -3
 ```
 
 Expected: `✓ built in`
@@ -312,7 +312,7 @@ describe('FormField validation', () => {
 - [ ] **Step 3: 테스트 실행**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm test 2>&1 | tail -15
+cd /home/donghyunlee/projects/design-system && npm test 2>&1 | tail -15
 ```
 
 Expected: 모든 테스트 통과
@@ -398,7 +398,7 @@ describe('NumberInput', () => {
 - [ ] **Step 3: 테스트 실행**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm test 2>&1 | tail -10
+cd /home/donghyunlee/projects/design-system && npm test 2>&1 | tail -10
 ```
 
 Expected: 모든 테스트 통과
@@ -482,7 +482,7 @@ describe('DateTimePicker', () => {
 - [ ] **Step 3: 테스트 실행**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm test 2>&1 | tail -10
+cd /home/donghyunlee/projects/design-system && npm test 2>&1 | tail -10
 ```
 
 Expected: 모든 테스트 통과
@@ -579,7 +579,7 @@ describe('StatusBadge', () => {
 - [ ] **Step 3: 테스트 실행**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm test 2>&1 | tail -10
+cd /home/donghyunlee/projects/design-system && npm test 2>&1 | tail -10
 ```
 
 Expected: 모든 테스트 통과
@@ -746,7 +746,7 @@ export const WithRulesPattern: Story = {
 - [ ] **Step 5: 빌드 확인**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm run build 2>&1 | tail -3
+cd /home/donghyunlee/projects/design-system && npm run build 2>&1 | tail -3
 ```
 
 Expected: `✓ built in`
@@ -793,7 +793,7 @@ export type { FieldRules, ValidationRule } from './types/validation'
 - [ ] **Step 2: 최종 빌드 + 테스트 확인**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm run build 2>&1 | tail -5 && npm test 2>&1 | tail -10
+cd /home/donghyunlee/projects/design-system && npm run build 2>&1 | tail -5 && npm test 2>&1 | tail -10
 ```
 
 Expected: 빌드 성공, 모든 테스트 통과

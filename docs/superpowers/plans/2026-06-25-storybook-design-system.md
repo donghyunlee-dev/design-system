@@ -2600,7 +2600,7 @@ Storybook에서 할 수 있는 것:
 ## 전체 구조
 
 ```
-sfood-design-system/
+design-system/
 ├── tokens/
 │   ├── base.css       ← 색상·폰트 원시값 (건드리지 않음)
 │   └── semantic.css   ← 테마 교체 시 이 파일만 바꿈
@@ -2626,7 +2626,7 @@ sfood-design-system/
 // 사용할 프로젝트의 package.json
 {
   "dependencies": {
-    "@sfood/ui": "file:../sfood-design-system"
+    "@sfood/ui": "file:../design-system"
   }
 }
 ```
@@ -2648,11 +2648,11 @@ npm install
 Tailwind를 쓴다면 tailwind.config.js에 추가:
 
 ```js
-import sfoodConfig from '@sfood/ui/tailwind.config.js'
+import windsoftConfig from '@sfood/ui/tailwind.config.js'
 
 export default {
-  presets: [sfoodConfig],
-  content: ['./src/**/*.{ts,tsx}', '../sfood-design-system/src/**/*.{ts,tsx}'],
+  presets: [windsoftConfig],
+  content: ['./src/**/*.{ts,tsx}', '../design-system/src/**/*.{ts,tsx}'],
 }
 ```
 
@@ -2665,7 +2665,7 @@ function LoginForm() {
   return (
     <Card title="로그인">
       <FormField label="이메일" required>
-        <Input type="email" placeholder="example@sfood.com" />
+        <Input type="email" placeholder="example@windsoft.com" />
       </FormField>
       <FormField label="비밀번호">
         <Input type="password" />
@@ -2809,5 +2809,5 @@ git commit -m "docs: README, USAGE, TOKENS 문서 작성"
 | Storybook 실행 | `npm run dev` → localhost:6006 에서 모든 컴포넌트 표시 |
 | 전체 테스트 통과 | `npm test` → PASS |
 | 빌드 성공 | `npm run build` → dist/ 생성 |
-| 로컬 패키지 연결 | 다른 프로젝트 package.json에 `"@sfood/ui": "file:../sfood-design-system"` 추가 후 import 성공 |
+| 로컬 패키지 연결 | 다른 프로젝트 package.json에 `"@sfood/ui": "file:../design-system"` 추가 후 import 성공 |
 | 테마 교체 | semantic.css 수정 → Storybook 새로고침 → 색상 변경 확인 |

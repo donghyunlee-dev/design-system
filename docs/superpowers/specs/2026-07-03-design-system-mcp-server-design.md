@@ -1,6 +1,6 @@
 # WindSoft Design System MCP Server — 설계 문서
 
-> **상태 (2026-08-20)**: `mcp-server/`에 구현 완료. 사용법은 [docs/MCP.md](../../MCP.md) 참고. (2026-07-24 당시 보류하고 채택했던 Claude Code Skill 대안(`.claude/skills/sfood-design-system/`)은 계속 병행 유지합니다.)
+> **상태 (2026-08-20)**: `mcp-server/`에 구현 완료. 사용법은 [docs/MCP.md](../../MCP.md) 참고. (2026-07-24 당시 보류하고 채택했던 Claude Code Skill 대안(`.claude/skills/design-system/`)은 계속 병행 유지합니다.)
 
 ## 배경 및 목적
 
@@ -11,7 +11,7 @@
 ## 아키텍처
 
 ```
-sfood-design-system/
+design-system/
 ├── src/                        (기존 컴포넌트/템플릿 — 변경 없음)
 ├── tokens/                     (기존 토큰 CSS — 변경 없음)
 ├── docs/USAGE.md               (기존 문서 — 변경 없음, 데이터 소스로 재사용)
@@ -32,7 +32,7 @@ sfood-design-system/
 ```
 
 - **전송 방식**: Streamable HTTP. `npm run mcp:dev` (mcp-server 디렉터리 내)로 로컬에서 `http://localhost:4500/mcp` 에 상시 구동.
-- **다른 프로젝트에서의 등록**: `claude mcp add sfood-ds --transport http http://localhost:4500/mcp`
+- **다른 프로젝트에서의 등록**: `claude mcp add windsoft-ds --transport http http://localhost:4500/mcp`
 - **매니페스트**: 디스크에 파일로 저장하지 않고, 서버 기동 시 `manifest.ts`가 `../../src/components/**`, `../../src/templates/business/**`, `../../tokens/*.css`, `../../docs/USAGE.md`를 스캔해 메모리에 객체로 생성. 항상 최신 소스 반영. 컴포넌트를 추가/수정한 뒤 서버를 재시작하지 않아도 되도록 `refresh_manifest` 도구로 재스캔 트리거 가능.
 
 ## 매니페스트 스키마
@@ -89,6 +89,6 @@ interface TemplateEntry {
 
 ## 사용 흐름 (다른 프로젝트에서)
 
-1. `sfood-design-system` 저장소에서 `cd mcp-server && npm install && npm run dev` 로 서버 상시 구동.
-2. 다른 프로젝트에서 `claude mcp add sfood-ds --transport http http://localhost:4500/mcp` 1회 등록.
+1. 디자인 시스템 저장소에서 `cd mcp-server && npm install && npm run dev` 로 서버 상시 구동.
+2. 다른 프로젝트에서 `claude mcp add windsoft-ds --transport http http://localhost:4500/mcp` 1회 등록.
 3. 해당 프로젝트의 Claude Code 세션에서 `list_components`, `search_components` 등으로 컴포넌트를 탐색하고, `get_component`/`get_setup_guide`로 정확한 import 경로와 사용 예시를 확인하며 코드 작성.

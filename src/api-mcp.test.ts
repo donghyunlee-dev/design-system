@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest'
 import handler from '../api/mcp.js'
 
 function mcpRequest(body: unknown) {
-  return new Request('https://sfood-design-system.vercel.app/api/mcp', {
+  return new Request('https://windsoft.example/api/mcp', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -42,7 +42,7 @@ describe('Vercel MCP function', () => {
     expect(response.status).toBe(200)
     expect(response.headers.get('mcp-session-id')).toBeNull()
     const body = await response.json()
-    expect(body.result.serverInfo.name).toBe('sfood-design-system')
+    expect(body.result.serverInfo.name).toBe('windsoft-design-system')
   })
 
   test('lists the six production tools', async () => {
@@ -87,7 +87,7 @@ describe('Vercel MCP function', () => {
 
   test('rejects GET requests', async () => {
     const response = await handler.fetch(
-      new Request('https://sfood-design-system.vercel.app/api/mcp')
+      new Request('https://windsoft.example/api/mcp')
     )
 
     expect(response.status).toBe(405)

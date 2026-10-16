@@ -29,7 +29,7 @@
 - [ ] **Step 1: 패키지 설치**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm install @tanstack/react-table @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
+cd /home/donghyunlee/projects/design-system && npm install @tanstack/react-table @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
 ```
 
 Expected: `added N packages` 에러 없음
@@ -37,7 +37,7 @@ Expected: `added N packages` 에러 없음
 - [ ] **Step 2: 기존 빌드 확인**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm run build 2>&1 | tail -3
+cd /home/donghyunlee/projects/design-system && npm run build 2>&1 | tail -3
 ```
 
 Expected: `✓ built in` — 신규 패키지로 인해 기존 빌드가 깨지지 않았는지 확인
@@ -212,7 +212,7 @@ describe('DataTable', () => {
 - [ ] **Step 3: 테스트 실행**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm test -- DataTable 2>&1 | tail -10
+cd /home/donghyunlee/projects/design-system && npm test -- DataTable 2>&1 | tail -10
 ```
 
 Expected: 1 test passed
@@ -869,7 +869,7 @@ describe('DataTable', () => {
 - [ ] **Step 3: 테스트 실행**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm test -- DataTable 2>&1 | tail -20
+cd /home/donghyunlee/projects/design-system && npm test -- DataTable 2>&1 | tail -20
 ```
 
 Expected: 대부분 통과. 실패 시 에러 메시지를 읽고 수정한다.
@@ -877,7 +877,7 @@ Expected: 대부분 통과. 실패 시 에러 메시지를 읽고 수정한다.
 - [ ] **Step 4: 빌드 확인**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm run build 2>&1 | tail -5
+cd /home/donghyunlee/projects/design-system && npm run build 2>&1 | tail -5
 ```
 
 Expected: `✓ built in`
@@ -1056,7 +1056,7 @@ export const Full: Story = {
 - [ ] **Step 3: 최종 빌드 + 전체 테스트**
 
 ```bash
-cd /home/donghyunlee/projects/sfood-design-system && npm run build 2>&1 | tail -5 && npm test 2>&1 | tail -15
+cd /home/donghyunlee/projects/design-system && npm run build 2>&1 | tail -5 && npm test 2>&1 | tail -15
 ```
 
 Expected: 빌드 성공, 모든 테스트 통과

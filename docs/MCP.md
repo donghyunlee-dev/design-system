@@ -21,7 +21,7 @@ https://sfood-design-system.vercel.app/api/mcp
 Claude Code를 사용할 프로젝트 디렉터리에서 한 번 등록합니다.
 
 ```bash
-claude mcp add sfood-ds --transport http https://sfood-design-system.vercel.app/api/mcp
+claude mcp add windsoft-ds --transport http https://sfood-design-system.vercel.app/api/mcp
 claude mcp list
 ```
 
@@ -30,7 +30,7 @@ claude mcp list
 ```json
 {
   "mcpServers": {
-    "sfood-ds": {
+    "windsoft-ds": {
       "type": "http",
       "url": "https://sfood-design-system.vercel.app/api/mcp"
     }
@@ -176,7 +176,7 @@ export function SaveButton() {
 디자인 시스템 자체를 개발하면서 아직 배포하지 않은 소스를 확인할 때만 로컬 서버를 사용합니다.
 
 ```bash
-cd sfood-design-system/mcp-server
+cd design-system/mcp-server
 npm install
 npm run dev
 ```
@@ -184,7 +184,7 @@ npm run dev
 로컬 엔드포인트는 `http://localhost:4500/mcp`입니다.
 
 ```bash
-claude mcp add sfood-ds-local --transport http http://localhost:4500/mcp
+claude mcp add windsoft-ds-local --transport http http://localhost:4500/mcp
 npx @modelcontextprotocol/inspector http://localhost:4500/mcp
 ```
 

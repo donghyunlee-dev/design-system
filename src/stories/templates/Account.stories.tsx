@@ -12,7 +12,7 @@ export default meta
 const ProfileForm = () => (
   <div className="flex flex-col gap-4">
     <FormField label="이름"><Input defaultValue="홍길동" /></FormField>
-    <FormField label="이메일"><Input type="email" defaultValue="hong@sfood.com" /></FormField>
+    <FormField label="이메일"><Input type="email" defaultValue="hong@windsoft.com" /></FormField>
     <Button className="self-start">저장</Button>
   </div>
 )

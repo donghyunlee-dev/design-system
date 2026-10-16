@@ -24,8 +24,8 @@ WindSoft의 React + Tailwind CSS 컴포넌트 라이브러리입니다. 색상·
 ## 빠른 시작
 
 ```bash
-git clone https://github.com/sfood-it-dev-ax-org/SFOOD-DESIGN-SYSTEM.git
-cd SFOOD-DESIGN-SYSTEM
+git clone https://github.com/donghyunlee-dev/design-system.git
+cd design-system
 npm install
 npx storybook dev   # http://localhost:6006 에서 컴포넌트 전체 확인
 ```
@@ -47,7 +47,7 @@ Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/U
 /plugin install sfood-design-system@sfood-design-system
 ```
 
-설치하면 Claude Code가 화면을 만들 때마다 이 저장소의 토큰/컴포넌트/템플릿 선택 규칙을 자동으로 참고합니다 (`.claude/skills/sfood-design-system/SKILL.md`).
+설치하면 Claude Code가 화면을 만들 때마다 이 저장소의 토큰/컴포넌트/템플릿 선택 규칙을 자동으로 참고합니다 (`.claude/skills/design-system/SKILL.md`).
 
 ## 문서
 

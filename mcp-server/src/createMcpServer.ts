@@ -20,7 +20,7 @@ export interface CreateMcpServerOptions {
 }
 
 export function createMcpServer({ getManifest, refreshManifest }: CreateMcpServerOptions): McpServer {
-  const server = new McpServer({ name: 'sfood-design-system', version: '0.1.0' })
+  const server = new McpServer({ name: 'windsoft-design-system', version: '0.1.0' })
 
   server.registerTool(
     'list_components',

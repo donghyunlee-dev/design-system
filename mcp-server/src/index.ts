@@ -62,7 +62,7 @@ function methodNotAllowed(_req: Request, res: Response) {
 
 app.get('/', (_req, res) => {
   res.json({
-    name: 'sfood-design-system',
+    name: 'windsoft-design-system',
     transport: 'Streamable HTTP',
     endpoint: '/api/mcp',
     mode: 'stateless',
@@ -80,6 +80,6 @@ export default app
 const isMainModule = process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url
 if (isMainModule) {
   app.listen(PORT, () => {
-    console.log(`SFOOD Design System MCP server listening on http://localhost:${PORT}/mcp`)
+    console.log(`WindSoft Design System MCP server listening on http://localhost:${PORT}/mcp`)
   })
 }

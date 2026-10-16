@@ -1177,7 +1177,7 @@ export const Settings: Story = {
                 <Input defaultValue="WindSoft MES" />
               </FormField>
               <FormField label="회사명">
-                <Input defaultValue="에쓰푸드" />
+                <Input defaultValue="WindSoft" />
               </FormField>
               <FormField label="사업장">
                 <Input defaultValue="안성 1공장" />
@@ -2044,7 +2044,7 @@ export const Report: Story = {
     <ReportLayout
       title="월별 생산 실적 보고서"
       subtitle="2026년 7월 기준"
-      organization="에쓰푸드 생산본부"
+      organization="WindSoft 생산본부"
       summary={[
         { label: '총 생산 건수', value: '1,284건' },
         { label: '달성률', value: '98.2%' },

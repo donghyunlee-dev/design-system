@@ -26,7 +26,7 @@ AI 바이브코딩 프로젝트 범용으로 사용할 수 있는 React 컴포�
 | 스타일 | Tailwind CSS | CSS Var 참조, 바이브코딩 친화적 |
 | 문서/카탈로그 | Storybook 8 | 컴포넌트 시각화, MDX 문서 |
 | 차트 | Recharts | React 친화적 래퍼 |
-| 배포 | 로컬 패키지 | `file:../sfood-design-system` 참조 |
+| 배포 | 로컬 패키지 | `file:../design-system` 참조 |
 
 ---
 
@@ -35,7 +35,7 @@ AI 바이브코딩 프로젝트 범용으로 사용할 수 있는 React 컴포�
 ### 파일 레이아웃
 
 ```
-sfood-design-system/
+design-system/
 ├── tokens/
 │   ├── base.css            ← 원시값 (hex, 폰트명, 수치) — 건드리지 않음
 │   └── semantic.css        ← 의미 토큰 — 테마 교체 시 이 파일만 교체
@@ -226,7 +226,7 @@ AI가 컴포넌트를 조합해 UI 생성 → Stripe 감성 완성
 
 1. `npx storybook dev` 실행 시 전체 컴포넌트 브라우저에서 확인 가능
 2. `tokens/semantic.css` 교체만으로 전체 테마 변경 확인
-3. 다른 프로젝트에서 `"@sfood/ui": "file:../sfood-design-system"` 한 줄로 설치 가능
+3. 다른 프로젝트에서 `"@sfood/ui": "file:../design-system"` 한 줄로 설치 가능
 4. DESIGN.md 스킬이 semantic.css를 자동 생성해 테마 연동 동작 확인 (1차: 수동 교체, 2차: 스킬 자동화)
 5. 디자인 지식 없는 사용자가 README/USAGE 문서만 읽고 사용 가능
 

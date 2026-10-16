@@ -22,7 +22,7 @@ describe('MCP HTTP endpoint', () => {
 
     expect(response.headers['mcp-session-id']).toBeUndefined()
     expect(response.body.result.serverInfo).toEqual({
-      name: 'sfood-design-system',
+      name: 'windsoft-design-system',
       version: '0.1.0',
     })
   })

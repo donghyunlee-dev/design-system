@@ -316,7 +316,7 @@ export const Settings: Story = {
                 <Input defaultValue="WindSoft MES" />
               </FormField>
               <FormField label="회사명">
-                <Input defaultValue="에쓰푸드" />
+                <Input defaultValue="WindSoft" />
               </FormField>
               <FormField label="사업장">
                 <Input defaultValue="안성 1공장" />
@@ -700,7 +700,7 @@ export const Report: Story = {
     <ReportLayout
       title="월별 생산 실적 보고서"
       subtitle="2026년 7월 기준"
-      organization="에쓰푸드 생산본부"
+      organization="WindSoft 생산본부"
       summary={[
         { label: '총 생산 건수', value: '1,284건' },
         { label: '달성률', value: '98.2%' },
@@ -1787,7 +1787,7 @@ export const Print: Story = {
       issueDate="2026-07-20"
       statusTag="발행완료"
       from={{
-        name: '(주)에스푸드',
+        name: 'WindSoft',
         info: ['사업자번호 123-45-67890', '서울 강서구 식품로 10', 'TEL 02-1234-5678'],
       }}
       to={{
@@ -1804,7 +1804,7 @@ export const Print: Story = {
         { label: '세액', value: '403,000원' },
         { label: '합계', value: '4,433,000원', emphasis: true },
       ]}
-      notes={'- 본 거래명세서는 세금계산서 발행 전 참고용 문서입니다.\n- 입금 계좌: 국민은행 123-456-789012 (주)에스푸드'}
+      notes={'- 본 거래명세서는 세금계산서 발행 전 참고용 문서입니다.\n- 입금 계좌: 국민은행 123-456-789012 WindSoft'}
       signatureLabels={['공급자', '공급받는자']}
       actions={<Button size="sm">인쇄하기</Button>}
     />

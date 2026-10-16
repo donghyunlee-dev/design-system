@@ -54,7 +54,7 @@ export const Minimal: StoryObj = {
       nav={NAV}
       eyebrow="식품 관리의 새로운 기준"
       headline="운영을 단순하게, 성과는 크게"
-      subheadline="에쓰푸드의 모든 운영 데이터를 하나의 플랫폼에서."
+      subheadline="WindSoft의 모든 운영 데이터를 하나의 플랫폼에서."
       ctaPrimary={{ label: '지금 시작하기', onClick: () => {} }}
       ctaSecondary={{ label: '자세히 알아보기', onClick: () => {} }}
     />
@@ -69,7 +69,7 @@ export const FeatureShowcaseStory: StoryObj = {
       nav={NAV}
       badge="통합 업무 플랫폼"
       headline="발주부터 협력사 관리까지, 하나의 플랫폼으로"
-      subheadline="에쓰푸드 통합 업무 플랫폼은 구매·주문·재고·협력사 관리를 하나로 연결합니다. 도입을 검토 중인 파트너사를 위해 핵심 기능을 소개합니다."
+      subheadline="WindSoft 통합 업무 플랫폼은 구매·주문·재고·협력사 관리를 하나로 연결합니다. 도입을 검토 중인 파트너사를 위해 핵심 기능을 소개합니다."
       ctaPrimary={{ label: '도입 문의하기', onClick: () => {} }}
       ctaSecondary={{ label: '도입 사례 보기', onClick: () => {} }}
       sections={[
