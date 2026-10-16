@@ -12,8 +12,14 @@
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-10-16
+
 ### Added
 - `RolesPermissionsMatrix` 템플릿을 공개 API로 export (`src/templates/index.ts`) — 기존에 파일은 있었으나 export가 빠져 있어 실제로는 사용할 수 없었던 상태를 수정
+
+### Changed
+- 패키지 정보를 WindSoft npm 공개 배포에 맞게 보강하고 버전을 `0.1.4`로 올림
+- WindSoft 브랜드 적용 내용을 패키지 문서와 메타데이터에 반영
 
 ### Removed
 - 성장 루프가 서로 다른 사이클에서 같은 개념을 중복 구현해 export되지 않은 채 방치된 템플릿 4종 삭제 (공개 API에 노출된 적 없어 breaking change 아님): `ComparisonView`, `ComparisonDiffView`, `VersionCompare`(→ 이미 export/문서화된 `DiffView`로 통합), `RoleAccessMatrix`(→ `RolesPermissionsMatrix`로 통합)

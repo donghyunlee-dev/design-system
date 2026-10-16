@@ -151,11 +151,11 @@ Postman에서 다음 요청을 만듭니다.
 
 MCP는 무엇을 사용할지 찾는 조회 서비스이며 컴포넌트 코드를 프로젝트에 설치하지 않습니다. 조회한 컴포넌트는 npm 패키지에서 가져옵니다.
 
-`@windsoft/ui@0.1.3`의 공식 지원 범위는 React 18입니다. React 19 프로젝트는 React 18로 맞춰 사용하세요.
+`@windsoft/ui@0.1.4`의 공식 지원 범위는 React 18입니다. React 19 프로젝트는 React 18로 맞춰 사용하세요.
 
 ```bash
 npm install react@18.3.1 react-dom@18.3.1
-npm install @windsoft/ui@0.1.3
+npm install @windsoft/ui@0.1.4
 ```
 
 ```tsx
