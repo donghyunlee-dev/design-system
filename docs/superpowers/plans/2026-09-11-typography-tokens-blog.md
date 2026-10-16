@@ -296,7 +296,7 @@ Expected: 종료 코드 0, `/tmp/studeo-raw.json`에 `textEls`, `grids`, `images
 - 계측일: 2026-09-11
 - 뷰포트: 1440 x 1000
 - 계측 도구: `scripts/measure-benchmark.mjs`
-- 계측 범위: 타이포 위계 / 간격 리듬 / 레이아웃 구조만. **색상과 폰트 패밀리는 계측 대상이 아니며 SFOOD 브랜드 토큰을 유지한다.**
+- 계측 범위: 타이포 위계 / 간격 리듬 / 레이아웃 구조만. **색상과 폰트 패밀리는 계측 대상이 아니며 WindSoft 브랜드 토큰을 유지한다.**
 
 ## 타이포 계측
 
@@ -1456,7 +1456,7 @@ export default meta
 export const CardGrid: StoryObj = {
   render: () => (
     <BlogCardGrid
-      title="SFOOD 인사이트"
+      title="WindSoft 인사이트"
       description="식품 유통의 문제를 기술로 푸는 과정을 기록합니다."
       categories={CATEGORIES}
       posts={POSTS}

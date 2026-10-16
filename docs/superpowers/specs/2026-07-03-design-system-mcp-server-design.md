@@ -1,4 +1,4 @@
-# SFOOD Design System MCP Server — 설계 문서
+# WindSoft Design System MCP Server — 설계 문서
 
 > **상태 (2026-08-20)**: `mcp-server/`에 구현 완료. 사용법은 [docs/MCP.md](../../MCP.md) 참고. (2026-07-24 당시 보류하고 채택했던 Claude Code Skill 대안(`.claude/skills/sfood-design-system/`)은 계속 병행 유지합니다.)
 

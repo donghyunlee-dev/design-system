@@ -1174,7 +1174,7 @@ export const Settings: Story = {
           content: (
             <div className="space-y-4">
               <FormField label="시스템명">
-                <Input defaultValue="SFOOD MES" />
+                <Input defaultValue="WindSoft MES" />
               </FormField>
               <FormField label="회사명">
                 <Input defaultValue="에쓰푸드" />

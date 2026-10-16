@@ -61,7 +61,7 @@ import { create } from 'storybook/theming/create'
 addons.setConfig({
   theme: create({
     base: 'light',
-    brandTitle: 'SFOOD Design System',
+    brandTitle: 'WindSoft Design System',
     brandUrl: '/',
     colorPrimary: '#6366f1',
     colorSecondary: '#6366f1',

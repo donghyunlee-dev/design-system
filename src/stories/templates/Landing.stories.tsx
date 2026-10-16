@@ -21,7 +21,7 @@ export default meta
 export const Centered: StoryObj = {
   render: () => (
     <LandingCentered
-      logo="SFOOD"
+      logo="WindSoft"
       nav={NAV}
       badge="새로운 기능 출시"
       headline="더 스마트한 식품 관리 플랫폼"
@@ -36,7 +36,7 @@ export const Centered: StoryObj = {
 export const Split: StoryObj = {
   render: () => (
     <LandingSplit
-      logo="SFOOD"
+      logo="WindSoft"
       nav={NAV}
       headline="식품 공급망을 한눈에"
       subheadline="복잡한 공급망을 단순하게. 실시간으로 모든 것을 추적하세요."
@@ -50,7 +50,7 @@ export const Split: StoryObj = {
 export const Minimal: StoryObj = {
   render: () => (
     <LandingMinimal
-      logo="SFOOD"
+      logo="WindSoft"
       nav={NAV}
       eyebrow="식품 관리의 새로운 기준"
       headline="운영을 단순하게, 성과는 크게"
@@ -65,7 +65,7 @@ export const FeatureShowcaseStory: StoryObj = {
   name: 'Feature Showcase',
   render: () => (
     <FeatureShowcase
-      logo="SFOOD Platform"
+      logo="WindSoft Platform"
       nav={NAV}
       badge="통합 업무 플랫폼"
       headline="발주부터 협력사 관리까지, 하나의 플랫폼으로"

@@ -2025,7 +2025,7 @@ export const StepperStory: StoryObj = {
 export const NavbarStory: StoryObj = {
   render: () => (
     <Navbar
-      logo="SFOOD UI"
+      logo="WindSoft UI"
       items={[{ label: '대시보드', href: '#', active: true }, { label: '주문', href: '#' }, { label: '설정', href: '#' }]}
     />
   ),

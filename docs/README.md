@@ -1,4 +1,4 @@
-# SFOOD Design System
+# WindSoft Design System
 
 > 디자인 지식 없이도 일관된 UI를 만들 수 있도록 돕는 컴포넌트 라이브러리입니다.
 
@@ -68,7 +68,7 @@ Storybook은 **컴포넌트 카탈로그**입니다. 브라우저에서 `npx sto
 - 밝은 테마 / 어두운 테마 전환 확인
 
 ```
-sfood-design-system/
+windsoft-design-system/
 ├── src/
 │   └── components/
 │       ├── foundation/        ← 기본 요소 (Button, Badge, Avatar, Typography)
@@ -95,7 +95,7 @@ sfood-design-system/
 ### 1. Storybook 실행
 
 ```bash
-cd sfood-design-system
+cd windsoft-design-system
 npm install
 npx storybook dev
 ```

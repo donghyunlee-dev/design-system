@@ -1,6 +1,6 @@
 # MCP로 디자인 시스템 조회하기
 
-SFOOD Design System MCP(Model Context Protocol)는 다른 프로젝트의 AI 에이전트가 컴포넌트, 사용 예시, 디자인 토큰, 업무 템플릿을 직접 검색할 수 있게 하는 읽기 전용 조회 서비스입니다.
+WindSoft Design System MCP(Model Context Protocol)는 다른 프로젝트의 AI 에이전트가 컴포넌트, 사용 예시, 디자인 토큰, 업무 템플릿을 직접 검색할 수 있게 하는 읽기 전용 조회 서비스입니다.
 
 ```text
 MCP 연결 → 컴포넌트·템플릿 검색 → @sfood/ui 설치·import → 서비스 화면 구현
@@ -41,7 +41,7 @@ claude mcp list
 연결 후 에이전트에게 다음과 같이 요청해 동작을 확인할 수 있습니다.
 
 ```text
-SFOOD MCP에서 Button 컴포넌트의 사용 예시를 조회해줘.
+WindSoft MCP에서 Button 컴포넌트의 사용 예시를 조회해줘.
 검색과 다중 선택에 사용할 수 있는 form 컴포넌트를 찾아줘.
 다크 모드 semantic 토큰을 조회해줘.
 ```

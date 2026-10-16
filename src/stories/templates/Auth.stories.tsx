@@ -9,7 +9,7 @@ export default meta
 export const Simple: StoryObj = {
   render: () => (
     <LoginSimple
-      logo={<span className="text-2xl font-bold text-brand">SFOOD</span>}
+      logo={<span className="text-2xl font-bold text-brand">WindSoft</span>}
       onLogin={(e, p) => alert(`${e} / ${p}`)}
       onForgotPassword={() => {}}
       onSignup={() => {}}
@@ -20,7 +20,7 @@ export const Simple: StoryObj = {
 export const Split: StoryObj = {
   render: () => (
     <LoginSplit
-      logo={<span className="text-2xl font-bold">SFOOD</span>}
+      logo={<span className="text-2xl font-bold">WindSoft</span>}
       brandTitle="에쓰푸드 운영 플랫폼"
       brandDescription="식품 공급망 관리를 더 스마트하게."
       onLogin={(e, p) => alert(`${e} / ${p}`)}
@@ -33,7 +33,7 @@ export const Split: StoryObj = {
 export const Signup: StoryObj = {
   render: () => (
     <SignupPage
-      logo={<span className="text-2xl font-bold text-brand">SFOOD</span>}
+      logo={<span className="text-2xl font-bold text-brand">WindSoft</span>}
       onComplete={data => alert(JSON.stringify(data))}
       onLogin={() => {}}
     />

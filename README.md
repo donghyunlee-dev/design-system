@@ -1,6 +1,6 @@
-# SFOOD Design System (`@sfood/ui`)
+# WindSoft Design System (`@sfood/ui`)
 
-에쓰푸드 사내 프로젝트에서 공용으로 쓰는 React + Tailwind CSS 컴포넌트 라이브러리입니다. 색상·간격 같은 디자인 결정을 토큰으로 관리하고, 반복되는 업무 화면/서비스 화면을 템플릿으로 제공해 어느 프로젝트에서든 일관된 UI를 빠르게 만들 수 있게 합니다.
+WindSoft의 React + Tailwind CSS 컴포넌트 라이브러리입니다. 색상·간격 같은 디자인 결정을 토큰으로 관리하고, 반복되는 업무 화면/서비스 화면을 템플릿으로 제공해 어느 프로젝트에서든 일관된 UI를 빠르게 만들 수 있게 합니다.
 
 ## 이 저장소가 다루는 것
 
@@ -8,14 +8,14 @@
 
 | 축 | 대상 | 위치 |
 |---|---|---|
-| **기간계 시스템** | 사내 업무용 화면 (ERP/OMS/WMS 등) — 목록, 등록, 승인, 대시보드, 설정 | `src/templates/business/*`, `src/templates/admin/*` |
+| **기간계 시스템** | 업무용 화면 (ERP/OMS/WMS 등) — 목록, 등록, 승인, 대시보드, 설정 | `src/templates/business/*`, `src/templates/admin/*` |
 | **일반 웹사이트** | 외부 사용자 대상 서비스 화면 — 랜딩, 로그인/회원가입, 상품 카탈로그, 결제, 계정 | `src/templates/service/*` |
 
 두 축 모두 같은 토큰(`tokens/`)과 기본 컴포넌트(`src/components/`)를 공유하지만, 어떤 템플릿을 언제 쓸지는 축마다 다릅니다 — 자세한 판단 기준은 [docs/PATTERNS.md](./docs/PATTERNS.md)를 참고하세요.
 
 ## 구성 요소
 
-- **디자인 토큰** (`tokens/base.css` → `tokens/semantic.css`, 2-레이어): 색상, radius, 타이포그래피의 단일 진실 공급원. 브랜드 색상을 바꾸려면 `semantic.css` 한 파일만 수정하면 됩니다.
+- **디자인 토큰** (`tokens/base.css` → `tokens/semantic.css`, 2-레이어): 색상, radius, 타이포그래피의 단일 진실 공급원. 브랜드 팔레트는 `base.css`, 컴포넌트 연결은 `semantic.css`에서 관리합니다.
 - **컴포넌트 49종** (`src/components/`): Foundation, Form, Layout, Feedback, Overlay, Navigation, Data, Chart 카테고리로 분류.
 - **템플릿 49종** (`src/templates/`): 위 두 축을 아우르는 화면 뼈대. Figma 없이 복사 → 데이터 교체 → 즉시 사용 가능.
 - **Storybook**: 모든 컴포넌트/템플릿을 브라우저에서 확인하고 props를 실시간으로 바꿔보는 카탈로그.

@@ -6,7 +6,7 @@
   /* 브랜드 */
   --color-brand:        var(--brand-600);
   --color-brand-hover:  var(--brand-700);
-  --color-brand-light:  var(--brand-100);   /* 변경: purple-400 → brand-100 (연한 배경용) */
+  --color-brand-light:  var(--brand-100);
   --color-brand-subtle: var(--brand-50);    /* 신규: 매우 연한 브랜드 배경 */
   --color-on-brand:     var(--white);        /* 신규: 브랜드 배경 위 텍스트 */
 
@@ -18,18 +18,20 @@
 
   /* 텍스트 */
   --color-foreground:  var(--gray-900);
-  --color-secondary:   var(--gray-700);
-  --color-muted:       var(--gray-500);
+  --color-secondary:   var(--windsoft-text-muted);
+  --color-muted:       var(--windsoft-text-muted);
   --color-placeholder: var(--gray-400);
 
   /* 경계 */
   --color-border-subtle: var(--gray-100);   /* 신규: 매우 연한 경계 */
-  --color-border:        var(--gray-200);
+  --color-border:        var(--windsoft-line);
   --color-border-focus:  var(--brand-500);
-  --color-border-strong: var(--gray-300);   /* 신규: 강조 경계 */
+  --color-border-strong: #c5d5e8;
 
   /* 배경 */
-  --color-background: #f8fafc;   /* slate-50: 기존 gray-50(#f9fafb)보다 약간 더 시원한 톤 */
+  --color-background: var(--windsoft-surface);
+  --color-accent: var(--windsoft-text-blue);
+  --color-highlight: var(--windsoft-cyan);
 
   /* 상태 */
   --color-success: var(--green-500);

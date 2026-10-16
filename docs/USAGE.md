@@ -1,6 +1,6 @@
 # 사용법 가이드
 
-> AI 바이브코딩 프로젝트에서 SFOOD Design System을 설치하고 사용하는 방법입니다.
+> AI 바이브코딩 프로젝트에서 WindSoft Design System을 설치하고 사용하는 방법입니다.
 
 ---
 
@@ -386,7 +386,7 @@ npx storybook dev
 ## 자주 묻는 질문
 
 **Q. 브랜드 컬러를 바꾸고 싶어요.**
-→ SFOOD 서비스는 디자인 시스템의 `--color-brand` 토큰(`#d65050` 기준 스케일)을 그대로 사용합니다. 소비 서비스에서 별도 브랜드 색을 하드코딩하지 않습니다. [TOKENS.md](./TOKENS.md) 참고.
+→ WindSoft 테마는 `--color-brand` 토큰(`#0B2D5B` 기준 스케일)을 사용합니다. 제품별 색상은 컴포넌트에 하드코딩하지 않고 시맨틱 토큰을 참조합니다. [TOKENS.md](./TOKENS.md) 참고.
 
 **Q. 컴포넌트 스타일을 일부만 바꾸고 싶어요.**
 → 모든 컴포넌트는 `className` prop을 받습니다. Tailwind 클래스를 추가하면 됩니다.

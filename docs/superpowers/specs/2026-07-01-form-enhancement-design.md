@@ -2,7 +2,7 @@
 
 ## 목표
 
-SFOOD Design System의 폼 컴포넌트를 입력 중심 업무 시스템(SFOOD MES 등)에서 바로 사용할 수 있도록 보강한다. 신규 컴포넌트 3개 추가 + `FormField` 유효성 검사 통합.
+WindSoft Design System의 폼 컴포넌트를 입력 중심 업무 시스템(WindSoft MES 등)에서 바로 사용할 수 있도록 보강한다. 신규 컴포넌트 3개 추가 + `FormField` 유효성 검사 통합.
 
 ## 아키텍처
 

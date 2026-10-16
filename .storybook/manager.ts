@@ -4,10 +4,10 @@ import { create } from 'storybook/theming/create'
 addons.setConfig({
   theme: create({
     base: 'light',
-    brandTitle: 'SFOOD Design System',
+    brandTitle: 'WindSoft Design System',
     brandUrl: '/',
-    colorPrimary: '#6366f1',
-    colorSecondary: '#6366f1',
+    colorPrimary: '#0B2D5B',
+    colorSecondary: '#2265D1',
     appBg: '#f9fafb',
     appBorderRadius: 6,
     fontBase: '"Malgun Gothic", "맑은 고딕", sans-serif',

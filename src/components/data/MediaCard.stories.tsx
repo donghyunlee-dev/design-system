@@ -25,7 +25,7 @@ const DEMO_THUMBNAIL =
   encodeURIComponent(
     '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270">' +
       '<rect width="480" height="270" fill="#e5e7eb"/>' +
-      '<rect x="24" y="24" width="120" height="16" rx="4" fill="#d85b5b"/>' +
+      '<rect x="24" y="24" width="120" height="16" rx="4" fill="#2265D1"/>' +
       '<rect x="24" y="56" width="200" height="12" rx="4" fill="#d1d5db"/>' +
       '</svg>'
   )

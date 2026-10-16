@@ -20,21 +20,27 @@
   --red-500:   #ef4444;
   --blue-500:  #3b82f6;
 
-  /* SFOOD 디자인 시스템 공식 브랜드 스케일. --brand-600(#d65050)을 기준색으로 사용하며,
-     소비 서비스는 별도 브랜드 색을 하드코딩하지 않고 이 토큰을 단일 기준으로 사용합니다. */
-  --brand-50:  #fcf3f3;
-  --brand-100: #f9e7e7;
-  --brand-200: #f3cbcb;
-  --brand-300: #ebabab;
-  --brand-400: #e07b7b;
-  --brand-500: #d85b5b;
-  --brand-600: #d65050;
-  --brand-700: #b02929;
-  --brand-800: #932323;
-  --brand-900: #7e1e1e;
-  --brand-950: #511313;
+  /* WindSoft 브랜드 스케일. 기준 네이비와 블루/민트는 WindSoft 사이트 색상입니다. */
+  --brand-50:  #f6fafd;
+  --brand-100: #e0f2ff;
+  --brand-200: #cfe3f8;
+  --brand-300: #a6ccff;
+  --brand-400: #668ac0;
+  --brand-500: #3b82f6;
+  --brand-600: #0b2d5b;
+  --brand-700: #072240;
+  --brand-800: #082448;
+  --brand-900: #061b36;
+  --brand-950: #031020;
 
-  /* 브랜드 색 프리셋 — semantic.css에서 --color-brand* 를 아래 중 하나로 통째로 바꿔 톤앤매너를 교체합니다.
+  --windsoft-blue: #2265d1;
+  --windsoft-text-blue: #2265d1;
+  --windsoft-cyan: #14b8a6;
+  --windsoft-text-muted: #52677f;
+  --windsoft-line: #dfe7ef;
+  --windsoft-surface: #f6fafd;
+
+  /* 대체 브랜드 색 프리셋 — semantic.css에서 --color-brand* 를 아래 중 하나로 통째로 바꿉니다.
      사용법은 docs/TOKENS.md의 "브랜드 컬러 프리셋" 참고. */
   --blue-50:  #eff6ff;
   --blue-100: #dbeafe;

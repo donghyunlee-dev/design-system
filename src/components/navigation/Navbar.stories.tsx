@@ -13,7 +13,7 @@ const meta: Meta<typeof Navbar> = {
   title: 'Navigation/Navbar',
   component: Navbar,
   tags: ['autodocs'],
-  args: { logo: 'SFOOD', items: NAV_ITEMS },
+  args: { logo: 'WindSoft', items: NAV_ITEMS },
   parameters: { layout: 'fullscreen' },
 }
 export default meta

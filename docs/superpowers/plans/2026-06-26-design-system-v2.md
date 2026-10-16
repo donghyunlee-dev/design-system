@@ -518,7 +518,7 @@ export default meta
 export const Centered: StoryObj = {
   render: () => (
     <LandingCentered
-      logo="SFOOD"
+      logo="WindSoft"
       nav={NAV}
       badge="새로운 기능 출시"
       headline="더 스마트한 식품 관리 플랫폼"
@@ -533,7 +533,7 @@ export const Centered: StoryObj = {
 export const Split: StoryObj = {
   render: () => (
     <LandingSplit
-      logo="SFOOD"
+      logo="WindSoft"
       nav={NAV}
       headline="식품 공급망을 한눈에"
       subheadline="복잡한 공급망을 단순하게. 실시간으로 모든 것을 추적하세요."
@@ -547,7 +547,7 @@ export const Split: StoryObj = {
 export const Minimal: StoryObj = {
   render: () => (
     <LandingMinimal
-      logo="SFOOD"
+      logo="WindSoft"
       nav={NAV}
       eyebrow="식품 관리의 새로운 기준"
       headline="운영을 단순하게, 성과는 크게"
@@ -833,7 +833,7 @@ export default meta
 export const Simple: StoryObj = {
   render: () => (
     <LoginSimple
-      logo={<span className="text-2xl font-bold text-brand">SFOOD</span>}
+      logo={<span className="text-2xl font-bold text-brand">WindSoft</span>}
       onLogin={(e, p) => alert(`${e} / ${p}`)}
       onForgotPassword={() => {}}
       onSignup={() => {}}
@@ -844,7 +844,7 @@ export const Simple: StoryObj = {
 export const Split: StoryObj = {
   render: () => (
     <LoginSplit
-      logo={<span className="text-2xl font-bold">SFOOD</span>}
+      logo={<span className="text-2xl font-bold">WindSoft</span>}
       brandTitle="에쓰푸드 운영 플랫폼"
       brandDescription="식품 공급망 관리를 더 스마트하게."
       onLogin={(e, p) => alert(`${e} / ${p}`)}
@@ -857,7 +857,7 @@ export const Split: StoryObj = {
 export const Signup: StoryObj = {
   render: () => (
     <SignupPage
-      logo={<span className="text-2xl font-bold text-brand">SFOOD</span>}
+      logo={<span className="text-2xl font-bold text-brand">WindSoft</span>}
       onComplete={data => alert(JSON.stringify(data))}
       onLogin={() => {}}
     />
@@ -1874,7 +1874,7 @@ import { Meta } from '@storybook/blocks'
 
 <Meta title="Docs/Introduction" />
 
-# SFOOD Design System
+# WindSoft Design System
 
 에쓰푸드 AI 바이브코딩 프로젝트를 위한 컴포넌트 라이브러리입니다.
 
