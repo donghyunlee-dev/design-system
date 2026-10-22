@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { SVGAttributes } from 'react'
+import { JSX, SVGAttributes } from 'react'
 
 /**
  * 문서 허브 등 카드형 목록에서 항목 성격을 표시하는 보조 아이콘 세트.

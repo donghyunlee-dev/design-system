@@ -22,13 +22,13 @@ npm install
 npm install @windsoft/ui
 ```
 
-`@windsoft/ui@0.1.4`는 React 18을 공식 지원합니다. React 19 프로젝트에서는 호환성 오류가 발생하므로 React 18로 맞춰 사용하세요.
+`@windsoft/ui@0.2.0`부터 React 19를 지원합니다.
 
 ```bash
-npm install react@18.3.1 react-dom@18.3.1
+npm install react@19 react-dom@19
 ```
 
-버전을 고정하고 싶다면 `npm install @windsoft/ui@0.1.4`처럼 명시 버전을 사용하세요.
+버전을 고정하려면 `npm install @windsoft/ui@0.2.0`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 

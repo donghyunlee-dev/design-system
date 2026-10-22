@@ -10,7 +10,13 @@
 - 기능을 추가하거나 수정하는 PR은 머지 전에 이 파일의 `## [Unreleased]` 아래에 항목을 추가합니다.
 - 릴리스 시 `package.json`의 `version`을 bump하고 `## [Unreleased]` 내용을 해당 버전 섹션으로 옮긴 뒤, `v{version}` 태그를 push하면 `publish-npm.yml`이 npm에 배포합니다.
 
-## [Unreleased]
+## [0.2.0] - 2026-10-22
+
+### Changed
+- React 19을 지원하고 Node.js 24, Vite 7 개발 환경으로 업그레이드
+- React 19 타입과 호환되도록 아이콘 타입 선언 수정
+- Vite 7 호환을 위해 Vitest 3으로 업그레이드
+- React 19 개발 및 배포 환경에 맞춰 설치 문서 갱신
 
 ## [0.1.4] - 2026-10-16
 

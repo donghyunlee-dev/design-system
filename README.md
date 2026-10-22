@@ -63,7 +63,7 @@ Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/U
 
 ## 기술 스택
 
-React 18 · TypeScript · Tailwind CSS · Vite (라이브러리 빌드) · Storybook 8 · Vitest + Testing Library
+Node.js 24 · React 19 · TypeScript · Tailwind CSS · Vite 7 (라이브러리 빌드) · Storybook 10 · Vitest + Testing Library
 
 ## 브랜치 운영
 
