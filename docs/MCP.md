@@ -151,11 +151,10 @@ Postman에서 다음 요청을 만듭니다.
 
 MCP는 무엇을 사용할지 찾는 조회 서비스이며 컴포넌트 코드를 프로젝트에 설치하지 않습니다. 조회한 컴포넌트는 npm 패키지에서 가져옵니다.
 
-`@windsoft/ui@0.1.4`의 공식 지원 범위는 React 18입니다. React 19 프로젝트는 React 18로 맞춰 사용하세요.
+`@windsoft/ui@0.2.0`부터 React 19를 지원합니다.
 
 ```bash
-npm install react@18.3.1 react-dom@18.3.1
-npm install @windsoft/ui@0.1.4
+npm install @windsoft/ui
 ```
 
 ```tsx
@@ -205,7 +204,7 @@ npm run generate:manifest --prefix mcp-server
 | 브라우저에서 열면 405가 반환됨 | 정상 동작. MCP는 브라우저 GET이 아니라 JSON-RPC POST 요청 사용 |
 | Postman에서 응답 형식 오류 | `Content-Type`과 `Accept` 헤더가 모두 설정됐는지 확인 |
 | Claude Code에서 도구가 보이지 않음 | 프로젝트 디렉터리에서 등록했는지 확인하고 세션을 다시 시작한 뒤 `claude mcp list` 실행 |
-| React 19 설치 충돌 | React와 React DOM을 18.3.1로 맞춘 뒤 `@windsoft/ui` 설치 |
+| React 19 설치 충돌 | `@windsoft/ui@0.2.0` 이상 사용 |
 | 최신 컴포넌트가 운영 MCP에 없음 | 정적 매니페스트 생성 및 Vercel 재배포 여부 확인 |
 
 운영 엔드포인트는 인증 도입 전까지 사내 프로젝트에서만 사용합니다.

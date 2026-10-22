@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { SVGAttributes } from 'react'
+import { JSX, SVGAttributes } from 'react'
 
 /**
  * 시스템에서 공용으로 사용하는 최소 아이콘 세트.
