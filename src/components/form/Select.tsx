@@ -19,21 +19,31 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   ref
 ) {
   return (
-    <select
-      ref={ref}
-      className={cn(
-        'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground',
-        'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
-        'disabled:opacity-50',
-        error ? 'border-danger' : 'border-border',
-        className
-      )}
-      {...props}
-    >
-      {placeholder && <option value="">{placeholder}</option>}
-      {options.map(opt => (
-        <option key={opt.value} value={opt.value}>{opt.label}</option>
-      ))}
-    </select>
+    <div className="relative w-full">
+      <select
+        ref={ref}
+        className={cn(
+          'w-full appearance-none px-3 py-2 pr-10 text-sm bg-surface border rounded-input text-foreground',
+          'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
+          'disabled:opacity-50',
+          error ? 'border-danger' : 'border-border',
+          className
+        )}
+        {...props}
+      >
+        {placeholder && <option value="">{placeholder}</option>}
+        {options.map(opt => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+      >
+        <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
   )
 })
