@@ -10,6 +10,14 @@
 - 기능을 추가하거나 수정하는 PR은 머지 전에 이 파일의 `## [Unreleased]` 아래에 항목을 추가합니다.
 - 릴리스 시 `package.json`의 `version`을 bump하고 `## [Unreleased]` 내용을 해당 버전 섹션으로 옮긴 뒤, `v{version}` 태그를 push하면 `publish-npm.yml`이 npm에 배포합니다.
 
+## [0.3.1] - 2026-10-27
+
+### Fixed
+- Tailwind 4의 `max-w-sm` 등 컨테이너 폭 클래스가 WindSoft spacing 토큰 값으로 생성되던 문제 수정
+
+### Changed
+- 이름이 겹치는 `p-sm` 등의 간격 별칭 대신 `p-[var(--spacing-sm)]`처럼 CSS 토큰을 직접 사용하도록 안내
+
 ## [0.3.0] - 2026-10-27
 
 ### Changed

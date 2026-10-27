@@ -126,6 +126,8 @@ semantic.css                global.css → tailwind.config.js   컴포넌트
 
 **값을 바꿀 때는 `semantic.css`만 수정합니다.** Tailwind 4는 `global.css`의 `@config`로 preset을 읽으므로 `tailwind.config.js`를 별도로 등록할 필요가 없습니다.
 
+간격 토큰은 `--spacing-sm` 같은 CSS 변수로 유지합니다. `max-w-sm` 등의 컨테이너 폭 클래스와 이름이 겹치므로 Tailwind preset의 `spacing` 확장에는 등록하지 않습니다. 간격을 적용할 때는 `gap-[var(--spacing-sm)]`처럼 직접 참조합니다.
+
 ---
 
 ## 다크 모드
