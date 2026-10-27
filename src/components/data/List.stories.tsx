@@ -23,3 +23,17 @@ export const Default: Story = {
     />
   ),
 }
+
+export const LongValues: Story = {
+  name: 'Long Korean values',
+  render: () => (
+    <List items={[
+      {
+        id: 'long-1',
+        primary: 'WindSoft 통합 관리 플랫폼 운영 담당자 및 권한 정책 변경 검토 요청',
+        secondary: '운영지원본부 · 서비스 관리 및 조직 권한 승인 담당',
+        trailing: <Badge variant="warning">검토 중</Badge>,
+      },
+    ]} />
+  ),
+}

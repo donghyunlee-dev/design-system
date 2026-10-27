@@ -25,12 +25,12 @@ export function List({ items, onItemClick, className }: { items: ListItem[]; onI
         <li
           key={item.id}
           onClick={() => onItemClick?.(item)}
-          className={cn('flex items-center gap-3 px-4 py-3 bg-surface', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
+          className={cn('flex items-center gap-ws-3 bg-surface px-ws-4 py-ws-3 transition-colors', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
         >
           {item.leading && <span className="flex-shrink-0">{item.leading}</span>}
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground truncate">{item.primary}</p>
-            {item.secondary && <p className="text-xs text-muted truncate">{item.secondary}</p>}
+          <div className="min-w-0 flex-1">
+            <p className="break-words text-label font-medium text-foreground">{item.primary}</p>
+            {item.secondary && <p className="break-words text-caption text-secondary">{item.secondary}</p>}
           </div>
           {item.trailing && <span className="flex-shrink-0 text-muted">{item.trailing}</span>}
         </li>

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from 'storybook/test'
 import { ColorTag } from './ColorTag'
 import { Stack } from '../layout/Stack'
 
@@ -31,4 +32,9 @@ export const AllVariants: Story = {
       <ColorTag variant="info">IT팀</ColorTag>
     </Stack>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    expect(canvas.getByText('물류팀')).toHaveClass('bg-success-subtle', 'text-success-foreground')
+    expect(canvas.getByText('품질관리팀')).toHaveClass('bg-warning-subtle', 'text-warning-foreground')
+  },
 }

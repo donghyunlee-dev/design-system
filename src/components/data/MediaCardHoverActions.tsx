@@ -24,7 +24,7 @@ export function MediaCardHoverActions({ actions, children, className, ...props }
       {children}
       <div
         className={cn(
-          'absolute inset-0 rounded-card bg-black/50 flex items-center justify-center gap-2',
+          'absolute inset-0 flex items-center justify-center gap-ws-2 rounded-card bg-inverse-surface/70',
           'opacity-0 pointer-events-none transition-opacity duration-default',
           'group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto'
         )}

@@ -16,13 +16,13 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function Card({ title, description, footer, padding = 'md', className, children, ...props }: CardProps) {
-  const p = { sm: 'p-3', md: 'p-4', lg: 'p-6' }[padding]
+  const p = { sm: 'p-ws-3', md: 'p-ws-4', lg: 'p-ws-6' }[padding]
   return (
     <div className={cn('bg-surface border border-border rounded-card shadow-sm', className)} {...props}>
       {(title || description) && (
         <div className={cn(p, 'border-b border-border')}>
-          {title && <p className="font-semibold text-foreground">{title}</p>}
-          {description && <p className="text-sm text-muted mt-0.5">{description}</p>}
+          {title && <p className="text-section-title text-foreground">{title}</p>}
+          {description && <p className="mt-ws-1 text-caption text-secondary">{description}</p>}
         </div>
       )}
       <div className={p}>{children}</div>

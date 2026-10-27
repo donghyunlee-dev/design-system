@@ -10,7 +10,7 @@ export interface HighlightProps extends HTMLAttributes<HTMLElement> {}
 
 export function Highlight({ className, children, ...props }: HighlightProps) {
   return (
-    <mark className={cn('bg-warning/30 text-foreground rounded-sm px-0.5', className)} {...props}>
+    <mark className={cn('rounded-sm bg-warning-subtle px-0.5 text-warning-foreground', className)} {...props}>
       {children}
     </mark>
   )

@@ -52,33 +52,33 @@ function CommentItem({
   }
 
   return (
-    <div className={cn(depth > 0 && 'ml-10 mt-4')}>
-      <div className="flex gap-3">
+    <div className={cn(depth > 0 && 'ml-ws-10 mt-ws-4')}>
+      <div className="flex gap-ws-3">
         <Avatar size="sm" src={comment.author.avatarUrl} initials={comment.author.initials} alt={comment.author.name} />
         <div className="flex-1 min-w-0">
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm font-medium text-foreground">{comment.author.name}</span>
-            <span className="text-xs text-muted">{comment.time}</span>
+          <div className="flex flex-wrap items-baseline gap-ws-2">
+            <span className="text-label font-medium text-foreground">{comment.author.name}</span>
+            <span className="text-caption text-secondary">{comment.time}</span>
           </div>
-          <p className="text-sm text-foreground mt-1 whitespace-pre-wrap">{comment.body}</p>
+          <p className="mt-ws-1 whitespace-pre-wrap break-words text-body text-foreground">{comment.body}</p>
           {onReply && (
             <button
               type="button"
               onClick={() => setReplying(v => !v)}
-              className="text-xs text-muted hover:text-brand transition-colors mt-1.5"
+              className="mt-ws-2 rounded-sm text-caption text-secondary transition-colors hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
               답글
             </button>
           )}
           {replying && (
-            <div className="mt-2 space-y-2">
+            <div className="mt-ws-2 space-y-ws-2">
               <Textarea
                 rows={2}
                 value={replyBody}
                 onChange={e => setReplyBody(e.target.value)}
                 placeholder="답글을 입력하세요"
               />
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-ws-2">
                 <Button variant="ghost" size="sm" onClick={() => { setReplying(false); setReplyBody('') }}>취소</Button>
                 <Button variant="secondary" size="sm" onClick={handleReplySubmit}>답글 등록</Button>
               </div>
@@ -121,9 +121,9 @@ export function CommentThread({
   }
 
   return (
-    <div className={cn('space-y-5', className)}>
+    <div className={cn('space-y-ws-6', className)}>
       {showComposer && onSubmit && (
-        <form onSubmit={handleSubmit} className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-ws-2">
           <Textarea
             rows={3}
             value={body}
@@ -137,9 +137,9 @@ export function CommentThread({
       )}
 
       {comments.length === 0 ? (
-        <p className="text-sm text-muted text-center py-6">{emptyMessage}</p>
+        <p role="status" className="py-ws-6 text-center text-body text-secondary">{emptyMessage}</p>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-ws-6">
           {comments.map(comment => (
             <CommentItem key={comment.id} comment={comment} depth={0} onReply={onReply} />
           ))}

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from 'storybook/test'
 import { Card } from './Card'
 import { Button } from '../foundation/Button'
 
@@ -14,15 +15,22 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   render: (args) => (
     <Card {...args}>
-      <p className="text-sm">카드 내용이 여기에 표시됩니다.</p>
+      <p className="text-body">카드 내용이 여기에 표시됩니다.</p>
     </Card>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const title = canvas.getByText('카드 제목')
+    expect(title).toHaveClass('text-section-title')
+    expect(title.closest('.rounded-card')).toHaveClass('bg-surface', 'border-border')
+    expect(canvas.getByText('카드 내용이 여기에 표시됩니다.').parentElement).toHaveClass('p-ws-4')
+  },
 }
 
 export const WithDescription: Story = {
   render: (args) => (
     <Card {...args} description="부제목 텍스트">
-      <p className="text-sm">카드 내용입니다.</p>
+      <p className="text-body">카드 내용입니다.</p>
     </Card>
   ),
 }
@@ -32,13 +40,13 @@ export const WithFooter: Story = {
     <Card
       {...args}
       footer={
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-ws-2">
           <Button variant="secondary" size="sm">취소</Button>
           <Button size="sm">저장</Button>
         </div>
       }
     >
-      <p className="text-sm">카드 내용입니다.</p>
+      <p className="text-body">카드 내용입니다.</p>
     </Card>
   ),
 }

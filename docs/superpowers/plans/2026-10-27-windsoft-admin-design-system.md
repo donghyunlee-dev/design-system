@@ -249,28 +249,32 @@ git commit -m "feat: standardize table density and pagination"
 - Modify: `src/components/chart/{BarChart,LineChart,PieChart}.tsx`
 - Modify: 해당 stories/tests
 
-- [ ] **Step 1: 적용 범위와 intentional style 예외 확인**
+- [x] **Step 1: 적용 범위와 intentional style 예외 확인**
 
 각 컴포넌트의 의미 역할과 기존 stories를 읽는다. `MediaCard` 미리보기용 고정 이미지와 차트 데이터 색상은 semantic surface/series token 적용 대상인지 구분하고 무조건 토큰 치환하지 않는다.
 
-- [ ] **Step 2: 토큰 사용 회귀 검증 추가**
+MediaCard의 임베디드 썸네일 SVG 색상은 외부 이미지 미리보기 데모라 유지한다. Bar/Line/Pie의 기본 팔레트는 semantic color role을 쓰며 호출자가 지정한 시리즈/데이터 색상은 계속 우선한다. UptimeHistoryStrip의 상태색은 이산 상태 데이터이므로 status token에 연결한다.
+
+- [x] **Step 2: 토큰 사용 회귀 검증 추가**
 
 대표 data/layout/chart stories에 radius, spacing, text hierarchy, state colors에 관한 assertions를 추가한다. 색상/spacing을 기존 임의 utility로 고정한 story에서 검증이 실패하는지 확인한다.
 
-- [ ] **Step 3: 공통 레이아웃·상태 스타일 적용**
+- [x] **Step 3: 공통 레이아웃·상태 스타일 적용**
 
 Data, Layout 컴포넌트의 내부 간격과 상태색을 semantic scale로 통일한다. 차트의 기본 시리즈는 WindSoft palette role을 참조하되 사용자가 제공한 `color` 값은 계속 우선한다.
 
-- [ ] **Step 4: Storybook과 테스트 검증**
+- [x] **Step 4: Storybook과 테스트 검증**
 
 targeted tests, `npm test`, `npm run build`, `npm run build-storybook`을 실행한다. 긴 label/value, status variants, Light/Dark와 1280/390px에서 overflow를 확인한다.
 
-- [ ] **Step 5: 단계 커밋**
+- [x] **Step 5: 단계 커밋**
 
 ```bash
 git add src/components/data src/components/layout src/components/chart
 git commit -m "feat: align data and layout components with WindSoft tokens"
 ```
+
+자동 검증(전체 206 tests, TypeScript, 패키지/Storybook 빌드)은 통과했다. 실행 환경에 브라우저가 없어 Light/Dark 및 1280/390px의 실제 화면 비교는 보류한다.
 
 ### Task 7: Admin 및 Business 템플릿
 

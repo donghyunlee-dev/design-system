@@ -52,7 +52,7 @@ export function MediaCard({
   children,
   ...props
 }: MediaCardProps) {
-  const p = { sm: 'p-3', md: 'p-4', lg: 'p-6' }[padding]
+  const p = { sm: 'p-ws-3', md: 'p-ws-4', lg: 'p-ws-6' }[padding]
   const hasMedia = Boolean(image || cover || fallback)
   const showMediaArea = aspect === 'video' || hasMedia
 
@@ -61,7 +61,7 @@ export function MediaCard({
       {showMediaArea && (
         <div className={cn(
           'w-full flex items-center justify-center overflow-hidden',
-          aspect === 'video' ? 'aspect-video border-b border-border' : 'h-2xl',
+          aspect === 'video' ? 'aspect-video border-b border-border' : 'h-[var(--spacing-2xl)]',
           !image && (cover ? COVER_CLASS[cover] : 'bg-surface-overlay'),
         )}>
           {image ? (
@@ -71,8 +71,8 @@ export function MediaCard({
       )}
       {(title || description) && (
         <div className={cn(p, 'border-b border-border')}>
-          {title && <p className="font-semibold text-foreground">{title}</p>}
-          {description && <p className="text-sm text-muted mt-0.5">{description}</p>}
+          {title && <p className="text-section-title text-foreground">{title}</p>}
+          {description && <p className="mt-ws-1 text-caption text-secondary">{description}</p>}
         </div>
       )}
       {children && <div className={p}>{children}</div>}

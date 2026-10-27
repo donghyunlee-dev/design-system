@@ -21,8 +21,8 @@ export function Stack({ direction = 'col', gap = 4, align, justify, className, .
       className={cn(
         'flex',
         direction === 'row' ? 'flex-row' : 'flex-col',
-        gap === 1 && 'gap-1', gap === 2 && 'gap-2', gap === 3 && 'gap-3',
-        gap === 4 && 'gap-4', gap === 6 && 'gap-6', gap === 8 && 'gap-8',
+        gap === 1 && 'gap-ws-1', gap === 2 && 'gap-ws-2', gap === 3 && 'gap-ws-3',
+        gap === 4 && 'gap-ws-4', gap === 6 && 'gap-ws-6', gap === 8 && 'gap-ws-8',
         align === 'start' && 'items-start',
         align === 'center' && 'items-center',
         align === 'end' && 'items-end',
