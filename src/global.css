@@ -1,9 +1,8 @@
+@import 'tailwindcss';
 @import '../tokens/base.css';
 @import '../tokens/semantic.css';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config '../tailwind.config.js';
+@source '../dist';
 
 *, *::before, *::after {
   box-sizing: border-box;

@@ -1,6 +1,5 @@
-/** @type {import('tailwindcss').Config} */
+// Loaded explicitly by src/global.css for Tailwind CSS 4 consumers.
 export default {
-  content: ['./src/**/*.{ts,tsx}', './.storybook/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {

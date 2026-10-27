@@ -117,14 +117,14 @@
 이 디자인 시스템은 **CSS Variables를 Single Source of Truth(단일 진실 공급원)**로 사용하고, Tailwind는 그 값을 참조합니다.
 
 ```
-semantic.css                tailwind.config.js               컴포넌트
+semantic.css                global.css → tailwind.config.js   컴포넌트
 ────────────────    →    ────────────────────    →    ──────────────────
 --color-brand:           colors: {                    bg-brand
   var(--purple-500)        brand: 'var(--color-brand)' text-brand
                          }                            border-brand
 ```
 
-**값을 바꿀 때는 `semantic.css`만 수정합니다.** `tailwind.config.js`는 건드리지 않아도 됩니다.
+**값을 바꿀 때는 `semantic.css`만 수정합니다.** Tailwind 4는 `global.css`의 `@config`로 preset을 읽으므로 `tailwind.config.js`를 별도로 등록할 필요가 없습니다.
 
 ---
 

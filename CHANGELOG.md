@@ -10,6 +10,12 @@
 - 기능을 추가하거나 수정하는 PR은 머지 전에 이 파일의 `## [Unreleased]` 아래에 항목을 추가합니다.
 - 릴리스 시 `package.json`의 `version`을 bump하고 `## [Unreleased]` 내용을 해당 버전 섹션으로 옮긴 뒤, `v{version}` 태그를 push하면 `publish-npm.yml`이 npm에 배포합니다.
 
+## [0.3.0] - 2026-10-27
+
+### Changed
+- Tailwind CSS 4.3.3에 맞춰 글로벌 CSS, preset 로딩, Vite 및 Storybook 빌드 설정 갱신
+- Tailwind 4 호환 `tailwind-merge`로 업데이트하고 설치 가이드 갱신
+
 ## [0.2.0] - 2026-10-22
 
 ### Changed

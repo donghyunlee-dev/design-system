@@ -23,6 +23,7 @@ jobs:
       - run: npm run build
       - run: npm run verify:package
       - run: npm test
+      - run: npm run build-storybook
 
       - name: Verify tag matches package.json version
         run: |
