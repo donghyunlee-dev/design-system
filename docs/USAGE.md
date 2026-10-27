@@ -196,8 +196,8 @@ import { DataTable, Table, Badge } from '@windsoft/ui'
 
 ```tsx
 import { Link, useSearchParams } from 'react-router-dom'
-import { Breadcrumb, Sidebar, Tabs } from '@windsoft/ui'
-import type { NavigationLinkProps } from '@windsoft/ui'
+import { Breadcrumb, Sidebar, SidebarNested, Tabs } from '@windsoft/ui'
+import type { NavigationLinkProps, SidebarNestedItem } from '@windsoft/ui'
 
 const renderRouterLink = ({ href, ...props }: NavigationLinkProps) => (
   <Link to={href} {...props} />
@@ -205,7 +205,27 @@ const renderRouterLink = ({ href, ...props }: NavigationLinkProps) => (
 
 <Sidebar items={menuItems} renderLink={renderRouterLink} />
 <Breadcrumb items={breadcrumbItems} renderLink={renderRouterLink} />
+
+// 단일 단계는 Sidebar, 그룹/하위 경로는 SidebarNested를 선택합니다.
+const nestedItems: SidebarNestedItem[] = [
+  {
+    key: 'management',
+    label: '관리',
+    children: [
+      { key: 'users', label: '사용자', href: '/users' },
+      {
+        key: 'catalog',
+        label: '카탈로그',
+        children: [{ key: 'products', label: '상품', href: '/products', active: true }],
+      },
+    ],
+  },
+]
+
+<SidebarNested items={nestedItems} renderLink={renderRouterLink} />
 ```
+
+`SidebarNested`의 그룹 항목은 펼침/접힘을 맡고, 이동은 `href`가 있는 하위 항목에서 수행합니다. 메뉴 전체에서 `key`는 고유해야 합니다. 현재 경로에 해당하는 항목에는 `active`를 지정하면 조상 그룹이 자동으로 열립니다. 권한에 따른 메뉴 필터링과 경로별 `active` 판정은 앱에서 처리합니다.
 
 `Navbar`에도 같은 `renderLink` 함수를 전달합니다. `Tabs`는 `value`와 `onValueChange`를 전달하면 앱이 URL 상태를 소유합니다.
 
