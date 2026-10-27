@@ -45,6 +45,7 @@
 - 좁은 Table/DataTable은 이미 구현된 가로 스크롤과 `hidden` 컬럼 선택 동작을 유지한다. 자동 레이아웃 변경은 공개 API와 데이터 우선순위 계약을 불필요하게 넓힌다.
 - Dark는 Storybook만의 미리보기 옵션이 아니라 이미 문서화된 소비 앱 theme contract다. 공용 컴포넌트·템플릿은 semantic tokens를 통해 지원한다. 모니터링 화면의 영구 다크 스타일은 해당 템플릿 목적을 확인한 뒤 예외 여부를 정한다.
 - Pagination 단계 경계: Task 4는 접근성 동작, Task 5는 32/40/48px 밀도별 크기만 맡는다.
+- Textarea는 single-line control과 다른 다중 행 입력이다. 기본 40px 높이로 줄이지 않고, `--textarea-min-height: 5rem`으로 최소 입력 공간을 보장한다.
 
 ## Execution Tasks
 
@@ -138,25 +139,27 @@ git commit -m "feat: align foundation components with WindSoft tokens"
 - Modify: `src/components/form/{Checkbox,DateInput,DateTimePicker,FormField,Input,MultiSelect,NumberInput,Radio,Select,Switch,Textarea}.tsx`
 - Modify: 해당 form `*.stories.tsx`, `*.test.tsx`
 
-- [ ] **Step 1: 공통 control 높이 테스트 작성**
+- [x] **Step 1: 공통 control 높이 테스트 작성**
 
-Input, Select, Textarea, NumberInput, DateInput, DateTimePicker의 기본 높이 40px token class와 Checkbox/Radio/Switch의 기존 compact geometry를 테스트한다. error/disabled/focus-visible 상태를 별도로 검증하고 먼저 실패를 확인한다.
+Input, Select, NumberInput, DateInput, DateTimePicker의 기본 높이 40px token class와 Textarea의 80px 최소 높이 토큰, Checkbox/Radio/Switch의 기존 compact geometry를 테스트한다. error/disabled/focus-visible 상태를 별도로 검증하고 먼저 실패를 확인한다.
 
-- [ ] **Step 2: 레이블·오류 계약 테스트 보강**
+- [x] **Step 2: 레이블·오류 계약 테스트 보강**
 
 FormField의 `label`, `hint`, `error`, `aria-invalid`, `aria-describedby`, required 동작을 긴 한글 텍스트와 함께 검증한다. 기존 테스트와 다른 동작이 발견되면 이 task 안에서 해결한다.
 
-- [ ] **Step 3: Form 스타일 토큰화**
+- [x] **Step 3: Form 스타일 토큰화**
 
-텍스트 입력 계열은 h-10 기준, 버튼/입력과 동일한 radius·border·focus ring semantics로 통일한다. error는 danger border/ring, disabled는 surface-muted 계층을 사용한다. `MultiSelect`의 open/search/selected/empty 상태 스타일을 정리한다.
+single-line 입력 계열은 40px 높이 토큰, 버튼/입력과 동일한 radius·border·focus ring semantics로 통일한다. Textarea는 80px 최소 높이를 유지한다. error는 danger border/ring, disabled는 surface-subtle 계층을 사용한다. `MultiSelect`의 open/search/selected/empty 상태 스타일을 정리한다.
 
-- [ ] **Step 4: Storybook form matrix 구성**
+- [x] **Step 4: Storybook form matrix 구성**
 
 기본, 값 입력, 오류, 비활성, 필수, 힌트, 좁은 레이블의 사례를 Storybook에서 같은 폼 간격으로 나란히 비교한다. 실제 검증 동작은 story interaction 또는 component test로 남긴다.
 
-- [ ] **Step 5: form 검증**
+- [x] **Step 5: form tests/build**
 
 form targeted tests, `npm test`, `npm run build`, `npm run build-storybook`을 실행한다. Light/Dark와 390/320px에서 오류 문구와 컨트롤 overflow를 확인한다.
+
+- [ ] **시각 검토:** 현재 실행 환경에 브라우저가 없어 390/320px Light/Dark 캔버스 검토는 보류한다. Storybook 빌드는 통과했다.
 
 - [ ] **Step 6: 단계 커밋**
 

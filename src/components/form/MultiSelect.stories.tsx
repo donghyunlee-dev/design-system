@@ -33,6 +33,24 @@ export const WithPreselected: Story = {
   render: () => <Controlled value={['ERP', '그룹웨어']} />,
 }
 
+export const ErrorState: Story = {
+  render: () => <Controlled error />,
+}
+
+export const Disabled: Story = {
+  render: () => <Controlled disabled />,
+}
+
+export const SearchEmpty: Story = {
+  render: () => <Controlled />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('button', { name: '라벨 전체' }))
+    await userEvent.type(canvas.getByPlaceholderText('검색'), '없는 항목')
+    await expect(canvas.getByRole('status')).toHaveTextContent('검색 결과가 없습니다')
+  },
+}
+
 export const OpenAndSelect: Story = {
   render: () => <Controlled />,
   play: async ({ canvasElement }) => {

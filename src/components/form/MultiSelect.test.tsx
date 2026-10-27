@@ -15,6 +15,15 @@ function ControlledMultiSelect() {
 }
 
 describe('MultiSelect', () => {
+  it('FormField 속성, 기본 높이, 오류 상태를 trigger에 전달한다', () => {
+    render(<MultiSelect id="teams" aria-describedby="teams-error" aria-invalid options={options} value={[]} onChange={() => {}} error />)
+    const trigger = screen.getByRole('button')
+    expect(trigger).toHaveAttribute('id', 'teams')
+    expect(trigger).toHaveAttribute('aria-describedby', 'teams-error')
+    expect(trigger).toHaveAttribute('aria-invalid', 'true')
+    expect(trigger).toHaveClass('h-[var(--control-height-md)]', 'border-danger', 'focus-visible:ring-danger')
+  })
+
   it('트리거에 aria-haspopup=listbox를 설정하고 기본 상태에서 닫혀 있다', () => {
     render(<ControlledMultiSelect />)
     const trigger = screen.getByRole('button', { name: '라벨 전체' })
@@ -28,6 +37,21 @@ describe('MultiSelect', () => {
     expect(screen.getByRole('listbox')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('검색')).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: 'ERP' })).toBeInTheDocument()
+  })
+
+  it('disabled 상태에서는 목록을 열 수 없다', async () => {
+    render(<MultiSelect options={options} value={[]} onChange={() => {}} placeholder="비활성" disabled />)
+    const trigger = screen.getByRole('button', { name: '비활성' })
+    await userEvent.click(trigger)
+    expect(trigger).toBeDisabled()
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+  })
+
+  it('검색 결과가 없을 때 빈 상태를 표시한다', async () => {
+    render(<ControlledMultiSelect />)
+    await userEvent.click(screen.getByRole('button', { name: '라벨 전체' }))
+    await userEvent.type(screen.getByPlaceholderText('검색'), '없는 항목')
+    expect(screen.getByRole('status')).toHaveTextContent('검색 결과가 없습니다')
   })
 
   it('여러 항목을 체크하면 선택 개수가 트리거에 반영된다', async () => {

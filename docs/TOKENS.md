@@ -138,6 +138,7 @@ semantic.css                global.css → tailwind.config.js   컴포넌트
 |---|---|---|
 | 간격 리듬 | `--windsoft-space-1/2/3/4/6/8/10/12` | 4/8/12/16/24/32/40/48px |
 | 컨트롤 높이 | `--control-height-sm/md/lg` | 32/40/48px |
+| Textarea 최소 높이 | `--textarea-min-height` | 80px |
 | 테이블 행 높이 | `--table-row-height-compact/default/comfortable` | 32/40/48px |
 | 페이지 좌우 여백 | `--windsoft-page-gutter` | 데스크톱 24px, 모바일 16px |
 | 모서리 | `--radius-btn`, `--radius-input`, `--radius-card` | 6px, 6px, 8px |

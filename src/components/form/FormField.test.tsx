@@ -33,4 +33,19 @@ describe('FormField', () => {
     )
     expect(screen.getByLabelText('이름')).toHaveAttribute('aria-invalid', 'false')
   })
+
+  it('필수·힌트·긴 한글 오류를 접근성 속성과 연결한다', () => {
+    render(
+      <FormField label="서비스 담당자 이메일 주소" required hint="회사 계정 주소를 입력하세요">
+        <Input aria-describedby="extra-note" />
+      </FormField>
+    )
+    const input = screen.getByRole('textbox')
+    expect(input).toHaveAttribute('aria-required', 'true')
+    expect(input).toHaveAttribute('aria-invalid', 'false')
+    const describedBy = input.getAttribute('aria-describedby')?.split(' ')
+    expect(describedBy).toHaveLength(2)
+    expect(describedBy?.[0]).toBe('extra-note')
+    expect(document.getElementById(describedBy?.[1] ?? '')).toHaveTextContent('회사 계정 주소를 입력하세요')
+  })
 })

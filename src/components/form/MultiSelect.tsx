@@ -1,6 +1,7 @@
 import { cn } from '../../utils/cn'
 import { useState, useRef, useEffect, useId, useMemo } from 'react'
 import { Checkbox } from './Checkbox'
+import { Icon } from '../foundation/Icon'
 
 export interface MultiSelectOption {
   value: string
@@ -25,6 +26,11 @@ export interface MultiSelectProps {
   searchable?: boolean
   className?: string
   disabled?: boolean
+  error?: boolean
+  id?: string
+  'aria-invalid'?: boolean
+  'aria-required'?: boolean
+  'aria-describedby'?: string
 }
 
 export function MultiSelect({
@@ -36,6 +42,11 @@ export function MultiSelect({
   searchable = true,
   className,
   disabled,
+  error,
+  id,
+  'aria-invalid': ariaInvalid,
+  'aria-required': ariaRequired,
+  'aria-describedby': ariaDescribedBy,
 }: MultiSelectProps) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -89,14 +100,19 @@ export function MultiSelect({
         ref={triggerRef}
         type="button"
         disabled={disabled}
+        id={id}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
+        aria-invalid={error || ariaInvalid}
+        aria-required={ariaRequired}
+        aria-describedby={ariaDescribedBy}
         onClick={() => setOpen(v => !v)}
         className={cn(
-          'flex items-center gap-2 px-3 py-2 text-sm bg-surface border border-border rounded-input',
-          'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
-          'disabled:opacity-50',
+          'flex h-[var(--control-height-md)] items-center gap-ws-2 px-ws-3 text-body bg-surface border rounded-input',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          'disabled:opacity-50 disabled:bg-surface-subtle',
+          error ? 'border-danger focus-visible:ring-danger' : 'border-border focus-visible:ring-brand',
           value.length === 0 ? 'text-muted' : 'text-foreground'
         )}
       >
@@ -106,7 +122,7 @@ export function MultiSelect({
             {value.length}
           </span>
         )}
-        <span className="text-muted" aria-hidden="true">⌄</span>
+          <span className="text-muted" aria-hidden="true"><Icon name="chevron-down" size="xs" /></span>
       </button>
       {open && (
         <div
@@ -123,20 +139,20 @@ export function MultiSelect({
                 onChange={e => setQuery(e.target.value)}
                 placeholder={searchPlaceholder}
                 className={cn(
-                  'w-full px-3 py-1.5 text-sm bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
-                  'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand'
+                  'w-full h-[var(--control-height-sm)] px-ws-3 text-body bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand'
                 )}
               />
             </div>
           )}
           <div className="flex flex-col">
             {filtered.map(opt => (
-              <div key={opt.value} role="option" aria-selected={value.includes(opt.value)} className="px-3 py-1 hover:bg-surface-raised">
+              <div key={opt.value} role="option" aria-selected={value.includes(opt.value)} className={cn('px-3 py-1 text-body text-foreground hover:bg-surface-raised', value.includes(opt.value) && 'bg-brand-subtle')}>
                 <Checkbox checked={value.includes(opt.value)} onChange={() => toggle(opt.value)} label={opt.label} />
               </div>
             ))}
             {filtered.length === 0 && (
-              <p className="px-3 py-2 text-sm text-muted">검색 결과가 없습니다</p>
+              <p role="status" className="px-3 py-2 text-caption text-secondary">검색 결과가 없습니다</p>
             )}
           </div>
         </div>

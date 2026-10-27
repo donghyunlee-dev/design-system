@@ -14,11 +14,11 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
   ref
 ) {
   return (
-    <label className="inline-flex items-center gap-2 cursor-pointer">
+    <label className="inline-flex items-center gap-ws-2 cursor-pointer">
       <input
         ref={ref}
         type="radio"
-        className={cn('w-4 h-4 text-brand border-border focus:ring-brand', className)}
+        className={cn('size-4 accent-brand border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background', className)}
         {...props}
       />
       {label && <span className="text-sm text-foreground">{label}</span>}
