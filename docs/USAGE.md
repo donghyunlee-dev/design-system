@@ -152,7 +152,7 @@ import { Card, Stat, Grid } from '@windsoft/ui'
 
 ### 테이블
 
-단순한 읽기 목록에는 `Table`, 정렬·필터·컬럼 관리·페이지네이션이 필요한 목록에는 `DataTable`을 사용합니다. 두 컴포넌트 모두 `density`를 `compact`(32px), `default`(40px), `comfortable`(48px) 중에서 선택할 수 있습니다. 기본 빈 상태를 교체하려면 `emptyState`를 전달합니다.
+단순한 읽기 목록에는 `Table`, 클라이언트 정렬·필터·컬럼 관리·페이지네이션이 필요한 목록에는 `DataTable`을 사용합니다. `DataTable`은 서버 전체 건수(`pagination.total`)와 페이지 변경 콜백(`pagination.onChange`)으로 서버 페이지네이션 요청을 연결할 수 있습니다. 검색과 서버 정렬·필터링은 앱 또는 업무 템플릿에서 API를 호출하고 `data`를 갱신하세요. 두 컴포넌트 모두 `density`를 `compact`(32px), `default`(40px), `comfortable`(48px) 중에서 선택할 수 있습니다. 기본 빈 상태를 교체하려면 `emptyState`를 전달합니다.
 
 ```tsx
 import { DataTable, Table, Badge } from '@windsoft/ui'
@@ -179,6 +179,48 @@ import { DataTable, Table, Badge } from '@windsoft/ui'
   density="compact"
   pagination={{ pageSize: 20 }}
   enableColumnVisibility={false}
+/>
+
+// 서버 페이지네이션: total은 전체 건수, onChange는 새 페이지를 요청합니다.
+<DataTable
+  rowKey="id"
+  columns={columns}
+  data={currentPageRows}
+  pagination={{ pageSize: 20, total: totalCount, onChange: loadPage }}
+/>
+```
+
+### 앱 라우터 연결
+
+`Sidebar`, `Navbar`, `Breadcrumb`는 기본으로 `<a href>`를 렌더링합니다. SPA 라우터를 사용하는 앱은 공통 `renderLink` 어댑터를 전달해 라우터의 Link 컴포넌트를 연결할 수 있습니다. 디자인 시스템은 React Router에 직접 의존하지 않습니다.
+
+```tsx
+import { Link, useSearchParams } from 'react-router-dom'
+import { Breadcrumb, Sidebar, Tabs } from '@windsoft/ui'
+import type { NavigationLinkProps } from '@windsoft/ui'
+
+const renderRouterLink = ({ href, ...props }: NavigationLinkProps) => (
+  <Link to={href} {...props} />
+)
+
+<Sidebar items={menuItems} renderLink={renderRouterLink} />
+<Breadcrumb items={breadcrumbItems} renderLink={renderRouterLink} />
+```
+
+`Navbar`에도 같은 `renderLink` 함수를 전달합니다. `Tabs`는 `value`와 `onValueChange`를 전달하면 앱이 URL 상태를 소유합니다.
+
+```tsx
+const [searchParams, setSearchParams] = useSearchParams()
+const activeTab = searchParams.get('tab') ?? 'overview'
+
+<Tabs
+  items={tabItems}
+  value={activeTab}
+  onValueChange={value => {
+    const next = new URLSearchParams(searchParams)
+    next.set('tab', value)
+    setSearchParams(next)
+  }}
 />
 ```
 
@@ -215,7 +257,7 @@ function MyPage() {
 
 ### Toast 알림
 
-Toast는 전체 앱을 `ToastProvider`로 감싸야 합니다:
+Toast는 전체 앱을 `ToastProvider`로 감싸야 합니다. Provider 없이 `useToast()`를 호출하면 `useToast must be used within a ToastProvider` 오류가 발생해 누락을 즉시 확인할 수 있습니다.
 
 ```tsx
 // main.tsx

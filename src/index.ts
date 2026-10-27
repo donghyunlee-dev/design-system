@@ -78,17 +78,18 @@ export type { CommandPaletteProps, CommandGroup, CommandItem } from './component
 
 // Navigation
 export { Tabs } from './components/navigation/Tabs'
-export type { TabItem } from './components/navigation/Tabs'
+export type { TabItem, TabsProps } from './components/navigation/Tabs'
 export { ChipGroup } from './components/navigation/ChipGroup'
 export type { ChipGroupProps, ChipGroupItem } from './components/navigation/ChipGroup'
 export { Breadcrumb } from './components/navigation/Breadcrumb'
-export type { BreadcrumbItem } from './components/navigation/Breadcrumb'
+export type { BreadcrumbItem, BreadcrumbProps } from './components/navigation/Breadcrumb'
 export { Pagination } from './components/navigation/Pagination'
 export type { PaginationProps } from './components/navigation/Pagination'
 export { Navbar } from './components/navigation/Navbar'
 export type { NavbarProps } from './components/navigation/Navbar'
 export { Sidebar } from './components/navigation/Sidebar'
-export type { SidebarItem } from './components/navigation/Sidebar'
+export type { SidebarItem, SidebarProps } from './components/navigation/Sidebar'
+export type { NavigationLinkProps, NavigationLinkRenderer } from './components/navigation/NavigationLink'
 export { Stepper } from './components/navigation/Stepper'
 export type { StepperProps } from './components/navigation/Stepper'
 

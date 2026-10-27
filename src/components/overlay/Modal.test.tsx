@@ -33,4 +33,13 @@ describe('Modal', () => {
     render(<Modal open onClose={vi.fn()} title="제목">내용</Modal>)
     expect(screen.getByRole('button', { name: '닫기' })).toBeInTheDocument()
   })
+
+  it.each([
+    ['sm', 'max-w-sm'],
+    ['md', 'max-w-md'],
+    ['lg', 'max-w-2xl'],
+  ] as const)('%s 크기는 기본 Tailwind 최대 너비 utility를 유지한다', (size, widthClass) => {
+    render(<Modal open onClose={vi.fn()} size={size}>내용</Modal>)
+    expect(screen.getByRole('dialog')).toHaveClass(widthClass)
+  })
 })
