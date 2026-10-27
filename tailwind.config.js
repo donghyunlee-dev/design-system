@@ -50,14 +50,6 @@ export default {
         lg:      'var(--shadow-lg)',
         none:    'var(--shadow-none)',
       },
-      spacing: {
-        xs:  'var(--spacing-xs)',
-        sm:  'var(--spacing-sm)',
-        md:  'var(--spacing-md)',
-        lg:  'var(--spacing-lg)',
-        xl:  'var(--spacing-xl)',
-        '2xl': 'var(--spacing-2xl)',
-      },
       transitionDuration: {
         fast:    '100ms',
         default: '150ms',
