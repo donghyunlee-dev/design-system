@@ -29,4 +29,8 @@ test('container width utilities retain Tailwind sizes beside WindSoft spacing to
   expect(css).toMatch(/\.basis-lg\{flex-basis:var\(--container-lg\)\}/)
   expect(css).toMatch(/\.p-\\\[var\\\(--spacing-sm\\\)\\\]\{padding:var\(--spacing-sm\)\}/)
   expect(css).toMatch(/--spacing-sm:8px/)
+  expect(css).toMatch(/\.p-ws-4\{padding:var\(--windsoft-space-4\)\}/)
+  expect(css).toMatch(/\.gap-ws-2\{gap:var\(--windsoft-space-2\)\}/)
+  expect(css).toMatch(/\.text-page-title\{font-size:var\(--font-size-page-title\);line-height:var\(--tw-leading,var\(--line-height-page-title\)\);font-weight:var\(--tw-font-weight,var\(--font-weight-page-title\)\)\}/)
+  expect(css).toMatch(/\.text-body\{font-size:var\(--font-size-body\);line-height:var\(--tw-leading,var\(--line-height-body\)\);font-weight:var\(--tw-font-weight,var\(--font-weight-body\)\)\}/)
 })

@@ -1,6 +1,6 @@
 import { cn } from '../../utils/cn'
-import { useState, useRef, useEffect, useId, useMemo } from 'react'
-import { Checkbox } from './Checkbox'
+import { useState, useRef, useEffect, useId, useMemo, KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { Icon } from '../foundation/Icon'
 
 export interface MultiSelectOption {
   value: string
@@ -25,6 +25,11 @@ export interface MultiSelectProps {
   searchable?: boolean
   className?: string
   disabled?: boolean
+  error?: boolean
+  id?: string
+  'aria-invalid'?: boolean
+  'aria-required'?: boolean
+  'aria-describedby'?: string
 }
 
 export function MultiSelect({
@@ -36,11 +41,18 @@ export function MultiSelect({
   searchable = true,
   className,
   disabled,
+  error,
+  id,
+  'aria-invalid': ariaInvalid,
+  'aria-required': ariaRequired,
+  'aria-describedby': ariaDescribedBy,
 }: MultiSelectProps) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const optionRefs = useRef<Array<HTMLDivElement | null>>([])
+  const [activeIndex, setActiveIndex] = useState(0)
   const listId = useId()
 
   useEffect(() => {
@@ -75,6 +87,23 @@ export function MultiSelect({
     onChange(value.includes(optValue) ? value.filter(v => v !== optValue) : [...value, optValue])
   }
 
+  const handleOptionKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>, index: number) => {
+    if (!filtered.length) return
+    let nextIndex: number | undefined
+    if (event.key === 'ArrowDown') nextIndex = (index + 1) % filtered.length
+    if (event.key === 'ArrowUp') nextIndex = (index - 1 + filtered.length) % filtered.length
+    if (event.key === 'Home') nextIndex = 0
+    if (event.key === 'End') nextIndex = filtered.length - 1
+    if (nextIndex !== undefined) {
+      event.preventDefault()
+      setActiveIndex(nextIndex)
+      optionRefs.current[nextIndex]?.focus()
+    } else if (event.key === ' ' || event.key === 'Space' || event.key === 'Enter') {
+      event.preventDefault()
+      toggle(filtered[index].value)
+    }
+  }
+
   const selectedLabels = options.filter(opt => value.includes(opt.value)).map(opt => opt.label)
   const summary =
     selectedLabels.length === 0
@@ -89,14 +118,19 @@ export function MultiSelect({
         ref={triggerRef}
         type="button"
         disabled={disabled}
+        id={id}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
+        aria-invalid={error || ariaInvalid}
+        aria-required={ariaRequired}
+        aria-describedby={ariaDescribedBy}
         onClick={() => setOpen(v => !v)}
         className={cn(
-          'flex items-center gap-2 px-3 py-2 text-sm bg-surface border border-border rounded-input',
-          'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
-          'disabled:opacity-50',
+          'flex h-[var(--control-height-md)] items-center gap-ws-2 px-ws-3 text-body bg-surface border rounded-input',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          'disabled:opacity-50 disabled:bg-surface-subtle',
+          error ? 'border-danger focus-visible:ring-danger' : 'border-border focus-visible:ring-brand',
           value.length === 0 ? 'text-muted' : 'text-foreground'
         )}
       >
@@ -106,7 +140,7 @@ export function MultiSelect({
             {value.length}
           </span>
         )}
-        <span className="text-muted" aria-hidden="true">⌄</span>
+          <span className="text-muted" aria-hidden="true"><Icon name="chevron-down" size="xs" /></span>
       </button>
       {open && (
         <div
@@ -120,23 +154,34 @@ export function MultiSelect({
               <input
                 autoFocus
                 value={query}
-                onChange={e => setQuery(e.target.value)}
+                onChange={e => { setQuery(e.target.value); setActiveIndex(0) }}
+                onKeyDown={event => {
+                  if (event.key === 'ArrowDown' && filtered.length) {
+                    event.preventDefault()
+                    setActiveIndex(0)
+                    optionRefs.current[0]?.focus()
+                  }
+                }}
+                aria-label={searchPlaceholder}
                 placeholder={searchPlaceholder}
                 className={cn(
-                  'w-full px-3 py-1.5 text-sm bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
-                  'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand'
+                  'w-full h-[var(--control-height-sm)] px-ws-3 text-body bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand'
                 )}
               />
             </div>
           )}
           <div className="flex flex-col">
-            {filtered.map(opt => (
-              <div key={opt.value} role="option" aria-selected={value.includes(opt.value)} className="px-3 py-1 hover:bg-surface-raised">
-                <Checkbox checked={value.includes(opt.value)} onChange={() => toggle(opt.value)} label={opt.label} />
+            {filtered.map((opt, index) => (
+              <div key={opt.value} ref={element => { optionRefs.current[index] = element }} role="option" aria-label={opt.label} aria-selected={value.includes(opt.value)} tabIndex={activeIndex === index ? 0 : -1} onKeyDown={event => handleOptionKeyDown(event, index)} onClick={() => toggle(opt.value)} className={cn('flex min-h-10 cursor-pointer items-center gap-ws-2 px-ws-3 text-body text-foreground hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand', value.includes(opt.value) && 'bg-brand-subtle')}>
+                <span aria-hidden="true" className={cn('flex size-4 items-center justify-center rounded-sm border border-border text-on-brand', value.includes(opt.value) && 'border-brand bg-brand')}>
+                  {value.includes(opt.value) && <Icon name="check" size="xs" />}
+                </span>
+                {opt.label}
               </div>
             ))}
             {filtered.length === 0 && (
-              <p className="px-3 py-2 text-sm text-muted">검색 결과가 없습니다</p>
+              <p role="status" className="px-3 py-2 text-caption text-secondary">검색 결과가 없습니다</p>
             )}
           </div>
         </div>

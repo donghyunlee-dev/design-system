@@ -54,19 +54,19 @@ export function WizardForm({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-3xl mx-auto px-[var(--page-padding)] py-6">
-        <h1 className="text-2xl font-bold text-foreground mb-6">{title}</h1>
+      <div className="mx-auto max-w-3xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <h1 className="text-page-title text-foreground mb-ws-6">{title}</h1>
 
         {/* 스테퍼 헤더 */}
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 flex justify-center overflow-x-auto">
+        <div className="bg-surface border border-border rounded-card shadow-card p-ws-6 mb-ws-4 flex justify-center overflow-x-auto">
           <Stepper steps={steps.map(s => s.label)} current={current} />
         </div>
 
         {/* 현재 단계 콘텐츠 */}
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 min-h-[320px]">
+        <div className="bg-surface border border-border rounded-card shadow-card p-ws-6 mb-ws-4 min-h-[320px]">
           {steps[current]?.content}
           {error && (
-            <p className="text-sm text-danger mt-4 font-medium">{error}</p>
+            <p className="text-sm text-danger mt-ws-4 font-medium">{error}</p>
           )}
         </div>
 

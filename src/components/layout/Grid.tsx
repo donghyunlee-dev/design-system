@@ -19,8 +19,8 @@ export function Grid({ cols = 2, gap = 4, className, ...props }: GridProps) {
         cols === 1 && 'grid-cols-1', cols === 2 && 'grid-cols-2',
         cols === 3 && 'grid-cols-3', cols === 4 && 'grid-cols-4',
         cols === 6 && 'grid-cols-6', cols === 12 && 'grid-cols-12',
-        gap === 2 && 'gap-2', gap === 4 && 'gap-4',
-        gap === 6 && 'gap-6', gap === 8 && 'gap-8',
+        gap === 2 && 'gap-ws-2', gap === 4 && 'gap-ws-4',
+        gap === 6 && 'gap-ws-6', gap === 8 && 'gap-ws-8',
         className
       )}
       {...props}

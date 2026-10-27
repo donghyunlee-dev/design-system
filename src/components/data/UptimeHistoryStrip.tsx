@@ -48,15 +48,15 @@ export function UptimeHistoryStrip({ days, label, summary, className }: UptimeHi
   return (
     <div className={cn('w-full', className)}>
       {(label || summary) && (
-        <div className="flex items-center justify-between mb-2">
-          {label && <p className="text-sm font-medium text-foreground">{label}</p>}
-          {summary && <p className="text-xs text-muted">{summary}</p>}
+        <div className="mb-ws-2 flex items-center justify-between gap-ws-2">
+          {label && <p className="text-label font-medium text-foreground">{label}</p>}
+          {summary && <p className="text-caption text-secondary">{summary}</p>}
         </div>
       )}
-      <div className="flex gap-0.5">
+      <div aria-label={label ? `${label} 가동 이력` : '가동 이력'} className="flex gap-0.5">
         {days.map((day, i) => (
           <Tooltip key={i} content={`${day.date} · ${DAY_LABEL[day.status]}${day.note ? ` · ${day.note}` : ''}`}>
-            <span className={cn('flex-1 h-6 rounded-sm', DAY_COLOR[day.status])} />
+            <span className={cn('h-ws-6 flex-1 rounded-sm', DAY_COLOR[day.status])} />
           </Tooltip>
         ))}
       </div>

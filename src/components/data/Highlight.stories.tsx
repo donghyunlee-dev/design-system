@@ -14,7 +14,7 @@ export const Default: Story = {}
 
 export const InSentence: Story = {
   render: () => (
-    <p className="text-sm text-foreground">
+    <p className="text-body text-foreground">
       {highlightMatches('2026년 3분기 냉동창고 안전점검 결과 공유', '냉동창고')}
     </p>
   ),
@@ -22,7 +22,7 @@ export const InSentence: Story = {
 
 export const NoMatch: Story = {
   render: () => (
-    <p className="text-sm text-foreground">
+    <p className="text-body text-foreground">
       {highlightMatches('ERP 발주 승인 프로세스 변경 안내', '냉동창고')}
     </p>
   ),

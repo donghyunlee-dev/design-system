@@ -35,6 +35,55 @@ describe('DataTable', () => {
     expect(screen.getByText('제품명')).toBeInTheDocument()
     expect(screen.getByText('상태')).toBeInTheDocument()
   })
+
+  it.each([
+    ['compact', 'h-[var(--table-row-height-compact)]'],
+    ['default', 'h-[var(--table-row-height-default)]'],
+    ['comfortable', 'h-[var(--table-row-height-comfortable)]'],
+  ] as const)('%s 밀도에 해당하는 행 높이를 적용한다', (density, heightClass) => {
+    render(<DataTable columns={columns} data={data} rowKey="id" density={density} />)
+    expect(screen.getByRole('cell', { name: '제품 A' })).toHaveClass(heightClass)
+  })
+
+  it('결과가 없으면 기본 빈 상태를 표시한다', () => {
+    render(<DataTable columns={columns} data={[]} rowKey="id" />)
+    expect(screen.getByText('데이터가 없습니다')).toBeInTheDocument()
+  })
+
+  it('빈 결과의 사용자 콘텐츠와 colSpan을 제공한다', () => {
+    render(<DataTable columns={columns} data={[]} rowKey="id" emptyState={<p>조건에 맞는 항목이 없습니다</p>} />)
+    expect(screen.getByText('조건에 맞는 항목이 없습니다')).toBeInTheDocument()
+    expect(screen.getByText('조건에 맞는 항목이 없습니다').closest('td')).toHaveAttribute('colspan', '4')
+  })
+
+  it('긴 값을 줄바꿈해 셀에서 잘리지 않게 표시한다', () => {
+    const longName = '주문번호-WIND-SOFT-2026-매우긴데이터값'
+    render(<DataTable columns={sortColumns} data={[{ id: 4, name: longName, qty: 1 }]} rowKey="id" enableColumnVisibility={false} />)
+    expect(screen.getByRole('cell', { name: longName })).toHaveClass('whitespace-normal', 'break-words')
+    expect(screen.getByRole('cell', { name: longName })).toHaveTextContent(longName)
+  })
+
+  it('정렬 버튼의 현재 방향을 헤더 aria-sort로 표시한다', async () => {
+    render(<DataTable columns={sortColumns} data={sortData} rowKey="id" />)
+    const header = screen.getByRole('columnheader', { name: /제품명/ })
+    await userEvent.click(screen.getByRole('button', { name: /제품명/ }))
+    expect(header).toHaveAttribute('aria-sort', 'ascending')
+  })
+
+  it('열 설정을 선택적으로 숨기고 지정 행 스타일을 보존한다', () => {
+    render(<DataTable columns={sortColumns} data={sortData} rowKey="id" enableColumnVisibility={false} rowClassName="bg-brand-subtle" onRowClick={() => {}} />)
+    expect(screen.queryByRole('button', { name: '컬럼 표시 설정' })).not.toBeInTheDocument()
+    expect(screen.getAllByRole('row')[1]).toHaveClass('bg-brand-subtle', 'hover:bg-surface-raised')
+  })
+
+  it.each([
+    ['compact', 'size-8'],
+    ['default', 'size-10'],
+    ['comfortable', 'size-12'],
+  ] as const)('%s 행 밀도에 맞게 pagination 크기를 연결한다', (density, pageSizeClass) => {
+    render(<DataTable columns={columns} data={data} rowKey="id" density={density} pagination={{ pageSize: 1 }} />)
+    expect(screen.getByRole('button', { name: '페이지 1' })).toHaveClass(pageSizeClass)
+  })
 })
 
 // ─── Additional Tests ─────────────────────────────────────────────────────────

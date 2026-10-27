@@ -11,7 +11,7 @@ describe('CommandPalette', () => {
 
   it('검색 입력에 포커스가 이동한다', () => {
     render(<CommandPalette open onClose={vi.fn()} groups={groups} />)
-    expect(screen.getByRole('textbox')).toHaveFocus()
+    expect(screen.getByRole('combobox')).toHaveFocus()
   })
 
   it('결과 목록이 listbox/option 역할을 갖는다', () => {

@@ -53,33 +53,33 @@ export function TicketDetail({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
           <div>
             <p className="text-xs text-muted mb-1">{ticketNo}</p>
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+            <h1 className="text-page-title text-foreground">{title}</h1>
           </div>
           <StatusBadge status={status} label={statusLabel} />
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-ws-6">
           {/* 대화 스레드 */}
           <div className="flex-1 min-w-0">
             <div className="bg-surface border border-border rounded-card shadow-card p-5">
               <Stack gap={4}>
                 {messages.map((msg, i) => (
                   <div key={msg.id}>
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-ws-3">
                       <Avatar size="sm" initials={msg.author.initials} alt={msg.author.name} />
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-ws-2">
                           <p className="text-sm font-semibold text-foreground">{msg.author.name}</p>
                           {msg.isAgent && <Tag>담당자</Tag>}
                           <span className="text-xs text-muted">{msg.time}</span>
                         </div>
                         <div
                           className={cn(
-                            'mt-2 rounded-card px-3 py-2 text-sm text-foreground whitespace-pre-wrap',
+                            'mt-ws-2 rounded-card px-ws-3 py-ws-2 text-sm text-foreground whitespace-pre-wrap',
                             msg.isAgent ? 'bg-brand-subtle' : 'bg-surface-subtle'
                           )}
                         >
@@ -87,22 +87,22 @@ export function TicketDetail({
                         </div>
                       </div>
                     </div>
-                    {i < messages.length - 1 && <Divider className="mt-4" />}
+                    {i < messages.length - 1 && <Divider className="mt-ws-4" />}
                   </div>
                 ))}
               </Stack>
             </div>
 
             {onSendReply && (
-              <div className="bg-surface border border-border rounded-card shadow-card p-4 mt-4">
-                <h3 className="text-sm font-semibold text-foreground mb-3">답변 작성</h3>
+              <div className="bg-surface border border-border rounded-card shadow-card p-ws-4 mt-ws-4">
+                <h3 className="text-sm font-semibold text-foreground mb-ws-3">답변 작성</h3>
                 <Textarea
                   placeholder="답변 내용을 입력하세요"
                   value={reply}
                   onChange={e => setReply(e.target.value)}
                   rows={3}
                 />
-                <div className="flex justify-end mt-3">
+                <div className="flex justify-end mt-ws-3">
                   <Button
                     variant="primary"
                     onClick={() => { onSendReply(reply); setReply('') }}
@@ -116,9 +116,9 @@ export function TicketDetail({
 
           {/* 사이드 정보 */}
           <aside className="w-64 flex-shrink-0">
-            <div className="bg-surface border border-border rounded-card shadow-card p-4">
-              <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">요청자</h3>
-              <div className="flex items-center gap-2 mb-4">
+            <div className="bg-surface border border-border rounded-card shadow-card p-ws-4">
+              <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-3">요청자</h3>
+              <div className="flex items-center gap-ws-2 mb-ws-4">
                 <Avatar size="sm" initials={requester.initials} alt={requester.name} />
                 <div>
                   <p className="text-sm font-medium text-foreground">{requester.name}</p>
@@ -128,8 +128,8 @@ export function TicketDetail({
 
               {assignee && (
                 <>
-                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">담당자</h3>
-                  <div className="flex items-center gap-2 mb-4">
+                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-3">담당자</h3>
+                  <div className="flex items-center gap-ws-2 mb-ws-4">
                     <Avatar size="sm" initials={assignee.initials} alt={assignee.name} />
                     <p className="text-sm font-medium text-foreground">{assignee.name}</p>
                   </div>
@@ -138,8 +138,8 @@ export function TicketDetail({
 
               {tags && tags.length > 0 && (
                 <>
-                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">태그</h3>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-2">태그</h3>
+                  <div className="flex flex-wrap gap-1.5 mb-ws-4">
                     {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
                   </div>
                 </>
@@ -147,8 +147,8 @@ export function TicketDetail({
 
               {statusActions && statusActions.length > 0 && (
                 <>
-                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">상태 변경</h3>
-                  <div className="flex flex-col gap-2">
+                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-2">상태 변경</h3>
+                  <div className="flex flex-col gap-ws-2">
                     {statusActions.map(action => (
                       <Button
                         key={action.key}

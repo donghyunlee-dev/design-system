@@ -11,19 +11,20 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { error, className, ...props },
+  { error, className, 'aria-invalid': ariaInvalid, ...props },
   ref
 ) {
   return (
     <input
       ref={ref}
       className={cn(
-        'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground placeholder:text-placeholder',
-        'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
-        'disabled:opacity-50 disabled:bg-surface-raised',
-        error ? 'border-danger focus:ring-danger' : 'border-border',
+        'w-full h-[var(--control-height-md)] px-ws-3 text-body bg-surface border rounded-input text-foreground placeholder:text-placeholder',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        'disabled:opacity-50 disabled:bg-surface-subtle',
+        error ? 'border-danger focus-visible:ring-danger' : 'border-border focus-visible:ring-brand',
         className
       )}
+      aria-invalid={error || ariaInvalid}
       {...props}
     />
   )

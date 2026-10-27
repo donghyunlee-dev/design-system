@@ -20,14 +20,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     <button
       ref={ref}
       className={cn(
-        'inline-flex items-center justify-center font-medium transition-colors duration-default rounded-btn disabled:opacity-50 disabled:pointer-events-none',
+        'inline-flex items-center justify-center font-medium transition-colors duration-default rounded-btn focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none',
         variant === 'primary'   && 'bg-brand text-on-brand hover:bg-brand-hover',
         variant === 'secondary' && 'bg-surface border border-border text-foreground hover:bg-surface-raised',
         variant === 'ghost'     && 'text-foreground hover:bg-surface-raised',
         variant === 'danger'    && 'bg-danger text-on-brand hover:opacity-90',
-        size === 'sm' && 'text-xs px-3 py-1.5 gap-1.5',
-        size === 'md' && 'text-sm px-4 py-2 gap-2',
-        size === 'lg' && 'text-base px-6 py-3 gap-2.5',
+        size === 'sm' && 'h-8 px-3 gap-2 text-caption',
+        size === 'md' && 'h-10 px-4 gap-2 text-label',
+        size === 'lg' && 'h-12 px-6 gap-2.5 text-body',
         className
       )}
       {...props}

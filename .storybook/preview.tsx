@@ -16,8 +16,8 @@ const preview: Preview = {
     },
     backgrounds: {
       options: {
-        light: { name: 'light', value: '#f9fafb' },
-        dark: { name: 'dark',  value: '#111827' }
+        light: { name: 'light', value: '#f6fafd' },
+        dark: { name: 'dark',  value: '#030712' }
       }
     },
     viewport: {
@@ -49,7 +49,7 @@ const preview: Preview = {
     backgrounds: {
       value: 'light'
     },
-    theme: 'system',
+    theme: 'light',
   },
 
   decorators: [

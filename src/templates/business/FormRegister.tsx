@@ -33,7 +33,7 @@ export function FormRegister({
   className,
 }: FormRegisterProps) {
   const ActionButtons = () => (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-ws-2">
       <Button variant="secondary" onClick={onCancel}>취소</Button>
       <Button variant="primary" onClick={onSave} disabled={isLoading}>
         {isLoading ? '처리 중...' : saveLabel}
@@ -43,28 +43,28 @@ export function FormRegister({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-4xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-4xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+        <div className="mb-ws-6 flex flex-wrap items-center justify-between gap-ws-3">
+          <h1 className="text-page-title text-foreground">{title}</h1>
           <ActionButtons />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-ws-4">
           {sections.map((section: RegisterFormSection, i) => (
-            <div key={i} className="bg-surface border border-border rounded-card shadow-card">
-              <div className="px-6 py-4 border-b border-border">
-                <h2 className="text-sm font-semibold text-foreground">{section.title}</h2>
+            <div key={i} className="rounded-card border border-border bg-surface shadow-card">
+              <div className="border-b border-border px-ws-6 py-ws-4">
+                <h2 className="text-section-title text-foreground">{section.title}</h2>
                 {section.description && (
-                  <p className="text-xs text-muted mt-0.5">{section.description}</p>
+                  <p className="mt-ws-1 text-caption text-secondary">{section.description}</p>
                 )}
               </div>
-              <div className="px-6 py-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="px-ws-6 py-ws-4">
+                <div className="grid grid-cols-1 gap-ws-4 md:grid-cols-2">
                   {section.children}
                 </div>
               </div>
@@ -72,7 +72,7 @@ export function FormRegister({
           ))}
         </div>
 
-        <div className="flex justify-end mt-6">
+        <div className="mt-ws-6 flex justify-end">
           <ActionButtons />
         </div>
       </div>

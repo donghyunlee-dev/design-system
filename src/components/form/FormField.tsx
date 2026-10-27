@@ -55,9 +55,11 @@ export function FormField({ label, error: externalError, hint, required, rules, 
   const [isDirty, setIsDirty] = useState(false)
   const fieldId = useId()
   const errorId = useId()
+  const hintId = useId()
 
   const error = externalError ?? internalError
   const showRequired = required || !!rules?.required
+  let controlId = fieldId
 
   const handleBlur = (e: FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     if (!rules) return
@@ -73,11 +75,18 @@ export function FormField({ label, error: externalError, hint, required, rules, 
   const childrenWithProps = Children.map(children, child => {
     if (!isValidElement(child)) return child
     const childProps = child.props as Record<string, unknown>
+    controlId = (childProps.id as string | undefined) ?? fieldId
+    const childError = Boolean(error)
+    const describedBy = [
+      childProps['aria-describedby'] as string | undefined,
+      childError ? errorId : hint ? hintId : undefined,
+    ].filter(Boolean).join(' ') || undefined
     return cloneElement(child as React.ReactElement<Record<string, unknown>>, {
-      id: (childProps.id as string | undefined) ?? fieldId,
-      error: !!error,
-      'aria-invalid': !!error,
-      'aria-describedby': error ? errorId : (childProps['aria-describedby'] as string | undefined),
+      id: controlId,
+      error: childError,
+      'aria-invalid': childError || childProps['aria-invalid'] || false,
+      'aria-required': showRequired || childProps['aria-required'] || false,
+      'aria-describedby': describedBy,
       ...(rules
         ? {
             onBlur: (e: FocusEvent<HTMLInputElement>) => {
@@ -94,16 +103,16 @@ export function FormField({ label, error: externalError, hint, required, rules, 
   })
 
   return (
-    <div className={cn('flex flex-col gap-1.5', className)}>
+    <div className={cn('flex flex-col gap-ws-2', className)}>
       {label && (
-        <label htmlFor={fieldId} className="text-sm font-medium text-foreground">
+        <label htmlFor={controlId} className="text-label font-medium text-foreground">
           {label}
-          {showRequired && <span className="text-danger ml-0.5">*</span>}
+          {showRequired && <><span aria-hidden="true" className="text-danger ml-0.5">*</span><span className="sr-only"> 필수</span></>}
         </label>
       )}
       {childrenWithProps}
-      {hint && !error && <p className="text-xs text-muted">{hint}</p>}
-      {error && <p id={errorId} className="text-xs text-danger">{error}</p>}
+      {hint && !error && <p id={hintId} className="text-caption text-secondary">{hint}</p>}
+      {error && <p id={errorId} className="text-caption text-danger">{error}</p>}
     </div>
   )
 }

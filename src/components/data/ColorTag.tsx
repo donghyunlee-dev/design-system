@@ -1,5 +1,6 @@
 import { cn } from '../../utils/cn'
 import { HTMLAttributes } from 'react'
+import { Icon } from '../foundation/Icon'
 
 export type ColorTagVariant = 'neutral' | 'brand' | 'success' | 'warning' | 'danger' | 'info'
 
@@ -20,18 +21,20 @@ export interface ColorTagProps extends HTMLAttributes<HTMLSpanElement> {
 const VARIANT_CLASSES: Record<ColorTagVariant, string> = {
   neutral: 'bg-surface-overlay border-border text-secondary',
   brand:   'bg-brand-subtle border-brand/30 text-brand',
-  success: 'bg-success/10 border-success/30 text-success',
-  warning: 'bg-warning/10 border-warning/30 text-warning',
-  danger:  'bg-danger/10 border-danger/30 text-danger',
-  info:    'bg-info/10 border-info/30 text-info',
+  success: 'bg-success-subtle border-success-foreground/20 text-success-foreground',
+  warning: 'bg-warning-subtle border-warning-foreground/20 text-warning-foreground',
+  danger:  'bg-danger-subtle border-danger-foreground/20 text-danger-foreground',
+  info:    'bg-info-subtle border-info-foreground/20 text-info-foreground',
 }
 
 export function ColorTag({ variant = 'neutral', onRemove, removeLabel = '삭제', className, children, ...props }: ColorTagProps) {
   return (
-    <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 text-xs border rounded-badge', VARIANT_CLASSES[variant], className)} {...props}>
+    <span className={cn('inline-flex items-center gap-ws-1 rounded-badge border px-ws-2 py-0.5 text-caption', VARIANT_CLASSES[variant], className)} {...props}>
       {children}
       {onRemove && (
-        <button type="button" onClick={onRemove} aria-label={removeLabel} className="ml-0.5 opacity-70 hover:opacity-100 leading-none">×</button>
+          <button type="button" onClick={onRemove} aria-label={removeLabel} className="ml-ws-1 inline-flex size-4 items-center justify-center rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+            <Icon name="close" size="xs" />
+          </button>
       )}
     </span>
   )

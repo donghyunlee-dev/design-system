@@ -3,6 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { Modal } from './Modal'
 
 describe('Modal', () => {
+  it('제목이 없을 때 기본 접근 가능한 이름을 제공한다', () => {
+    render(<Modal open onClose={vi.fn()}>내용</Modal>)
+    expect(screen.getByRole('dialog', { name: '확인' })).toBeInTheDocument()
+  })
   it('role=dialog와 aria-modal을 렌더링한다', () => {
     render(<Modal open onClose={vi.fn()} title="제목">내용</Modal>)
     expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')

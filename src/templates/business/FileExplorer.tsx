@@ -58,7 +58,7 @@ export function FileExplorer({
       key: 'name',
       header: '이름',
       render: item => (
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-ws-2 min-w-0">
           <Tag>{typeLabel(item)}</Tag>
           <span className="font-medium text-foreground truncate">{item.name}</span>
         </div>
@@ -83,17 +83,17 @@ export function FileExplorer({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          <div className="flex items-center gap-2">
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-3">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          <div className="flex items-center gap-ws-2">
             {actions}
             <div className="flex border border-border rounded-card overflow-hidden">
               <button
                 type="button"
                 onClick={() => setView('list')}
                 className={cn(
-                  'px-3 py-1.5 text-sm',
+                  'px-ws-3 py-1.5 text-sm',
                   view === 'list' ? 'bg-brand-subtle text-brand font-medium' : 'text-muted hover:bg-surface-subtle'
                 )}
               >
@@ -103,7 +103,7 @@ export function FileExplorer({
                 type="button"
                 onClick={() => setView('grid')}
                 className={cn(
-                  'px-3 py-1.5 text-sm',
+                  'px-ws-3 py-1.5 text-sm',
                   view === 'grid' ? 'bg-brand-subtle text-brand font-medium' : 'text-muted hover:bg-surface-subtle'
                 )}
               >
@@ -113,7 +113,7 @@ export function FileExplorer({
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-ws-4">
           <Breadcrumb items={breadcrumb} />
         </div>
 
@@ -131,7 +131,7 @@ export function FileExplorer({
                 onClick={() => handleClick(item)}
                 className="cursor-pointer hover:bg-surface-raised transition-colors"
               >
-                <div className="flex items-start justify-between mb-2">
+                <div className="flex items-start justify-between mb-ws-2">
                   <Tag>{typeLabel(item)}</Tag>
                   {itemActions && (
                     <div onClick={e => e.stopPropagation()}>

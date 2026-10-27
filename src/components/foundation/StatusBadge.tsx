@@ -26,7 +26,7 @@ const STATUS_CONFIG: Record<StatusVariant, { dotClass: string; defaultLabel: str
 export function StatusBadge({ status, label, className }: StatusBadgeProps) {
   const { dotClass, defaultLabel } = STATUS_CONFIG[status]
   return (
-    <span className={cn('inline-flex items-center gap-1.5 text-sm text-foreground', className)}>
+    <span className={cn('inline-flex items-center gap-1.5 text-label text-foreground', className)}>
       <span className={cn('w-2 h-2 rounded-full shrink-0', dotClass)} aria-hidden="true" />
       {label ?? defaultLabel}
     </span>

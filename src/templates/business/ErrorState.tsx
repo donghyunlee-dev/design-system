@@ -44,7 +44,7 @@ export function ErrorState({
   return (
     <div className={cn('min-h-screen bg-background flex items-center justify-center', className)}>
       <Card className="max-w-md w-full mx-4" padding="lg">
-        {code && <p className="text-center text-xs font-semibold text-muted tracking-wider mb-2">{code}</p>}
+        {code && <p className="text-center text-xs font-semibold text-muted tracking-wider mb-ws-2">{code}</p>}
         <EmptyState
           icon={icon ?? config.icon}
           title={title ?? config.title}

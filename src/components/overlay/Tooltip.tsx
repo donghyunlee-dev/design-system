@@ -15,10 +15,13 @@ export interface TooltipProps {
 export function Tooltip({ content, children, side = 'top' }: TooltipProps) {
   const [show, setShow] = useState(false)
   const tooltipId = useId()
+  const childProps = isValidElement(children) ? (children.props as Record<string, unknown>) : undefined
+  const existingDescription = childProps?.['aria-describedby'] as string | undefined
+  const description = show ? [existingDescription, tooltipId].filter(Boolean).join(' ') : existingDescription
 
   const target = isValidElement(children)
     ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
-        'aria-describedby': show ? tooltipId : undefined,
+        'aria-describedby': description,
       })
     : children
 

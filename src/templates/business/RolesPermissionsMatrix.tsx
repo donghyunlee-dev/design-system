@@ -48,10 +48,10 @@ export function RolesPermissionsMatrix({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden">
@@ -59,11 +59,11 @@ export function RolesPermissionsMatrix({
             <table className="w-full text-sm">
               <thead className="bg-surface-raised border-b border-border">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide sticky left-0 bg-surface-raised">
+                  <th className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide sticky left-0 bg-surface-raised">
                     권한 항목
                   </th>
                   {roles.map(role => (
-                    <th key={role.key} className="px-4 py-3 text-center text-xs font-semibold text-muted uppercase tracking-wide min-w-[96px]">
+                    <th key={role.key} className="px-ws-4 py-ws-3 text-center text-xs font-semibold text-muted uppercase tracking-wide min-w-[96px]">
                       <span className="block text-foreground normal-case font-semibold text-sm">{role.label}</span>
                       {role.description && (
                         <span className="block text-[11px] font-normal text-muted normal-case mt-0.5">{role.description}</span>
@@ -77,19 +77,19 @@ export function RolesPermissionsMatrix({
                   <Fragment key={group ?? '__ungrouped'}>
                     {group && (
                       <tr key={`group-${group}`} className="bg-surface-subtle">
-                        <td colSpan={roles.length + 1} className="px-4 py-1.5 text-xs font-semibold text-muted">
+                        <td colSpan={roles.length + 1} className="px-ws-4 py-1.5 text-xs font-semibold text-muted">
                           {group}
                         </td>
                       </tr>
                     )}
                     {rows.filter(r => r.group === group).map(row => (
                       <tr key={row.key} className="bg-surface">
-                        <td className="px-4 py-3 text-foreground sticky left-0 bg-surface">{row.label}</td>
+                        <td className="px-ws-4 py-ws-3 text-foreground sticky left-0 bg-surface">{row.label}</td>
                         {roles.map(role => {
                           const mapKey = `${row.key}:${role.key}`
                           const checked = granted[mapKey] ?? false
                           return (
-                            <td key={role.key} className="px-4 py-3 text-center">
+                            <td key={role.key} className="px-ws-4 py-ws-3 text-center">
                               <Checkbox
                                 checked={checked}
                                 disabled={readOnly}
@@ -108,7 +108,7 @@ export function RolesPermissionsMatrix({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 mt-4 flex-wrap">
+        <div className="flex items-center gap-ws-2 mt-ws-4 flex-wrap">
           {roles.map(role => (
             <Tag key={role.key}>{role.label}</Tag>
           ))}

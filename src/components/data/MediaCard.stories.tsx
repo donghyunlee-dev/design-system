@@ -44,7 +44,7 @@ export const WithFooter: Story = {
       fallback={<span className="text-2xl">🧾</span>}
       className="max-w-xs"
       footer={
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-ws-2">
           <Button variant="secondary" size="sm">취소</Button>
           <Button size="sm">이 템플릿 사용</Button>
         </div>

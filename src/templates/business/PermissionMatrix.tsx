@@ -64,25 +64,25 @@ export function PermissionMatrix({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
 
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="flex items-center justify-between mb-ws-6">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         <div className="w-full overflow-x-auto rounded-card border border-border shadow-card">
           <table className="w-full text-sm">
             <thead className="bg-surface-raised border-b border-border">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">리소스 / 기능</th>
+                <th className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">리소스 / 기능</th>
                 {roles.map(role => (
-                  <th key={role.id} className="px-4 py-3 text-center text-xs font-semibold text-muted uppercase tracking-wide">
+                  <th key={role.id} className="px-ws-4 py-ws-3 text-center text-xs font-semibold text-muted uppercase tracking-wide">
                     <div className="flex flex-col items-center gap-1">
                       <Avatar size="sm" initials={role.label.slice(0, 1)} alt={role.label} />
                       <span className="normal-case font-medium text-foreground">{role.label}</span>
@@ -98,16 +98,16 @@ export function PermissionMatrix({
                 <Fragment key={gi}>
                   {g.group && (
                     <tr key={`group-${gi}`} className="bg-surface-subtle">
-                      <td colSpan={roles.length + 1} className="px-4 py-2">
+                      <td colSpan={roles.length + 1} className="px-ws-4 py-ws-2">
                         <Tag>{g.group}</Tag>
                       </td>
                     </tr>
                   )}
                   {g.items.map(resource => (
                     <tr key={resource.id} className="bg-surface">
-                      <td className="px-4 py-3 text-foreground font-medium">{resource.label}</td>
+                      <td className="px-ws-4 py-ws-3 text-foreground font-medium">{resource.label}</td>
                       {roles.map(role => (
-                        <td key={role.id} className="px-4 py-3 text-center">
+                        <td key={role.id} className="px-ws-4 py-ws-3 text-center">
                           <Checkbox
                             checked={permissions[resource.id]?.[role.id] ?? false}
                             disabled={!editable}

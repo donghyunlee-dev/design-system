@@ -13,9 +13,9 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   render: () => (
     <div>
-      <div className="bg-gray-100 p-2 text-sm rounded">위 요소</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-body">위 요소</div>
       <Spacer size={4} />
-      <div className="bg-gray-100 p-2 text-sm rounded">아래 요소</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-body">아래 요소</div>
     </div>
   ),
 }

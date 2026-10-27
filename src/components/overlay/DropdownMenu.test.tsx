@@ -28,4 +28,18 @@ describe('DropdownMenu', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument()
     expect(trigger).toHaveFocus()
   })
+
+  it('메뉴 열 때 첫 항목에 포커스하고 방향키로 항목을 이동한다', async () => {
+    render(<DropdownMenu trigger={<button>메뉴</button>} items={[{ label: '수정', onClick: vi.fn() }, { label: '복제', onClick: vi.fn() }]} />)
+    await userEvent.click(screen.getByRole('button', { name: '메뉴' }))
+    const edit = screen.getByRole('menuitem', { name: '수정' })
+    const duplicate = screen.getByRole('menuitem', { name: '복제' })
+    expect(edit).toHaveFocus()
+    await userEvent.keyboard('{ArrowDown}')
+    expect(duplicate).toHaveFocus()
+    await userEvent.keyboard('{Home}')
+    expect(edit).toHaveFocus()
+    await userEvent.keyboard('{End}')
+    expect(duplicate).toHaveFocus()
+  })
 })

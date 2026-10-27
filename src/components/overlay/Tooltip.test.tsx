@@ -3,6 +3,14 @@ import userEvent from '@testing-library/user-event'
 import { Tooltip } from './Tooltip'
 
 describe('Tooltip', () => {
+  it('기존 aria-describedby를 툴팁 ID와 함께 유지한다', async () => {
+    render(<Tooltip content="도움말"><button aria-describedby="help-description">정보</button></Tooltip>)
+    await userEvent.hover(screen.getByRole('button', { name: '정보' }))
+    const trigger = screen.getByRole('button', { name: '정보' })
+    const ids = trigger.getAttribute('aria-describedby')?.split(' ')
+    expect(ids).toContain('help-description')
+    expect(ids).toContain(screen.getByRole('tooltip').id)
+  })
   it('포커스 시 role=tooltip 콘텐츠를 표시한다', async () => {
     render(<Tooltip content="도움말"><button>대상</button></Tooltip>)
     await userEvent.tab()

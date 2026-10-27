@@ -30,12 +30,12 @@ export function PieChart({ data, height = 300 }: PieChartProps) {
     <ResponsiveContainer width="100%" height={height}>
       <RePieChart>
         <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
-          {data.map((_, i) => (
-            <Cell key={i} fill={COLORS[i % COLORS.length]} />
+          {data.map((item, i) => (
+            <Cell key={i} fill={item.color ?? COLORS[i % COLORS.length]} />
           ))}
         </Pie>
-        <Tooltip contentStyle={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8 }} />
-        <Legend />
+        <Tooltip contentStyle={{ background: 'var(--color-surface)', color: 'var(--color-foreground)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-card)', fontFamily: 'var(--font-body)', fontSize: 'var(--font-size-caption)', boxShadow: 'var(--shadow-raised)' }} />
+        <Legend wrapperStyle={{ color: 'var(--color-secondary)', fontFamily: 'var(--font-body)', fontSize: 'var(--font-size-caption)' }} />
       </RePieChart>
     </ResponsiveContainer>
   )

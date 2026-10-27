@@ -28,7 +28,7 @@ export const Default: Story = {
     const canvas = within(canvasElement)
     await userEvent.click(canvas.getByRole('button', { name: '모달 열기' }))
     await expect(canvas.getByRole('heading', { name: '확인' })).toBeInTheDocument()
-    await userEvent.click(canvas.getByRole('button', { name: '✕' }))
+    await userEvent.click(canvas.getByRole('button', { name: '닫기' }))
     await expect(canvas.queryByRole('heading', { name: '확인' })).not.toBeInTheDocument()
   },
 }

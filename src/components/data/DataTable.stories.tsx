@@ -45,6 +45,25 @@ export const Default: Story = {
   ),
 }
 
+export const Compact: Story = {
+  name: 'Compact density',
+  render: () => <DataTable columns={[{ key: 'name', header: '제품명' }, { key: 'category', header: '분류' }, { key: 'qty', header: '재고' }]} data={products} rowKey="id" density="compact" enableColumnVisibility={false} />,
+}
+
+export const Comfortable: Story = {
+  name: 'Comfortable density',
+  render: () => <DataTable columns={[{ key: 'name', header: '제품명' }, { key: 'category', header: '분류' }, { key: 'qty', header: '재고' }]} data={products} rowKey="id" density="comfortable" enableColumnVisibility={false} />,
+}
+
+export const Empty: Story = {
+  render: () => <DataTable columns={[{ key: 'name', header: '제품명' }, { key: 'category', header: '분류' }]} data={[]} rowKey="id" enableColumnVisibility={false} />,
+}
+
+export const NarrowAndLongValues: Story = {
+  name: 'Narrow viewport and long values',
+  render: () => <div className="max-w-[390px]"><DataTable columns={[{ key: 'name', header: '주문 상품명' }, { key: 'category', header: '상세 분류' }]} data={[{ id: 1, name: 'WindSoft 통합 관리 플랫폼의 매우 긴 상품 및 주문 설명', category: '기업용 소프트웨어 및 운영 지원' }]} rowKey="id" enableColumnVisibility={false} /></div>,
+}
+
 export const WithRowNumbers: Story = {
   name: 'Row Numbers',
   render: () => (

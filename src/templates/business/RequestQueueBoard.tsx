@@ -93,19 +93,19 @@ export function RequestQueueBoard({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         {/* 상태 탭 */}
-        <div className="flex gap-1 mb-4 border-b border-border">
+        <div className="flex gap-1 mb-ws-4 border-b border-border">
           {([
             { key: 'pending' as const, label: '대기중', count: pendingCount },
             { key: 'done' as const, label: '처리완료', count: doneCount },
@@ -115,7 +115,7 @@ export function RequestQueueBoard({
               type="button"
               onClick={() => onTabChange?.(tab.key)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
+                'flex items-center gap-1.5 px-ws-3 py-ws-2 text-sm font-medium border-b-2 -mb-px transition-colors',
                 activeTab === tab.key
                   ? 'border-brand text-brand'
                   : 'border-transparent text-muted hover:text-foreground'
@@ -136,13 +136,13 @@ export function RequestQueueBoard({
 
         {/* 검색·필터 바 (선택 시 일괄 처리 바로 전환) */}
         {selectedIds.length > 0 ? (
-          <div className="flex flex-wrap gap-3 items-center mb-4 px-4 py-2.5 bg-surface-raised border border-border rounded-card">
+          <div className="flex flex-wrap gap-ws-3 items-center mb-ws-4 px-ws-4 py-ws-2.5 bg-surface-raised border border-border rounded-card">
             <Checkbox checked={allSelected} onChange={toggleAll} />
             <span className="text-sm font-medium text-foreground">{selectedIds.length}건 선택됨</span>
-            {bulkActions && <div className="flex gap-2 flex-wrap items-center ml-auto">{bulkActions}</div>}
+            {bulkActions && <div className="flex gap-ws-2 flex-wrap items-center ml-auto">{bulkActions}</div>}
           </div>
         ) : (
-          <div className="flex flex-wrap gap-3 items-center mb-4">
+          <div className="flex flex-wrap gap-ws-3 items-center mb-ws-4">
             {items.length > 0 && (
               <Checkbox checked={allSelected} onChange={toggleAll} aria-label="전체 선택" />
             )}
@@ -159,7 +159,7 @@ export function RequestQueueBoard({
                 className="pl-9"
               />
             </div>
-            {filters && <div className="flex gap-2 flex-wrap items-center">{filters}</div>}
+            {filters && <div className="flex gap-ws-2 flex-wrap items-center">{filters}</div>}
           </div>
         )}
 
@@ -169,7 +169,7 @@ export function RequestQueueBoard({
             <div
               key={item.id}
               className={cn(
-                'flex items-start gap-3 px-4 py-3',
+                'flex items-start gap-ws-3 px-ws-4 py-ws-3',
                 onItemClick && 'hover:bg-surface-raised'
               )}
             >
@@ -190,7 +190,7 @@ export function RequestQueueBoard({
                 onClick={() => onItemClick?.(item)}
                 className={cn('flex-1 min-w-0', onItemClick && 'cursor-pointer')}
               >
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-ws-2 flex-wrap">
                   <p className="text-sm font-semibold text-foreground truncate">{item.title}</p>
                   {item.labels?.map(label => <Tag key={label}>{label}</Tag>)}
                 </div>
@@ -198,7 +198,7 @@ export function RequestQueueBoard({
                   {item.no} · {item.meta}
                 </p>
               </div>
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-ws-3 flex-shrink-0">
                 {item.commentCount !== undefined && item.commentCount > 0 && (
                   <span className="flex items-center gap-1 text-xs text-muted">
                     <Icon name="comment" size="xs" />
@@ -217,7 +217,7 @@ export function RequestQueueBoard({
         </div>
 
         {page !== undefined && totalCount !== undefined && onPageChange && (
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-ws-4">
             <Pagination page={page} total={totalCount} pageSize={pageSize} onChange={onPageChange} />
           </div>
         )}

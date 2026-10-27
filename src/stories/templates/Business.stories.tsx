@@ -80,7 +80,7 @@ type Order = {
   status: 'active' | 'pending' | 'inactive'
 }
 const orders: Order[] = [
-  { id: 1, no: 'ORD-001', product: '쌀 (20kg)', qty: 50, status: 'active' },
+  { id: 1, no: 'ORD-001', product: '윈드소프트 통합 관리 플랫폼 정기 공급 계약 (20kg)', qty: 50, status: 'active' },
   { id: 2, no: 'ORD-002', product: '콩나물', qty: 0, status: 'inactive' },
   { id: 3, no: 'ORD-003', product: '두부', qty: 30, status: 'pending' },
   { id: 4, no: 'ORD-004', product: '사과 주스', qty: 80, status: 'active' },
@@ -126,6 +126,19 @@ export const ListSearch: Story = {
         />
       }
       pagination={{ pageSize: 5 }}
+    />
+  ),
+}
+
+export const ListSearchEmpty: Story = {
+  name: 'List Search Empty',
+  render: () => (
+    <ListSearchTable
+      title="주문 목록"
+      columns={orderColumns}
+      data={[]}
+      rowKey="id"
+      actions={<Button size="sm">+ 주문 등록</Button>}
     />
   ),
 }

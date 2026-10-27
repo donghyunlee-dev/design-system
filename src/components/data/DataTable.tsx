@@ -31,8 +31,10 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { cn } from '../../utils/cn'
+import { Icon } from '../foundation/Icon'
 import { Pagination } from '../navigation/Pagination'
-import { Column } from './Table'
+import { Column, TableDensity } from './Table'
+import { EmptyState } from '../feedback/EmptyState'
 
 // ─── Public Types ────────────────────────────────────────────────────────────
 
@@ -87,6 +89,12 @@ export interface DataTableProps<T extends Record<string, unknown>> {
   rowStyle?: CSSProperties | ((row: T, index: number) => CSSProperties)
   /** 페이징 설정 */
   pagination?: DataTablePagination
+  /** 행 높이 밀도 */
+  density?: TableDensity
+  /** 데이터가 없을 때 표시할 콘텐츠 */
+  emptyState?: React.ReactNode
+  /** 컬럼 표시 설정 메뉴 표시 여부 (기본 true) */
+  enableColumnVisibility?: boolean
   /** 행 클릭 콜백 */
   onRowClick?: (row: T) => void
   className?: string
@@ -96,6 +104,11 @@ export interface DataTableProps<T extends Record<string, unknown>> {
 
 const ROW_NUMBER_ID = '__row_number__'
 const SETTINGS_COLUMN_ID = '__settings__'
+const rowHeightClass: Record<TableDensity, string> = {
+  compact: 'h-[var(--table-row-height-compact)]',
+  default: 'h-[var(--table-row-height-default)]',
+  comfortable: 'h-[var(--table-row-height-comfortable)]',
+}
 
 // ─── Sortable Header Cell ─────────────────────────────────────────────────────
 
@@ -106,6 +119,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   setFilterVisible,
   dataColumns,
   table,
+  density,
 }: {
   header: TanHeader<T, unknown>
   dataCol: DataColumn<T> | undefined
@@ -113,6 +127,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   setFilterVisible: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
   dataColumns: DataColumn<T>[]
   table: ReturnType<typeof useReactTable<T>>
+  density: TableDensity
 }) {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const col = header.column
@@ -121,17 +136,20 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
     disabled: col.id === ROW_NUMBER_ID || col.id === SETTINGS_COLUMN_ID,
   })
 
-  // Settings column: fixed ⚙ button with visibility dropdown
+  // Settings column: fixed settings button with visibility dropdown
   if (col.id === SETTINGS_COLUMN_ID) {
     return (
-      <th style={{ width: 40, minWidth: 40, maxWidth: 40 }} className="px-1 py-3 bg-surface-raised relative">
+      <th style={{ width: 40, minWidth: 40, maxWidth: 40 }} className={cn(
+        rowHeightClass[density],
+        'relative bg-surface-raised px-1 py-0'
+      )}>
         <div className="flex justify-center">
           <button
             onClick={() => setSettingsOpen(o => !o)}
-            className="text-sm text-muted hover:text-foreground transition-colors"
+            className="inline-flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             aria-label="컬럼 표시 설정"
           >
-            ⚙
+            <Icon name="settings" size="sm" />
           </button>
           {settingsOpen && (
             <div className="absolute right-0 top-full mt-1 z-10 min-w-[140px] bg-surface border border-border rounded-card shadow-md p-2">
@@ -169,13 +187,16 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   }
 
   const sortDir = col.getIsSorted()
+  const ariaSort = sortDir === 'asc' ? 'ascending' : sortDir === 'desc' ? 'descending' : undefined
 
   return (
     <th
       ref={setNodeRef}
       style={style}
+      aria-sort={col.getCanSort() ? ariaSort : undefined}
       className={cn(
-        'px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide select-none bg-surface-raised',
+        rowHeightClass[density],
+        'px-ws-4 py-0 text-left text-caption font-semibold text-secondary select-none bg-surface-raised',
         dataCol?.headerClassName,
       )}
     >
@@ -187,17 +208,17 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
             className="cursor-grab text-muted opacity-40 hover:opacity-80 mr-0.5 leading-none"
             aria-label="컬럼 순서 변경"
           >
-            ⠿
+            <Icon name="grip" size="xs" />
           </span>
         )}
         {col.getCanSort() ? (
           <button
-            className="flex items-center gap-0.5 hover:text-foreground transition-colors"
+            className="flex items-center gap-0.5 rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             onClick={col.getToggleSortingHandler()}
           >
             {flexRender(col.columnDef.header, header.getContext())}
-            <span className="text-xs ml-0.5 opacity-60">
-              {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▽' : '—'}
+            <span className="ml-0.5 opacity-60" aria-hidden="true">
+              <Icon name={sortDir === 'asc' ? 'sort-asc' : sortDir === 'desc' ? 'sort-desc' : 'sort'} size="xs" />
             </span>
           </button>
         ) : (
@@ -215,7 +236,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
             )}
             aria-label={`${col.id} 필터`}
           >
-            🔍
+            <Icon name="filter" size="xs" />
           </button>
         )}
       </div>
@@ -300,6 +321,9 @@ export function DataTable<T extends Record<string, unknown>>({
   rowClassName,
   rowStyle,
   pagination: paginationProp,
+  density = 'default',
+  emptyState,
+  enableColumnVisibility = true,
   onRowClick,
   className,
 }: DataTableProps<T>) {
@@ -319,10 +343,9 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const initialOrder = useMemo(() => {
     const ids = dataColumns.map(c => c.key)
-    return showRowNumbers
-      ? [ROW_NUMBER_ID, ...ids, SETTINGS_COLUMN_ID]
-      : [...ids, SETTINGS_COLUMN_ID]
-  }, [dataColumns, showRowNumbers])
+    const order = showRowNumbers ? [ROW_NUMBER_ID, ...ids] : ids
+    return enableColumnVisibility ? [...order, SETTINGS_COLUMN_ID] : order
+  }, [dataColumns, showRowNumbers, enableColumnVisibility])
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(initialOrder)
 
   const pageSize = paginationProp?.pageSize ?? 10
@@ -359,17 +382,19 @@ export function DataTable<T extends Record<string, unknown>>({
         },
       })
     })
-    cols.push({
-      id: SETTINGS_COLUMN_ID,
-      header: '__settings_header__',
-      size: 40,
-      enableSorting: false,
-      enableColumnFilter: false,
-      enableResizing: false,
-      cell: () => null,
-    })
+    if (enableColumnVisibility) {
+      cols.push({
+        id: SETTINGS_COLUMN_ID,
+        header: '__settings_header__',
+        size: 40,
+        enableSorting: false,
+        enableColumnFilter: false,
+        enableResizing: false,
+        cell: () => null,
+      })
+    }
     return cols
-  }, [dataColumns, showRowNumbers])
+  }, [dataColumns, showRowNumbers, enableColumnVisibility])
 
   const hasPagination = !!paginationProp
   const isServerSide = !!(paginationProp?.total)
@@ -430,7 +455,7 @@ export function DataTable<T extends Record<string, unknown>>({
 
       <div className="overflow-x-auto rounded-card border border-border">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <table className="w-full text-sm" style={{ tableLayout: 'fixed' }}>
+          <table className="w-full text-body" style={{ tableLayout: 'fixed' }}>
             <thead className="border-b border-border">
               {headerGroups.map(hg => (
                 <SortableContext key={hg.id} items={draggableColIds} strategy={horizontalListSortingStrategy}>
@@ -444,6 +469,7 @@ export function DataTable<T extends Record<string, unknown>>({
                         setFilterVisible={setFilterVisible}
                         dataColumns={dataColumns}
                         table={table}
+                        density={density}
                       />
                     ))}
                   </tr>
@@ -464,7 +490,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   >
                     {row.getVisibleCells().map(cell => {
                       if (cell.column.id === SETTINGS_COLUMN_ID) {
-                        return <td key={cell.id} style={{ width: 40 }} />
+                        return <td key={cell.id} className={rowHeightClass[density]} style={{ width: 40 }} />
                       }
                       const dataCol = dataColumns.find(c => c.key === cell.column.id)
                       const cClass = dataCol?.cellClassName
@@ -476,7 +502,11 @@ export function DataTable<T extends Record<string, unknown>>({
                       return (
                         <td
                           key={cell.id}
-                          className={cn('px-4 py-3 text-foreground overflow-hidden text-ellipsis whitespace-nowrap', cClass)}
+                          className={cn(
+                            rowHeightClass[density],
+                            'whitespace-normal break-words px-ws-4 py-0 align-middle text-body text-foreground',
+                            cClass
+                          )}
                           style={{ width: cell.column.getSize(), ...cStyle }}
                         >
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -486,6 +516,13 @@ export function DataTable<T extends Record<string, unknown>>({
                   </tr>
                 )
               })}
+              {displayRows.length === 0 && (
+                <tr>
+                  <td colSpan={table.getVisibleLeafColumns().length} className="p-0">
+                    {emptyState ?? <EmptyState title="데이터가 없습니다" description="표시할 항목이 없습니다." />}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </DndContext>
@@ -497,6 +534,7 @@ export function DataTable<T extends Record<string, unknown>>({
             page={page}
             total={paginationTotal}
             pageSize={pageSize}
+            size={density === 'compact' ? 'sm' : density === 'comfortable' ? 'lg' : 'md'}
             onChange={p => {
               setPage(p)
               paginationProp.onChange?.(p)

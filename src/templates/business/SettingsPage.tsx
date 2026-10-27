@@ -26,18 +26,18 @@ export function SettingsPage({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
-        <h1 className="text-2xl font-bold text-foreground mb-6">{title}</h1>
-        <div className="flex gap-6 items-start">
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <h1 className="text-page-title text-foreground mb-ws-6">{title}</h1>
+        <div className="flex gap-ws-6 items-start">
           {/* 사이드바 내비 */}
-          <nav className="w-48 flex-shrink-0 bg-surface border border-border rounded-card shadow-card p-2">
+          <nav className="w-48 flex-shrink-0 bg-surface border border-border rounded-card shadow-card p-ws-2">
             <ul className="space-y-0.5">
               {sections.map(s => (
                 <li key={s.id}>
                   <button
                     onClick={() => setActive(s.id)}
                     className={cn(
-                      'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors text-left',
+                      'w-full flex items-center gap-ws-2 px-ws-3 py-ws-2 rounded-md text-sm font-medium transition-colors text-left',
                       active === s.id
                         ? 'bg-brand-subtle text-brand'
                         : 'text-muted hover:text-foreground hover:bg-surface-subtle'
@@ -52,7 +52,7 @@ export function SettingsPage({
           </nav>
 
           {/* 콘텐츠 */}
-          <div className="flex-1 bg-surface border border-border rounded-card shadow-card p-6">
+          <div className="flex-1 bg-surface border border-border rounded-card shadow-card p-ws-6">
             {current && (
               <>
                 <h2 className="text-base font-semibold text-foreground mb-5">{current.label}</h2>

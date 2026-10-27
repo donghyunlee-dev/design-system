@@ -1,4 +1,5 @@
 import { cn } from '../../utils/cn'
+import { Icon } from '../foundation/Icon'
 import { ReactNode, useEffect, useId, useRef } from 'react'
 import { useFocusTrap } from '../../utils/useFocusTrap'
 import { useBodyScrollLock } from '../../utils/useBodyScrollLock'
@@ -14,6 +15,8 @@ export interface ModalProps {
   onClose: () => void
   /** 모달 상단 제목 */
   title?: string
+  /** 제목이 없을 때 dialog의 접근 가능한 이름 */
+  label?: string
   children: ReactNode
   /** 하단 액션 버튼 영역 */
   footer?: ReactNode
@@ -23,7 +26,7 @@ export interface ModalProps {
 
 const sizeMap = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-2xl' }
 
-export function Modal({ open, onClose, title, children, footer, size = 'md' }: ModalProps) {
+export function Modal({ open, onClose, title, label = '확인', children, footer, size = 'md' }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
 
@@ -46,12 +49,15 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
+        aria-label={title ? undefined : label}
         className={cn('relative bg-surface rounded-card shadow-lg w-full', sizeMap[size])}
       >
         {title && (
           <div className="flex items-center justify-between px-6 py-4 border-b border-border">
             <h2 id={titleId} className="text-base font-semibold text-foreground">{title}</h2>
-            <button onClick={onClose} aria-label="닫기" className="text-muted hover:text-foreground">✕</button>
+            <button onClick={onClose} aria-label="닫기" className="inline-flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+              <Icon name="close" size="sm" />
+            </button>
           </div>
         )}
         <div className="px-6 py-4">{children}</div>

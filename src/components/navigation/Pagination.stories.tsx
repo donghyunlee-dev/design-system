@@ -19,9 +19,11 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await expect(canvas.getByRole('button', { name: '이전' })).toBeDisabled()
-    await userEvent.click(canvas.getByRole('button', { name: '다음' }))
-    await expect(canvas.getByRole('button', { name: '이전' })).not.toBeDisabled()
+    await expect(canvas.getByRole('button', { name: '이전 페이지' })).toBeDisabled()
+    await expect(canvas.getByRole('button', { name: '페이지 1' })).toHaveAttribute('aria-current', 'page')
+    await userEvent.click(canvas.getByRole('button', { name: '다음 페이지' }))
+    await expect(canvas.getByRole('button', { name: '이전 페이지' })).not.toBeDisabled()
+    await expect(canvas.getByRole('button', { name: '페이지 2' })).toHaveAttribute('aria-current', 'page')
   },
 }
 
@@ -30,4 +32,15 @@ export const ManyPages: Story = {
     const [page, setPage] = useState(5)
     return <Pagination {...args} total={500} page={page} onChange={setPage} />
   },
+}
+
+export const SizeScale: Story = {
+  name: '32 / 40 / 48 px',
+  render: () => (
+    <div className="flex flex-col items-start gap-ws-4">
+      <Pagination page={2} total={100} size="sm" onChange={() => {}} />
+      <Pagination page={2} total={100} size="md" onChange={() => {}} />
+      <Pagination page={2} total={100} size="lg" onChange={() => {}} />
+    </div>
+  ),
 }

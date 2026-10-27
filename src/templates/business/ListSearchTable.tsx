@@ -43,23 +43,23 @@ export function ListSearchTable<T extends Record<string, unknown>>({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {/* 헤더 */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="mb-ws-6 flex flex-wrap items-center justify-between gap-ws-3">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex flex-wrap gap-ws-2">{actions}</div>}
         </div>
 
         {/* 검색·필터 바 */}
-        <div className="bg-surface border border-border rounded-card p-4 mb-4 flex flex-wrap gap-3 items-end shadow-card">
-          <div className="flex-1 min-w-[200px]">
+        <div className="mb-ws-4 flex flex-wrap items-end gap-ws-3 rounded-card border border-border bg-surface p-ws-4 shadow-card">
+          <div className="min-w-[200px] flex-1">
             <Input
               placeholder={searchPlaceholder}
               value={search}
               onChange={e => handleSearch(e.target.value)}
             />
           </div>
-          {filters && <div className="flex gap-2 flex-wrap items-end">{filters}</div>}
+          {filters && <div className="flex flex-wrap items-end gap-ws-2">{filters}</div>}
           <Button variant="primary" onClick={() => onSearch?.(search)}>조회</Button>
         </div>
 

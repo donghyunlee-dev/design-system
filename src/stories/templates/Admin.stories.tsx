@@ -81,6 +81,20 @@ export const DataTable: StoryObj = {
   ),
 }
 
+export const DataTableEmpty: StoryObj = {
+  name: 'Data Table Empty',
+  render: () => (
+    <DataTablePage
+      title="주문 관리"
+      columns={[{ key: 'name', header: '주문명' }, { key: 'status', header: '상태' }]}
+      data={[]}
+      rowKey="id"
+      onSearch={() => {}}
+      actions={<Button size="sm">+ 새 주문</Button>}
+    />
+  ),
+}
+
 export const DataForm: StoryObj = {
   render: () => (
     <DataFormPage

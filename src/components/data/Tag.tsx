@@ -1,5 +1,6 @@
 import { cn } from '../../utils/cn'
 import { HTMLAttributes } from 'react'
+import { Icon } from '../foundation/Icon'
 
 /**
  * 태그 또는 키워드를 표시하는 인라인 태그 컴포넌트.
@@ -14,10 +15,12 @@ export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
 
 export function Tag({ onRemove, removeLabel = '삭제', className, children, ...props }: TagProps) {
   return (
-    <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 text-xs bg-surface-overlay border border-border rounded-badge text-secondary', className)} {...props}>
+    <span className={cn('inline-flex items-center gap-ws-1 rounded-badge border border-border bg-surface-subtle px-ws-2 py-0.5 text-caption text-secondary', className)} {...props}>
       {children}
       {onRemove && (
-        <button type="button" onClick={onRemove} aria-label={removeLabel} className="ml-0.5 text-muted hover:text-foreground leading-none">×</button>
+          <button type="button" onClick={onRemove} aria-label={removeLabel} className="ml-ws-1 inline-flex size-4 items-center justify-center rounded-sm text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+            <Icon name="close" size="xs" />
+          </button>
       )}
     </span>
   )

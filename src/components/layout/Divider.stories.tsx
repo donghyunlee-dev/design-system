@@ -13,9 +13,9 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   render: () => (
     <div>
-      <p className="text-sm mb-2">위 섹션</p>
+      <p className="mb-ws-2 text-body">위 섹션</p>
       <Divider />
-      <p className="text-sm mt-2">아래 섹션</p>
+      <p className="mt-ws-2 text-body">아래 섹션</p>
     </div>
   ),
 }

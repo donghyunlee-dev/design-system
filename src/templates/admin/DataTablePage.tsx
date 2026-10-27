@@ -30,16 +30,16 @@ export function DataTablePage<T extends Record<string, unknown> = Record<string,
 }: DataTablePageProps<T>) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-[var(--spacing-lg)]">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="mb-ws-6 flex flex-wrap items-center justify-between gap-ws-3">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex flex-wrap gap-ws-2">{actions}</div>}
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="mb-ws-4 flex flex-col gap-ws-3 sm:flex-row">
           {onSearch && (
             <Input placeholder="검색..." className="sm:max-w-xs" onChange={e => onSearch(e.target.value)} />
           )}
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-ws-2">
             {filters.map(f =>
               f.options.map(opt => (
                 <button
@@ -47,9 +47,9 @@ export function DataTablePage<T extends Record<string, unknown> = Record<string,
                   type="button"
                   onClick={() => onFilterChange?.(f.key, opt.value)}
                   className={cn(
-                    'px-3 py-1 text-xs rounded-badge border transition-colors duration-default',
+                    'min-h-8 rounded-badge border px-ws-3 py-ws-1 text-caption transition-colors duration-default',
                     activeFilters[f.key] === opt.value
-                      ? 'bg-brand text-white border-brand'
+                      ? 'bg-brand text-on-brand border-brand'
                       : 'bg-surface border-border text-muted hover:border-brand hover:text-brand'
                   )}
                 >

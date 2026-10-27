@@ -16,15 +16,15 @@ export interface BreadcrumbProps {
 /** 현재 페이지까지의 탐색 경로를 링크 목록으로 표시합니다. */
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
-    <nav aria-label="breadcrumb">
-      <ol className="flex items-center gap-1 text-sm text-muted">
+    <nav aria-label="경로">
+      <ol className="flex items-center gap-ws-1 text-caption text-secondary">
         {items.map((item, i) => (
           <li key={i} className="flex items-center gap-1">
             {i > 0 && <span>/</span>}
             {item.href ? (
-              <a href={item.href} className="hover:text-foreground transition-colors">{item.label}</a>
+              <a href={item.href} className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">{item.label}</a>
             ) : (
-              <span className="text-foreground font-medium">{item.label}</span>
+              <span aria-current="page" className="text-foreground font-medium">{item.label}</span>
             )}
           </li>
         ))}

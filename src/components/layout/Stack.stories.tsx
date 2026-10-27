@@ -13,9 +13,9 @@ type Story = StoryObj<typeof meta>
 export const Vertical: Story = {
   render: () => (
     <Stack direction="col" gap={4}>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 1</div>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 2</div>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 3</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 1</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 2</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 3</div>
     </Stack>
   ),
 }
@@ -23,19 +23,19 @@ export const Vertical: Story = {
 export const Horizontal: Story = {
   render: () => (
     <Stack direction="row" gap={4}>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 1</div>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 2</div>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 3</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 1</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 2</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 3</div>
     </Stack>
   ),
 }
 
 export const Center: Story = {
   render: () => (
-    <Stack direction="row" align="center" justify="center" gap={4} style={{ minHeight: '120px', border: '1px dashed #ccc' }}>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 1</div>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 2</div>
-      <div className="bg-gray-100 rounded p-2 text-sm text-center">항목 3</div>
+    <Stack direction="row" align="center" justify="center" gap={4} className="min-h-30 border border-dashed border-border">
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 1</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 2</div>
+      <div className="rounded-card bg-surface-raised p-ws-2 text-center text-body">항목 3</div>
     </Stack>
   ),
 }

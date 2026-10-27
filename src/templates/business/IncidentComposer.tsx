@@ -70,7 +70,7 @@ const INCIDENT_STATUS_CLASS: Record<IncidentRecord['status'], string> = {
 function SectionCard({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="bg-surface border border-border rounded-card shadow-card p-5">
-      <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-4">{title}</h3>
+      <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-4">{title}</h3>
       {children}
     </div>
   )
@@ -100,15 +100,15 @@ export function IncidentComposer({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          <div className="flex gap-2">
+        <div className="flex items-center justify-between mb-ws-6">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          <div className="flex gap-ws-2">
             <Button variant="secondary" onClick={onCancel}>취소</Button>
             <Button variant="primary" onClick={onPublish} disabled={isPublishing}>
               {isPublishing ? '게시 중...' : '게시 및 알림 발송'}
@@ -118,7 +118,7 @@ export function IncidentComposer({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
           {/* 작성 영역 */}
-          <div className="space-y-4">
+          <div className="space-y-ws-4">
             <SectionCard title="영향받는 시스템">
               <div className="flex flex-wrap gap-x-5 gap-y-2.5">
                 {systems.map(s => (
@@ -133,7 +133,7 @@ export function IncidentComposer({
             </SectionCard>
 
             <SectionCard title="공지 내용">
-              <div className="space-y-4">
+              <div className="space-y-ws-4">
                 <FormField label="제목" required>
                   <Input
                     value={incidentTitle}
@@ -160,7 +160,7 @@ export function IncidentComposer({
             </SectionCard>
 
             <SectionCard title="알림 발송 채널">
-              <div className="space-y-3">
+              <div className="space-y-ws-3">
                 {channels.map(c => (
                   <div key={c.id} className="flex items-center justify-between">
                     <span className="text-sm text-foreground">{c.label}</span>
@@ -174,21 +174,21 @@ export function IncidentComposer({
           {/* 미리보기 영역 */}
           <div className="lg:sticky lg:top-6">
             <SectionCard title="구독자에게 보이는 미리보기">
-              <div className="bg-background border border-border rounded-card p-4">
+              <div className="bg-background border border-border rounded-card p-ws-4">
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-sm font-semibold text-foreground">
                     {incidentTitle || '(제목 미입력)'}
                   </p>
                   <span
                     className={cn(
-                      'text-xs font-medium px-2 py-0.5 rounded-full border flex-shrink-0',
+                      'text-xs font-medium px-ws-2 py-0.5 rounded-full border flex-shrink-0',
                       INCIDENT_STATUS_CLASS[incidentStatus]
                     )}
                   >
                     {INCIDENT_STATUS_LABEL[incidentStatus]}
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5 mb-3">
+                <div className="flex flex-wrap gap-1.5 mb-ws-3">
                   {selectedSystems.length === 0 && (
                     <span className="text-xs text-muted">영향받는 시스템을 선택하세요</span>
                   )}
@@ -200,9 +200,9 @@ export function IncidentComposer({
                   {message || '업데이트 내용을 입력하면 여기에 표시됩니다.'}
                 </p>
                 {recentUpdates && recentUpdates.length > 0 && (
-                  <div className="mt-4 pt-3 border-t border-border space-y-2">
+                  <div className="mt-ws-4 pt-ws-3 border-t border-border space-y-ws-2">
                     {recentUpdates.map((u, i) => (
-                      <div key={i} className="flex gap-2 text-xs">
+                      <div key={i} className="flex gap-ws-2 text-xs">
                         <span className="text-muted flex-shrink-0">{u.time}</span>
                         <span className="text-foreground">{u.message}</span>
                       </div>
@@ -210,7 +210,7 @@ export function IncidentComposer({
                   </div>
                 )}
               </div>
-              <p className="text-xs text-muted mt-3">
+              <p className="text-xs text-muted mt-ws-3">
                 {channels.filter(c => c.checked).length > 0
                   ? `${channels.filter(c => c.checked).map(c => c.label).join(', ')} 채널로 구독자에게 발송됩니다.`
                   : '선택된 발송 채널이 없습니다.'}

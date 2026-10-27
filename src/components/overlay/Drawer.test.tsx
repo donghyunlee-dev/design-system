@@ -3,6 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { Drawer } from './Drawer'
 
 describe('Drawer', () => {
+  it('닫힌 패널의 하위 요소를 inert로 비활성화한다', () => {
+    render(<Drawer open={false} onClose={vi.fn()}><button>내부 버튼</button></Drawer>)
+    expect(screen.getByRole('dialog', { hidden: true })).toHaveAttribute('inert')
+  })
   it('role=dialog와 aria-modal을 렌더링한다', () => {
     render(<Drawer open onClose={vi.fn()} title="제목">내용</Drawer>)
     expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')

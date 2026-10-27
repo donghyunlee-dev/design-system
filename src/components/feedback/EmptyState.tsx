@@ -16,11 +16,11 @@ export interface EmptyStateProps {
 
 export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
-      {icon && <div className="text-muted mb-4 text-4xl">{icon}</div>}
-      <p className="text-base font-medium text-foreground">{title}</p>
-      {description && <p className="text-sm text-muted mt-1">{description}</p>}
-      {action && <div className="mt-4">{action}</div>}
+    <div className="flex flex-col items-center justify-center gap-ws-2 py-ws-12 text-center">
+      {icon && <div aria-hidden="true" className="mb-ws-2 text-4xl text-muted">{icon}</div>}
+      <p className="text-section-title text-foreground">{title}</p>
+      {description && <p className="max-w-prose text-body text-secondary">{description}</p>}
+      {action && <div className="mt-ws-2">{action}</div>}
     </div>
   )
 }

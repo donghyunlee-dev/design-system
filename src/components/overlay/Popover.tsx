@@ -17,9 +17,11 @@ export interface PopoverProps {
   /** 팝오버를 여는 트리거 요소 (버튼 등 클릭 가능한 단일 엘리먼트) */
   trigger: ReactNode
   children: ReactNode
+  /** 열린 콘텐츠의 접근 가능한 이름 */
+  label?: string
 }
 
-export function Popover({ trigger, children }: PopoverProps) {
+export function Popover({ trigger, children, label = '추가 정보' }: PopoverProps) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const triggerNodeRef = useRef<HTMLElement | null>(null)
@@ -65,7 +67,7 @@ export function Popover({ trigger, children }: PopoverProps) {
     <div ref={containerRef} className="relative inline-flex">
       {triggerElement}
       {open && (
-        <div id={contentId} role="dialog" className="absolute top-full left-0 mt-1 z-50 bg-surface border border-border rounded-card shadow-lg p-3 min-w-[160px]">
+        <div id={contentId} role="dialog" aria-label={label} className="absolute top-full left-0 z-50 mt-1 min-w-[160px] rounded-card border border-border bg-surface p-ws-3 text-body text-foreground shadow-lg">
           {children}
         </div>
       )}

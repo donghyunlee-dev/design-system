@@ -11,19 +11,20 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  { error, className, ...props },
+  { error, className, 'aria-invalid': ariaInvalid, ...props },
   ref
 ) {
   return (
     <textarea
       ref={ref}
       className={cn(
-        'w-full px-3 py-2 text-sm bg-surface border rounded-input text-foreground placeholder:text-placeholder resize-y min-h-20',
-        'focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand',
-        'disabled:opacity-50',
-        error ? 'border-danger' : 'border-border',
+        'w-full min-h-[var(--textarea-min-height)] px-ws-3 py-2 text-body bg-surface border rounded-input text-foreground placeholder:text-placeholder resize-y',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        'disabled:opacity-50 disabled:bg-surface-subtle',
+        error ? 'border-danger focus-visible:ring-danger' : 'border-border focus-visible:ring-brand',
         className
       )}
+      aria-invalid={error || ariaInvalid}
       {...props}
     />
   )

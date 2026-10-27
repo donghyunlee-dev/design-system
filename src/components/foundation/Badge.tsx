@@ -13,12 +13,12 @@ export function Badge({ variant = 'default', className, ...props }: BadgeProps) 
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-badge',
+        'inline-flex items-center px-2 py-0.5 text-caption font-medium rounded-badge',
         variant === 'default' && 'bg-surface-overlay text-secondary border border-border',
-        variant === 'success' && 'bg-green-50 text-green-700 border border-green-200',
-        variant === 'warning' && 'bg-yellow-50 text-yellow-700 border border-yellow-200',
-        variant === 'danger'  && 'bg-red-50 text-red-700 border border-red-200',
-        variant === 'info'    && 'bg-blue-50 text-blue-700 border border-blue-200',
+        variant === 'success' && 'bg-success-subtle text-success-foreground border border-success-foreground/20',
+        variant === 'warning' && 'bg-warning-subtle text-warning-foreground border border-warning-foreground/20',
+        variant === 'danger'  && 'bg-danger-subtle text-danger-foreground border border-danger-foreground/20',
+        variant === 'info'    && 'bg-info-subtle text-info-foreground border border-info-foreground/20',
         className
       )}
       {...props}
