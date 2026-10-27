@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { expect, within } from 'storybook/test'
 import { Sidebar } from './Sidebar'
 
 const SIDEBAR_ITEMS = [
@@ -19,4 +20,10 @@ const meta: Meta<typeof Sidebar> = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(canvas.getByRole('navigation', { name: '메인 메뉴' })).toBeInTheDocument()
+    await expect(canvas.getByRole('link', { name: '대시보드' })).toHaveAttribute('aria-current', 'page')
+  },
+}

@@ -25,7 +25,14 @@ export const Default: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await userEvent.click(canvas.getByRole('button', { name: '메뉴 ▾' }))
+    const trigger = canvas.getByRole('button', { name: '메뉴 ▾' })
+    await userEvent.click(trigger)
+    await expect(canvas.getByRole('menuitem', { name: '편집' })).toHaveFocus()
+    await userEvent.keyboard('{ArrowDown}')
+    await expect(canvas.getByRole('menuitem', { name: '복사' })).toHaveFocus()
+    await userEvent.keyboard('{Escape}')
+    await expect(trigger).toHaveFocus()
+    await userEvent.click(trigger)
     await expect(canvas.getByText('편집')).toBeInTheDocument()
     await userEvent.click(canvas.getByText('편집'))
     await expect(canvas.queryByText('편집')).not.toBeInTheDocument()

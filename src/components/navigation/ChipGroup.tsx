@@ -18,21 +18,21 @@ export interface ChipGroupProps {
   value: string
   onChange: (id: string) => void
   className?: string
+  label?: string
 }
 
 /** 단일 선택 필터를 칩 형태로 표시하고 선택 상태를 외부에 전달합니다. */
-export function ChipGroup({ items, value, onChange, className }: ChipGroupProps) {
+export function ChipGroup({ items, value, onChange, className, label = '필터' }: ChipGroupProps) {
   return (
-    <div role="tablist" className={cn('flex flex-wrap gap-2', className)}>
+    <div role="group" aria-label={label} className={cn('flex flex-wrap gap-ws-2', className)}>
       {items.map(item => (
         <button
           key={item.id}
           type="button"
-          role="tab"
-          aria-selected={value === item.id}
+          aria-pressed={value === item.id}
           onClick={() => onChange(item.id)}
           className={cn(
-            'px-3 py-1.5 text-sm rounded-btn border transition-colors duration-default',
+            'min-h-8 rounded-btn border px-ws-3 text-label transition-colors duration-default focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
             value === item.id
               ? 'bg-brand text-on-brand border-brand'
               : 'bg-surface border-border text-foreground hover:bg-surface-raised'

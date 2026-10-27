@@ -22,7 +22,7 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     // Click the second tab by name
-    const settingsTab = canvas.getByRole('button', { name: '설정' })
+    const settingsTab = canvas.getByRole('tab', { name: '설정' })
     await userEvent.click(settingsTab)
     await expect(settingsTab).toHaveClass('border-brand')
   },

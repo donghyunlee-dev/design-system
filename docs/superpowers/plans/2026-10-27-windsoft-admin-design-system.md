@@ -161,7 +161,7 @@ form targeted tests, `npm test`, `npm run build`, `npm run build-storybook`을 �
 
 - [ ] **시각 검토:** 현재 실행 환경에 브라우저가 없어 390/320px Light/Dark 캔버스 검토는 보류한다. Storybook 빌드는 통과했다.
 
-- [ ] **Step 6: 단계 커밋**
+- [x] **Step 6: 단계 커밋**
 
 ```bash
 git add src/components/form
@@ -177,27 +177,29 @@ git commit -m "feat: align form controls and states"
 - Modify: `src/components/feedback/{Alert,EmptyState,Progress,Skeleton,Spinner,Toast}.tsx`
 - Modify: 해당 stories/tests
 
-- [ ] **Step 1: ARIA/keyboard 회귀 테스트를 먼저 작성**
+- [x] **Step 1: ARIA/keyboard 회귀 테스트를 먼저 작성**
 
 Tabs에 tablist/tab/tabpanel, `aria-selected`, Arrow/Home/End roving focus 동작 테스트를 추가한다. Sidebar의 `nav` 이름, Pagination의 명확한 페이지 레이블, Dropdown/Popover/Modal 키보드·포커스 계약, MultiSelect 내부 옵션의 Arrow/Space/Escape 선택·닫기 동작을 각각 검사한다. 변경 전 실패 동작을 확인한다.
 
-- [ ] **Step 2: 표준 포커스/상태 토큰을 적용**
+- [x] **Step 2: 표준 포커스/상태 토큰을 적용**
 
 버튼·탭·링크·메뉴 액션에 공통 focus-visible, hover, selected, disabled 스타일을 적용한다. overlay close 및 menu affordance는 Task 2의 공용 Icon을 사용한다.
 
-- [ ] **Step 3: Sidebar의 기본 폭과 작은 화면 조합 점검**
+- [x] **Step 3: Sidebar의 기본 폭과 작은 화면 조합 점검**
 
 Sidebar는 기존 primitive API를 깨지 않고 navigation landmark와 tokenized width/style을 적용한다. 모바일에서는 기존 Drawer 조합을 가이드하고, 전역 responsive shell API는 새로 만들지 않는다.
 
-- [ ] **Step 4: Storybook 상태/키보드 예제 보강**
+- [x] **Step 4: Storybook 상태/키보드 예제 보강**
 
 열림/닫힘, focus, selected, 오류 알림, 로딩/빈 상태를 story로 드러내고 필요한 interaction test를 연결한다.
 
-- [ ] **Step 5: 상호작용·시각 검증**
+- [x] **Step 5: 상호작용·시각 검증**
 
 관련 targeted tests, `npm test`, `npm run build`, `npm run build-storybook`을 실행한다. keyboard-only, Light/Dark, 1280/390px에서 overlay 겹침과 focus 위치를 확인한다.
 
-- [ ] **Step 6: 단계 커밋**
+- [x] **Step 6: 단계 커밋**
+
+자동 검증(전체 173 tests, TypeScript, 패키지/Storybook 빌드)은 통과했다. 실행 환경에 브라우저가 없어 Light/Dark 및 1280/390px 실제 캔버스와 키보드 시각 상태 확인은 보류한다.
 
 ```bash
 git add src/components/navigation src/components/overlay src/components/feedback

@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useFocusTrap } from '../../utils/useFocusTrap'
 import { useBodyScrollLock } from '../../utils/useBodyScrollLock'
 
@@ -80,6 +80,7 @@ export function CommandPalette({
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
   const panelRef = useRef<HTMLDivElement>(null)
+  const resultsId = useId()
 
   const filtered = useMemo(() => filterGroups(groups, query), [groups, query])
   const flatItems = useMemo(() => filtered.flatMap(g => g.items), [filtered])
@@ -139,6 +140,11 @@ export function CommandPalette({
           <input
             autoFocus
             aria-label={placeholder}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="true"
+            aria-controls={resultsId}
+            aria-activedescendant={flatItems[activeIndex] ? `${resultsId}-option-${flatItems[activeIndex].id}` : undefined}
             value={query}
             onChange={e => {
               setQuery(e.target.value)
@@ -149,7 +155,7 @@ export function CommandPalette({
           />
         </div>
 
-        <div role="listbox" className="max-h-80 overflow-y-auto py-2">
+        <div id={resultsId} role="listbox" aria-label="검색 결과" className="max-h-80 overflow-y-auto py-2">
           {flatItems.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-muted">{emptyMessage}</p>
           ) : (
@@ -166,6 +172,7 @@ export function CommandPalette({
                       key={item.id}
                       type="button"
                       role="option"
+                      id={`${resultsId}-option-${item.id}`}
                       aria-selected={active}
                       onMouseEnter={() => setActiveIndex(renderedIndex)}
                       onClick={() => {

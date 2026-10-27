@@ -15,6 +15,8 @@ export interface ModalProps {
   onClose: () => void
   /** 모달 상단 제목 */
   title?: string
+  /** 제목이 없을 때 dialog의 접근 가능한 이름 */
+  label?: string
   children: ReactNode
   /** 하단 액션 버튼 영역 */
   footer?: ReactNode
@@ -24,7 +26,7 @@ export interface ModalProps {
 
 const sizeMap = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-2xl' }
 
-export function Modal({ open, onClose, title, children, footer, size = 'md' }: ModalProps) {
+export function Modal({ open, onClose, title, label = '확인', children, footer, size = 'md' }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
 
@@ -47,6 +49,7 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
+        aria-label={title ? undefined : label}
         className={cn('relative bg-surface rounded-card shadow-lg w-full', sizeMap[size])}
       >
         {title && (

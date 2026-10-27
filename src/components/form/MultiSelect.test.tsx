@@ -31,12 +31,12 @@ describe('MultiSelect', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('트리거 클릭 시 검색창과 체크박스 목록이 표시된다', async () => {
+  it('트리거 클릭 시 검색창과 다중 선택 목록이 표시된다', async () => {
     render(<ControlledMultiSelect />)
     await userEvent.click(screen.getByRole('button', { name: '라벨 전체' }))
     expect(screen.getByRole('listbox')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('검색')).toBeInTheDocument()
-    expect(screen.getByRole('checkbox', { name: 'ERP' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'ERP' })).toBeInTheDocument()
   })
 
   it('disabled 상태에서는 목록을 열 수 없다', async () => {
@@ -57,8 +57,8 @@ describe('MultiSelect', () => {
   it('여러 항목을 체크하면 선택 개수가 트리거에 반영된다', async () => {
     render(<ControlledMultiSelect />)
     await userEvent.click(screen.getByRole('button', { name: '라벨 전체' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'ERP' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'OMS' }))
+    await userEvent.click(screen.getByRole('option', { name: 'ERP' }))
+    await userEvent.click(screen.getByRole('option', { name: 'OMS' }))
     expect(screen.getByText('ERP, OMS')).toBeInTheDocument()
     expect(screen.getByText('2')).toBeInTheDocument()
   })
@@ -67,8 +67,8 @@ describe('MultiSelect', () => {
     render(<ControlledMultiSelect />)
     await userEvent.click(screen.getByRole('button', { name: '라벨 전체' }))
     await userEvent.type(screen.getByPlaceholderText('검색'), 'OM')
-    expect(screen.getByRole('checkbox', { name: 'OMS' })).toBeInTheDocument()
-    expect(screen.queryByRole('checkbox', { name: 'ERP' })).not.toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'OMS' })).toBeInTheDocument()
+    expect(screen.queryByRole('option', { name: 'ERP' })).not.toBeInTheDocument()
   })
 
   it('Escape로 닫히고 포커스가 트리거로 돌아온다', async () => {
@@ -78,5 +78,20 @@ describe('MultiSelect', () => {
     await userEvent.keyboard('{Escape}')
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
     expect(trigger).toHaveFocus()
+  })
+
+  it('Arrow 키로 옵션을 이동하고 Space로 다중 선택한다', async () => {
+    render(<ControlledMultiSelect />)
+    await userEvent.click(screen.getByRole('button', { name: '라벨 전체' }))
+    const first = screen.getByRole('option', { name: 'ERP' })
+    first.focus()
+    await userEvent.keyboard('{Space}')
+    expect(first).toHaveAttribute('aria-selected', 'true')
+    await userEvent.keyboard('{ArrowDown}')
+    expect(screen.getByRole('option', { name: 'OMS' })).toHaveFocus()
+    await userEvent.keyboard('{Space}')
+    expect(screen.getByRole('option', { name: 'OMS' })).toHaveAttribute('aria-selected', 'true')
+    await userEvent.keyboard('{Escape}')
+    expect(screen.getByRole('button', { name: /ERP, OMS/ })).toHaveFocus()
   })
 })

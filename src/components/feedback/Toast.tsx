@@ -33,16 +33,18 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
-      <div className="fixed bottom-4 right-4 flex flex-col gap-2 z-50">
+      <div role="region" aria-label="알림" className="fixed bottom-ws-4 right-ws-4 z-50 flex flex-col gap-ws-2">
         {toasts.map(t => (
           <div
             key={t.id}
+            role={t.variant === 'danger' ? 'alert' : 'status'}
+            aria-live={t.variant === 'danger' ? 'assertive' : 'polite'}
             className={cn(
-              'px-4 py-3 rounded-card shadow-lg text-sm text-white min-w-[200px]',
-              t.variant === 'success' && 'bg-success',
-              t.variant === 'warning' && 'bg-warning',
-              t.variant === 'danger'  && 'bg-danger',
-              t.variant === 'info'    && 'bg-info',
+              'min-w-[200px] rounded-card border px-ws-4 py-ws-3 text-body shadow-lg',
+              t.variant === 'success' && 'border-success-foreground/20 bg-success-subtle text-success-foreground',
+              t.variant === 'warning' && 'border-warning-foreground/20 bg-warning-subtle text-warning-foreground',
+              t.variant === 'danger'  && 'border-danger-foreground/20 bg-danger-subtle text-danger-foreground',
+              t.variant === 'info'    && 'border-info-foreground/20 bg-info-subtle text-info-foreground',
             )}
           >
             {t.message}

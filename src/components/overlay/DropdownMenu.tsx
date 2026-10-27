@@ -40,6 +40,11 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const triggerNodeRef = useRef<HTMLElement | null>(null)
+  const itemRefs = useRef<Array<HTMLButtonElement | null>>([])
+
+  useEffect(() => {
+    if (open) itemRefs.current.find(Boolean)?.focus()
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -66,6 +71,7 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
     ? cloneElement(trigger as React.ReactElement<Record<string, unknown>>, {
         'aria-haspopup': 'menu',
         'aria-expanded': open,
+        className: cn(triggerProps?.className as string | undefined, 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand'),
         ref: (el: HTMLElement | null) => {
           triggerNodeRef.current = el
         },
@@ -80,15 +86,25 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
     <div ref={containerRef} className="relative inline-flex">
       {triggerElement}
       {open && (
-        <div role="menu" className="absolute top-full right-0 mt-1 z-50 bg-surface border border-border rounded-card shadow-lg py-1 min-w-[160px]">
+        <div role="menu" aria-label="작업 메뉴" onKeyDown={event => {
+          const enabled = itemRefs.current.filter((item): item is HTMLButtonElement => item !== null && !item.disabled)
+          const current = enabled.indexOf(document.activeElement as HTMLButtonElement)
+          let next: number | undefined
+          if (event.key === 'ArrowDown') next = (current + 1 + enabled.length) % enabled.length
+          if (event.key === 'ArrowUp') next = (current - 1 + enabled.length) % enabled.length
+          if (event.key === 'Home') next = 0
+          if (event.key === 'End') next = enabled.length - 1
+          if (next !== undefined && enabled.length) { event.preventDefault(); enabled[next].focus() }
+        }} className="absolute top-full right-0 z-50 mt-1 min-w-[160px] rounded-card border border-border bg-surface py-1 shadow-lg">
           {items.map((item, i) => (
             <div key={i}>
               {item.divider && <div className="border-t border-border my-1" />}
               <button
                 type="button"
                 role="menuitem"
-                className={cn('w-full text-left px-3 py-1.5 text-sm flex items-center gap-2 hover:bg-surface-raised', item.danger && 'text-danger')}
-                onClick={() => { item.onClick(); setOpen(false) }}
+                ref={element => { itemRefs.current[i] = element }}
+                className={cn('flex min-h-10 w-full items-center gap-ws-2 px-ws-3 text-left text-label text-foreground hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand', item.danger && 'text-danger')}
+                onClick={() => { item.onClick(); setOpen(false); triggerNodeRef.current?.focus() }}
               >
                 {item.icon}{item.label}
               </button>

@@ -17,6 +17,7 @@ export function Progress({ value, max = 100, className }: ProgressProps) {
     <div
       className={cn('h-2 w-full rounded-full bg-surface-overlay overflow-hidden', className)}
       role="progressbar"
+      aria-valuemin={0}
       aria-valuenow={value}
       aria-valuemax={max}
     >

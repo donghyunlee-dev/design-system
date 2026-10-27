@@ -1,6 +1,5 @@
 import { cn } from '../../utils/cn'
-import { useState, useRef, useEffect, useId, useMemo } from 'react'
-import { Checkbox } from './Checkbox'
+import { useState, useRef, useEffect, useId, useMemo, KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { Icon } from '../foundation/Icon'
 
 export interface MultiSelectOption {
@@ -52,6 +51,8 @@ export function MultiSelect({
   const [query, setQuery] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const optionRefs = useRef<Array<HTMLDivElement | null>>([])
+  const [activeIndex, setActiveIndex] = useState(0)
   const listId = useId()
 
   useEffect(() => {
@@ -84,6 +85,23 @@ export function MultiSelect({
 
   const toggle = (optValue: string) => {
     onChange(value.includes(optValue) ? value.filter(v => v !== optValue) : [...value, optValue])
+  }
+
+  const handleOptionKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>, index: number) => {
+    if (!filtered.length) return
+    let nextIndex: number | undefined
+    if (event.key === 'ArrowDown') nextIndex = (index + 1) % filtered.length
+    if (event.key === 'ArrowUp') nextIndex = (index - 1 + filtered.length) % filtered.length
+    if (event.key === 'Home') nextIndex = 0
+    if (event.key === 'End') nextIndex = filtered.length - 1
+    if (nextIndex !== undefined) {
+      event.preventDefault()
+      setActiveIndex(nextIndex)
+      optionRefs.current[nextIndex]?.focus()
+    } else if (event.key === ' ' || event.key === 'Space' || event.key === 'Enter') {
+      event.preventDefault()
+      toggle(filtered[index].value)
+    }
   }
 
   const selectedLabels = options.filter(opt => value.includes(opt.value)).map(opt => opt.label)
@@ -136,7 +154,15 @@ export function MultiSelect({
               <input
                 autoFocus
                 value={query}
-                onChange={e => setQuery(e.target.value)}
+                onChange={e => { setQuery(e.target.value); setActiveIndex(0) }}
+                onKeyDown={event => {
+                  if (event.key === 'ArrowDown' && filtered.length) {
+                    event.preventDefault()
+                    setActiveIndex(0)
+                    optionRefs.current[0]?.focus()
+                  }
+                }}
+                aria-label={searchPlaceholder}
                 placeholder={searchPlaceholder}
                 className={cn(
                   'w-full h-[var(--control-height-sm)] px-ws-3 text-body bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
@@ -146,9 +172,12 @@ export function MultiSelect({
             </div>
           )}
           <div className="flex flex-col">
-            {filtered.map(opt => (
-              <div key={opt.value} role="option" aria-selected={value.includes(opt.value)} className={cn('px-3 py-1 text-body text-foreground hover:bg-surface-raised', value.includes(opt.value) && 'bg-brand-subtle')}>
-                <Checkbox checked={value.includes(opt.value)} onChange={() => toggle(opt.value)} label={opt.label} />
+            {filtered.map((opt, index) => (
+              <div key={opt.value} ref={element => { optionRefs.current[index] = element }} role="option" aria-label={opt.label} aria-selected={value.includes(opt.value)} tabIndex={activeIndex === index ? 0 : -1} onKeyDown={event => handleOptionKeyDown(event, index)} onClick={() => toggle(opt.value)} className={cn('flex min-h-10 cursor-pointer items-center gap-ws-2 px-ws-3 text-body text-foreground hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand', value.includes(opt.value) && 'bg-brand-subtle')}>
+                <span aria-hidden="true" className={cn('flex size-4 items-center justify-center rounded-sm border border-border text-on-brand', value.includes(opt.value) && 'border-brand bg-brand')}>
+                  {value.includes(opt.value) && <Icon name="check" size="xs" />}
+                </span>
+                {opt.label}
               </div>
             ))}
             {filtered.length === 0 && (

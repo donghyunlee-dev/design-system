@@ -18,15 +18,15 @@ export function Alert({ variant = 'info', title, children, className }: AlertPro
     <div
       role="alert"
       className={cn(
-        'rounded-card border px-4 py-3 text-sm',
-        variant === 'info'    && 'bg-blue-50 border-blue-200 text-blue-800',
-        variant === 'success' && 'bg-green-50 border-green-200 text-green-800',
-        variant === 'warning' && 'bg-yellow-50 border-yellow-200 text-yellow-800',
-        variant === 'danger'  && 'bg-red-50 border-red-200 text-red-800',
+        'rounded-card border px-ws-4 py-ws-3 text-body',
+        variant === 'info'    && 'border-info-foreground/20 bg-info-subtle text-info-foreground',
+        variant === 'success' && 'border-success-foreground/20 bg-success-subtle text-success-foreground',
+        variant === 'warning' && 'border-warning-foreground/20 bg-warning-subtle text-warning-foreground',
+        variant === 'danger'  && 'border-danger-foreground/20 bg-danger-subtle text-danger-foreground',
         className
       )}
     >
-      {title && <p className="font-medium mb-1">{title}</p>}
+      {title && <p className="mb-1 font-medium">{title}</p>}
       <p>{children}</p>
     </div>
   )

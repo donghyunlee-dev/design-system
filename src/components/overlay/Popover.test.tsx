@@ -18,6 +18,12 @@ describe('Popover', () => {
     expect(screen.getByRole('dialog')).toHaveTextContent('상세 내용')
   })
 
+  it('열린 dialog에 접근 가능한 이름을 제공한다', async () => {
+    render(<Popover trigger={<button>정보</button>} label="추가 정보">상세 내용</Popover>)
+    await userEvent.click(screen.getByRole('button', { name: '정보' }))
+    expect(screen.getByRole('dialog', { name: '추가 정보' })).toHaveTextContent('상세 내용')
+  })
+
   it('Escape로 닫히고 포커스가 트리거로 돌아온다', async () => {
     render(<Popover trigger={<button>정보</button>}>상세 내용</Popover>)
     const trigger = screen.getByRole('button', { name: '정보' })

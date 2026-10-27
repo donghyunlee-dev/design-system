@@ -4,7 +4,7 @@ import { JSX, SVGAttributes } from 'react'
 /**
  * 외부 아이콘 라이브러리 없이 검색·상태·표 조작·내비게이션 아이콘을 같은 크기와 선 굵기로 표시합니다.
  */
-export type IconName = 'search' | 'comment' | 'settings' | 'sort' | 'sort-asc' | 'sort-desc' | 'filter' | 'grip' | 'close' | 'chevron-down' | 'chevron-right'
+export type IconName = 'search' | 'comment' | 'settings' | 'sort' | 'sort-asc' | 'sort-desc' | 'filter' | 'grip' | 'close' | 'check' | 'chevron-down' | 'chevron-right'
 
 export interface IconProps extends SVGAttributes<SVGSVGElement> {
   name: IconName
@@ -53,6 +53,7 @@ const paths: Record<IconName, JSX.Element> = {
     </>
   ),
   close: <path d="m6 6 12 12M18 6 6 18" />,
+  check: <path d="m5 12 4 4L19 6" />,
   'chevron-down': <path d="m6 9 6 6 6-6" />,
   'chevron-right': <path d="m9 6 6 6-6 6" />,
 }
