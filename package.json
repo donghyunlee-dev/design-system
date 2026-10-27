@@ -1,6 +1,6 @@
 {
   "name": "@windsoft/ui",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "WindSoft React and Tailwind CSS design system components and tokens",
   "repository": {
     "type": "git",
