@@ -11,7 +11,7 @@ import { FormField } from '../../components/form/FormField'
 import { Input } from '../../components/form/Input'
 import { Select } from '../../components/form/Select'
 
-const meta: Meta = { title: 'Templates/Admin', parameters: { layout: 'fullscreen' } }
+const meta: Meta = { title: 'Templates/Admin', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 const STATS = [

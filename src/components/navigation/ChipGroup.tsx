@@ -34,7 +34,7 @@ export function ChipGroup({ items, value, onChange, className }: ChipGroupProps)
           className={cn(
             'px-3 py-1.5 text-sm rounded-btn border transition-colors duration-default',
             value === item.id
-              ? 'bg-brand text-white border-brand'
+              ? 'bg-brand text-on-brand border-brand'
               : 'bg-surface border-border text-foreground hover:bg-surface-raised'
           )}
         >

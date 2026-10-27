@@ -26,7 +26,7 @@ export function Pagination({ page, total, pageSize = 10, onChange }: PaginationP
         <button
           key={p}
           onClick={() => onChange(p)}
-          className={cn('w-8 h-8 text-sm rounded border', p === page ? 'bg-brand text-white border-brand' : 'border-border text-foreground hover:bg-surface-raised')}
+          className={cn('w-8 h-8 text-sm rounded border', p === page ? 'bg-brand text-on-brand border-brand' : 'border-border text-foreground hover:bg-surface-raised')}
         >
           {p}
         </button>

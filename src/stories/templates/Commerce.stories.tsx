@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { CheckoutForm } from '../../templates/service/commerce/CheckoutForm'
 
-const meta: Meta = { title: 'Templates/Service/Commerce', parameters: { layout: 'fullscreen' } }
+const meta: Meta = { title: 'Templates/Service/Commerce', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 export const Checkout: StoryObj = {

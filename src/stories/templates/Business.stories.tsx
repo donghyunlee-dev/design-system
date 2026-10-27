@@ -67,7 +67,7 @@ import { FileUpload } from '../../components/form/FileUpload'
 
 const meta: Meta = {
   title: 'Templates/Business',
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', docs: { codePanel: true } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

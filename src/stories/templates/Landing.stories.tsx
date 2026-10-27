@@ -15,7 +15,7 @@ const NAV = [
   { label: '문서', href: '#' },
 ]
 
-const meta: Meta = { title: 'Templates/Service/Landing', parameters: { layout: 'fullscreen' } }
+const meta: Meta = { title: 'Templates/Service/Landing', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 export const Centered: StoryObj = {
