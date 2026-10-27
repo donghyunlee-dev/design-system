@@ -28,7 +28,7 @@ npm install @windsoft/ui
 npm install react@19 react-dom@19
 ```
 
-버전을 고정하려면 `npm install @windsoft/ui@0.3.1`처럼 명시 버전을 사용하세요.
+버전을 고정하려면 `npm install @windsoft/ui@0.4.0`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 

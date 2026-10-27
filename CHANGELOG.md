@@ -18,6 +18,25 @@
 ### Changed
 - 이름이 겹치는 `p-sm` 등의 간격 별칭 대신 `p-[var(--spacing-sm)]`처럼 CSS 토큰을 직접 사용하도록 안내
 
+## [0.4.0] - 2026-10-28
+
+### Added
+- 그룹 펼침/접힘, 재귀 하위 링크, 현재 경로 조상 자동 펼침을 지원하는 `SidebarNested` 추가
+- 다단계 Sidebar의 라우터 adapter, 키보드 접근성, 초기 펼침 메뉴 사용 예시 추가
+
+### Changed
+- `Sidebar`와 `SidebarNested`의 용도 및 앱 소유 책임을 사용 가이드와 체크리스트에 명시
+
+## [0.3.2] - 2026-10-27
+
+### Added
+- `Sidebar`, `Navbar`, `Breadcrumb`에서 SPA 라우터 링크를 연결하는 `renderLink` adapter 지원
+- URL 상태와 동기화할 수 있는 제어형 `Tabs` API와 Storybook 예시 추가
+
+### Changed
+- Provider 밖에서 `useToast()`를 호출하면 명시적 오류를 발생시켜 설정 누락을 확인하기 쉽게 변경
+- 테이블의 서버 페이지네이션 연결 및 앱 통합 책임 범위 문서화
+
 ## [0.3.0] - 2026-10-27
 
 ### Changed
