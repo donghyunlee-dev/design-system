@@ -30,3 +30,16 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+
+export const Compact: Story = { args: { density: 'compact' } }
+
+export const Comfortable: Story = { args: { density: 'comfortable' } }
+
+export const Empty: Story = { args: { data: [] } }
+
+export const EmptyWithAction: Story = {
+  args: {
+    data: [],
+    emptyState: <div className="py-ws-8 text-center"><p className="text-section-title">검색 결과가 없습니다</p><p className="mt-ws-1 text-caption text-secondary">검색 조건을 변경해 보세요.</p></div>,
+  },
+}

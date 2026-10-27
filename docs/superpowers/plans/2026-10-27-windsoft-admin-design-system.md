@@ -214,23 +214,23 @@ git commit -m "feat: standardize navigation and feedback patterns"
 - Modify: `src/components/navigation/Pagination.tsx`, `src/components/navigation/Pagination.test.tsx`
 - Modify: `src/components/data/{DataTable,Table}.stories.tsx`
 
-- [ ] **Step 1: Table density와 empty state 테스트 작성**
+- [x] **Step 1: Table density와 empty state 테스트 작성**
 
 `Table.test.tsx`, `DataTable.test.tsx`, `Pagination.test.tsx`에 compact/default/comfortable row height, 0건 empty state, 긴 데이터 값, caller-supplied selected rowClassName/hover와 pagination alignment 테스트를 추가하고 현재 구현에서 실패하는 사례를 확인한다.
 
-- [ ] **Step 2: Table과 DataTable 역할/API를 고정**
+- [x] **Step 2: Table과 DataTable 역할/API를 고정**
 
 `Table`은 단순한 읽기 목록, `DataTable`은 정렬·필터·컬럼 관리·리사이즈·페이징이 필요한 목록으로 문서화한다. 두 API에 additive `density`를 적용하고 `Pagination`에 32/40/48px `size`를 추가해 행 높이와 맞춘다. 컬럼 설정 기능은 기존 기본 동작을 유지하면서 숨길 수 있는 선택 prop을 추가한다.
 
-- [ ] **Step 3: 빈 상태와 테이블 역할 스타일 적용**
+- [x] **Step 3: 빈 상태와 테이블 역할 스타일 적용**
 
 0건이면 기본 EmptyState 또는 선택적 사용자 콘텐츠를 제공한다. 헤더/셀의 타이포, 경계, hover/caller-selected row, 정렬·필터 affordance, row density와 pagination 높이를 token으로 연결한다. 정렬 헤더에는 현재 정렬 방향을 `aria-sort`로 제공한다. 아이콘은 공용 Icon으로 통일한다.
 
-- [ ] **Step 4: Storybook 데이터 시나리오**
+- [x] **Step 4: Storybook 데이터 시나리오**
 
 단순 표, compact/comfortable 표, 정렬/필터, empty, 긴 한글 행, status, 좁은 화면의 overflow 사례를 같은 샘플 데이터에서 비교한다.
 
-- [ ] **Step 5: 테이블 검증 및 커밋**
+- [x] **Step 5: 테이블 검증 및 커밋**
 
 targeted tests, `npm test`, `npm run build`, `npm run build-storybook`을 실행하고 1280/1024/768/390px에서 표 폭·행 높이·페이지네이션을 확인한다.
 
@@ -238,6 +238,8 @@ targeted tests, `npm test`, `npm run build`, `npm run build-storybook`을 실행
 git add src/components/data/DataTable.tsx src/components/data/DataTable.test.tsx src/components/data/DataTable.stories.tsx src/components/data/Table.tsx src/components/data/Table.test.tsx src/components/data/Table.stories.tsx src/components/navigation/Pagination.tsx src/components/navigation/Pagination.test.tsx src/components/navigation/Pagination.stories.tsx
 git commit -m "feat: standardize table density and pagination"
 ```
+
+자동 검증(전체 193 tests, TypeScript, 패키지/Storybook 빌드)은 통과했다. 실행 환경에 브라우저가 없어 1280/1024/768/390px 실제 캔버스와 표 overflow의 시각 확인은 보류한다.
 
 ### Task 6: 기타 Data, Layout, Chart 컴포넌트
 

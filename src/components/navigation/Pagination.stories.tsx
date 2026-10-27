@@ -33,3 +33,14 @@ export const ManyPages: Story = {
     return <Pagination {...args} total={500} page={page} onChange={setPage} />
   },
 }
+
+export const SizeScale: Story = {
+  name: '32 / 40 / 48 px',
+  render: () => (
+    <div className="flex flex-col items-start gap-ws-4">
+      <Pagination page={2} total={100} size="sm" onChange={() => {}} />
+      <Pagination page={2} total={100} size="md" onChange={() => {}} />
+      <Pagination page={2} total={100} size="lg" onChange={() => {}} />
+    </div>
+  ),
+}

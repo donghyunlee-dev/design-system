@@ -152,8 +152,10 @@ import { Card, Stat, Grid } from '@windsoft/ui'
 
 ### 테이블
 
+단순한 읽기 목록에는 `Table`, 정렬·필터·컬럼 관리·페이지네이션이 필요한 목록에는 `DataTable`을 사용합니다. 두 컴포넌트 모두 `density`를 `compact`(32px), `default`(40px), `comfortable`(48px) 중에서 선택할 수 있습니다. 기본 빈 상태를 교체하려면 `emptyState`를 전달합니다.
+
 ```tsx
-import { Table, Badge } from '@windsoft/ui'
+import { DataTable, Table, Badge } from '@windsoft/ui'
 
 <Table
   rowKey="id"
@@ -168,6 +170,15 @@ import { Table, Badge } from '@windsoft/ui'
   ]}
   data={orders}
   onRowClick={(row) => console.log(row)}
+/>
+
+<DataTable
+  rowKey="id"
+  columns={[{ key: 'name', header: '주문명' }, { key: 'status', header: '상태', sortable: true }]}
+  data={orders}
+  density="compact"
+  pagination={{ pageSize: 20 }}
+  enableColumnVisibility={false}
 />
 ```
 

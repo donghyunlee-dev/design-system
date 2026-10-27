@@ -15,4 +15,14 @@ describe('Pagination', () => {
     expect(screen.getByRole('button', { name: '이전 페이지' })).toBeDisabled()
     expect(screen.getByRole('button', { name: '다음 페이지' })).not.toBeDisabled()
   })
+
+  it.each([
+    ['sm', 'size-8'],
+    ['md', 'size-10'],
+    ['lg', 'size-12'],
+  ] as const)('%s 크기가 페이지 버튼과 이동 버튼에 적용된다', (size, dimensionClass) => {
+    render(<Pagination page={2} total={30} size={size} onChange={() => {}} />)
+    expect(screen.getByRole('button', { name: '페이지 2' })).toHaveClass(dimensionClass)
+    expect(screen.getByRole('button', { name: '이전 페이지' })).toHaveClass(dimensionClass)
+  })
 })
