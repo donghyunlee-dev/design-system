@@ -3,7 +3,13 @@ import { LoginSimple } from '../../templates/service/auth/LoginSimple'
 import { LoginSplit } from '../../templates/service/auth/LoginSplit'
 import { SignupPage } from '../../templates/service/auth/SignupPage'
 
-const meta: Meta = { title: 'Templates/Service/Auth', parameters: { layout: 'fullscreen' } }
+const meta: Meta = {
+  title: 'Templates/Service/Auth',
+  parameters: {
+    layout: 'fullscreen',
+    docs: { codePanel: true },
+  },
+}
 export default meta
 
 export const Simple: StoryObj = {
@@ -18,6 +24,23 @@ export const Simple: StoryObj = {
 }
 
 export const Split: StoryObj = {
+  parameters: {
+    docs: {
+      source: {
+        language: 'tsx',
+        type: 'code',
+        code: `import { LoginSplit } from '@windsoft/ui'
+
+<LoginSplit
+  logo={<span className="text-2xl font-bold text-brand">내 서비스</span>}
+  brandTitle="내 서비스"
+  brandDescription="서비스 소개를 입력하세요."
+  onLogin={(email, password) => console.log(email, password)}
+  onSignup={() => {}}
+/>`,
+      },
+    },
+  },
   render: () => (
     <LoginSplit
       logo={<span className="text-2xl font-bold">WindSoft</span>}

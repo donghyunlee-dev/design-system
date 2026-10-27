@@ -6,7 +6,7 @@ import { ServiceCatalog } from '../../templates/service/catalog/ServiceCatalog'
 import { Button } from '../../components/foundation/Button'
 import { Badge } from '../../components/foundation/Badge'
 
-const meta: Meta = { title: 'Templates/Service/Catalog', parameters: { layout: 'fullscreen' } }
+const meta: Meta = { title: 'Templates/Service/Catalog', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 const ITEMS = Array.from({ length: 6 }, (_, i) => ({

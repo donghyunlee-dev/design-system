@@ -6,7 +6,7 @@ import { Input } from '../../components/form/Input'
 import { Switch } from '../../components/form/Switch'
 import { Button } from '../../components/foundation/Button'
 
-const meta: Meta = { title: 'Templates/Service/Account', parameters: { layout: 'fullscreen' } }
+const meta: Meta = { title: 'Templates/Service/Account', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 const ProfileForm = () => (
