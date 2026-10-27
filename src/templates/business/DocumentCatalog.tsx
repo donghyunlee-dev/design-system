@@ -67,22 +67,22 @@ export function DocumentCatalog({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        <h1 className="text-2xl font-bold text-foreground mb-4">{title}</h1>
-        <div className="flex gap-4" style={{ height: 'calc(100vh - 160px)' }}>
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <h1 className="text-page-title text-foreground mb-ws-4">{title}</h1>
+        <div className="flex gap-ws-4" style={{ height: 'calc(100vh - 160px)' }}>
           {/* 좌측 문서 목록 */}
           <div className="w-72 flex-shrink-0 bg-surface border border-border rounded-card shadow-card flex flex-col overflow-hidden">
-            <div className="p-3 border-b border-border">
+            <div className="p-ws-3 border-b border-border">
               <Input
                 placeholder={searchPlaceholder}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
-            <nav className="flex-1 overflow-y-auto py-2">
+            <nav className="flex-1 overflow-y-auto py-ws-2">
               {filteredCategories.map(category => (
-                <div key={category.id} className="mb-3">
-                  <p className="px-3 py-1 text-xs font-semibold text-muted uppercase tracking-wider">
+                <div key={category.id} className="mb-ws-3">
+                  <p className="px-ws-3 py-1 text-xs font-semibold text-muted uppercase tracking-wider">
                     {category.label}
                   </p>
                   <ul>
@@ -92,7 +92,7 @@ export function DocumentCatalog({
                           type="button"
                           onClick={() => handleSelect(item)}
                           className={cn(
-                            'w-full text-left px-3 py-1.5 text-sm truncate transition-colors',
+                            'w-full text-left px-ws-3 py-1.5 text-sm truncate transition-colors',
                             item.id === selectedId
                               ? 'bg-brand-subtle text-brand font-medium'
                               : 'text-foreground hover:bg-surface-subtle'
@@ -106,17 +106,17 @@ export function DocumentCatalog({
                 </div>
               ))}
               {filteredCategories.length === 0 && (
-                <p className="px-3 py-6 text-sm text-muted text-center">검색 결과가 없습니다.</p>
+                <p className="px-ws-3 py-ws-6 text-sm text-muted text-center">검색 결과가 없습니다.</p>
               )}
             </nav>
           </div>
 
           {/* 우측 문서 뷰어 */}
-          <div className="flex-1 bg-surface border border-border rounded-card shadow-card overflow-y-auto p-6">
+          <div className="flex-1 bg-surface border border-border rounded-card shadow-card overflow-y-auto p-ws-6">
             {selected ? (
               <article>
-                <h2 className="text-xl font-bold text-foreground mb-2">{selected.title}</h2>
-                <div className="flex flex-wrap items-center gap-2 mb-4 text-xs text-muted">
+                <h2 className="text-xl font-bold text-foreground mb-ws-2">{selected.title}</h2>
+                <div className="flex flex-wrap items-center gap-ws-2 mb-ws-4 text-xs text-muted">
                   {selected.author && <span>{selected.author}</span>}
                   {selected.author && selected.updatedAt && <span>·</span>}
                   {selected.updatedAt && <span>{selected.updatedAt} 수정</span>}

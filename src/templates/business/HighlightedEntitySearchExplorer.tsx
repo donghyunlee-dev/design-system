@@ -67,13 +67,13 @@ export function HighlightedEntitySearchExplorer({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
-        <div className="mb-4 max-w-xl">
+        <div className="mb-ws-4 max-w-xl">
           <Input
             placeholder={searchPlaceholder}
             value={search}
@@ -83,14 +83,14 @@ export function HighlightedEntitySearchExplorer({
         </div>
 
         {/* 엔티티 유형 탭 */}
-        <div className="flex gap-1 mb-4 border-b border-border overflow-x-auto">
+        <div className="flex gap-1 mb-ws-4 border-b border-border overflow-x-auto">
           {tabs.map(tab => (
             <button
               key={tab.key}
               type="button"
               onClick={() => onTabChange?.(tab.key)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap transition-colors',
+                'flex items-center gap-1.5 px-ws-3 py-ws-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap transition-colors',
                 activeTab === tab.key
                   ? 'border-brand text-brand'
                   : 'border-transparent text-muted hover:text-foreground'
@@ -102,14 +102,14 @@ export function HighlightedEntitySearchExplorer({
           ))}
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-ws-6">
           {/* 좌측 패싯 필터 */}
           {facets && facets.length > 0 && (
             <aside className="w-56 flex-shrink-0">
-              <div className="bg-surface border border-border rounded-card shadow-card p-4">
+              <div className="bg-surface border border-border rounded-card shadow-card p-ws-4">
                 {facets.map((section, si) => (
                   <div key={section.key} className={si > 0 ? 'mt-5' : ''}>
-                    <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
+                    <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-2">
                       {section.title}
                     </p>
                     <ul className="space-y-1">
@@ -121,7 +121,7 @@ export function HighlightedEntitySearchExplorer({
                               type="button"
                               onClick={() => onFacetChange?.(section.key, opt.value)}
                               className={cn(
-                                'w-full flex items-center justify-between px-2 py-1.5 rounded-md text-sm text-left transition-colors',
+                                'w-full flex items-center justify-between px-ws-2 py-1.5 rounded-md text-sm text-left transition-colors',
                                 active ? 'bg-brand-subtle text-brand font-medium' : 'text-foreground hover:bg-surface-subtle'
                               )}
                             >
@@ -142,7 +142,7 @@ export function HighlightedEntitySearchExplorer({
 
           {/* 우측 결과 목록 */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-ws-3">
               <p className="text-sm text-muted">
                 전체 <span className="font-semibold text-foreground">{totalCount ?? items.length}</span>건
               </p>
@@ -167,9 +167,9 @@ export function HighlightedEntitySearchExplorer({
                   <div
                     key={item.id}
                     onClick={() => onItemClick?.(item)}
-                    className={cn('px-4 py-3.5', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
+                    className={cn('px-ws-4 py-ws-3.5', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-ws-2">
                       <p className="text-sm font-medium text-foreground truncate">{highlightMatches(item.title, keyword)}</p>
                       {item.badge && <Tag>{item.badge}</Tag>}
                     </div>
@@ -177,7 +177,7 @@ export function HighlightedEntitySearchExplorer({
                       <p className="text-xs text-muted mt-1">{highlightMatches(item.description, keyword)}</p>
                     )}
                     {item.stats && item.stats.length > 0 && (
-                      <div className="flex items-center gap-1.5 mt-2 text-xs text-muted flex-wrap">
+                      <div className="flex items-center gap-1.5 mt-ws-2 text-xs text-muted flex-wrap">
                         {item.stats.map((stat, i) => (
                           <span key={i} className="flex items-center gap-1.5">
                             {i > 0 && <span aria-hidden="true">·</span>}
@@ -187,7 +187,7 @@ export function HighlightedEntitySearchExplorer({
                       </div>
                     )}
                     {item.tags && item.tags.length > 0 && (
-                      <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                      <div className="flex items-center gap-1.5 mt-ws-2 flex-wrap">
                         {item.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
                       </div>
                     )}
@@ -197,7 +197,7 @@ export function HighlightedEntitySearchExplorer({
             )}
 
             {page !== undefined && totalCount !== undefined && onPageChange && (
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center mt-ws-4">
                 <Pagination page={page} total={totalCount} pageSize={pageSize} onChange={onPageChange} />
               </div>
             )}

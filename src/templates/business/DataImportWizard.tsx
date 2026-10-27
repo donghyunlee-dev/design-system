@@ -91,19 +91,19 @@ export function DataImportWizard({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-4xl mx-auto px-[var(--page-padding)] py-6">
-        <h1 className="text-2xl font-bold text-foreground mb-6">{title}</h1>
+      <div className="mx-auto max-w-4xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <h1 className="text-page-title text-foreground mb-ws-6">{title}</h1>
 
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 flex justify-center overflow-x-auto">
+        <div className="bg-surface border border-border rounded-card shadow-card p-ws-6 mb-ws-4 flex justify-center overflow-x-auto">
           <Stepper steps={STEP_LABELS} current={step} />
         </div>
 
-        <div className="bg-surface border border-border rounded-card shadow-card p-6 mb-4 min-h-[320px]">
+        <div className="bg-surface border border-border rounded-card shadow-card p-ws-6 mb-ws-4 min-h-[320px]">
           {step === 0 && (
-            <div className="space-y-4">
+            <div className="space-y-ws-4">
               <FileUpload accept=".csv,.xlsx" label="CSV 또는 XLSX 파일을 선택 또는 드래그" onChange={onUpload} />
               {fileName && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-ws-2">
                   <span className="text-sm text-muted">선택된 파일</span>
                   <Tag>{fileName}</Tag>
                 </div>
@@ -134,7 +134,7 @@ export function DataImportWizard({
           )}
 
           {step === 2 && (
-            <div className="space-y-4">
+            <div className="space-y-ws-4">
               <Alert variant={errorCount > 0 ? 'danger' : warningCount > 0 ? 'warning' : 'success'}>
                 전체 {previewRows.length}건 중 정상 {validCount}건, 경고 {warningCount}건, 오류 {errorCount}건
                 {errorCount > 0 && ' — 오류 건이 있으면 반영할 수 없습니다.'}
@@ -144,13 +144,13 @@ export function DataImportWizard({
           )}
 
           {step === 3 && (
-            <div className="flex flex-col items-center justify-center h-48 gap-3">
+            <div className="flex flex-col items-center justify-center h-48 gap-ws-3">
               <div className="text-4xl">✅</div>
               <p className="text-lg font-semibold text-foreground">데이터 반영이 완료되었습니다</p>
               {summary && (
-                <dl className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm mt-2">
+                <dl className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm mt-ws-2">
                   {summary.map((s, i) => (
-                    <div key={i} className="flex gap-2">
+                    <div key={i} className="flex gap-ws-2">
                       <dt className="text-muted">{s.label}</dt>
                       <dd className="text-foreground font-medium">{s.value}</dd>
                     </div>

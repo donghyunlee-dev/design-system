@@ -69,15 +69,15 @@ export function HelpCenter({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-3">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
-        {breadcrumb && <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>}
+        {breadcrumb && <div className="mb-ws-4"><Breadcrumb items={breadcrumb} /></div>}
 
-        <div className="mb-6 max-w-xl">
+        <div className="mb-ws-6 max-w-xl">
           <Input
             placeholder="궁금한 내용을 검색해 보세요 (예: 비밀번호 재설정)"
             value={search}
@@ -87,20 +87,20 @@ export function HelpCenter({
         </div>
 
         {/* 카테고리 카드 */}
-        <Grid cols={4} gap={4} className="mb-8">
+        <Grid cols={4} gap={4} className="mb-ws-8">
           {categories.map(category => (
             <Card
               key={category.id}
               onClick={() => onCategoryClick?.(category)}
               className={cn(onCategoryClick && 'cursor-pointer hover:bg-surface-raised transition-colors')}
             >
-              {category.icon && <p className="text-2xl mb-2">{category.icon}</p>}
+              {category.icon && <p className="text-2xl mb-ws-2">{category.icon}</p>}
               <p className="text-sm font-semibold text-foreground">{category.label}</p>
               {category.description && (
                 <p className="text-xs text-muted mt-1">{category.description}</p>
               )}
               {category.count !== undefined && (
-                <p className="text-xs text-muted mt-2">{category.count}건</p>
+                <p className="text-xs text-muted mt-ws-2">{category.count}건</p>
               )}
             </Card>
           ))}
@@ -109,8 +109,8 @@ export function HelpCenter({
         <Divider />
 
         {/* FAQ 아코디언 */}
-        <div className="mb-8">
-          <h2 className="text-base font-semibold text-foreground mb-3">자주 묻는 질문</h2>
+        <div className="mb-ws-8">
+          <h2 className="text-base font-semibold text-foreground mb-ws-3">자주 묻는 질문</h2>
           {faqs.length === 0 ? (
             <div className="bg-surface border border-border rounded-card shadow-card">
               <EmptyState title="FAQ가 없습니다" description="검색어를 바꿔서 다시 시도해 보세요." />
@@ -124,13 +124,13 @@ export function HelpCenter({
                     <button
                       type="button"
                       onClick={() => setOpenFaqId(open ? null : faq.id)}
-                      className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left"
+                      className="w-full flex items-center justify-between gap-ws-3 px-ws-4 py-ws-3 text-left"
                     >
                       <span className="text-sm font-medium text-foreground">{faq.question}</span>
                       <span className={cn('text-muted transition-transform', open && 'rotate-180')}>▾</span>
                     </button>
                     {open && (
-                      <div className="px-4 pb-4 text-sm text-muted whitespace-pre-line">{faq.answer}</div>
+                      <div className="px-ws-4 pb-ws-4 text-sm text-muted whitespace-pre-line">{faq.answer}</div>
                     )}
                   </div>
                 )
@@ -142,11 +142,11 @@ export function HelpCenter({
         {/* 문의 채널 */}
         {contactChannels && contactChannels.length > 0 && (
           <div>
-            <h2 className="text-base font-semibold text-foreground mb-3">문의하기</h2>
+            <h2 className="text-base font-semibold text-foreground mb-ws-3">문의하기</h2>
             <Grid cols={2} gap={4}>
               {contactChannels.map(channel => (
                 <Card key={channel.id}>
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start justify-between gap-ws-3">
                     <div>
                       <p className="text-sm font-semibold text-foreground">{channel.label}</p>
                       {channel.description && (
@@ -156,7 +156,7 @@ export function HelpCenter({
                     <Tag>지원</Tag>
                   </div>
                   {channel.actionLabel && (
-                    <Button variant="secondary" size="sm" className="mt-3" onClick={channel.onAction}>
+                    <Button variant="secondary" size="sm" className="mt-ws-3" onClick={channel.onAction}>
                       {channel.actionLabel}
                     </Button>
                   )}

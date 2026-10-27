@@ -117,15 +117,15 @@ export function BulkImport({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-6">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         {/* 1. 업로드 파일 정보 */}
-        <div className="bg-surface border border-border rounded-card shadow-card p-4 mb-6">
-          <div className="flex items-center justify-between mb-2">
+        <div className="bg-surface border border-border rounded-card shadow-card p-ws-4 mb-ws-6">
+          <div className="flex items-center justify-between mb-ws-2">
             <p className="text-sm font-medium text-foreground">
               {fileName ?? '업로드된 파일 없음'}
             </p>
@@ -137,25 +137,25 @@ export function BulkImport({
         </div>
 
         {/* 2. 컬럼 매핑 */}
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-foreground mb-2">컬럼 매핑</h2>
+        <div className="mb-ws-6">
+          <h2 className="text-sm font-semibold text-foreground mb-ws-2">컬럼 매핑</h2>
           <Table columns={mappingColumns} data={mappings} rowKey="sourceColumn" />
         </div>
 
         {/* 3. 검증 결과 미리보기 */}
         {validationRows && (
           <div>
-            <h2 className="text-sm font-semibold text-foreground mb-2">검증 결과 미리보기</h2>
+            <h2 className="text-sm font-semibold text-foreground mb-ws-2">검증 결과 미리보기</h2>
             {errorCount > 0 ? (
-              <Alert variant="danger" title="반영 전 확인이 필요합니다" className="mb-3">
+              <Alert variant="danger" title="반영 전 확인이 필요합니다" className="mb-ws-3">
                 오류 {errorCount}건, 경고 {warningCount}건, 정상 {validCount}건이 확인되었습니다.
               </Alert>
             ) : warningCount > 0 ? (
-              <Alert variant="warning" title="경고 항목이 있습니다" className="mb-3">
+              <Alert variant="warning" title="경고 항목이 있습니다" className="mb-ws-3">
                 경고 {warningCount}건, 정상 {validCount}건이 확인되었습니다.
               </Alert>
             ) : (
-              <Alert variant="success" title="모든 행이 검증을 통과했습니다" className="mb-3">
+              <Alert variant="success" title="모든 행이 검증을 통과했습니다" className="mb-ws-3">
                 정상 {validCount}건. 반영을 진행할 수 있습니다.
               </Alert>
             )}

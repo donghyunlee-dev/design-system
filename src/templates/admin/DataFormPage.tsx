@@ -27,24 +27,24 @@ export function DataFormPage({
 }: DataFormPageProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-2xl mx-auto px-[var(--page-padding)] py-[var(--spacing-lg)]">
+      <div className="mx-auto max-w-2xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && <Breadcrumb items={breadcrumb} />}
-        <h1 className="text-2xl font-bold text-foreground mt-3 mb-6">{title}</h1>
-        <div className="bg-surface border border-border rounded-card shadow-sm">
+        <h1 className="mb-ws-6 mt-ws-3 text-page-title text-foreground">{title}</h1>
+        <div className="rounded-card border border-border bg-surface shadow-card">
           {sections.map((section, i) => (
             <div key={i}>
               {i > 0 && <Divider className="my-0" />}
-              <div className="p-6">
+              <div className="p-ws-6">
                 {section.title && (
-                  <h2 className="text-sm font-semibold text-muted uppercase tracking-wide mb-4">
+                    <h2 className="mb-ws-4 text-label font-semibold text-secondary">
                     {section.title}
                   </h2>
                 )}
-                <div className="flex flex-col gap-4">{section.fields}</div>
+                <div className="flex flex-col gap-ws-4">{section.fields}</div>
               </div>
             </div>
           ))}
-          <div className="px-6 py-4 border-t border-border flex justify-end gap-3">
+          <div className="flex flex-wrap justify-end gap-ws-3 border-t border-border px-ws-6 py-ws-4">
             {onCancel && (
               <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>취소</Button>
             )}

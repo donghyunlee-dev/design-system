@@ -23,30 +23,30 @@ export function DashboardFull({
 }: DashboardFullProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-[var(--spacing-lg)]">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="mb-ws-6 flex flex-wrap items-center justify-between gap-ws-3">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex flex-wrap gap-ws-2">{actions}</div>}
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="mb-ws-6 grid grid-cols-1 gap-ws-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s, i) => <Stat key={i} {...s} />)}
         </div>
         {(mainChart || secondaryChart) && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          <div className="mb-ws-6 grid grid-cols-1 gap-ws-4 lg:grid-cols-3">
             {mainChart && (
-              <div className="lg:col-span-2 bg-surface border border-border rounded-card p-4">{mainChart}</div>
+              <div className="rounded-card border border-border bg-surface p-ws-4 lg:col-span-2">{mainChart}</div>
             )}
             {secondaryChart && (
-              <div className="bg-surface border border-border rounded-card p-4">{secondaryChart}</div>
+              <div className="rounded-card border border-border bg-surface p-ws-4">{secondaryChart}</div>
             )}
           </div>
         )}
         {recentData && (
-          <div className="bg-surface border border-border rounded-card">
-            <div className="px-4 py-3 border-b border-border">
-              <p className="font-semibold text-foreground">{recentData.title}</p>
+          <div className="rounded-card border border-border bg-surface">
+            <div className="border-b border-border px-ws-4 py-ws-3">
+              <p className="text-section-title text-foreground">{recentData.title}</p>
             </div>
-            <div className="p-4">
+            <div className="p-ws-4">
               <Table columns={recentData.columns} data={recentData.data} rowKey={recentData.rowKey} />
             </div>
           </div>

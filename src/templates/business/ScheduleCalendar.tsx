@@ -50,23 +50,23 @@ export function ScheduleCalendar({
 }: ScheduleCalendarProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="flex items-center justify-between mb-ws-6">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <div className="flex items-center justify-between px-5 py-ws-4 border-b border-border">
             <button
               type="button"
               onClick={onPrev}
-              className="text-muted hover:text-foreground transition-colors px-2"
+              className="text-muted hover:text-foreground transition-colors px-ws-2"
               aria-label="이전 달"
             >
               ‹
@@ -75,7 +75,7 @@ export function ScheduleCalendar({
             <button
               type="button"
               onClick={onNext}
-              className="text-muted hover:text-foreground transition-colors px-2"
+              className="text-muted hover:text-foreground transition-colors px-ws-2"
               aria-label="다음 달"
             >
               ›
@@ -84,7 +84,7 @@ export function ScheduleCalendar({
 
           <div className="grid grid-cols-7 border-b border-border">
             {weekdays.map(w => (
-              <div key={w} className="text-center text-xs font-medium text-muted py-2">
+              <div key={w} className="text-center text-xs font-medium text-muted py-ws-2">
                 {w}
               </div>
             ))}
@@ -97,7 +97,7 @@ export function ScheduleCalendar({
                 type="button"
                 onClick={() => onDayClick?.(day)}
                 className={cn(
-                  'text-left align-top min-h-24 p-2 border-b border-r border-border hover:bg-surface-subtle transition-colors',
+                  'text-left align-top min-h-24 p-ws-2 border-b border-r border-border hover:bg-surface-subtle transition-colors',
                   (i + 1) % 7 === 0 && 'border-r-0',
                   day.outside && 'bg-surface-subtle'
                 )}

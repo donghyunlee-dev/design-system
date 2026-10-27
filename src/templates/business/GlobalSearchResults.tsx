@@ -57,13 +57,13 @@ export function GlobalSearchResults({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
-        <div className="mb-4 max-w-xl">
+        <div className="mb-ws-4 max-w-xl">
           <Input
             placeholder="주문, 파트너, 문서 등을 검색하세요"
             value={search}
@@ -72,14 +72,14 @@ export function GlobalSearchResults({
           />
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-ws-6">
           {/* 좌측 패싯 필터 */}
           {facets && facets.length > 0 && (
             <aside className="w-56 flex-shrink-0">
-              <div className="bg-surface border border-border rounded-card shadow-card p-4">
+              <div className="bg-surface border border-border rounded-card shadow-card p-ws-4">
                 {facets.map((section, si) => (
                   <div key={section.key} className={si > 0 ? 'mt-5' : ''}>
-                    <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
+                    <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-2">
                       {section.title}
                     </p>
                     <ul className="space-y-1">
@@ -91,7 +91,7 @@ export function GlobalSearchResults({
                               type="button"
                               onClick={() => onFacetChange?.(section.key, opt.value)}
                               className={cn(
-                                'w-full flex items-center justify-between px-2 py-1.5 rounded-md text-sm text-left transition-colors',
+                                'w-full flex items-center justify-between px-ws-2 py-1.5 rounded-md text-sm text-left transition-colors',
                                 active ? 'bg-brand-subtle text-brand font-medium' : 'text-foreground hover:bg-surface-subtle'
                               )}
                             >
@@ -112,7 +112,7 @@ export function GlobalSearchResults({
 
           {/* 우측 결과 목록 */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm text-muted mb-3">
+            <p className="text-sm text-muted mb-ws-3">
               전체 <span className="font-semibold text-foreground">{totalCount}</span>건
             </p>
 
@@ -124,7 +124,7 @@ export function GlobalSearchResults({
               <Stack gap={6}>
                 {groups.filter(g => g.items.length > 0).map((group, gi, filtered) => (
                   <div key={group.key}>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-ws-2 mb-ws-2">
                       <h2 className="text-sm font-semibold text-foreground">{group.label}</h2>
                       <span className="text-xs text-muted">{group.items.length}건</span>
                     </div>
@@ -133,20 +133,20 @@ export function GlobalSearchResults({
                         <div
                           key={item.id}
                           onClick={() => onItemClick?.(group, item)}
-                          className={cn('px-4 py-3', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
+                          className={cn('px-ws-4 py-ws-3', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
                         >
                           <p className="text-sm font-medium text-foreground truncate">{item.title}</p>
                           {item.description && (
                             <p className="text-xs text-muted mt-1 truncate">{item.description}</p>
                           )}
-                          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                          <div className="flex items-center gap-ws-2 mt-1.5 flex-wrap">
                             {item.meta && <span className="text-xs text-muted">{item.meta}</span>}
                             {item.tags?.map(tag => <Tag key={tag}>{tag}</Tag>)}
                           </div>
                         </div>
                       ))}
                     </div>
-                    {gi < filtered.length - 1 && <Divider className="mt-4" />}
+                    {gi < filtered.length - 1 && <Divider className="mt-ws-4" />}
                   </div>
                 ))}
               </Stack>

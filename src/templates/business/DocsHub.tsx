@@ -90,19 +90,19 @@ export function DocsHub({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        {breadcrumb && <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>}
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        {breadcrumb && <div className="mb-ws-4"><Breadcrumb items={breadcrumb} /></div>}
 
-        <h1 className="text-2xl font-bold text-foreground mb-1">{title}</h1>
+        <h1 className="text-page-title text-foreground mb-1">{title}</h1>
         {description && <p className="text-sm text-muted mb-5">{description}</p>}
         {!description && <div className="mb-5" />}
 
-        <div className="mb-6 max-w-xl">
+        <div className="mb-ws-6 max-w-xl">
           {commandGroups ? (
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
-              className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm text-muted bg-surface border border-border rounded-btn hover:bg-surface-subtle transition-colors"
+              className="w-full flex items-center justify-between gap-ws-2 px-ws-3 py-ws-2 text-sm text-muted bg-surface border border-border rounded-btn hover:bg-surface-subtle transition-colors"
             >
               <span className="truncate">{searchPlaceholder}</span>
               <kbd className="text-xs text-muted border border-border rounded px-1.5 py-0.5 flex-shrink-0">⌘K</kbd>
@@ -121,7 +121,7 @@ export function DocsHub({
           />
         )}
 
-        <div className="flex gap-6 items-start">
+        <div className="flex gap-ws-6 items-start">
           {/* 좌측: 시스템별 문서 네비게이션 */}
           <nav className="w-56 flex-shrink-0 hidden lg:block">
             {sections.map(section => (
@@ -136,7 +136,7 @@ export function DocsHub({
                         type="button"
                         onClick={() => onNavSelect?.(item)}
                         className={cn(
-                          'w-full text-left px-2.5 py-1.5 text-sm rounded-btn transition-colors',
+                          'w-full text-left px-ws-2.5 py-1.5 text-sm rounded-btn transition-colors',
                           item.id === activeItemId
                             ? 'bg-brand-subtle text-brand font-medium'
                             : 'text-foreground hover:bg-surface-subtle'
@@ -153,7 +153,7 @@ export function DocsHub({
 
           {/* 중앙: 주요 가이드 카드 */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-foreground mb-3">{featuredTitle}</p>
+            <p className="text-sm font-semibold text-foreground mb-ws-3">{featuredTitle}</p>
             <Grid cols={3} gap={4}>
               {featured.map(card => (
                 <Card
@@ -161,7 +161,7 @@ export function DocsHub({
                   onClick={card.onClick}
                   className={cn((card.onClick || card.href) && 'cursor-pointer hover:bg-surface-raised transition-colors')}
                 >
-                  <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-start justify-between mb-ws-2">
                     {card.icon && <span className="text-2xl">{card.icon}</span>}
                     {card.system && <Tag>{card.system}</Tag>}
                   </div>
@@ -175,17 +175,17 @@ export function DocsHub({
           </div>
 
           {/* 우측: 바로가기 · 공지사항 */}
-          <aside className="w-72 flex-shrink-0 hidden xl:block space-y-6">
+          <aside className="w-72 flex-shrink-0 hidden xl:block space-y-ws-6">
             {quickLinks && quickLinks.length > 0 && (
               <div>
-                <p className="text-sm font-semibold text-foreground mb-2">바로가기</p>
+                <p className="text-sm font-semibold text-foreground mb-ws-2">바로가기</p>
                 <div className="bg-surface border border-border rounded-card shadow-card divide-y divide-border">
                   {quickLinks.map(link => (
                     <button
                       key={link.id}
                       type="button"
                       onClick={link.onClick}
-                      className="w-full text-left px-3 py-2.5 hover:bg-surface-subtle transition-colors"
+                      className="w-full text-left px-ws-3 py-ws-2.5 hover:bg-surface-subtle transition-colors"
                     >
                       <p className="text-sm text-foreground font-medium">{link.label}</p>
                       {link.description && <p className="text-xs text-muted mt-0.5">{link.description}</p>}
@@ -197,12 +197,12 @@ export function DocsHub({
 
             {announcements && announcements.length > 0 && (
               <div>
-                <p className="text-sm font-semibold text-foreground mb-2">공지사항</p>
-                <div className="bg-surface border border-border rounded-card shadow-card p-3 space-y-3">
+                <p className="text-sm font-semibold text-foreground mb-ws-2">공지사항</p>
+                <div className="bg-surface border border-border rounded-card shadow-card p-ws-3 space-y-ws-3">
                   {announcements.map((item, i) => (
                     <div key={item.id}>
-                      {i > 0 && <Divider className="mb-3" />}
-                      <div className="flex items-start justify-between gap-2">
+                      {i > 0 && <Divider className="mb-ws-3" />}
+                      <div className="flex items-start justify-between gap-ws-2">
                         <p className="text-sm text-foreground">{item.title}</p>
                         {item.tag && <Tag>{item.tag}</Tag>}
                       </div>

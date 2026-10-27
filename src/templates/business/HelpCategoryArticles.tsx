@@ -38,26 +38,26 @@ export function HelpCategoryArticles({
 }: HelpCategoryArticlesProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="mb-4"><Breadcrumb items={breadcrumb} /></div>
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="mb-ws-4"><Breadcrumb items={breadcrumb} /></div>
 
-        <h1 className="text-2xl font-bold text-foreground mb-1">{title}</h1>
-        {description && <p className="text-sm text-muted mb-6">{description}</p>}
-        {!description && <div className="mb-6" />}
+        <h1 className="text-page-title text-foreground mb-1">{title}</h1>
+        {description && <p className="text-sm text-muted mb-ws-6">{description}</p>}
+        {!description && <div className="mb-ws-6" />}
 
-        <div className="flex gap-8 items-start">
+        <div className="flex gap-ws-8 items-start">
           {/* 섹션별 문서 목록 */}
-          <div className="flex-1 min-w-0 space-y-8">
+          <div className="flex-1 min-w-0 space-y-ws-8">
             {sections.map(section => (
               <div key={section.id}>
-                <div className="flex items-baseline justify-between gap-3 mb-1">
+                <div className="flex items-baseline justify-between gap-ws-3 mb-1">
                   <h2 className="text-base font-semibold text-foreground">{section.label}</h2>
                   <span className="text-xs text-muted flex-shrink-0">{section.articles.length}개 문서</span>
                 </div>
                 {section.description && (
-                  <p className="text-sm text-muted mb-3">{section.description}</p>
+                  <p className="text-sm text-muted mb-ws-3">{section.description}</p>
                 )}
-                {!section.description && <div className="mb-3" />}
+                {!section.description && <div className="mb-ws-3" />}
 
                 <div className="bg-surface border border-border rounded-card shadow-card divide-y divide-border overflow-hidden">
                   {section.articles.map(article => (
@@ -70,10 +70,10 @@ export function HelpCategoryArticles({
                           article.onClick()
                         }
                       }}
-                      className="flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-surface-subtle transition-colors"
+                      className="flex items-center justify-between gap-ws-3 px-ws-4 py-ws-3 text-left hover:bg-surface-subtle transition-colors"
                     >
                       <span className="text-sm text-foreground">{article.title}</span>
-                      <span className="flex items-center gap-3 flex-shrink-0">
+                      <span className="flex items-center gap-ws-3 flex-shrink-0">
                         {article.updatedAt && (
                           <span className="text-xs text-muted">{article.updatedAt} 수정</span>
                         )}
@@ -90,7 +90,7 @@ export function HelpCategoryArticles({
           {popularArticles && popularArticles.length > 0 && (
             <aside className="w-64 flex-shrink-0 hidden lg:block sticky top-6">
               <Card>
-                <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">인기 문서</p>
+                <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-2">인기 문서</p>
                 <ul className="space-y-1.5">
                   {popularArticles.map(article => (
                     <li key={article.id}>

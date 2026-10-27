@@ -57,13 +57,13 @@ export function FacetedSearchResults({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
-        <div className="mb-4 max-w-xl">
+        <div className="mb-ws-4 max-w-xl">
           <Input
             placeholder={searchPlaceholder}
             value={search}
@@ -72,14 +72,14 @@ export function FacetedSearchResults({
           />
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-ws-6">
           {/* 좌측 패싯 필터 */}
           {facets && facets.length > 0 && (
             <aside className="w-56 flex-shrink-0">
-              <div className="bg-surface border border-border rounded-card shadow-card p-4">
+              <div className="bg-surface border border-border rounded-card shadow-card p-ws-4">
                 {facets.map((section, si) => (
                   <div key={section.key} className={si > 0 ? 'mt-5' : ''}>
-                    <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
+                    <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-2">
                       {section.title}
                     </p>
                     <ul className="space-y-1">
@@ -91,7 +91,7 @@ export function FacetedSearchResults({
                               type="button"
                               onClick={() => onFacetChange?.(section.key, opt.value)}
                               className={cn(
-                                'w-full flex items-center justify-between px-2 py-1.5 rounded-md text-sm text-left transition-colors',
+                                'w-full flex items-center justify-between px-ws-2 py-1.5 rounded-md text-sm text-left transition-colors',
                                 active ? 'bg-brand-subtle text-brand font-medium' : 'text-foreground hover:bg-surface-subtle'
                               )}
                             >
@@ -112,7 +112,7 @@ export function FacetedSearchResults({
 
           {/* 우측 결과 목록 */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-ws-3">
               <p className="text-sm text-muted">
                 전체 <span className="font-semibold text-foreground">{items.length}</span>건
               </p>
@@ -137,9 +137,9 @@ export function FacetedSearchResults({
                   <div
                     key={item.id}
                     onClick={() => onItemClick?.(item)}
-                    className={cn('px-4 py-3.5', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
+                    className={cn('px-ws-4 py-ws-3.5', onItemClick && 'cursor-pointer hover:bg-surface-raised')}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-ws-2">
                       <p className="text-sm font-medium text-foreground truncate">{item.title}</p>
                       {item.badge && <Tag>{item.badge}</Tag>}
                     </div>
@@ -147,7 +147,7 @@ export function FacetedSearchResults({
                       <p className="text-xs text-muted mt-1">{item.description}</p>
                     )}
                     {item.stats && item.stats.length > 0 && (
-                      <div className="flex items-center gap-1.5 mt-2 text-xs text-muted flex-wrap">
+                      <div className="flex items-center gap-1.5 mt-ws-2 text-xs text-muted flex-wrap">
                         {item.stats.map((stat, i) => (
                           <span key={i} className="flex items-center gap-1.5">
                             {i > 0 && <span aria-hidden="true">·</span>}
@@ -157,7 +157,7 @@ export function FacetedSearchResults({
                       </div>
                     )}
                     {item.tags && item.tags.length > 0 && (
-                      <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                      <div className="flex items-center gap-1.5 mt-ws-2 flex-wrap">
                         {item.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
                       </div>
                     )}

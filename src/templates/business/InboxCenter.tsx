@@ -43,17 +43,17 @@ export function InboxCenter({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-3xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+      <div className="mx-auto max-w-3xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
+          <div className="flex items-center gap-ws-2">
+            <h1 className="text-page-title text-foreground">{title}</h1>
             {unreadCount > 0 && (
               <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-semibold rounded-full bg-danger text-white">
                 {unreadCount}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-ws-2">
             {onMarkAllRead && unreadCount > 0 && (
               <button
                 type="button"
@@ -67,14 +67,14 @@ export function InboxCenter({
           </div>
         </div>
 
-        <div className="flex gap-1 mb-4 border-b border-border">
+        <div className="flex gap-1 mb-ws-4 border-b border-border">
           {(['all', 'unread'] as const).map(key => (
             <button
               key={key}
               type="button"
               onClick={() => setTab(key)}
               className={cn(
-                'px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
+                'px-ws-3 py-ws-2 text-sm font-medium border-b-2 -mb-px transition-colors',
                 tab === key
                   ? 'border-brand text-brand'
                   : 'border-transparent text-muted hover:text-foreground'
@@ -91,14 +91,14 @@ export function InboxCenter({
               key={item.id}
               onClick={() => onItemClick?.(item)}
               className={cn(
-                'flex items-start gap-3 px-4 py-3',
+                'flex items-start gap-ws-3 px-ws-4 py-ws-3',
                 onItemClick && 'cursor-pointer hover:bg-surface-raised',
                 !item.read && 'bg-brand-subtle/40'
               )}
             >
               <span
                 className={cn(
-                  'w-2 h-2 rounded-full mt-2 flex-shrink-0',
+                  'w-2 h-2 rounded-full mt-ws-2 flex-shrink-0',
                   item.read ? 'bg-transparent' : 'bg-brand'
                 )}
                 aria-hidden="true"
@@ -107,7 +107,7 @@ export function InboxCenter({
                 <Avatar size="sm" initials={item.actor.initials} alt={item.actor.name} />
               )}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-ws-2 flex-wrap">
                   <Tag>{item.source}</Tag>
                   <p className={cn('text-sm truncate', item.read ? 'text-foreground' : 'font-semibold text-foreground')}>
                     {item.title}

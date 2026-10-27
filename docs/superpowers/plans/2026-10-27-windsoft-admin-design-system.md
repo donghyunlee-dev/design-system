@@ -283,27 +283,29 @@ git commit -m "feat: align data and layout components with WindSoft tokens"
 - Modify: `src/templates/business/**` (템플릿 스타일 sweep; 역할별 예외는 근거를 기록)
 - Modify: `src/stories/templates/{Admin,Business}.stories.tsx`
 
-- [ ] **Step 1: 기준 실제 업무 화면을 고정**
+- [x] **Step 1: 기준 실제 업무 화면을 고정**
 
 기존 `ListSearchTable`과 `FormRegister`의 구조/props를 읽고 중복 화면을 새로 만들지 않는다. 목록-조회와 입력-저장 흐름에 사용할 동일한 WindSoft 예시 데이터, 긴 값, empty 상태를 stories에 정의한다.
 
-- [ ] **Step 2: 템플릿 배치 회귀 점검 작성**
+- [x] **Step 2: 템플릿 배치 회귀 점검 작성**
 
 두 대표 템플릿에서 page header/toolbar/content spacing, 기본 컨트롤 크기와 responsive overflow를 검증한다. 현재 디자인에 필요한 Storybook interaction/state를 보강한다.
 
-- [ ] **Step 3: 템플릿을 완성된 업무 화면 패턴으로 적용**
+- [x] **Step 3: 템플릿을 완성된 업무 화면 패턴으로 적용**
 
 페이지 여백, 타이틀 위계, 검색·필터·주요 액션 순서, 테이블 밀도, form section 간격을 토큰에 연결한다. 상태/저장 액션은 기존 props 계약을 사용하며 새 business logic을 도입하지 않는다.
 
-- [ ] **Step 4: 나머지 admin/business templates를 그룹별 migration**
+- [x] **Step 4: 나머지 admin/business templates를 그룹별 migration**
 
-같은 스타일 규칙을 admin/business templates에 적용한다. 템플릿마다 적용/예외를 목록으로 검토하고, 이름이나 목적이 비슷한 템플릿의 props와 시각 목적을 보존한다.
+같은 페이지 gutter, page-title, spacing 토큰을 admin/business templates에 적용한다. DocumentPrint는 인쇄 여백/서체 계약을 유지하고, SystemStatusBoard와 MonitoringBoard는 상태 모니터링 전용 화면 목적, TemplateGallery 계열과 TemplateCommunity는 마케팅/탐색형 갤러리 목적에 따라 현 시각 구성을 예외로 유지한다. 공개 props와 화면별 세부 레이아웃은 보존한다.
 
 - [ ] **Step 5: 통합 Storybook 및 responsive 검토**
 
 관리 목록과 등록 폼을 대표 통합 story로 두고 1440/1280/1024/768/390/320px, Light/Dark, 긴 한글/empty/error 상태를 확인한다.
 
-- [ ] **Step 6: admin/business validation 및 커밋**
+- [ ] **시각 확인:** 실행 환경에서 브라우저 실행 파일을 찾지 못해 실제 캔버스 스크린샷 검토는 보류한다. Storybook 빌드는 통과했으며 `Templates/Admin`과 `Templates/Business`에서 직접 확인할 수 있다.
+
+- [x] **Step 6: admin/business validation 및 커밋**
 
 관련 component/template tests, `npm test`, `npm run build`, `npm run build-storybook`을 실행한다.
 

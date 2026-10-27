@@ -91,19 +91,19 @@ export function IssueListBoard({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         {/* 상태 탭 */}
-        <div className="flex gap-1 mb-4 border-b border-border">
+        <div className="flex gap-1 mb-ws-4 border-b border-border">
           {([
             { key: 'open' as const, label: '열림', count: openCount },
             { key: 'closed' as const, label: '닫힘', count: closedCount },
@@ -113,7 +113,7 @@ export function IssueListBoard({
               type="button"
               onClick={() => onTabChange?.(tab.key)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
+                'flex items-center gap-1.5 px-ws-3 py-ws-2 text-sm font-medium border-b-2 -mb-px transition-colors',
                 activeTab === tab.key
                   ? 'border-brand text-brand'
                   : 'border-transparent text-muted hover:text-foreground'
@@ -133,7 +133,7 @@ export function IssueListBoard({
         </div>
 
         {/* 검색·필터 바 */}
-        <div className="flex flex-wrap gap-3 items-center mb-4">
+        <div className="flex flex-wrap gap-ws-3 items-center mb-ws-4">
           <div className="flex-1 min-w-[200px] relative">
             <Icon
               name="search"
@@ -147,11 +147,11 @@ export function IssueListBoard({
               className="pl-9"
             />
           </div>
-          {filters && <div className="flex gap-2 flex-wrap items-center">{filters}</div>}
+          {filters && <div className="flex gap-ws-2 flex-wrap items-center">{filters}</div>}
         </div>
 
         {selectable && selectedIds.length > 0 && (
-          <div className="flex items-center gap-2 mb-2 text-sm text-foreground">
+          <div className="flex items-center gap-ws-2 mb-ws-2 text-sm text-foreground">
             <span>{selectedIds.length}개 선택됨</span>
           </div>
         )}
@@ -159,7 +159,7 @@ export function IssueListBoard({
         {/* 이슈 목록 */}
         <div className="bg-surface border border-border rounded-card shadow-card divide-y divide-border overflow-hidden">
           {selectable && issues.length > 0 && (
-            <div className="flex items-center px-4 py-2 bg-surface-raised">
+            <div className="flex items-center px-ws-4 py-ws-2 bg-surface-raised">
               <Checkbox checked={allSelected} onChange={toggleAll} label="전체 선택" />
             </div>
           )}
@@ -168,7 +168,7 @@ export function IssueListBoard({
               key={issue.id}
               onClick={() => onItemClick?.(issue)}
               className={cn(
-                'flex items-start gap-3 px-4 py-3',
+                'flex items-start gap-ws-3 px-ws-4 py-ws-3',
                 onItemClick && 'cursor-pointer hover:bg-surface-raised'
               )}
             >
@@ -185,7 +185,7 @@ export function IssueListBoard({
                 aria-hidden="true"
               />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-ws-2 flex-wrap">
                   <p className="text-sm font-semibold text-foreground truncate">{issue.title}</p>
                   {issue.labels?.map(label => <Tag key={label}>{label}</Tag>)}
                 </div>
@@ -193,7 +193,7 @@ export function IssueListBoard({
                   {issue.no} · {issue.meta}
                 </p>
               </div>
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-ws-3 flex-shrink-0">
                 {issue.commentCount !== undefined && issue.commentCount > 0 && (
                   <span className="flex items-center gap-1 text-xs text-muted">
                     <Icon name="comment" size="xs" />
@@ -212,7 +212,7 @@ export function IssueListBoard({
         </div>
 
         {pagination && issues.length > 0 && (
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-ws-4">
             <Pagination {...pagination} />
           </div>
         )}

@@ -103,19 +103,19 @@ export function SystemIssueTracker({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         {/* 상태 탭 */}
-        <div className="flex gap-1 mb-4 border-b border-border">
+        <div className="flex gap-1 mb-ws-4 border-b border-border">
           {([
             { key: 'open' as const, label: '열림', count: openCount },
             { key: 'closed' as const, label: '닫힘', count: closedCount },
@@ -125,7 +125,7 @@ export function SystemIssueTracker({
               type="button"
               onClick={() => onTabChange?.(tab.key)}
               className={cn(
-                'flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
+                'flex items-center gap-1.5 px-ws-3 py-ws-2 text-sm font-medium border-b-2 -mb-px transition-colors',
                 activeTab === tab.key
                   ? 'border-brand text-brand'
                   : 'border-transparent text-muted hover:text-foreground'
@@ -145,13 +145,13 @@ export function SystemIssueTracker({
         </div>
 
         {/* 검색·필터·일괄처리 바 */}
-        <div className="flex flex-wrap gap-3 items-center mb-4">
+        <div className="flex flex-wrap gap-ws-3 items-center mb-ws-4">
           {selectable && selectedCount > 0 ? (
-            <div className="flex-1 flex items-center gap-3 flex-wrap">
+            <div className="flex-1 flex items-center gap-ws-3 flex-wrap">
               <Checkbox checked={allSelected} onChange={toggleAll} />
               <span className="text-sm text-foreground">{selectedCount}건 선택됨</span>
               {bulkActions && bulkActions.length > 0 && (
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-ws-2 flex-wrap">
                   {bulkActions.map((action, i) => (
                     <Button key={i} variant="secondary" size="sm" onClick={action.onClick}>
                       {action.label}
@@ -177,7 +177,7 @@ export function SystemIssueTracker({
                 />
               </div>
               {filterMenus && filterMenus.length > 0 && (
-                <div className="flex gap-2 flex-wrap items-center">
+                <div className="flex gap-ws-2 flex-wrap items-center">
                   {filterMenus.map(menu => (
                     <DropdownMenu
                       key={menu.label}
@@ -206,7 +206,7 @@ export function SystemIssueTracker({
             <div
               key={issue.id}
               className={cn(
-                'flex items-start gap-3 px-4 py-3',
+                'flex items-start gap-ws-3 px-ws-4 py-ws-3',
                 onItemClick && 'cursor-pointer hover:bg-surface-raised'
               )}
               onClick={() => onItemClick?.(issue)}
@@ -227,7 +227,7 @@ export function SystemIssueTracker({
                 aria-hidden="true"
               />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-ws-2 flex-wrap">
                   <p className="text-sm font-semibold text-foreground truncate">{issue.title}</p>
                   {issue.labels?.map(label => <Tag key={label}>{label}</Tag>)}
                 </div>
@@ -235,7 +235,7 @@ export function SystemIssueTracker({
                   {issue.no} · {issue.meta}
                 </p>
               </div>
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-ws-3 flex-shrink-0">
                 {issue.commentCount !== undefined && issue.commentCount > 0 && (
                   <span className="flex items-center gap-1 text-xs text-muted">
                     <Icon name="comment" size="xs" />

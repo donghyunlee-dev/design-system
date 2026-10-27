@@ -79,21 +79,21 @@ export function DataImportMapping({
 }: DataImportMappingProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-6xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-ws-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+            <h1 className="text-page-title text-foreground">{title}</h1>
             {fileName && <p className="text-sm text-muted mt-1">원본 파일: {fileName}</p>}
           </div>
-          {actions && <div className="flex gap-2">{actions}</div>}
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
-        <div className="mb-8">
+        <div className="mb-ws-8">
           <Stepper steps={steps} current={currentStep} />
         </div>
 
@@ -103,20 +103,20 @@ export function DataImportMapping({
               <table className="w-full text-sm">
                 <thead className="bg-surface-raised border-b border-border">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">원본 컬럼</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">샘플 값</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">시스템 필드</th>
+                    <th className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">원본 컬럼</th>
+                    <th className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">샘플 값</th>
+                    <th className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">시스템 필드</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {mappings.map(m => (
                     <tr key={m.id} className="bg-surface">
-                      <td className="px-4 py-3 text-foreground font-medium">
+                      <td className="px-ws-4 py-ws-3 text-foreground font-medium">
                         {m.sourceColumn}
                         {m.required && <Tag className="ml-2">필수</Tag>}
                       </td>
-                      <td className="px-4 py-3 text-muted">{m.sampleValue ?? '-'}</td>
-                      <td className="px-4 py-3 max-w-xs">
+                      <td className="px-ws-4 py-ws-3 text-muted">{m.sampleValue ?? '-'}</td>
+                      <td className="px-ws-4 py-ws-3 max-w-xs">
                         <Select
                           options={fieldOptions}
                           placeholder="매핑 안함"
@@ -145,20 +145,20 @@ export function DataImportMapping({
                   <thead className="bg-surface-raised border-b border-border">
                     <tr>
                       {previewColumns.map(col => (
-                        <th key={col.key} className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">
+                        <th key={col.key} className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">
                           {col.header}
                         </th>
                       ))}
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">상태</th>
+                      <th className="px-ws-4 py-ws-3 text-left text-xs font-semibold text-muted uppercase tracking-wide">상태</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {previewRows.map(row => (
                       <tr key={row.id} className="bg-surface">
                         {previewColumns.map(col => (
-                          <td key={col.key} className="px-4 py-3 text-foreground">{row.values[col.key] ?? '-'}</td>
+                          <td key={col.key} className="px-ws-4 py-ws-3 text-foreground">{row.values[col.key] ?? '-'}</td>
                         ))}
-                        <td className="px-4 py-3">
+                        <td className="px-ws-4 py-ws-3">
                           <StatusBadge status={row.status} label={row.message} />
                         </td>
                       </tr>
@@ -169,12 +169,12 @@ export function DataImportMapping({
             </Card>
           )}
 
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-ws-2">
             {onBack && (
               <button
                 type="button"
                 onClick={onBack}
-                className="px-4 py-2 text-sm font-medium rounded-input border border-border text-foreground bg-surface hover:bg-surface-raised"
+                className="px-ws-4 py-ws-2 text-sm font-medium rounded-input border border-border text-foreground bg-surface hover:bg-surface-raised"
               >
                 이전
               </button>
@@ -183,7 +183,7 @@ export function DataImportMapping({
               <button
                 type="button"
                 onClick={onNext}
-                className="px-4 py-2 text-sm font-medium rounded-input bg-brand text-white hover:opacity-90"
+                className="px-ws-4 py-ws-2 text-sm font-medium rounded-input bg-brand text-white hover:opacity-90"
               >
                 {nextLabel}
               </button>

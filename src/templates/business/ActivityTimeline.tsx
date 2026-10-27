@@ -47,38 +47,38 @@ export function ActivityTimeline({
 }: ActivityTimelineProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-3xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-3xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {breadcrumb && (
-          <div className="mb-3">
+          <div className="mb-ws-3">
             <Breadcrumb items={breadcrumb} />
           </div>
         )}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
-          {actions && <div className="flex gap-2">{actions}</div>}
+        <div className="flex items-center justify-between mb-ws-6">
+          <h1 className="text-page-title text-foreground">{title}</h1>
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         {filters && (
-          <div className="flex gap-2 mb-4">{filters}</div>
+          <div className="flex gap-ws-2 mb-ws-4">{filters}</div>
         )}
 
-        <div className="bg-surface border border-border rounded-card shadow-card p-6">
+        <div className="bg-surface border border-border rounded-card shadow-card p-ws-6">
           {groups.map((group, gi) => (
-            <div key={gi} className={gi > 0 ? 'mt-6' : ''}>
-              <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-4">
+            <div key={gi} className={gi > 0 ? 'mt-ws-6' : ''}>
+              <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-ws-4">
                 {group.date}
               </p>
               <div>
                 {group.events.map((ev, i) => (
-                  <div key={ev.id} className="flex gap-3">
+                  <div key={ev.id} className="flex gap-ws-3">
                     <div className="flex flex-col items-center">
-                      <span className={cn('w-2 h-2 rounded-full mt-2 flex-shrink-0', DOT_COLOR[ev.variant ?? 'default'])} />
+                      <span className={cn('w-2 h-2 rounded-full mt-ws-2 flex-shrink-0', DOT_COLOR[ev.variant ?? 'default'])} />
                       {i < group.events.length - 1 && (
                         <div className="w-px flex-1 bg-border mt-1 mb-1" />
                       )}
                     </div>
                     <div className="pb-5 flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-ws-2">
                         <Avatar size="sm" initials={ev.actor.initials} alt={ev.actor.name} />
                         <p className="text-sm text-foreground">
                           <span className="font-medium">{ev.actor.name}</span>
@@ -93,11 +93,11 @@ export function ActivityTimeline({
                   </div>
                 ))}
               </div>
-              {gi < groups.length - 1 && <Divider className="mt-2" />}
+              {gi < groups.length - 1 && <Divider className="mt-ws-2" />}
             </div>
           ))}
           {groups.length === 0 && (
-            <p className="text-sm text-muted text-center py-8">활동 이력이 없습니다.</p>
+            <p className="text-sm text-muted text-center py-ws-8">활동 이력이 없습니다.</p>
           )}
         </div>
       </div>

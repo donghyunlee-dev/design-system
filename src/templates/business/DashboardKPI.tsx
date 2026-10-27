@@ -41,18 +41,18 @@ export function DashboardKPI({
 }: DashboardKPIProps) {
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
         {/* 헤더 */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-ws-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+            <h1 className="text-page-title text-foreground">{title}</h1>
             {period && <p className="text-sm text-muted mt-0.5">{period}</p>}
           </div>
-          {actions && <div className="flex gap-2">{actions}</div>}
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         {/* KPI 카드 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-ws-4 mb-ws-6">
           {kpis.map((kpi, i) => (
             <Stat
               key={i}
@@ -66,14 +66,14 @@ export function DashboardKPI({
 
         {/* 차트 영역 */}
         {(mainChart || subChart) && (
-          <div className={cn('grid gap-4 mb-6', subChart ? 'grid-cols-3' : 'grid-cols-1')}>
+          <div className={cn('grid gap-ws-4 mb-ws-6', subChart ? 'grid-cols-3' : 'grid-cols-1')}>
             {mainChart && (
-              <div className={cn('bg-surface border border-border rounded-card p-4 shadow-card', subChart ? 'col-span-2' : 'col-span-1')}>
+              <div className={cn('bg-surface border border-border rounded-card p-ws-4 shadow-card', subChart ? 'col-span-2' : 'col-span-1')}>
                 {mainChart}
               </div>
             )}
             {subChart && (
-              <div className="bg-surface border border-border rounded-card p-4 shadow-card">
+              <div className="bg-surface border border-border rounded-card p-ws-4 shadow-card">
                 {subChart}
               </div>
             )}
@@ -84,7 +84,7 @@ export function DashboardKPI({
         {tableColumns && tableData && (
           <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden">
             {tableTitle && (
-              <div className="px-4 py-3 border-b border-border">
+              <div className="px-ws-4 py-ws-3 border-b border-border">
                 <h2 className="text-sm font-semibold text-foreground">{tableTitle}</h2>
               </div>
             )}

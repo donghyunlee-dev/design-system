@@ -63,24 +63,24 @@ export function DiffView({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-5xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="mx-auto max-w-5xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+            <h1 className="text-page-title text-foreground">{title}</h1>
             <p className="text-sm text-muted mt-1">전체 {fields.length}개 항목 중 {changedCount}개 변경</p>
           </div>
-          {actions && <div className="flex gap-2">{actions}</div>}
+          {actions && <div className="flex gap-ws-2">{actions}</div>}
         </div>
 
         <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden">
           {/* 헤더: 좌우 라벨 */}
           <div className="grid grid-cols-[160px_1fr_1fr] border-b border-border bg-surface-raised">
-            <div className="px-4 py-3" />
-            <div className="px-4 py-3">
+            <div className="px-ws-4 py-ws-3" />
+            <div className="px-ws-4 py-ws-3">
               <p className="text-sm font-semibold text-foreground">{beforeLabel}</p>
               {beforeMeta && <p className="text-xs text-muted mt-0.5">{beforeMeta}</p>}
             </div>
-            <div className="px-4 py-3 border-l border-border">
+            <div className="px-ws-4 py-ws-3 border-l border-border">
               <p className="text-sm font-semibold text-foreground">{afterLabel}</p>
               {afterMeta && <p className="text-xs text-muted mt-0.5">{afterMeta}</p>}
             </div>
@@ -91,7 +91,7 @@ export function DiffView({
               const status = resolveStatus(field)
               return (
                 <div key={i} className="grid grid-cols-[160px_1fr_1fr]">
-                  <div className="px-4 py-3 flex items-center gap-2">
+                  <div className="px-ws-4 py-ws-3 flex items-center gap-ws-2">
                     <span className="text-xs font-medium text-muted">{field.label}</span>
                     {status !== 'unchanged' && (
                       <Tag className={cn(
@@ -103,8 +103,8 @@ export function DiffView({
                       </Tag>
                     )}
                   </div>
-                  <div className={cn('px-4 py-3 text-sm', CELL_CLASS[status].before)}>{field.before}</div>
-                  <div className={cn('px-4 py-3 text-sm border-l border-border', CELL_CLASS[status].after)}>{field.after}</div>
+                  <div className={cn('px-ws-4 py-ws-3 text-sm', CELL_CLASS[status].before)}>{field.before}</div>
+                  <div className={cn('px-ws-4 py-ws-3 text-sm border-l border-border', CELL_CLASS[status].after)}>{field.after}</div>
                 </div>
               )
             })}

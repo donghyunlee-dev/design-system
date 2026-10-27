@@ -49,15 +49,15 @@ export function MasterDetail<T extends Record<string, unknown>>({
 
   return (
     <div className={cn('min-h-screen bg-background', className)}>
-      <div className="max-w-7xl mx-auto px-[var(--page-padding)] py-6">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+      <div className="mx-auto max-w-7xl px-[var(--windsoft-page-gutter)] py-ws-6">
+        <div className="flex items-center justify-between mb-ws-4">
+          <h1 className="text-page-title text-foreground">{title}</h1>
           {listActions}
         </div>
-        <div className="flex gap-4" style={{ height: 'calc(100vh - 160px)' }}>
+        <div className="flex gap-ws-4" style={{ height: 'calc(100vh - 160px)' }}>
           {/* 좌측 목록 */}
           <div className="w-80 flex-shrink-0 bg-surface border border-border rounded-card shadow-card flex flex-col overflow-hidden">
-            <div className="p-3 border-b border-border">
+            <div className="p-ws-3 border-b border-border">
               <Input
                 placeholder={searchPlaceholder}
                 value={search}
