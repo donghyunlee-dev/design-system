@@ -38,6 +38,15 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 ## Spacing 토큰
 
+관리 화면에서는 `--windsoft-space-*` 및 `ws-*` 유틸리티를 사용합니다. 예: `p-ws-4`, `gap-ws-2`. 기존 `--spacing-*` 토큰은 기존 화면 호환을 위해 유지합니다. `max-w-sm/md/lg`와 이름이 충돌하지 않도록 일반 spacing 키는 확장하지 않습니다.
+
+| 토큰 | 값 |
+|---|---:|
+| `--windsoft-space-1/2/3/4/6/8/10/12` | 4/8/12/16/24/32/40/48px |
+| `--control-height-sm/md/lg` | 32/40/48px |
+| `--table-row-height-compact/default/comfortable` | 32/40/48px |
+| `--windsoft-page-gutter` | 데스크톱 24px, 모바일 16px |
+
 <table>
   <thead>
     <tr><th>토큰</th><th>값</th><th>용도</th></tr>
@@ -52,6 +61,10 @@ import { Meta } from '@storybook/addon-docs/blocks'
     <tr><td><code>--page-padding</code></td><td>24px</td><td>페이지 좌우 여백</td></tr>
   </tbody>
 </table>
+
+## 타이포그래피 역할
+
+`text-page-title`, `text-section-title`, `text-body`, `text-label`, `text-caption`은 크기와 행간, 굵기를 함께 지정합니다. 화면의 기본 정보 구조에는 역할 토큰을 우선 사용합니다.
 
 ## Shadow 토큰
 
@@ -89,9 +102,9 @@ import { Meta } from '@storybook/addon-docs/blocks'
     <tr><th>토큰</th><th>용도</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>--radius-btn</code></td><td>Button</td></tr>
-    <tr><td><code>--radius-card</code></td><td>Card, Modal, Drawer</td></tr>
-    <tr><td><code>--radius-input</code></td><td>Input, Select, Textarea</td></tr>
+    <tr><td><code>--radius-btn</code></td><td>Button (6px)</td></tr>
+    <tr><td><code>--radius-card</code></td><td>Card, Modal, Drawer (8px)</td></tr>
+    <tr><td><code>--radius-input</code></td><td>Input, Select, Textarea (6px)</td></tr>
     <tr><td><code>--radius-badge</code></td><td>Badge, Tag</td></tr>
   </tbody>
 </table>

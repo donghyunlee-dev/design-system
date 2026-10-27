@@ -126,7 +126,19 @@ semantic.css                global.css → tailwind.config.js   컴포넌트
 
 **값을 바꿀 때는 `semantic.css`만 수정합니다.** Tailwind 4는 `global.css`의 `@config`로 preset을 읽으므로 `tailwind.config.js`를 별도로 등록할 필요가 없습니다.
 
-간격 토큰은 `--spacing-sm` 같은 CSS 변수로 유지합니다. `max-w-sm` 등의 컨테이너 폭 클래스와 이름이 겹치므로 Tailwind preset의 `spacing` 확장에는 등록하지 않습니다. 간격을 적용할 때는 `gap-[var(--spacing-sm)]`처럼 직접 참조합니다.
+기존 화면 호환을 위해 `--spacing-*` 토큰은 유지합니다. 새 WindSoft 관리 화면은 `--windsoft-space-*` 토큰과 `ws-*` 유틸리티를 사용합니다 (`p-ws-4`, `gap-ws-2`). 접두사를 분리해 `max-w-sm`, `max-w-md`, `max-w-lg` 컨테이너 폭 유틸리티와의 충돌을 피합니다.
+
+### WindSoft 관리 화면 기준
+
+| 기준 | 토큰 | 값 |
+|---|---|---|
+| 간격 리듬 | `--windsoft-space-1/2/3/4/6/8/10/12` | 4/8/12/16/24/32/40/48px |
+| 컨트롤 높이 | `--control-height-sm/md/lg` | 32/40/48px |
+| 테이블 행 높이 | `--table-row-height-compact/default/comfortable` | 32/40/48px |
+| 페이지 좌우 여백 | `--windsoft-page-gutter` | 데스크톱 24px, 모바일 16px |
+| 모서리 | `--radius-btn`, `--radius-input`, `--radius-card` | 6px, 6px, 8px |
+
+타이포그래피에는 `text-page-title`, `text-section-title`, `text-body`, `text-label`, `text-caption` 역할 클래스를 사용합니다. 이 클래스는 크기·행간·굵기를 함께 적용합니다. Storybook의 `Foundation/WindSoft Style`에서 기준 화면과 컴포넌트 조합을 볼 수 있습니다.
 
 ---
 

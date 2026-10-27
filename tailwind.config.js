@@ -31,6 +31,23 @@ export default {
         'inverse-surface':    'var(--color-inverse-surface)',
         'inverse-foreground': 'var(--color-inverse-foreground)',
       },
+      spacing: {
+        'ws-1': 'var(--windsoft-space-1)',
+        'ws-2': 'var(--windsoft-space-2)',
+        'ws-3': 'var(--windsoft-space-3)',
+        'ws-4': 'var(--windsoft-space-4)',
+        'ws-6': 'var(--windsoft-space-6)',
+        'ws-8': 'var(--windsoft-space-8)',
+        'ws-10': 'var(--windsoft-space-10)',
+        'ws-12': 'var(--windsoft-space-12)',
+      },
+      fontSize: {
+        'page-title': ['var(--font-size-page-title)', { lineHeight: 'var(--line-height-page-title)', fontWeight: 'var(--font-weight-page-title)' }],
+        'section-title': ['var(--font-size-section-title)', { lineHeight: 'var(--line-height-section-title)', fontWeight: 'var(--font-weight-section-title)' }],
+        body: ['var(--font-size-body)', { lineHeight: 'var(--line-height-body)', fontWeight: 'var(--font-weight-body)' }],
+        label: ['var(--font-size-label)', { lineHeight: 'var(--line-height-label)', fontWeight: 'var(--font-weight-label)' }],
+        caption: ['var(--font-size-caption)', { lineHeight: 'var(--line-height-caption)', fontWeight: 'var(--font-weight-caption)' }],
+      },
       borderRadius: {
         btn:   'var(--radius-btn)',
         card:  'var(--radius-card)',
