@@ -58,36 +58,38 @@
 - Modify: `src/stories/docs/TokenReference.mdx`, `docs/TOKENS.md`
 - Create: `src/stories/foundation/WindSoftStyle.stories.tsx`
 
-- [ ] **Step 1: 새 토큰 계약 테스트 작성**
+- [x] **Step 1: 새 토큰 계약 테스트 작성**
 
 `src/tokens.test.ts`에서 명시된 semantic tokens와 `tailwind.config.js` 유틸리티 alias를 읽어 필요한 역할 토큰이 모두 연결되어 있는지 테스트한다. 값을 중복 복사하는 대신 현재 고정안만 계약으로 검사한다. 공식 랜딩의 `#3B82F6` Sky Blue와 `#2265D1` text-blue를 구분해 역할/대비 검토 결과를 테스트의 근거로 기록한다.
 
-- [ ] **Step 2: 테스트가 새 계약 누락으로 실패하는지 확인**
+- [x] **Step 2: 테스트가 새 계약 누락으로 실패하는지 확인**
 
 Run: `npx vitest run src/tokens.test.ts`
 Expected: 새 토큰이 없는 현재 상태에서 명시된 토큰 계약 assertion이 실패한다.
 
-- [ ] **Step 3: semantic scales 추가**
+- [x] **Step 3: semantic scales 추가**
 
 Approved design spec 기준으로 `--windsoft-space-*` 4px rhythm, rem 기반 역할 타이포그래피, 32/40/48px 컨트롤 및 테이블 높이, 6px control/8px card radius 후보를 추가한다. 기존 `--spacing-*`와 원시 WindSoft 팔레트 변수는 호환 alias로 보존한다. `tailwind.config.js`에는 `ws-*`처럼 이름 충돌 없는 spacing alias만 추가한다.
 
-- [ ] **Step 4: Light/Dark에서 semantic theme wiring**
+- [x] **Step 4: Light/Dark에서 semantic theme wiring**
 
 기본값과 `[data-theme="dark"]` 양쪽에 새 역할 토큰을 정의한다. `--color-background`, `--color-surface`, `--color-foreground`, `--color-secondary`, `--color-muted`, `--color-brand`, `--color-on-brand`, 상태 색과 포커스 토큰이 양 테마에서 빠지지 않게 한다.
 
-- [ ] **Step 5: Storybook의 기준 상태를 고정**
+- [x] **Step 5: Storybook의 기준 상태를 고정**
 
 기본 global theme을 WindSoft Light로 설정하고 System/Light/Dark 전환은 유지한다. 배경색은 캔버스 도구와 component token theme의 차이가 분명하도록 문서화한다. `WindSoftStyle` story는 팔레트, 타이포 역할, 간격, radius, 그림자, 기본 컨트롤을 한 화면에서 보여준다.
 
-- [ ] **Step 6: Tailwind width 충돌 회귀 검증 추가**
+- [x] **Step 6: Tailwind width 충돌 회귀 검증 추가**
 
 현재 fixture에 새 `ws-*` 유틸리티와 `max-w-sm/md/lg`를 함께 둔다. `src/tailwind-widths.test.ts`가 기본 max-width 값과 새 간격 utility를 동시에 확인하게 한다.
 
-- [ ] **Step 7: 토큰/Storybook 문서 갱신 및 검증**
+- [x] **Step 7: 토큰/Storybook 문서 갱신 및 자동 검증**
 
 `TokenReference.mdx`와 `docs/TOKENS.md`에 역할, 권장 사용처, 브랜드 교체와 테마 규칙을 적는다. `npx vitest run src/tokens.test.ts src/tailwind-widths.test.ts`, `npm run build`, `npm run build-storybook`를 실행한다. Light/Dark 1280px와 390px Storybook 화면을 확인한다.
 
-- [ ] **Step 8: 단계 커밋**
+- [ ] **시각 확인:** 현재 실행 환경에 브라우저가 없어 실제 캔버스 스크린샷 확인은 보류한다. Storybook 빌드는 통과했고 `Foundation/WindSoft Style`에서 Light/Dark 및 뷰포트를 직접 확인할 수 있다.
+
+- [x] **Step 8: 단계 커밋**
 
 ```bash
 git add tokens src/global.css src/storybook-global.css .storybook src/tailwind-widths.fixture.html src/tailwind-widths.test.ts src/tokens.test.ts src/stories/docs/TokenReference.mdx docs/TOKENS.md src/stories/foundation/WindSoftStyle.stories.tsx
@@ -101,27 +103,29 @@ git commit -m "feat: define WindSoft admin design tokens"
 - Create: `src/components/foundation/Typography.test.tsx`
 - Modify: 해당 foundation `*.stories.tsx`, `*.test.tsx`
 
-- [ ] **Step 1: Button 크기/상태 회귀 테스트 작성**
+- [x] **Step 1: Button 크기/상태 회귀 테스트 작성**
 
 `Button.test.tsx`에서 `sm/md/lg`의 32/40/48px token utility, 네 variant, disabled 및 focus-visible 계약을 확인한다. 실행해 크기 계약에서 실패하는지 확인한다.
 
-- [ ] **Step 2: Typography role 테스트 작성**
+- [x] **Step 2: Typography role 테스트 작성**
 
 `Typography.test.tsx`에서 각 역할의 올바른 semantic element와 role class 연결을 검증한다. Heading tag 순서를 시각 크기와 독립적으로 바꿀 수 없다는 사용 가이드를 작성한다.
 
-- [ ] **Step 3: foundation 스타일 적용**
+- [x] **Step 3: foundation 스타일 적용**
 
 Button의 기존 `size` API를 유지하며 32/40/48px로 고정한다. Typography, Avatar, Badge, StatusBadge는 역할 토큰을 사용한다. 여러 아이콘의 크기와 선 굵기를 통일하고 DataTable·오버레이에서 사용하는 설정, 정렬, 필터, 닫기, grip, chevron glyph를 공용 SVG Icon으로 교체한다.
 
-- [ ] **Step 4: Storybook 상태 보기 추가**
+- [x] **Step 4: Storybook 상태 보기 추가**
 
 foundation stories에서 Light/Dark, 모든 Button variant/size, disabled, 긴 한글 라벨, badge/status를 같은 WindSoft 스타일로 비교할 수 있게 한다.
 
-- [ ] **Step 5: 그룹 테스트·빌드·시각 검토**
+- [x] **Step 5: 그룹 테스트·빌드**
 
 관련 targeted tests와 `npm test`, `npm run build`, `npm run build-storybook`를 실행한다. 1280px/390px, Light/Dark 화면의 크기, 기준선, 아이콘 정렬을 확인한다.
 
-- [ ] **Step 6: 단계 커밋**
+- [ ] **시각 검토:** 현재 실행 환경에 브라우저가 없어 화면 크기·대비·정렬의 실제 캔버스 검토는 보류한다. Storybook 빌드는 통과했다.
+
+- [x] **Step 6: 단계 커밋**
 
 ```bash
 git add src/components/foundation

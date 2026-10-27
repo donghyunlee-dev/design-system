@@ -31,6 +31,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { cn } from '../../utils/cn'
+import { Icon } from '../foundation/Icon'
 import { Pagination } from '../navigation/Pagination'
 import { Column } from './Table'
 
@@ -121,17 +122,17 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
     disabled: col.id === ROW_NUMBER_ID || col.id === SETTINGS_COLUMN_ID,
   })
 
-  // Settings column: fixed ⚙ button with visibility dropdown
+  // Settings column: fixed settings button with visibility dropdown
   if (col.id === SETTINGS_COLUMN_ID) {
     return (
       <th style={{ width: 40, minWidth: 40, maxWidth: 40 }} className="px-1 py-3 bg-surface-raised relative">
         <div className="flex justify-center">
           <button
             onClick={() => setSettingsOpen(o => !o)}
-            className="text-sm text-muted hover:text-foreground transition-colors"
+            className="inline-flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             aria-label="컬럼 표시 설정"
           >
-            ⚙
+            <Icon name="settings" size="sm" />
           </button>
           {settingsOpen && (
             <div className="absolute right-0 top-full mt-1 z-10 min-w-[140px] bg-surface border border-border rounded-card shadow-md p-2">
@@ -187,7 +188,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
             className="cursor-grab text-muted opacity-40 hover:opacity-80 mr-0.5 leading-none"
             aria-label="컬럼 순서 변경"
           >
-            ⠿
+            <Icon name="grip" size="xs" />
           </span>
         )}
         {col.getCanSort() ? (
@@ -196,8 +197,8 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
             onClick={col.getToggleSortingHandler()}
           >
             {flexRender(col.columnDef.header, header.getContext())}
-            <span className="text-xs ml-0.5 opacity-60">
-              {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▽' : '—'}
+            <span className="ml-0.5 opacity-60" aria-hidden="true">
+              <Icon name={sortDir === 'asc' ? 'sort-asc' : sortDir === 'desc' ? 'sort-desc' : 'sort'} size="xs" />
             </span>
           </button>
         ) : (
@@ -215,7 +216,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
             )}
             aria-label={`${col.id} 필터`}
           >
-            🔍
+            <Icon name="filter" size="xs" />
           </button>
         )}
       </div>

@@ -1,4 +1,5 @@
 import { cn } from '../../utils/cn'
+import { Icon } from '../foundation/Icon'
 import { ReactNode, useEffect, useId, useRef } from 'react'
 import { useFocusTrap } from '../../utils/useFocusTrap'
 import { useBodyScrollLock } from '../../utils/useBodyScrollLock'
@@ -51,7 +52,9 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
         {title && (
           <div className="flex items-center justify-between px-6 py-4 border-b border-border">
             <h2 id={titleId} className="text-base font-semibold text-foreground">{title}</h2>
-            <button onClick={onClose} aria-label="닫기" className="text-muted hover:text-foreground">✕</button>
+            <button onClick={onClose} aria-label="닫기" className="inline-flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+              <Icon name="close" size="sm" />
+            </button>
           </div>
         )}
         <div className="px-6 py-4">{children}</div>

@@ -89,6 +89,10 @@
 | `--color-success` | 성공·완료 색상 | 성공 Badge, 체크 |
 | `--color-warning` | 경고 색상 | 주의 Alert |
 | `--color-info` | 안내 색상 | 정보 Alert |
+| `--color-{success,warning,danger,info}-subtle` | 상태 배경 | 상태 Badge |
+| `--color-{success,warning,danger,info}-foreground` | 상태 배경 위 텍스트 | 상태 Badge 레이블 |
+
+상태 `subtle`/`foreground` 쌍은 Light와 Dark에서 함께 전환됩니다. 상태 텍스트에 팔레트 색을 직접 지정하지 말고 의미 토큰을 사용합니다.
 
 ### 모서리 둥글기 (Border Radius) 토큰
 

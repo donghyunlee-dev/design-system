@@ -38,6 +38,14 @@
   --color-warning: var(--yellow-500);
   --color-danger:  var(--red-500);
   --color-info:    var(--blue-500);
+  --color-success-subtle: #dcfce7;
+  --color-success-foreground: #166534;
+  --color-warning-subtle: #fef3c7;
+  --color-warning-foreground: #92400e;
+  --color-danger-subtle: #fee2e2;
+  --color-danger-foreground: #991b1b;
+  --color-info-subtle: #dbeafe;
+  --color-info-foreground: #1e40af;
 
   /* 타이포 */
   --font-body: var(--font-sans);
@@ -131,6 +139,14 @@
     --color-border-strong:      var(--gray-600);
     --color-inverse-surface:    var(--gray-50);
     --color-inverse-foreground: var(--gray-900);
+    --color-success-subtle: #14532d;
+    --color-success-foreground: #bbf7d0;
+    --color-warning-subtle: #713f12;
+    --color-warning-foreground: #fde68a;
+    --color-danger-subtle: #7f1d1d;
+    --color-danger-foreground: #fecaca;
+    --color-info-subtle: #1e3a8a;
+    --color-info-foreground: #bfdbfe;
   }
 }
 
@@ -149,4 +165,12 @@
   --color-border-strong:      var(--gray-600);
   --color-inverse-surface:    var(--gray-50);
   --color-inverse-foreground: var(--gray-900);
+  --color-success-subtle: #14532d;
+  --color-success-foreground: #bbf7d0;
+  --color-warning-subtle: #713f12;
+  --color-warning-foreground: #fde68a;
+  --color-danger-subtle: #7f1d1d;
+  --color-danger-foreground: #fecaca;
+  --color-info-subtle: #1e3a8a;
+  --color-info-foreground: #bfdbfe;
 }

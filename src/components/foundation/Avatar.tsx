@@ -16,9 +16,9 @@ export interface AvatarProps {
 }
 
 const sizeMap = {
-  sm: 'w-6 h-6 text-xs',
-  md: 'w-8 h-8 text-sm',
-  lg: 'w-12 h-12 text-base',
+  sm: 'size-8 text-caption',
+  md: 'size-10 text-label',
+  lg: 'size-12 text-body',
 }
 
 export function Avatar({ src, alt, initials, size = 'md', className }: AvatarProps) {
