@@ -9,4 +9,19 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: '대시보드' })).toHaveAttribute('aria-current', 'page')
     expect(screen.getByRole('link', { name: '사용자' })).not.toHaveAttribute('aria-current')
   })
+
+  it('renders links through an injected router adapter with navigation semantics intact', () => {
+    render(
+      <Sidebar
+        items={[{ label: '대시보드', href: '/dashboard', active: true }]}
+        renderLink={props => <a data-router-link href={props.href} className={props.className} aria-current={props['aria-current']}>{props.children}</a>}
+      />
+    )
+
+    const link = screen.getByRole('link', { name: '대시보드' })
+    expect(link).toHaveAttribute('data-router-link')
+    expect(link).toHaveAttribute('href', '/dashboard')
+    expect(link).toHaveAttribute('aria-current', 'page')
+    expect(link).toHaveClass('bg-brand-subtle')
+  })
 })

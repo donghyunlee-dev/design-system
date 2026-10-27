@@ -1,5 +1,6 @@
 import { cn } from '../../utils/cn'
 import { ReactNode } from 'react'
+import { NavigationLink, NavigationLinkRenderer } from './NavigationLink'
 
 /**
  * 좌측 고정 사이드바 네비게이션 컴포넌트.
@@ -15,15 +16,23 @@ export interface SidebarItem {
   active?: boolean
 }
 
+export interface SidebarProps {
+  items: SidebarItem[]
+  className?: string
+  label?: string
+  renderLink?: NavigationLinkRenderer
+}
+
 /** 애플리케이션의 주요 탐색 메뉴를 세로 사이드바로 표시합니다. */
-export function Sidebar({ items, className, label = '메인 메뉴' }: { items: SidebarItem[]; className?: string; label?: string }) {
+export function Sidebar({ items, className, label = '메인 메뉴', renderLink }: SidebarProps) {
   return (
     <aside className={cn('w-56 shrink-0 bg-surface border-r border-border flex flex-col py-2', className)}>
       <nav aria-label={label} className="flex min-h-0 flex-1 flex-col overflow-y-auto gap-ws-1">
         {items.map(item => (
-          <a
+          <NavigationLink
             key={`${item.href ?? ''}-${item.label}`}
             href={item.href ?? '#'}
+            renderLink={renderLink}
             aria-current={item.active ? 'page' : undefined}
             className={cn(
               'mx-1 flex min-h-10 items-center gap-ws-2 rounded-btn px-ws-3 text-label transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
@@ -34,7 +43,7 @@ export function Sidebar({ items, className, label = '메인 메뉴' }: { items: 
           >
             {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
             {item.label}
-          </a>
+          </NavigationLink>
         ))}
       </nav>
     </aside>

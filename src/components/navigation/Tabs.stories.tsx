@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { useState } from 'react'
 import { expect, userEvent, within } from 'storybook/test'
 import { Tabs } from './Tabs'
 
@@ -25,5 +26,24 @@ export const Default: Story = {
     const settingsTab = canvas.getByRole('tab', { name: '설정' })
     await userEvent.click(settingsTab)
     await expect(settingsTab).toHaveClass('border-brand')
+  },
+}
+
+export const Controlled: Story = {
+  name: 'Externally Controlled',
+  render: () => {
+    const [value, setValue] = useState('overview')
+    return (
+      <div className="space-y-ws-3 p-ws-4">
+        <p className="text-caption text-secondary">앱 상태: {value}</p>
+        <Tabs items={TAB_ITEMS} value={value} onValueChange={setValue} />
+      </div>
+    )
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('tab', { name: '설정' }))
+    await expect(canvas.getByText('앱 상태: settings')).toBeInTheDocument()
+    await expect(canvas.getByRole('tabpanel', { name: '설정' })).toHaveTextContent('설정 내용입니다.')
   },
 }

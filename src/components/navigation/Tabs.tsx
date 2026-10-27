@@ -16,16 +16,29 @@ export interface TabItem {
 export interface TabsProps {
   items: TabItem[]
   label?: string
+  /** 전달하면 선택 상태를 외부에서 제어합니다. */
+  value?: string
+  /** 비제어 모드의 초기 선택 탭 */
+  defaultValue?: string
+  /** 클릭 또는 키보드로 다른 탭을 선택할 때 호출됩니다. */
+  onValueChange?: (value: string) => void
 }
 
 /** 여러 콘텐츠 패널을 탭으로 전환해 표시합니다. */
-export function Tabs({ items, label = '탐색 탭' }: TabsProps) {
-  const [active, setActive] = useState(items[0]?.key)
+export function Tabs({ items, label = '탐색 탭', value, defaultValue, onValueChange }: TabsProps) {
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue ?? items[0]?.key)
   const tabsId = useId()
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
-  const activeKey = items.some(item => item.key === active) ? active : items[0]?.key
+  const selectedValue = value === undefined ? uncontrolledValue : value
+  const activeKey = items.some(item => item.key === selectedValue) ? selectedValue : items[0]?.key
+
+  const selectTab = (key: string) => {
+    if (value === undefined) setUncontrolledValue(key)
+    onValueChange?.(key)
+  }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (items.length === 0) return
     let nextIndex: number | undefined
     if (event.key === 'ArrowRight') nextIndex = (index + 1) % items.length
     if (event.key === 'ArrowLeft') nextIndex = (index - 1 + items.length) % items.length
@@ -33,7 +46,7 @@ export function Tabs({ items, label = '탐색 탭' }: TabsProps) {
     if (event.key === 'End') nextIndex = items.length - 1
     if (nextIndex === undefined || items.length === 0) return
     event.preventDefault()
-    setActive(items[nextIndex].key)
+    selectTab(items[nextIndex].key)
     tabRefs.current[nextIndex]?.focus()
   }
 
@@ -54,7 +67,7 @@ export function Tabs({ items, label = '탐색 탭' }: TabsProps) {
             aria-selected={selected}
             aria-controls={panelId}
             tabIndex={selected ? 0 : -1}
-            onClick={() => setActive(item.key)}
+            onClick={() => selectTab(item.key)}
             onKeyDown={event => handleKeyDown(event, index)}
             className={cn(
               'h-10 px-ws-4 text-label font-medium border-b-2 -mb-px transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand',

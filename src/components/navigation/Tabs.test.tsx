@@ -30,4 +30,27 @@ describe('Tabs', () => {
     expect(overview).toHaveFocus()
     expect(overview).toHaveAttribute('aria-selected', 'true')
   })
+
+  it('supports controlled selection and notifies the owner for pointer and keyboard changes', async () => {
+    const onValueChange = vi.fn()
+    const { rerender } = render(<Tabs items={items} value="overview" onValueChange={onValueChange} />)
+
+    await userEvent.click(screen.getByRole('tab', { name: '설정' }))
+    expect(onValueChange).toHaveBeenLastCalledWith('settings')
+    expect(screen.getByRole('tab', { name: '개요' })).toHaveAttribute('aria-selected', 'true')
+
+    rerender(<Tabs items={items} value="settings" onValueChange={onValueChange} />)
+    expect(screen.getByRole('tabpanel', { name: '설정' })).toHaveTextContent('설정 패널')
+
+    screen.getByRole('tab', { name: '설정' }).focus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(onValueChange).toHaveBeenLastCalledWith('logs')
+    expect(screen.getByRole('tabpanel', { name: '설정' })).toHaveTextContent('설정 패널')
+  })
+
+  it('uses defaultValue when operating without a controlled value', () => {
+    render(<Tabs items={items} defaultValue="logs" />)
+    expect(screen.getByRole('tab', { name: '로그' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('tabpanel', { name: '로그' })).toHaveTextContent('로그 패널')
+  })
 })
