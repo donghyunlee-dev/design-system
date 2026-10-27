@@ -22,38 +22,40 @@ npm install
 npm install @windsoft/ui
 ```
 
-`@windsoft/ui@0.2.0`부터 React 19를 지원합니다.
+`@windsoft/ui@0.2.0`부터 React 19를 지원합니다. `0.3.0`부터 Tailwind CSS 4.3.3을 사용합니다.
 
 ```bash
 npm install react@19 react-dom@19
 ```
 
-버전을 고정하려면 `npm install @windsoft/ui@0.2.0`처럼 명시 버전을 사용하세요.
+버전을 고정하려면 `npm install @windsoft/ui@0.3.0`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
-### 3. Tailwind CSS 설정
+### 3. Tailwind CSS 4.3.3 설정
 
-`tailwind.config.js`:
+```bash
+npm install -D tailwindcss@4.3.3 @tailwindcss/vite@4.3.3
+```
 
-```js
-import windsoftPreset from '@windsoft/ui/tailwind.config.js'
+`vite.config.ts`의 기존 플러그인 목록에 Tailwind 플러그인을 추가합니다:
 
-export default {
-  presets: [windsoftPreset],
-  content: [
-    './src/**/*.{ts,tsx}',
-    './node_modules/@windsoft/ui/dist/**/*.js',  // 디자인 시스템 컴포넌트가 쓰는 클래스도 스캔
-  ],
-}
+```ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({ plugins: [react(), tailwindcss()] })
 ```
 
 ### 4. 글로벌 CSS 가져오기
 
+`@windsoft/ui/global.css`에는 Tailwind 4 import, WindSoft 토큰, `tailwind.config.js` preset을 읽는 `@config`, 패키지 컴포넌트 클래스를 읽는 `@source`가 포함되어 있습니다. 앱 자체 클래스는 Tailwind가 자동 감지하므로 별도 `content` 설정이 필요하지 않습니다. 글로벌 CSS는 한 번만 가져오세요.
+
 `src/main.tsx` (또는 진입점 파일):
 
 ```tsx
-import '@windsoft/ui/global.css'   // 토큰 + Tailwind 기본 스타일
+import '@windsoft/ui/global.css' // Tailwind 4 + WindSoft 토큰과 preset
 import './index.css'             // 프로젝트 자체 스타일 (있다면)
 import React from 'react'
 import ReactDOM from 'react-dom/client'

@@ -6,27 +6,26 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 ## 1. 설치
 
-`@windsoft/ui`는 WindSoft 디자인 시스템 npm 패키지입니다. `0.2.0`부터 React 19를 지원합니다.
+`@windsoft/ui`는 WindSoft 디자인 시스템 npm 패키지입니다. `0.2.0`부터 React 19를, `0.3.0`부터 Tailwind CSS 4.3.3을 지원합니다.
 
 ```bash
-npm install @windsoft/ui@0.2.0
+npm install @windsoft/ui@0.3.0
+npm install -D tailwindcss@4.3.3 @tailwindcss/vite@4.3.3
 ```
 
 ## 2. Tailwind 설정
 
-`tailwind.config.js`:
+`vite.config.ts`:
 
-```js
-import windsoftPreset from '@windsoft/ui/tailwind.config.js'
+```ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
-export default {
-  presets: [windsoftPreset],
-  content: [
-    './src/**/*.{ts,tsx}',
-    './node_modules/@windsoft/ui/dist/**/*.js',
-  ],
-}
+export default defineConfig({ plugins: [react(), tailwindcss()] })
 ```
+
+WindSoft 글로벌 CSS가 preset(`@config`)과 패키지 컴포넌트 소스(`@source`)를 연결합니다.
 
 ## 3. 글로벌 CSS 가져오기
 

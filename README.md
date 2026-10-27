@@ -38,7 +38,7 @@ npx storybook dev   # http://localhost:6006 에서 컴포넌트 전체 확인
 npm install @windsoft/ui
 ```
 
-Tailwind preset 연결, 글로벌 CSS import 등 전체 설치 과정은 [docs/USAGE.md](./docs/USAGE.md)를 참고하세요.
+Tailwind CSS 4.3.3 Vite 플러그인과 글로벌 CSS import를 포함한 설치 과정은 [docs/USAGE.md](./docs/USAGE.md)를 참고하세요.
 
 ### AI 에이전트(Claude Code)로 사용하기
 
