@@ -127,10 +127,10 @@ export function MultiSelect({
         aria-describedby={ariaDescribedBy}
         onClick={() => setOpen(v => !v)}
         className={cn(
-          'flex h-[var(--control-height-md)] items-center gap-ws-2 px-ws-3 text-body bg-surface border rounded-input',
+          'flex h-[var(--control-height-md)] items-center gap-ws-2 px-ws-2 text-body bg-surface border rounded-input',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           'disabled:opacity-50 disabled:bg-surface-subtle',
-          error ? 'border-danger focus-visible:ring-danger' : 'border-border focus-visible:ring-brand',
+          error ? 'border-danger focus-visible:border-danger focus-visible:ring-danger' : 'border-border focus-visible:border-focus focus-visible:ring-focus',
           value.length === 0 ? 'text-muted' : 'text-foreground'
         )}
       >
@@ -165,8 +165,8 @@ export function MultiSelect({
                 aria-label={searchPlaceholder}
                 placeholder={searchPlaceholder}
                 className={cn(
-                  'w-full h-[var(--control-height-sm)] px-ws-3 text-body bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand'
+                  'w-full h-[var(--control-height-sm)] px-ws-2 text-body bg-surface border border-border rounded-input text-foreground placeholder:text-placeholder',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus'
                 )}
               />
             </div>

@@ -47,10 +47,10 @@
 --color-brand-hover:  var(--blue-700);   /* 기존: var(--brand-700) */
 --color-brand-light:  var(--blue-100);   /* 기존: var(--brand-100) */
 --color-brand-subtle: var(--blue-50);    /* 기존: var(--brand-50) */
---color-border-focus: var(--blue-500);   /* 기존: var(--brand-500) */
+--color-border-focus: var(--blue-300);   /* 기존: var(--brand-300) */
 ```
 
-이 5줄 변경으로 버튼, 링크, 포커스 링, 체크박스 등 모든 컴포넌트의 브랜드 색이 한 번에 바뀝니다.
+이 5줄 변경으로 버튼, 링크, 포커스 링, 체크박스 등 모든 컴포넌트의 브랜드 색이 한 번에 바뀝니다. 포커스는 기본 브랜드보다 연한 shade를 사용해 선명함은 유지하면서 강조를 낮춥니다.
 
 ### 브랜드 컬러 프리셋
 
@@ -145,6 +145,8 @@ semantic.css                global.css → tailwind.config.js   컴포넌트
 | 모서리 | `--radius-btn`, `--radius-input`, `--radius-card` | 6px, 6px, 8px |
 
 타이포그래피에는 `text-page-title`, `text-section-title`, `text-body`, `text-label`, `text-caption` 역할 클래스를 사용합니다. 이 클래스는 크기·행간·굵기를 함께 적용합니다. Storybook의 `Foundation/WindSoft Style`에서 기준 화면과 컴포넌트 조합을 볼 수 있습니다.
+
+`DataFormPage`는 기본 40px 입력 높이를 폼 영역 안에서 36px로 낮춰 정보 밀도를 높입니다. 입력 좌우 여백과 섹션 간격도 줄이되, 멀티라인 설명 입력의 최소 높이는 유지합니다.
 
 ---
 

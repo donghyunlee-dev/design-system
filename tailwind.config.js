@@ -12,6 +12,7 @@ export default {
         secondary:         'var(--color-secondary)',
         muted:             'var(--color-muted)',
         border:            'var(--color-border)',
+        focus:             'var(--color-border-focus)',
         // 브랜드 확장
         'brand-light':     'var(--color-brand-light)',
         'brand-subtle':    'var(--color-brand-subtle)',

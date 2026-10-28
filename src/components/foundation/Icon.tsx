@@ -4,7 +4,7 @@ import { JSX, SVGAttributes } from 'react'
 /**
  * 외부 아이콘 라이브러리 없이 검색·상태·표 조작·내비게이션 아이콘을 같은 크기와 선 굵기로 표시합니다.
  */
-export type IconName = 'search' | 'comment' | 'settings' | 'sort' | 'sort-asc' | 'sort-desc' | 'filter' | 'grip' | 'close' | 'check' | 'chevron-down' | 'chevron-right' | 'sidebar-close' | 'sidebar-open'
+export type IconName = 'search' | 'comment' | 'settings' | 'sort' | 'sort-asc' | 'sort-desc' | 'filter' | 'grip' | 'close' | 'check' | 'info' | 'help' | 'warning' | 'chevron-down' | 'chevron-right' | 'sidebar-close' | 'sidebar-open'
 
 export interface IconProps extends SVGAttributes<SVGSVGElement> {
   name: IconName
@@ -54,6 +54,24 @@ const paths: Record<IconName, JSX.Element> = {
   ),
   close: <path d="m6 6 12 12M18 6 6 18" />,
   check: <path d="m5 12 4 4L19 6" />,
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5m0-8h.01" />
+    </>
+  ),
+  help: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.3-1.8 2.7m0 3h.01" />
+    </>
+  ),
+  warning: (
+    <>
+      <path d="M10.3 4.9 2.8 18a1.4 1.4 0 0 0 1.2 2.1h15.9a1.4 1.4 0 0 0 1.2-2.1L13.7 4.9a2 2 0 0 0-3.4 0Z" />
+      <path d="M12 9v4m0 3h.01" />
+    </>
+  ),
   'chevron-down': <path d="m6 9 6 6 6-6" />,
   'chevron-right': <path d="m9 6 6 6-6 6" />,
   'sidebar-close': (
