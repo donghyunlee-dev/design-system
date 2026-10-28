@@ -10,6 +10,19 @@
 - 기능을 추가하거나 수정하는 PR은 머지 전에 이 파일의 `## [Unreleased]` 아래에 항목을 추가합니다.
 - 릴리스 시 `package.json`의 `version`을 bump하고 `## [Unreleased]` 내용을 해당 버전 섹션으로 옮긴 뒤, `v{version}` 태그를 push하면 `publish-npm.yml`이 npm에 배포합니다.
 
+## [0.5.0] - 2026-10-28
+
+### Added
+- 관리자 SPA의 헤더, 중첩 LNB, 콘텐츠, 풋터를 조합하는 `AdminShell` 템플릿 추가
+- 검색 입력용 `SearchField`, 아바타·계정 메뉴용 `AccountMenu` 추가
+- 라이트/다크 테마의 메뉴 호버·펼침 배경에 대응하는 `menu-hover` 의미 토큰 추가
+- `DropdownMenu` 트리거 포커스 스타일을 조정할 수 있는 `triggerClassName` 추가
+
+### Changed
+- LNB 접기/열기와 크기 조절, 헤더 검색 위치, 아바타 포커스 표시를 관리자 셸 흐름에 맞게 조정
+- Breadcrumb 경로 구분자를 `/`에서 `>`로 변경
+- 현재 LNB 메뉴를 행 높이 전체의 얇은 파란 표시선으로 표시
+
 ## [0.3.1] - 2026-10-27
 
 ### Fixed
