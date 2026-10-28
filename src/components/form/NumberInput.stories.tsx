@@ -7,6 +7,7 @@ const meta: Meta<typeof NumberInput> = {
   component: NumberInput,
   tags: ['autodocs'],
   args: { placeholder: '0' },
+  parameters: { docs: { description: { component: "숫자를 입력받습니다. 최소·최대 범위, 단계, 단위를 데이터 기준에 맞춥니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

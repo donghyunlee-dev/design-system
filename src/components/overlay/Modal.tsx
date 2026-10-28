@@ -15,8 +15,16 @@ export interface ModalProps {
   onClose: () => void
   /** 모달 상단 제목 */
   title?: string
+  /** 제목 앞에 표시할 아이콘 또는 배지 */
+  titleIcon?: ReactNode
+  /** 제목 아래 구분선을 표시할지 여부 */
+  showHeaderDivider?: boolean
+  /** 액션 영역 구분선을 좌우 여백 안쪽에 표시할지 여부 */
+  insetFooterDivider?: boolean
   /** 제목이 없을 때 dialog의 접근 가능한 이름 */
   label?: string
+  /** 본문 설명 요소의 id. 전달하면 dialog의 aria-describedby로 연결됩니다. */
+  descriptionId?: string
   children: ReactNode
   /** 하단 액션 버튼 영역 */
   footer?: ReactNode
@@ -26,7 +34,7 @@ export interface ModalProps {
 
 const sizeMap = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-2xl' }
 
-export function Modal({ open, onClose, title, label = '확인', children, footer, size = 'md' }: ModalProps) {
+export function Modal({ open, onClose, title, titleIcon, showHeaderDivider = true, insetFooterDivider = false, label = '확인', descriptionId, children, footer, size = 'md' }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId = useId()
 
@@ -50,18 +58,28 @@ export function Modal({ open, onClose, title, label = '확인', children, footer
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         aria-label={title ? undefined : label}
+        aria-describedby={descriptionId}
         className={cn('relative bg-surface rounded-card shadow-lg w-full', sizeMap[size])}
       >
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-            <h2 id={titleId} className="text-base font-semibold text-foreground">{title}</h2>
-            <button onClick={onClose} aria-label="닫기" className="inline-flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+          <div className={cn('flex items-center justify-between px-6 py-4', showHeaderDivider && 'border-b border-border')}>
+            <div className="flex min-w-0 items-center gap-3">
+              {titleIcon}
+              <h2 id={titleId} className="text-base font-semibold text-foreground">{title}</h2>
+            </div>
+            <button onClick={onClose} aria-label="닫기" className="inline-flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface-subtle hover:text-foreground focus-visible:outline-none focus-visible:bg-surface-subtle focus-visible:text-foreground">
               <Icon name="close" size="sm" />
             </button>
           </div>
         )}
         <div className="px-6 py-4">{children}</div>
-        {footer && <div className="px-6 py-4 border-t border-border flex justify-end gap-2">{footer}</div>}
+        {footer && (insetFooterDivider ? (
+          <div className="px-6 pb-4">
+            <div className="flex justify-end gap-2 border-t border-border pt-4">{footer}</div>
+          </div>
+        ) : (
+          <div className="flex justify-end gap-2 border-t border-border px-6 py-4">{footer}</div>
+        ))}
       </div>
     </div>
   )

@@ -21,12 +21,25 @@ const products: Product[] = [
   { id: 8, name: '간장', category: '조미료', qty: 12, status: 'pending' },
 ]
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const meta: Meta<any> = {
+const meta: Meta<typeof DataTable> = {
   title: 'Data/DataTable',
   component: DataTable,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  argTypes: {
+    columns: { description: '헤더, 정렬, 필터 등 컬럼 표시를 설정합니다. 복합 설정은 스토리 예제로 확인합니다.', control: false },
+    data: { description: '표에 표시할 행 데이터입니다. 데이터 형태와 표 렌더링은 스토리 예제로 확인합니다.', control: false },
+    rowKey: { description: '각 행의 고유 키 필드명입니다.', control: 'text' },
+    density: { description: '행의 세로 밀도를 설정합니다.', control: 'inline-radio', options: ['compact', 'default', 'comfortable'] },
+    showRowNumbers: { description: '행 번호 컬럼 표시 여부', control: 'boolean' },
+    enableColumnVisibility: { description: '컬럼 표시 설정 메뉴 노출 여부', control: 'boolean' },
+    pagination: { description: '페이지 설정과 서버 페이지 변경 콜백입니다. 동작은 스토리 예제로 확인합니다.', control: false },
+    emptyState: { description: '데이터가 없을 때 표시할 사용자 정의 콘텐츠입니다.', control: false },
+    rowClassName: { description: '행별 CSS 클래스를 반환하는 콜백입니다.', control: false },
+    rowStyle: { description: '행별 인라인 스타일을 반환하는 콜백입니다.', control: false },
+    onRowClick: { description: '행을 눌렀을 때 호출됩니다.', control: false },
+    className: { description: '테이블 래퍼에 추가할 CSS 클래스', control: 'text' },
+  },
+  parameters: { layout: 'padded', docs: { description: { component: "정렬·필터·페이지 이동이 필요한 업무 데이터를 표시합니다. 복합 열·행 설정은 스토리 예제로 확인합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

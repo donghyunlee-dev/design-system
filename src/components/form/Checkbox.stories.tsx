@@ -7,6 +7,7 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   tags: ['autodocs'],
   args: { label: '이용약관에 동의합니다' },
+  parameters: { docs: { description: { component: "독립적인 선택 또는 복수 항목의 선택 상태를 입력받습니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

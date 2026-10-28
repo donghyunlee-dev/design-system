@@ -19,6 +19,7 @@ const meta: Meta<typeof BarChart> = {
     bars: [{ key: '주문', label: '주문 수' }],
     height: 300,
   },
+  parameters: { docs: { description: { component: "범주별 수치를 막대로 비교합니다. 축과 라벨을 실제 데이터에 맞게 구성합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

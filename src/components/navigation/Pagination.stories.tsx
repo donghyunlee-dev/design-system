@@ -8,6 +8,7 @@ const meta: Meta<typeof Pagination> = {
   component: Pagination,
   tags: ['autodocs'],
   args: { total: 100, pageSize: 10 },
+  parameters: { docs: { description: { component: "긴 목록을 페이지 단위로 이동합니다. 현재 페이지와 전체 범위를 전달합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

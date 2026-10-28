@@ -11,6 +11,7 @@ import { Button } from '../../components/foundation/Button'
 import { FormField } from '../../components/form/FormField'
 import { Input } from '../../components/form/Input'
 import { Select } from '../../components/form/Select'
+import { Textarea } from '../../components/form/Textarea'
 import { SearchField } from '../../components/form/SearchField'
 import { AccountMenu } from '../../components/foundation/AccountMenu'
 import { Icon } from '../../components/foundation/Icon'
@@ -117,21 +118,116 @@ export const DataForm: StoryObj = {
       sections={[
         {
           title: '기본 정보',
+          columns: 2,
           fields: (
             <>
-              <FormField label="상품명" required><Input placeholder="상품명을 입력하세요" /></FormField>
+              <FormField label="상품명" required className="md:col-span-2"><Input placeholder="상품명을 입력하세요" /></FormField>
+              <FormField label="상품 코드" required><Input placeholder="예: WS-10024" /></FormField>
               <FormField label="카테고리" required>
                 <Select options={[{ value: 'food', label: '식품' }, { value: 'drink', label: '음료' }]} placeholder="카테고리 선택" />
               </FormField>
+              <FormField label="브랜드"><Input placeholder="브랜드명" /></FormField>
+              <FormField label="제조사"><Input placeholder="제조사명" /></FormField>
             </>
           ),
         },
         {
           title: '가격 정보',
-          fields: <FormField label="판매가" required><Input placeholder="0" type="number" /></FormField>,
+          columns: 2,
+          fields: (
+            <>
+              <FormField label="판매가" required><Input placeholder="0" type="number" /></FormField>
+              <FormField label="소비자가"><Input placeholder="0" type="number" /></FormField>
+              <FormField label="부가세 유형"><Select options={[{ value: 'taxable', label: '과세' }, { value: 'exempt', label: '면세' }]} /></FormField>
+              <FormField label="재고 수량"><Input placeholder="0" type="number" /></FormField>
+              <FormField label="목록 설명" className="md:col-span-2"><Input placeholder="목록에서 보여줄 간단한 설명" /></FormField>
+            </>
+          ),
         },
       ]}
       onSubmit={() => alert('저장!')}
+      onCancel={() => {}}
+    />
+  ),
+}
+
+export const ServiceRegistration: StoryObj = {
+  name: 'Service Registration',
+  render: () => (
+    <DataFormPage
+      title="서비스 등록"
+      breadcrumb={[{ label: '서비스 관리', href: '#' }, { label: '서비스 등록' }]}
+      sections={[
+        {
+          title: '서비스 정보',
+          fields: (
+            <>
+              <FormField label="서비스명" required>
+                <Input className="max-w-2xl" placeholder="예: 통합 업무 관리 서비스" />
+              </FormField>
+              <FormField label="서비스 코드" required hint="영문 대문자와 숫자로 입력하세요.">
+                <Input className="max-w-xs" placeholder="예: WSM-001" />
+              </FormField>
+              <FormField label="서비스 유형" required>
+                <div className="max-w-md">
+                  <Select options={[
+                    { value: 'saas', label: 'SaaS' },
+                    { value: 'platform', label: '플랫폼' },
+                    { value: 'consulting', label: '컨설팅' },
+                  ]} placeholder="유형을 선택하세요" />
+                </div>
+              </FormField>
+              <FormField label="서비스 주소">
+                <Input className="max-w-2xl" type="url" placeholder="https://service.example.com" />
+              </FormField>
+            </>
+          ),
+        },
+        {
+          title: '요금 및 운영',
+          fields: (
+            <>
+              <FormField label="월 이용료" required hint="부가세를 제외한 금액을 입력하세요.">
+                <Input className="max-w-[12rem] text-right" type="number" inputMode="numeric" placeholder="0" />
+              </FormField>
+              <FormField label="청구 주기" required>
+                <div className="max-w-xs">
+                  <Select options={[
+                    { value: 'monthly', label: '월 단위' },
+                    { value: 'yearly', label: '연 단위' },
+                  ]} placeholder="주기를 선택하세요" />
+                </div>
+              </FormField>
+              <FormField label="서비스 시작일">
+                <Input className="max-w-xs" type="date" />
+              </FormField>
+              <FormField label="운영 담당 부서">
+                <Input className="max-w-md" placeholder="부서명을 입력하세요" />
+              </FormField>
+            </>
+          ),
+        },
+        {
+          title: '서비스 설명 및 문의',
+          fields: (
+            <>
+              <FormField label="한 줄 소개" required hint="목록과 검색 결과에서 표시됩니다.">
+                <Input className="max-w-3xl" placeholder="서비스의 핵심 기능을 간단히 소개하세요." />
+              </FormField>
+              <FormField label="상세 설명" required>
+                <Textarea className="max-w-4xl" rows={4} placeholder="제공 기능, 이용 대상, 주요 특징을 입력하세요." />
+              </FormField>
+              <FormField label="문의 전화번호">
+                <Input className="max-w-xs" type="tel" placeholder="02-0000-0000" />
+              </FormField>
+              <FormField label="문의 이메일">
+                <Input className="max-w-md" type="email" placeholder="support@example.com" />
+              </FormField>
+            </>
+          ),
+        },
+      ]}
+      onSubmit={() => {}}
       onCancel={() => {}}
     />
   ),

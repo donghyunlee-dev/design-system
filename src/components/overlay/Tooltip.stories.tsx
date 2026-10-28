@@ -8,7 +8,7 @@ const meta: Meta<typeof Tooltip> = {
   component: Tooltip,
   tags: ['autodocs'],
   args: { content: '툴팁 내용', side: 'top' },
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', docs: { description: { component: "컨트롤 의미를 짧게 보충합니다. 포인터와 키보드 포커스에서 확인할 수 있게 합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

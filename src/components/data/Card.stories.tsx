@@ -8,6 +8,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   tags: ['autodocs'],
   args: { title: '카드 제목' },
+  parameters: { docs: { description: { component: "같은 맥락의 정보와 작업을 하나의 그룹으로 묶습니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

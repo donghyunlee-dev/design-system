@@ -8,6 +8,7 @@ const meta: Meta<typeof Stepper> = {
   component: Stepper,
   tags: ['autodocs'],
   args: { steps: STEPS, current: 0 },
+  parameters: { docs: { description: { component: "순서가 있는 작업 단계와 진행 상태를 표시합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

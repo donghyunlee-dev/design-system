@@ -6,6 +6,7 @@ const meta: Meta<typeof DateInput> = {
   component: DateInput,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "날짜를 입력받습니다. 표시 형식과 허용 범위를 설정합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

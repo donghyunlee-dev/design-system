@@ -12,6 +12,7 @@ const meta: Meta<typeof Breadcrumb> = {
       { label: '프로필' },
     ],
   },
+  parameters: { docs: { description: { component: "현재 페이지까지의 상위 경로를 표시하고 상위 위치로 이동하게 합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

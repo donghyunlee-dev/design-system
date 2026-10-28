@@ -6,6 +6,7 @@ const meta: Meta<typeof CommentThread> = {
   title: 'Data/CommentThread',
   component: CommentThread,
   tags: ['autodocs'],
+  parameters: { docs: { description: { component: "댓글과 답글을 계층적으로 표시하고 새 댓글 작성 흐름을 제공합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

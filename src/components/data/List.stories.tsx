@@ -7,6 +7,7 @@ const meta: Meta<typeof List> = {
   component: List,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "관련 항목을 세로 목록으로 표시합니다. 선택 동작과 콘텐츠는 데이터 예제에서 확인합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

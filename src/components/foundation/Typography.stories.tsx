@@ -6,6 +6,7 @@ const meta: Meta<typeof Typography> = {
   component: Typography,
   tags: ['autodocs'],
   args: { children: '텍스트 예시', variant: 'body' },
+  parameters: { docs: { description: { component: "텍스트 역할에 맞는 WindSoft 글자 계층을 적용합니다. 의미에 맞는 텍스트 요소와 스타일을 선택합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

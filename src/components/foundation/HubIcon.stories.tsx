@@ -6,6 +6,7 @@ const meta: Meta<typeof HubIcon> = {
   component: HubIcon,
   tags: ['autodocs'],
   args: { name: 'account', size: 'md' },
+  parameters: { docs: { description: { component: "WindSoft 제품 또는 서비스 허브를 식별하는 아이콘입니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -103,7 +103,7 @@ export function FormField({ label, error: externalError, hint, required, rules, 
   })
 
   return (
-    <div className={cn('flex flex-col gap-ws-2', className)}>
+    <div className={cn('flex flex-col gap-ws-1', className)}>
       {label && (
         <label htmlFor={controlId} className="text-label font-medium text-foreground">
           {label}

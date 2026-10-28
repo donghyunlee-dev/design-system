@@ -18,10 +18,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     <input
       ref={ref}
       className={cn(
-        'w-full h-[var(--control-height-md)] px-ws-3 text-body bg-surface border rounded-input text-foreground placeholder:text-placeholder',
+        'w-full h-[var(--control-height-md)] px-ws-2 text-body bg-surface border rounded-input text-foreground placeholder:text-placeholder',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         'disabled:opacity-50 disabled:bg-surface-subtle',
-        error ? 'border-danger focus-visible:ring-danger' : 'border-border focus-visible:ring-brand',
+        error ? 'border-danger focus-visible:border-danger focus-visible:ring-danger' : 'border-border focus-visible:border-focus focus-visible:ring-focus',
         className
       )}
       aria-invalid={error || ariaInvalid}

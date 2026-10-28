@@ -6,6 +6,7 @@ const meta: Meta<typeof Icon> = {
   component: Icon,
   tags: ['autodocs'],
   args: { name: 'search', size: 'sm' },
+  parameters: { docs: { description: { component: "아이콘 이름과 크기, 색상을 전달해 기능을 식별합니다. 단독 아이콘 버튼에는 접근 가능한 이름을 제공합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

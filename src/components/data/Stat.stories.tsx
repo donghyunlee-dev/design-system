@@ -7,6 +7,7 @@ const meta: Meta<typeof Stat> = {
   component: Stat,
   tags: ['autodocs'],
   args: { label: '총 주문', value: '1,234' },
+  parameters: { docs: { description: { component: "핵심 수치와 라벨, 변화 정보를 요약합니다. 단위와 비교 기준을 일관되게 사용합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

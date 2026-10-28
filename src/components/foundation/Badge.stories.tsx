@@ -6,6 +6,7 @@ const meta: Meta<typeof Badge> = {
   component: Badge,
   tags: ['autodocs'],
   args: { children: '배지', variant: 'default' },
+  parameters: { docs: { description: { component: "상태나 분류를 짧은 라벨로 보조 표시합니다. 주요 작업을 대신하지 않도록 합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

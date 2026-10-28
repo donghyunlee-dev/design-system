@@ -7,6 +7,7 @@ const meta: Meta<typeof MediaCard> = {
   component: MediaCard,
   tags: ['autodocs'],
   args: { title: '표준 발주서', description: '거래처·품목·수량·납기를 입력해 신규 발주를 생성하는 기본 양식입니다.' },
+  parameters: { docs: { description: { component: "이미지나 영상 미리보기와 정보를 카드 형태로 표시합니다. 비율과 긴 텍스트가 유지되는지 확인합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

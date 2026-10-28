@@ -7,6 +7,7 @@ const meta: Meta<typeof MediaCardHoverActions> = {
   title: 'Data/MediaCardHoverActions',
   component: MediaCardHoverActions,
   tags: ['autodocs'],
+  parameters: { docs: { description: { component: "미디어 카드에서 사용할 수 있는 보조 작업을 표시합니다. 포인터와 키보드 사용을 함께 확인합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

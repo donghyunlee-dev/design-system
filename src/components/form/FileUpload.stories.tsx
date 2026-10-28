@@ -6,6 +6,7 @@ const meta: Meta<typeof FileUpload> = {
   component: FileUpload,
   tags: ['autodocs'],
   args: { label: '파일 선택 또는 드래그' },
+  parameters: { docs: { description: { component: "파일 선택과 업로드를 입력받습니다. 허용 형식과 크기 제한을 안내합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

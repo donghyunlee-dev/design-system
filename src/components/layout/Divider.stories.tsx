@@ -6,6 +6,7 @@ const meta: Meta<typeof Divider> = {
   component: Divider,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "콘텐츠 그룹 사이의 경계를 가볍게 표시합니다. 시각적 구분이 필요한 곳에 사용합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

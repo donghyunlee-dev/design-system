@@ -7,6 +7,7 @@ const meta: Meta<typeof DateTimePicker> = {
   component: DateTimePicker,
   tags: ['autodocs'],
   args: { mode: 'date' },
+  parameters: { docs: { description: { component: "날짜와 시간을 함께 입력받습니다. 유효 범위와 표시 단위를 설정합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

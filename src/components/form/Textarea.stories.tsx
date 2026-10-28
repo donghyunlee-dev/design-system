@@ -7,6 +7,7 @@ const meta: Meta<typeof Textarea> = {
   component: Textarea,
   tags: ['autodocs'],
   args: { placeholder: '내용을 입력하세요' },
+  parameters: { docs: { description: { component: "여러 줄 텍스트를 입력받습니다. 예상 입력량에 맞는 높이와 길이 제한을 안내합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

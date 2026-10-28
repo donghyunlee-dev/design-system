@@ -14,7 +14,7 @@ const meta: Meta<typeof AccountMenu> = {
       { label: '로그아웃', onClick: () => {}, divider: true },
     ],
   },
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', docs: { description: { component: "현재 계정을 표시하고 관련 작업 메뉴를 엽니다. 아바타를 눌러 메뉴를 확인합니다." } }},
 }
 
 export default meta

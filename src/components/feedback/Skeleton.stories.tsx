@@ -6,6 +6,7 @@ const meta: Meta<typeof Skeleton> = {
   component: Skeleton,
   tags: ['autodocs'],
   args: { className: 'h-4 w-48' },
+  parameters: { docs: { description: { component: "콘텐츠가 로드되는 동안 실제 레이아웃에 가까운 자리 표시를 보여줍니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -14,7 +14,7 @@ const meta: Meta<typeof DropdownMenu> = {
   component: DropdownMenu,
   tags: ['autodocs'],
   args: { items: ITEMS },
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', docs: { description: { component: "트리거에서 관련 작업 목록을 엽니다. 각 항목을 실제 동작과 연결합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

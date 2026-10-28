@@ -4,6 +4,8 @@ import { UptimeHistoryStrip, UptimeDay } from './UptimeHistoryStrip'
 const meta: Meta<typeof UptimeHistoryStrip> = {
   title: 'Data/UptimeHistoryStrip',
   component: UptimeHistoryStrip,
+  tags: ['autodocs'],
+  parameters: { docs: { description: { component: "일별 서비스 가동 상태를 막대로 요약합니다. 장애와 점검에는 보충 설명을 추가합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof UptimeHistoryStrip>

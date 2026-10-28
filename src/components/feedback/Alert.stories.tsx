@@ -6,6 +6,7 @@ const meta: Meta<typeof Alert> = {
   component: Alert,
   tags: ['autodocs'],
   args: { children: '알림 메시지 내용입니다.', variant: 'info' },
+  parameters: { docs: { description: { component: "중요한 안내나 상태를 화면 안에 표시합니다. 심각도에 맞는 유형을 선택합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>
