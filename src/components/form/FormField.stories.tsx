@@ -17,6 +17,7 @@ const meta: Meta<typeof FormField> = {
   component: FormField,
   tags: ['autodocs'],
   args: { label: '이메일' },
+  parameters: { docs: { description: { component: "레이블, 설명, 필수 표시와 입력 요소를 필드 단위로 묶습니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -14,6 +14,7 @@ const meta: Meta<typeof ChipGroup> = {
   title: 'Navigation/ChipGroup',
   component: ChipGroup,
   tags: ['autodocs'],
+  parameters: { docs: { description: { component: "관련 옵션을 칩 형태로 나열해 선택하거나 필터링합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -9,7 +9,7 @@ const meta: Meta<typeof Modal> = {
   component: Modal,
   tags: ['autodocs'],
   args: { title: '확인', children: '계속 진행하시겠습니까?' },
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', docs: { description: { component: "집중이 필요한 콘텐츠나 입력을 화면 위에 표시합니다. 명확한 트리거와 닫기 동작을 제공합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

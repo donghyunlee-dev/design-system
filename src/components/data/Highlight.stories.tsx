@@ -6,6 +6,7 @@ const meta: Meta<typeof Highlight> = {
   component: Highlight,
   tags: ['autodocs'],
   args: { children: '냉동창고' },
+  parameters: { docs: { description: { component: "문장 안에서 검색어나 주목할 텍스트를 강조합니다. 원문 읽기 순서를 유지합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -8,6 +8,7 @@ const meta: Meta<typeof ColorTag> = {
   component: ColorTag,
   tags: ['autodocs'],
   args: { children: '영업팀' },
+  parameters: { docs: { description: { component: "색상과 텍스트로 분류를 표시합니다. 의미를 색상만으로 전달하지 않습니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

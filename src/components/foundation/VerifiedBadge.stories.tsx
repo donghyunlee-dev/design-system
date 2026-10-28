@@ -6,6 +6,7 @@ const meta: Meta<typeof VerifiedBadge> = {
   title: 'Foundation/VerifiedBadge',
   component: VerifiedBadge,
   tags: ['autodocs'],
+  parameters: { docs: { description: { component: "검증된 사용자나 항목임을 관련 이름 가까이에 표시합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

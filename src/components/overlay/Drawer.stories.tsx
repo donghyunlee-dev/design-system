@@ -9,7 +9,7 @@ const meta: Meta<typeof Drawer> = {
   component: Drawer,
   tags: ['autodocs'],
   args: { title: '메뉴' },
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', docs: { description: { component: "화면 가장자리에서 보조 패널을 엽니다. 작은 화면에서도 내용이 잘리지 않게 구성합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

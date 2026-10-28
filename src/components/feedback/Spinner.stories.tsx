@@ -6,6 +6,7 @@ const meta: Meta<typeof Spinner> = {
   component: Spinner,
   tags: ['autodocs'],
   args: { size: 'md' },
+  parameters: { docs: { description: { component: "완료 시점을 알 수 없는 작업의 진행 상태를 표시합니다. 대기 이유는 주변 문구로 안내합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

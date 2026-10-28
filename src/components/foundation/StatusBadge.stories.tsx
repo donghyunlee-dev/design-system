@@ -7,6 +7,7 @@ const meta: Meta<typeof StatusBadge> = {
   component: StatusBadge,
   tags: ['autodocs'],
   args: { status: 'active' },
+  parameters: { docs: { description: { component: "상태 값을 라벨과 색상으로 함께 표시합니다. 의미를 색상만으로 전달하지 않습니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

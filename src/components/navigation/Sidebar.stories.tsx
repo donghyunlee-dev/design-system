@@ -15,7 +15,7 @@ const meta: Meta<typeof Sidebar> = {
   component: Sidebar,
   tags: ['autodocs'],
   args: { items: SIDEBAR_ITEMS },
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', docs: { description: { component: "앱의 주요 메뉴를 세로로 탐색합니다. 활성 위치와 접힘 상태를 분명히 표시합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -6,6 +6,7 @@ const meta: Meta<typeof Progress> = {
   component: Progress,
   tags: ['autodocs'],
   args: { value: 60, max: 100 },
+  parameters: { docs: { description: { component: "작업의 완료 정도를 진행률로 표시합니다. 실제 진행 범위와 값에 맞춰 사용합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

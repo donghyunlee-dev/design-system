@@ -6,6 +6,7 @@ const meta: Meta<typeof Button> = {
   component: Button,
   tags: ['autodocs'],
   args: { children: '버튼', variant: 'primary', size: 'md' },
+  parameters: { docs: { description: { component: "작업을 실행하거나 선택을 확정합니다. 중요도에 맞는 강조 단계와 크기를 선택합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

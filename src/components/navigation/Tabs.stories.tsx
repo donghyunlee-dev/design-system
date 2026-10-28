@@ -14,6 +14,7 @@ const meta: Meta<typeof Tabs> = {
   component: Tabs,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "같은 맥락의 콘텐츠 패널을 탭으로 전환합니다. 선택 상태와 패널 연결을 유지합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

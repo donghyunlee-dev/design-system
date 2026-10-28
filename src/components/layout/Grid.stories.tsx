@@ -11,6 +11,7 @@ const meta: Meta<typeof Grid> = {
   component: Grid,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "콘텐츠를 열과 행 기반으로 배치합니다. 열 수와 간격을 화면 폭에 맞춥니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

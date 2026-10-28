@@ -25,6 +25,7 @@ const meta: Meta<typeof Table> = {
   component: Table,
   tags: ['autodocs'],
   args: { columns: COLUMNS, data: DATA, rowKey: 'id' },
+  parameters: { docs: { description: { component: "행과 열 형태로 데이터를 표시합니다. 좁은 화면에서의 가로 넘침을 확인합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

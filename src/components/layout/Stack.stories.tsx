@@ -6,6 +6,7 @@ const meta: Meta<typeof Stack> = {
   component: Stack,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "요소를 한 방향으로 쌓고 일관된 간격을 적용합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

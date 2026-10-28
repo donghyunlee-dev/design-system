@@ -16,6 +16,7 @@ const meta: Meta<typeof MultiSelect> = {
   title: 'Form/MultiSelect',
   component: MultiSelect,
   tags: ['autodocs'],
+  parameters: { docs: { description: { component: "여러 선택지를 고르고 관리합니다. 데이터 예제와 상호작용 스토리에서 옵션과 선택 흐름을 확인합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

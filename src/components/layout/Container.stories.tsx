@@ -6,6 +6,7 @@ const meta: Meta<typeof Container> = {
   component: Container,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "콘텐츠 폭과 좌우 여백을 제한해 페이지 읽기 폭을 유지합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

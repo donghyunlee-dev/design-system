@@ -7,7 +7,7 @@ const meta: Meta<typeof Popover> = {
   component: Popover,
   tags: ['autodocs'],
   args: {},
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', docs: { description: { component: "트리거와 연관된 보조 콘텐츠나 입력 UI를 표시합니다. 바깥 클릭과 Escape 동작을 확인합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

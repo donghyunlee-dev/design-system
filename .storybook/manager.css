@@ -1,0 +1,4 @@
+button[aria-label="Create a new story"],
+button[data-testid="tree-change-status-button"] {
+  display: none !important;
+}

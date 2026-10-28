@@ -13,6 +13,7 @@ const meta: Meta<typeof Select> = {
   component: Select,
   tags: ['autodocs'],
   args: { options: OPTIONS, placeholder: '선택하세요' },
+  parameters: { docs: { description: { component: "정해진 선택지 중 하나를 선택하게 합니다. 옵션 라벨을 명확히 제공합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

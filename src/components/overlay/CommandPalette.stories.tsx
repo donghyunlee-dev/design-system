@@ -36,7 +36,7 @@ const meta: Meta<typeof CommandPalette> = {
   component: CommandPalette,
   tags: ['autodocs'],
   args: { groups: GROUPS },
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', docs: { description: { component: "검색 가능한 명령에서 화면 이동이나 작업을 빠르게 실행합니다. 키보드 탐색과 선택 결과를 확인합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

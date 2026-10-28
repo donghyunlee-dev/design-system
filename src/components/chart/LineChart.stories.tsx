@@ -23,6 +23,7 @@ const meta: Meta<typeof LineChart> = {
     ],
     height: 300,
   },
+  parameters: { docs: { description: { component: "연속 값의 시간 또는 순서에 따른 변화를 선으로 비교합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -14,8 +14,10 @@ function ToastDemo({ variant }: { variant?: 'info' | 'success' | 'warning' | 'da
 
 const meta: Meta = {
   title: 'Feedback/Toast',
+  component: ToastProvider,
   tags: ['autodocs'],
   decorators: [(Story) => <ToastProvider><Story /></ToastProvider>],
+  parameters: { docs: { description: { component: "작업 결과를 화면을 막지 않는 일시 알림으로 전달합니다. 상위에 ToastProvider를 두고 상태와 메시지를 호출합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

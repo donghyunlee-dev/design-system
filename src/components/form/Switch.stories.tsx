@@ -8,6 +8,7 @@ const meta: Meta<typeof Switch> = {
   component: Switch,
   tags: ['autodocs'],
   args: { label: '알림 켜기', disabled: false },
+  parameters: { docs: { description: { component: "설정의 켜짐과 꺼짐처럼 즉시 적용되는 두 상태를 전환합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

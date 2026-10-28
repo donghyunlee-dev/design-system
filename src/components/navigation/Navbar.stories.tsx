@@ -14,7 +14,7 @@ const meta: Meta<typeof Navbar> = {
   component: Navbar,
   tags: ['autodocs'],
   args: { logo: 'WindSoft', items: NAV_ITEMS },
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', docs: { description: { component: "주요 서비스 영역으로 이동하는 전역 또는 영역별 메뉴를 구성합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

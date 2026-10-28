@@ -7,6 +7,7 @@ const meta: Meta<typeof Input> = {
   component: Input,
   tags: ['autodocs'],
   args: { placeholder: '텍스트를 입력하세요' },
+  parameters: { docs: { description: { component: "한 줄 텍스트나 형식이 정해진 값을 입력받습니다. 목적에 맞는 타입과 오류 상태를 설정합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

@@ -6,6 +6,7 @@ const meta: Meta<typeof Tag> = {
   component: Tag,
   tags: ['autodocs'],
   args: { children: 'React' },
+  parameters: { docs: { description: { component: "항목의 분류나 키워드를 짧은 라벨로 표시합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

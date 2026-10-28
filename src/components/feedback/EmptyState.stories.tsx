@@ -7,6 +7,7 @@ const meta: Meta<typeof EmptyState> = {
   component: EmptyState,
   tags: ['autodocs'],
   args: { title: '데이터가 없습니다', description: '새 항목을 추가해보세요.' },
+  parameters: { docs: { description: { component: "표시할 데이터가 없는 이유와 가능한 다음 행동을 안내합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

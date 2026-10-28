@@ -6,6 +6,7 @@ const meta: Meta<typeof Spacer> = {
   component: Spacer,
   tags: ['autodocs'],
   args: {},
+  parameters: { docs: { description: { component: "레이아웃 안에서 일정한 간격을 확보합니다. 인접 요소의 마진과 중복되지 않도록 합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

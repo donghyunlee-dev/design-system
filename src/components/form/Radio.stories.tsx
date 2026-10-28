@@ -7,6 +7,7 @@ const meta: Meta<typeof Radio> = {
   component: Radio,
   tags: ['autodocs'],
   args: { label: '옵션 선택', name: 'example' },
+  parameters: { docs: { description: { component: "서로 배타적인 선택지 중 하나를 고르게 합니다. 관련 옵션을 같은 그룹으로 제공합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>

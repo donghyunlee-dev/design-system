@@ -31,7 +31,7 @@ const meta: Meta<typeof SidebarNested> = {
   component: SidebarNested,
   tags: ['autodocs'],
   args: { items: ITEMS },
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', docs: { description: { component: "계층형 메뉴를 좌측에 표시합니다. 들여쓰기와 활성 상태로 메뉴 깊이를 구분합니다." } }},
 }
 export default meta
 type Story = StoryObj<typeof meta>

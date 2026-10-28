@@ -12,6 +12,7 @@ const meta: Meta<typeof PieChart> = {
   component: PieChart,
   tags: ['autodocs'],
   args: { data: DATA, height: 300 },
+  parameters: { docs: { description: { component: "전체에서 범주별 비율을 원형 차트로 비교합니다. 범주 수와 범례 가독성을 확인합니다." } } },
 }
 export default meta
 type Story = StoryObj<typeof meta>
