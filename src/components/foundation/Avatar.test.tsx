@@ -8,6 +8,6 @@ describe('Avatar', () => {
     ['lg', 'size-12', 'text-body'],
   ] as const)('%s 크기는 WindSoft 아바타 스케일을 따른다', (size, dimensions, typography) => {
     render(<Avatar size={size} initials="WS" />)
-    expect(screen.getByText('WS')).toHaveClass(dimensions, typography, 'rounded-full')
+    expect(screen.getByText('WS')).toHaveClass(dimensions, typography, 'rounded-full', 'bg-brand-light', 'text-brand')
   })
 })

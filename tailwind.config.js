@@ -18,6 +18,7 @@ export default {
         'on-brand':        'var(--color-on-brand)',
         // 서피스 확장
         'surface-subtle':  'var(--color-surface-subtle)',
+        'menu-hover':      'var(--color-menu-hover)',
         // 경계선 확장
         'border-subtle':   'var(--color-border-subtle)',
         'border-strong':   'var(--color-border-strong)',

@@ -80,6 +80,7 @@
 | `--color-background` | 페이지 전체 배경 | `<body>` 배경 |
 | `--color-surface` | 카드·패널 배경 | Card, Modal 배경 |
 | `--color-surface-raised` | 호버 시 표면 색 | 목록 행 호버 |
+| `--color-menu-hover` | 메뉴 호버·펼침 배경. Light는 브랜드 블루, Dark는 raised 표면을 사용 | LNB 메뉴 |
 | `--color-surface-overlay` | 배지·태그 배경 | Badge, Code 블록 |
 | `--color-foreground` | 기본 텍스트 색 | 제목, 본문 |
 | `--color-secondary` | 보조 텍스트 색 | 부제목, 설명 |

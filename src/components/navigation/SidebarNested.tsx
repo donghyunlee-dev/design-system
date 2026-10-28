@@ -74,7 +74,7 @@ export function SidebarNested({
     )
   }
 
-  const renderItems = (menuItems: SidebarNestedItem[], path = '') => (
+  const renderItems = (menuItems: SidebarNestedItem[], path = '', depth = 0) => (
     <>
       {menuItems.map((item, index) => {
         const itemPath = path ? `${path}-${index}` : String(index)
@@ -83,16 +83,16 @@ export function SidebarNested({
         const expanded = expandedKeys.includes(item.key)
         const activeInBranch = item.active || hasActiveDescendant(item)
         const className = cn(
-          'flex min-h-10 items-center gap-ws-2 rounded-btn px-ws-3 text-label transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+          'flex min-h-10 items-center gap-ws-2 rounded-btn px-ws-3 text-label transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand',
           item.active
-            ? 'bg-brand-subtle text-brand font-medium'
+            ? 'relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-[#1868db] before:content-[\'\'] text-[#1868db] font-normal'
             : activeInBranch
               ? 'text-brand font-medium'
-              : 'text-secondary hover:text-foreground hover:bg-surface-raised'
+              : 'text-secondary hover:text-foreground hover:bg-menu-hover'
         )
 
         return (
-          <li key={item.key} className="mx-1">
+          <li key={item.key} className={depth === 0 ? 'mx-2' : 'mx-0'}>
             {isGroup ? (
               <>
                 <button
@@ -103,7 +103,7 @@ export function SidebarNested({
                   className={cn(
                     'w-full text-left',
                     className,
-                    expanded && !activeInBranch && 'bg-surface-raised text-foreground'
+                    expanded && !activeInBranch && 'bg-menu-hover text-foreground'
                   )}
                 >
                   {item.icon && <span className="size-4 shrink-0">{item.icon}</span>}
@@ -116,9 +116,9 @@ export function SidebarNested({
                 <ul
                   id={`${baseId}-group-${itemPath}`}
                   hidden={!expanded}
-                  className="ml-ws-4 flex flex-col gap-ws-1 border-l border-border py-ws-1 pl-ws-2"
+                  className="flex flex-col gap-ws-1 py-ws-1 pl-3"
                 >
-                  {renderItems(children, itemPath)}
+                  {renderItems(children, itemPath, depth + 1)}
                 </ul>
               </>
             ) : item.href ? (
@@ -144,7 +144,7 @@ export function SidebarNested({
   )
 
   return (
-    <aside className={cn('w-56 shrink-0 bg-surface border-r border-border flex flex-col py-2', className)}>
+    <aside className={cn('w-60 shrink-0 bg-surface border-r border-border flex flex-col py-2', className)}>
       <nav aria-label={label} className="flex min-h-0 flex-1 flex-col overflow-y-auto">
         <ul className="flex flex-col gap-ws-1">{renderItems(items)}</ul>
       </nav>

@@ -28,7 +28,7 @@ npm install @windsoft/ui
 npm install react@19 react-dom@19
 ```
 
-버전을 고정하려면 `npm install @windsoft/ui@0.4.0`처럼 명시 버전을 사용하세요.
+버전을 고정하려면 `npm install @windsoft/ui@0.5.0`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
@@ -243,6 +243,52 @@ const activeTab = searchParams.get('tab') ?? 'overview'
   }}
 />
 ```
+
+### 관리자 SPA 기본 레이아웃
+
+`AdminShell`은 헤더, 중첩 LNB, 콘텐츠, 풋터를 조합합니다. CI, 검색, 계정 영역은 슬롯으로 전달하고, 메뉴 데이터와 URL 연결은 앱이 소유합니다. 헤더 메뉴가 없으면 검색이 헤더 중앙에 놓입니다. LNB 접기/열기 버튼은 GNB 왼쪽에 고정되어 열린 상태와 닫힌 상태에서 같은 위치를 유지합니다. 현재 경로 메뉴는 왼쪽에 행 전체 높이의 얇은 파란 직선과 파란 텍스트로 나타나며 선택 배경은 사용하지 않습니다. 키보드 포커스 외곽선은 포커스 시에만 표시됩니다. LNB는 기본 240px, 최소 240px이며 데스크톱 최대 너비는 화면 폭의 절반입니다. 1024px 미만에서는 기본으로 접히고, 열었을 때 본문 위에 겹치며 최대 너비는 320px 또는 화면 폭의 90% 중 작은 값입니다. 메뉴 너비는 포인터 또는 키보드(좌우 화살표, Home, End)로 조절할 수 있습니다. 접힘 상태와 너비를 앱에서 저장하려면 제어 props와 변경 콜백을 연결하세요.
+
+```tsx
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { AccountMenu, AdminShell, Button, Icon, SearchField } from '@windsoft/ui'
+import type { SidebarNestedItem } from '@windsoft/ui'
+
+const menu: SidebarNestedItem[] = [
+  { key: 'home', label: '대시보드', href: '/dashboard', active: true },
+  { key: 'orders', label: '주문 관리', children: [
+    { key: 'order-list', label: '주문 목록', href: '/orders' },
+  ] },
+]
+
+function AdminPage() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [sidebarWidth, setSidebarWidth] = useState(240)
+
+  return (
+    <AdminShell
+      logo={<img src="/ci.svg" alt="회사 이름" className="h-8" />}
+      items={menu}
+      sidebarCollapsed={sidebarCollapsed}
+      onSidebarCollapsedChange={setSidebarCollapsed}
+      sidebarWidth={sidebarWidth}
+      onSidebarWidthChange={setSidebarWidth}
+      search={<SearchField aria-label="전체 검색" placeholder="검색어를 입력하세요" />}
+      headerActions={<Button variant="ghost" aria-label="환경 설정"><Icon name="settings" /></Button>}
+      account={<AccountMenu mode="avatar" name="김민수" email="minsu@example.com" items={[
+        { label: '계정 설정', onClick: () => {} },
+        { label: '로그아웃', onClick: () => {}, divider: true },
+      ]} />}
+      footer={<div className="p-ws-3">관리자 푸터</div>}
+      renderLink={({ href, ...props }) => <Link to={href} {...props} />}
+    >
+      <div className="p-ws-6"><h1>대시보드</h1></div>
+    </AdminShell>
+  )
+}
+```
+
+`SearchField`는 검색 아이콘을 포함한 입력 부품이며 입력값과 검색 실행은 앱에서 처리합니다. 계정 메뉴 항목도 `DropdownItem`으로 전달하고 각 동작을 앱에서 연결합니다.
 
 ### 모달
 

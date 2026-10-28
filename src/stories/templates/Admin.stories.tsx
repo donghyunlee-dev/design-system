@@ -3,6 +3,7 @@ import { DashboardStats } from '../../templates/admin/DashboardStats'
 import { DashboardFull } from '../../templates/admin/DashboardFull'
 import { DataTablePage } from '../../templates/admin/DataTablePage'
 import { DataFormPage } from '../../templates/admin/DataFormPage'
+import { AdminShell } from '../../templates/admin/AdminShell'
 import { LineChart } from '../../components/chart/LineChart'
 import { PieChart } from '../../components/chart/PieChart'
 import { Badge } from '../../components/foundation/Badge'
@@ -10,6 +11,11 @@ import { Button } from '../../components/foundation/Button'
 import { FormField } from '../../components/form/FormField'
 import { Input } from '../../components/form/Input'
 import { Select } from '../../components/form/Select'
+import { SearchField } from '../../components/form/SearchField'
+import { AccountMenu } from '../../components/foundation/AccountMenu'
+import { Icon } from '../../components/foundation/Icon'
+import { Stat } from '../../components/data/Stat'
+import { SidebarNestedItem } from '../../components/navigation/SidebarNested'
 
 const meta: Meta = { title: 'Templates/Admin', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
@@ -28,6 +34,14 @@ const ORDERS = [
   { id: 1, name: '주문 #001', status: '완료', amount: '₩12,000', date: '2026-06-26' },
   { id: 2, name: '주문 #002', status: '처리중', amount: '₩8,500', date: '2026-06-26' },
   { id: 3, name: '주문 #003', status: '대기', amount: '₩23,000', date: '2026-06-25' },
+]
+const ADMIN_ITEMS: SidebarNestedItem[] = [
+  { key: 'home', label: '대시보드', href: '#dashboard', active: true },
+  { key: 'orders', label: '주문 관리', children: [
+    { key: 'order-list', label: '주문 목록', href: '#orders' },
+    { key: 'returns', label: '반품 관리', href: '#returns' },
+  ] },
+  { key: 'products', label: '상품 관리', href: '#products' },
 ]
 
 export const Stats: StoryObj = {
@@ -120,5 +134,32 @@ export const DataForm: StoryObj = {
       onSubmit={() => alert('저장!')}
       onCancel={() => {}}
     />
+  ),
+}
+
+export const Shell: StoryObj = {
+  name: 'Admin Shell',
+  render: () => (
+    <AdminShell
+      logo={<span className="font-semibold">WindSoft Admin</span>}
+      items={ADMIN_ITEMS}
+      search={<SearchField aria-label="관리자 전체 검색" placeholder="메뉴와 데이터 검색" />}
+      headerActions={<Button variant="ghost" size="sm" className="w-8 px-0" aria-label="환경 설정"><Icon name="settings" /></Button>}
+      account={<AccountMenu name="김민수" email="minsu@windsoft.example" initials="김" items={[
+        { label: '계정 설정', onClick: () => {} },
+        { label: '로그아웃', onClick: () => {}, divider: true },
+      ]} />}
+      footer={<div className="px-ws-4 py-ws-3 text-caption text-muted">WindSoft 관리자 · 도움말 · 이용약관</div>}
+    >
+      <div className="p-ws-6">
+        <h1 className="mb-ws-6 text-page-title font-semibold">대시보드</h1>
+        <div className="grid grid-cols-1 gap-ws-4 sm:grid-cols-2 xl:grid-cols-4">
+          {STATS.map(stat => <Stat key={stat.label} {...stat} icon={undefined} />)}
+        </div>
+        <div className="mt-ws-6 rounded-card border border-border bg-surface p-ws-4">
+          <LineChart data={CHART_DATA} xKey="month" lines={[{ key: '주문', label: '주문 수' }]} />
+        </div>
+      </div>
+    </AdminShell>
   ),
 }

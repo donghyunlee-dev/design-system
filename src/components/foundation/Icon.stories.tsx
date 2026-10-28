@@ -22,6 +22,8 @@ export const AdminActions: Story = {
       <Icon name="close" />
       <Icon name="chevron-down" />
       <Icon name="chevron-right" />
+      <Icon name="sidebar-close" size="md" />
+      <Icon name="sidebar-open" size="md" />
     </div>
   ),
 }

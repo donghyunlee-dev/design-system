@@ -25,7 +25,7 @@ export function Avatar({ src, alt, initials, size = 'md', className }: AvatarPro
   return (
     <span
       className={cn(
-        'inline-flex items-center justify-center rounded-full bg-surface-overlay text-muted font-medium overflow-hidden',
+        'inline-flex items-center justify-center rounded-full bg-brand-light text-brand font-medium overflow-hidden',
         sizeMap[size],
         className
       )}

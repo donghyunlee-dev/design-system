@@ -39,6 +39,8 @@ export { SettingsTabs } from './service/account/SettingsTabs'
 export type { SettingsTabsProps, SettingsTab } from './service/account/SettingsTabs'
 
 // Admin
+export { AdminShell } from './admin/AdminShell'
+export type { AdminShellProps } from './admin/AdminShell'
 export { DashboardStats } from './admin/DashboardStats'
 export type { DashboardStatsProps } from './admin/DashboardStats'
 export { DashboardFull } from './admin/DashboardFull'

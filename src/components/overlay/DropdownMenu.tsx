@@ -32,11 +32,15 @@ export interface DropdownItem {
 export interface DropdownMenuProps {
   /** 드롭다운을 여는 트리거 요소 (버튼 등 클릭 가능한 단일 엘리먼트) */
   trigger: ReactNode
+  /** 트리거의 기본 포커스 스타일을 보정할 클래스 */
+  triggerClassName?: string
   /** 메뉴 항목 목록 */
   items: DropdownItem[]
+  /** 메뉴의 접근 가능한 이름 */
+  menuLabel?: string
 }
 
-export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
+export function DropdownMenu({ trigger, triggerClassName, items, menuLabel = '작업 메뉴' }: DropdownMenuProps) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const triggerNodeRef = useRef<HTMLElement | null>(null)
@@ -71,7 +75,7 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
     ? cloneElement(trigger as React.ReactElement<Record<string, unknown>>, {
         'aria-haspopup': 'menu',
         'aria-expanded': open,
-        className: cn(triggerProps?.className as string | undefined, 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand'),
+        className: cn(triggerProps?.className as string | undefined, 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand', triggerClassName),
         ref: (el: HTMLElement | null) => {
           triggerNodeRef.current = el
         },
@@ -86,7 +90,7 @@ export function DropdownMenu({ trigger, items }: DropdownMenuProps) {
     <div ref={containerRef} className="relative inline-flex">
       {triggerElement}
       {open && (
-        <div role="menu" aria-label="작업 메뉴" onKeyDown={event => {
+        <div role="menu" aria-label={menuLabel} onKeyDown={event => {
           const enabled = itemRefs.current.filter((item): item is HTMLButtonElement => item !== null && !item.disabled)
           const current = enabled.indexOf(document.activeElement as HTMLButtonElement)
           let next: number | undefined

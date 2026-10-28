@@ -13,6 +13,8 @@ describe('Breadcrumb', () => {
     const link = screen.getByRole('link', { name: '사용자' })
     expect(link).toHaveAttribute('data-router-link')
     expect(link).toHaveAttribute('href', '/users')
+    expect(screen.getByText('>')).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.queryByText('/')).not.toBeInTheDocument()
     expect(screen.getByText('상세')).toHaveAttribute('aria-current', 'page')
   })
 })

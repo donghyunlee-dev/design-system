@@ -4,7 +4,7 @@ import { JSX, SVGAttributes } from 'react'
 /**
  * 외부 아이콘 라이브러리 없이 검색·상태·표 조작·내비게이션 아이콘을 같은 크기와 선 굵기로 표시합니다.
  */
-export type IconName = 'search' | 'comment' | 'settings' | 'sort' | 'sort-asc' | 'sort-desc' | 'filter' | 'grip' | 'close' | 'check' | 'chevron-down' | 'chevron-right'
+export type IconName = 'search' | 'comment' | 'settings' | 'sort' | 'sort-asc' | 'sort-desc' | 'filter' | 'grip' | 'close' | 'check' | 'chevron-down' | 'chevron-right' | 'sidebar-close' | 'sidebar-open'
 
 export interface IconProps extends SVGAttributes<SVGSVGElement> {
   name: IconName
@@ -32,8 +32,8 @@ const paths: Record<IconName, JSX.Element> = {
   ),
   settings: (
     <>
-      <circle cx="12" cy="12" r="3.5" />
-      <path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.51-6.49-2.12 2.12m-8.74 8.74-2.12 2.12m0-12.98 2.12 2.12m8.74 8.74 2.12 2.12" />
+      <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+      <circle cx="12" cy="12" r="3" />
     </>
   ),
   sort: (
@@ -56,6 +56,18 @@ const paths: Record<IconName, JSX.Element> = {
   check: <path d="m5 12 4 4L19 6" />,
   'chevron-down': <path d="m6 9 6 6 6-6" />,
   'chevron-right': <path d="m9 6 6 6-6 6" />,
+  'sidebar-close': (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M9 3v18M16 15l-3-3 3-3" />
+    </>
+  ),
+  'sidebar-open': (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M9 3v18m5-6 3-3-3-3" />
+    </>
+  ),
 }
 
 /** WindSoft UI 공용 아이콘을 표시합니다. */
