@@ -28,7 +28,7 @@ npm install @windsoft/ui
 npm install react@19 react-dom@19
 ```
 
-버전을 고정하려면 `npm install @windsoft/ui@0.5.0`처럼 명시 버전을 사용하세요.
+버전을 고정하려면 `npm install @windsoft/ui@0.6.0`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
@@ -190,6 +190,36 @@ import { DataTable, Table, Badge } from '@windsoft/ui'
 />
 ```
 
+### 관리자 데이터 입력
+
+`DataFormPage`는 기본으로 한 열에 라벨 위·입력 아래로 배치합니다. 폼 안의 단일 행 입력은 36px 높이로 표시되고, 각 입력은 값의 길이에 맞춰 너비를 다르게 지정합니다. 여러 줄 설명은 넓게 사용합니다. `columns: 2`는 짧고 함께 입력하는 항목에 적합할 때만 선택합니다.
+
+```tsx
+import { DataFormPage, FormField, Input, Textarea } from '@windsoft/ui'
+
+<DataFormPage
+  title="서비스 등록"
+  sections={[{
+    title: '서비스 정보',
+    fields: <>
+      <FormField label="서비스명">
+        <Input className="max-w-2xl" />
+      </FormField>
+      <FormField label="서비스 코드">
+        <Input className="max-w-xs" />
+      </FormField>
+      <FormField label="월 이용료">
+        <Input type="number" className="max-w-[12rem] text-right" />
+      </FormField>
+      <FormField label="상세 설명">
+        <Textarea rows={4} className="max-w-4xl" />
+      </FormField>
+    </>,
+  }]}
+  onSubmit={save}
+/>
+```
+
 ### 앱 라우터 연결
 
 `Sidebar`, `Navbar`, `Breadcrumb`는 기본으로 `<a href>`를 렌더링합니다. SPA 라우터를 사용하는 앱은 공통 `renderLink` 어댑터를 전달해 라우터의 Link 컴포넌트를 연결할 수 있습니다. 디자인 시스템은 React Router에 직접 의존하지 않습니다.
@@ -320,6 +350,32 @@ function MyPage() {
   )
 }
 ```
+
+### 확인 대화상자
+
+`ConfirmDialog`는 버튼 구성을 세 가지 유형으로 제공합니다. `alert`는 확인 버튼 하나, `confirm`은 취소와 기본 확인 버튼, `destructive`는 취소와 위험 동작 버튼을 표시합니다. `useConfirm`은 선택 결과를 `Promise<boolean>`으로 반환합니다. 컴포넌트 안에 반환된 `dialog`를 한 번 렌더링하세요.
+
+```tsx
+import { Button, useConfirm } from '@windsoft/ui'
+
+function DeleteServiceButton() {
+  const { confirm, dialog } = useConfirm()
+
+  const handleDelete = async () => {
+    const confirmed = await confirm({
+      type: 'destructive',
+      title: '서비스를 삭제할까요?',
+      description: '삭제한 서비스와 관련 데이터는 복구할 수 없습니다.',
+      confirmLabel: '서비스 삭제',
+    })
+    if (confirmed) await deleteService()
+  }
+
+  return <>{dialog}<Button variant="danger" onClick={handleDelete}>삭제</Button></>
+}
+```
+
+사용자가 확인 버튼을 누르면 `true`, 취소하거나 Escape·바깥 영역·닫기 버튼으로 닫으면 `false`를 반환합니다. 새 확인 요청이 열려 있는 동안 다시 호출되면 기존 요청은 `false`로 끝나고 새 요청이 표시됩니다.
 
 ### Toast 알림
 

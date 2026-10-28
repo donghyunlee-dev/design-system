@@ -10,6 +10,17 @@
 - 기능을 추가하거나 수정하는 PR은 머지 전에 이 파일의 `## [Unreleased]` 아래에 항목을 추가합니다.
 - 릴리스 시 `package.json`의 `version`을 bump하고 `## [Unreleased]` 내용을 해당 버전 섹션으로 옮긴 뒤, `v{version}` 태그를 push하면 `publish-npm.yml`이 npm에 배포합니다.
 
+## [0.6.0] - 2026-10-28
+
+### Added
+- 확인·삭제 상황에 맞는 `ConfirmDialog`와 Promise 기반 `useConfirm` API 추가
+- 서비스 등록 등 관리자 데이터 폼 입력 밀도와 필드별 너비를 조정할 수 있는 `DataFormPage` 구성 보강
+
+### Changed
+- 입력 포커스 테두리 색상을 더 연한 브랜드 컬러로 조정하고 관리자 폼의 기본 입력 높이를 축소
+- 컴포넌트 64종의 Storybook 문서 설명과 Autodocs 구성을 정리하고 복합 DataTable 인자를 Controls에서 제외
+- Storybook 탐색 메뉴의 불필요한 새 항목 표시를 숨김
+
 ## [0.5.0] - 2026-10-28
 
 ### Added
