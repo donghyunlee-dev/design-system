@@ -190,6 +190,33 @@ import { DataTable, Table, Badge } from '@windsoft/ui'
 />
 ```
 
+목록 검색 영역은 `SearchFilter`로 검색 입력, 화면별 필터, 조회 액션을 정렬합니다. 이 컴포넌트는 검색 상태나 데이터 요청을 관리하지 않습니다.
+
+```tsx
+import { Button, SearchField, SearchFilter, Select } from '@windsoft/ui'
+
+<SearchFilter
+  ariaLabel="사용자 목록 검색 및 필터"
+  search={
+    <SearchField
+      aria-label="사용자 이름 또는 이메일 검색"
+      value={query}
+      onChange={event => setQuery(event.target.value)}
+      placeholder="이름 또는 이메일 검색"
+    />
+  }
+  filters={
+    <Select
+      aria-label="사용 상태"
+      options={[{ value: 'active', label: '사용 중' }, { value: 'inactive', label: '중지' }]}
+      placeholder="상태 전체"
+    />
+  }
+  actions={<><Button variant="secondary" onClick={reset}>초기화</Button><Button onClick={searchUsers}>조회</Button></>}
+  activeFilters={activeFilterChips}
+/>
+```
+
 ### 관리자 데이터 입력
 
 `DataFormPage`는 기본으로 한 열에 라벨 위·입력 아래로 배치합니다. 폼 안의 단일 행 입력은 36px 높이로 표시되고, 각 입력은 값의 길이에 맞춰 너비를 다르게 지정합니다. 여러 줄 설명은 넓게 사용합니다. `columns: 2`는 짧고 함께 입력하는 항목에 적합할 때만 선택합니다.
@@ -320,6 +347,43 @@ function AdminPage() {
 
 `SearchField`는 검색 아이콘을 포함한 입력 부품이며 입력값과 검색 실행은 앱에서 처리합니다. 계정 메뉴 항목도 `DropdownItem`으로 전달하고 각 동작을 앱에서 연결합니다.
 
+LNB에서 페이지를 열고 탭을 유지하려면 `AdminTabbedLayout`을 사용합니다. 각 LNB leaf의 `href`는 `pages`의 경로와 같아야 하며, 메뉴 레이블이 탭 제목으로 표시됩니다. 고정 홈 버튼은 `homeHref`와 `homeContent`로 지정합니다. 앱 라우터의 현재 경로와 이동 함수를 `activePath`, `onNavigate`에 연결하세요. 페이지 탭은 기본 최대 8개이며 제한에 도달하면 새 경로 이동을 막고 `onTabLimitReached`를 호출합니다. 페이지 탭은 드래그하거나 `Alt+Shift+←/→`로 순서를 바꿀 수 있고, 우클릭 메뉴에서 선택한 탭·나머지 탭·전체 탭을 닫을 수 있습니다. 비활성 페이지는 숨긴 채 마운트되어 입력 중인 화면 상태를 보존합니다.
+
+```tsx
+import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { AdminTabbedLayout, useToast } from '@windsoft/ui'
+
+function AdminApp() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { toast } = useToast()
+
+  return (
+    <AdminTabbedLayout
+      logo="WindSoft Admin"
+      items={[
+        { key: 'dashboard', label: '대시보드', href: '/dashboard' },
+        { key: 'users', label: '사용자 관리', href: '/users' },
+        { key: 'roles', label: '권한 관리', href: '/roles' },
+      ]}
+      pages={[
+        { href: '/users', content: <UserManagementPage /> },
+        { href: '/roles', content: <RoleManagementPage /> },
+      ]}
+      homeHref="/dashboard"
+      homeContent={<AdminDashboard />}
+      activePath={location.pathname}
+      onNavigate={path => navigate(path)}
+      maxTabs={8}
+      onTabLimitReached={() => toast('열려 있는 탭을 닫은 뒤 다시 시도해 주세요.', 'warning')}
+      renderLink={({ href, ...props }) => <Link to={href} {...props} />}
+    />
+  )
+}
+```
+
+예제의 `useToast()`는 앞서 설명한 `ToastProvider` 하위에서 사용해야 합니다. 일반 탭을 닫으면 왼쪽 탭, 왼쪽에 탭이 없으면 오른쪽 탭이 선택됩니다. 홈 버튼은 고정되어 닫히지 않습니다. 탭의 열림 목록은 현재 컴포넌트 메모리에 유지되며 새로고침 후 복원하려면 앱에서 탭 상태 저장을 별도로 연결하세요.
+
 ### 모달
 
 ```tsx
@@ -351,6 +415,34 @@ function MyPage() {
 }
 ```
 
+### Drawer
+
+`Drawer`는 화면 가장자리에서 보조 정보를 열어 보여줍니다. `open`과 `onClose` 상태는 호출부가 관리하고, `side`는 `left` 또는 `right`, `width`는 Tailwind 너비 클래스로 지정합니다. 제목이 있으면 닫기 버튼이 함께 표시됩니다. Escape 또는 배경 클릭으로도 닫히며, 열린 동안 포커스를 드로어에 가두고 페이지 스크롤을 잠급니다.
+
+```tsx
+import { useState } from 'react'
+import { Button, Drawer } from '@windsoft/ui'
+
+function UserDetails() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>사용자 상세</Button>
+      <Drawer
+        open={open}
+        onClose={() => setOpen(false)}
+        side="right"
+        title="사용자 상세 정보"
+        width="w-96"
+      >
+        <p>사용자 정보를 여기에 표시합니다.</p>
+      </Drawer>
+    </>
+  )
+}
+```
+
 ### 확인 대화상자
 
 `ConfirmDialog`는 버튼 구성을 세 가지 유형으로 제공합니다. `alert`는 확인 버튼 하나, `confirm`은 취소와 기본 확인 버튼, `destructive`는 취소와 위험 동작 버튼을 표시합니다. `useConfirm`은 선택 결과를 `Promise<boolean>`으로 반환합니다. 컴포넌트 안에 반환된 `dialog`를 한 번 렌더링하세요.
@@ -376,6 +468,22 @@ function DeleteServiceButton() {
 ```
 
 사용자가 확인 버튼을 누르면 `true`, 취소하거나 Escape·바깥 영역·닫기 버튼으로 닫으면 `false`를 반환합니다. 새 확인 요청이 열려 있는 동안 다시 호출되면 기존 요청은 `false`로 끝나고 새 요청이 표시됩니다.
+
+### 오류 대체 화면
+
+`ErrorFallback`은 이미 결정된 오류 화면을 그리는 컴포넌트입니다. React 오류 경계의 구현, 오류 보고, 다시 시도할 때 호출하는 데이터 요청은 앱에서 연결하세요. `layout`은 작은 패널의 `inline`, 콘텐츠 영역의 `section`, 앱 셸 안의 `page` 중에서 선택하며 화면 전체 높이를 직접 차지하지 않습니다. 원본 `Error` 객체나 stack trace는 전달하지 말고, 필요한 경우 안전한 문의 코드만 표시하세요.
+
+```tsx
+import { ErrorFallback } from '@windsoft/ui'
+
+<ErrorFallback
+  layout="section"
+  title="사용자 목록을 불러오지 못했습니다"
+  description="연결 상태를 확인한 뒤 다시 시도해 주세요."
+  referenceCode="REQ-381"
+  onRetry={refetchUsers}
+/>
+```
 
 ### Toast 알림
 

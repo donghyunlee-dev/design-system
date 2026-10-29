@@ -10,6 +10,19 @@
 - 기능을 추가하거나 수정하는 PR은 머지 전에 이 파일의 `## [Unreleased]` 아래에 항목을 추가합니다.
 - 릴리스 시 `package.json`의 `version`을 bump하고 `## [Unreleased]` 내용을 해당 버전 섹션으로 옮긴 뒤, `v{version}` 태그를 push하면 `publish-npm.yml`이 npm에 배포합니다.
 
+## [Unreleased]
+
+## [0.7.0] - 2026-10-29
+
+### Added
+- 브라우저 탭처럼 메뉴 페이지를 열고 닫으며 탭 개수 제한, 순서 변경, 탭 컨텍스트 메뉴를 제공하는 `AdminTabbedLayout` 추가
+- 오류 복구 화면용 `ErrorFallback`과 목록 검색·필터 영역용 `SearchFilter` 추가
+- Drawer의 열린 상태와 사용자 상세 패널을 확인할 수 있는 Storybook 예시 추가
+
+### Changed
+- 관리자 데이터 테이블과 목록 화면에서 검색·오류 상태 구성을 재사용하도록 정리
+- 신규 컴포넌트와 관리자 탭 템플릿의 사용 예시 및 MCP manifest 갱신
+
 ## [0.6.0] - 2026-10-28
 
 ### Added

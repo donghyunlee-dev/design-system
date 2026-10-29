@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react'
 import { DataTable, DataColumn, DataTablePagination } from '../../components/data/DataTable'
-import { Input } from '../../components/form/Input'
+import { SearchFilter } from '../../components/data/SearchFilter'
+import { SearchField } from '../../components/form/SearchField'
 import { Button } from '../../components/foundation/Button'
 import { cn } from '../../utils/cn'
 
@@ -50,18 +51,20 @@ export function ListSearchTable<T extends Record<string, unknown>>({
           {actions && <div className="flex flex-wrap gap-ws-2">{actions}</div>}
         </div>
 
-        {/* 검색·필터 바 */}
-        <div className="mb-ws-4 flex flex-wrap items-end gap-ws-3 rounded-card border border-border bg-surface p-ws-4 shadow-card">
-          <div className="min-w-[200px] flex-1">
-            <Input
+        <SearchFilter
+          ariaLabel={`${title} 검색 및 필터`}
+          search={(
+            <SearchField
+              aria-label={`${title} 검색`}
               placeholder={searchPlaceholder}
               value={search}
               onChange={e => handleSearch(e.target.value)}
             />
-          </div>
-          {filters && <div className="flex flex-wrap items-end gap-ws-2">{filters}</div>}
-          <Button variant="primary" onClick={() => onSearch?.(search)}>조회</Button>
-        </div>
+          )}
+          filters={filters}
+          actions={<Button variant="primary" onClick={() => onSearch?.(search)}>조회</Button>}
+          className="mb-ws-4"
+        />
 
         {/* 데이터 테이블 */}
         <div className="bg-surface border border-border rounded-card shadow-card overflow-hidden">
