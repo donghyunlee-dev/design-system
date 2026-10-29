@@ -49,6 +49,8 @@ export { DashboardFull } from './admin/DashboardFull'
 export type { DashboardFullProps } from './admin/DashboardFull'
 export { DataTablePage } from './admin/DataTablePage'
 export type { DataTablePageProps } from './admin/DataTablePage'
+export { AdminDetailPage } from './admin/AdminDetailPage'
+export type { AdminDetailPageProps } from './admin/AdminDetailPage'
 export { DataFormPage } from './admin/DataFormPage'
 export type { DataFormPageProps, FormSection } from './admin/DataFormPage'
 

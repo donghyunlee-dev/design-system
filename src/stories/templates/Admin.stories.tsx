@@ -20,6 +20,7 @@ import { Stat } from '../../components/data/Stat'
 import { ErrorFallback } from '../../components/feedback/ErrorFallback'
 import { SidebarNestedItem } from '../../components/navigation/SidebarNested'
 import { AdminTabbedLayout } from '../../templates/admin/AdminTabbedLayout'
+import { AdminDetailPage } from '../../templates/admin/AdminDetailPage'
 import { useState } from 'react'
 import { expect, fireEvent, userEvent, within } from 'storybook/test'
 
@@ -329,7 +330,32 @@ function AdminTabbedWorkspaceStory() {
       logo={<span className="font-semibold">WindSoft Admin</span>}
       items={TAB_WORKSPACE_ITEMS}
       pages={[
-        { href: '/users', content: renderPage('사용자 관리', '계정과 역할을 관리합니다.', [['김민수', '관리자', '사용 중', '오늘 09:42'], ['이수진', '운영자', '사용 중', '어제 17:20'], ['박지훈', '조회자', '중지', '10월 27일']]) },
+        {
+          href: '/users',
+          content: (
+            <AdminDetailPage
+              breadcrumb={[{ label: '운영 관리', href: '/users' }, { label: '사용자 관리' }]}
+              title="사용자 관리"
+              actions={<Button size="sm">새 사용자 등록</Button>}
+              searchValue=""
+              onSearchChange={() => {}}
+              columns={[
+                { key: 'name', header: '이름' },
+                { key: 'role', header: '역할' },
+                { key: 'status', header: '상태' },
+                { key: 'updatedAt', header: '최근 변경' },
+              ]}
+              data={[
+                { id: 'user-1', name: '김민수', role: '관리자', status: '사용 중', updatedAt: '오늘 09:42' },
+                { id: 'user-2', name: '이수진', role: '운영자', status: '사용 중', updatedAt: '어제 17:20' },
+                { id: 'user-3', name: '박지훈', role: '조회자', status: '중지', updatedAt: '10월 27일' },
+              ]}
+              rowKey="id"
+              pagination={{ page: 1, total: 3, pageSize: 10, onChange: () => {} }}
+              renderLink={({ href, ...props }) => <a href={href} {...props} />}
+            />
+          ),
+        },
         { href: '/services', content: renderPage('서비스 관리', '운영 중인 서비스를 확인하고 설정합니다.', [['고객 포털', '웹 서비스', '사용 중', '오늘 08:15'], ['정산 배치', '백그라운드', '사용 중', '어제 23:00'], ['파트너 API', 'API', '중지', '10월 26일']]) },
         { href: '/audit', content: renderPage('접근 이력', '관리자 계정의 최근 활동을 확인합니다.', [['김민수', '로그인', '성공', '오늘 09:42'], ['이수진', '권한 변경', '완료', '어제 17:20'], ['박지훈', '로그인', '실패', '10월 27일']]) },
       ]}
@@ -368,6 +394,8 @@ export const TabbedWorkspace: StoryObj = {
     const menuToggle = canvas.queryByRole('button', { name: '메뉴 열기' })
     if (menuToggle) await userEvent.click(menuToggle)
     await userEvent.click(canvas.getByRole('link', { name: '사용자 관리' }))
+    await expect(canvas.getByRole('heading', { name: '사용자 관리' })).toBeInTheDocument()
+    await expect(canvas.getByRole('cell', { name: '김민수' })).toBeInTheDocument()
     await userEvent.click(canvas.getByRole('link', { name: '서비스 관리' }))
     await expect(canvas.getByRole('tab', { name: '사용자 관리' })).toBeInTheDocument()
     await expect(canvas.getByRole('tab', { name: '서비스 관리' })).toHaveAttribute('aria-selected', 'true')

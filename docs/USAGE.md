@@ -303,7 +303,7 @@ const activeTab = searchParams.get('tab') ?? 'overview'
 
 ### 관리자 SPA 기본 레이아웃
 
-`AdminShell`은 헤더, 중첩 LNB, 콘텐츠, 풋터를 조합합니다. CI, 검색, 계정 영역은 슬롯으로 전달하고, 메뉴 데이터와 URL 연결은 앱이 소유합니다. 헤더 메뉴가 없으면 검색이 헤더 중앙에 놓입니다. LNB 접기/열기 버튼은 GNB 왼쪽에 고정되어 열린 상태와 닫힌 상태에서 같은 위치를 유지합니다. 현재 경로 메뉴는 왼쪽에 행 전체 높이의 얇은 파란 직선과 파란 텍스트로 나타나며 선택 배경은 사용하지 않습니다. 키보드 포커스 외곽선은 포커스 시에만 표시됩니다. LNB는 기본 240px, 최소 240px이며 데스크톱 최대 너비는 화면 폭의 절반입니다. 1024px 미만에서는 기본으로 접히고, 열었을 때 본문 위에 겹치며 최대 너비는 320px 또는 화면 폭의 90% 중 작은 값입니다. 메뉴 너비는 포인터 또는 키보드(좌우 화살표, Home, End)로 조절할 수 있습니다. 접힘 상태와 너비를 앱에서 저장하려면 제어 props와 변경 콜백을 연결하세요.
+`AdminShell`은 헤더, 중첩 LNB, 콘텐츠, 풋터를 조합합니다. CI, 검색, 계정 영역은 슬롯으로 전달하고, 메뉴 데이터와 URL 연결은 앱이 소유합니다. 검색 슬롯이 있으면 검색은 헤더 중앙에, 계정과 액션은 우측에 배치됩니다. 검색 슬롯을 생략해도 계정과 액션은 우측에 유지됩니다. LNB 접기/열기 버튼은 GNB 왼쪽에 고정되어 열린 상태와 닫힌 상태에서 같은 위치를 유지합니다. 현재 경로 메뉴는 왼쪽에 행 전체 높이의 얇은 파란 직선과 파란 텍스트로 나타나며 선택 배경은 사용하지 않습니다. 키보드 포커스 외곽선은 포커스 시에만 표시됩니다. LNB는 기본 240px, 최소 240px이며 데스크톱 최대 너비는 화면 폭의 절반입니다. 1024px 미만에서는 기본으로 접히고, 열었을 때 본문 위에 겹치며 최대 너비는 320px 또는 화면 폭의 90% 중 작은 값입니다. 메뉴 너비는 포인터 또는 키보드(좌우 화살표, Home, End)로 조절할 수 있습니다. 접힘 상태와 너비를 앱에서 저장하려면 제어 props와 변경 콜백을 연결하세요.
 
 ```tsx
 import { useState } from 'react'
@@ -383,6 +383,37 @@ function AdminApp() {
 ```
 
 예제의 `useToast()`는 앞서 설명한 `ToastProvider` 하위에서 사용해야 합니다. 일반 탭을 닫으면 왼쪽 탭, 왼쪽에 탭이 없으면 오른쪽 탭이 선택됩니다. 홈 버튼은 고정되어 닫히지 않습니다. 탭의 열림 목록은 현재 컴포넌트 메모리에 유지되며 새로고침 후 복원하려면 앱에서 탭 상태 저장을 별도로 연결하세요.
+
+경로·툴바·검색·그리드·페이지네이션으로 구성된 데이터 화면은 `AdminDetailPage`를 탭 페이지의 `content`로 사용합니다. 검색어와 페이징 상태 및 데이터 조회는 앱에서 관리합니다.
+
+```tsx
+import { AdminDetailPage, AdminTabbedLayout, Button } from '@windsoft/ui'
+
+<AdminTabbedLayout
+  logo="WindSoft Admin"
+  items={menuItems}
+  pages={[{
+    href: '/users',
+    content: (
+      <AdminDetailPage
+        breadcrumb={[{ label: '사용자 관리', href: '/users' }, { label: '사용자 목록' }]}
+        title="사용자 목록"
+        actions={<Button onClick={createUser}>사용자 등록</Button>}
+        searchValue={search}
+        onSearchChange={setSearch}
+        columns={columns}
+        data={users}
+        rowKey="id"
+        pagination={{ page, total, onChange: setPage }}
+      />
+    ),
+  }]}
+  homeHref="/dashboard"
+  homeContent={<AdminDashboard />}
+  activePath={location.pathname}
+  onNavigate={path => navigate(path)}
+/>
+```
 
 ### 모달
 
