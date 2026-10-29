@@ -21,6 +21,7 @@ import { ErrorFallback } from '../../components/feedback/ErrorFallback'
 import { SidebarNestedItem } from '../../components/navigation/SidebarNested'
 import { AdminTabbedLayout } from '../../templates/admin/AdminTabbedLayout'
 import { AdminDetailPage } from '../../templates/admin/AdminDetailPage'
+import { AdminDataTabbedLayout } from '../../templates/admin/AdminDataTabbedLayout'
 import { useState } from 'react'
 import { expect, fireEvent, userEvent, within } from 'storybook/test'
 
@@ -402,6 +403,65 @@ export const TabbedWorkspace: StoryObj = {
     canvas.getByRole('link', { name: '서비스 관리' }).blur()
     const closeMenu = canvas.queryByRole('button', { name: '메뉴 배경 닫기' })
     if (closeMenu) await userEvent.click(closeMenu)
+  },
+}
+
+function AdminDataTabbedWorkspaceStory() {
+  const [activePath, setActivePath] = useState('/dashboard')
+  const [searchByPath, setSearchByPath] = useState<Record<string, string>>({})
+  const rows = [
+    { id: 'user-1', name: '김민수', description: '관리자', status: '사용 중' },
+    { id: 'user-2', name: '이수진', description: '운영자', status: '사용 중' },
+    { id: 'user-3', name: '박지훈', description: '조회자', status: '중지' },
+  ]
+  const detail = (title: string, searchKey: string) => ({
+    breadcrumb: [{ label: '운영 관리', href: '/dashboard' }, { label: title }],
+    title,
+    actions: <Button size="sm">새 항목 등록</Button>,
+    searchValue: searchByPath[searchKey] ?? '',
+    onSearchChange: (value: string) => setSearchByPath(current => ({ ...current, [searchKey]: value })),
+    searchPlaceholder: `${title} 검색`,
+    columns: [
+      { key: 'name', header: '이름' },
+      { key: 'description', header: '유형' },
+      { key: 'status', header: '상태' },
+    ],
+    data: rows,
+    rowKey: 'id' as const,
+    pagination: { page: 1, total: rows.length, pageSize: 10, onChange: () => {} },
+  })
+
+  return (
+    <AdminDataTabbedLayout
+      logo={<span className="font-semibold">WindSoft Admin</span>}
+      items={TAB_WORKSPACE_ITEMS}
+      pages={[
+        { href: '/users', detail: detail('사용자 관리', '/users') },
+        { href: '/services', detail: detail('서비스 관리', '/services') },
+        { href: '/audit', detail: detail('접근 이력', '/audit') },
+      ]}
+      homeHref="/dashboard"
+      homeContent={<section className="p-ws-6"><h1 className="text-page-title font-semibold">대시보드</h1><p className="mt-ws-2 text-secondary">왼쪽 메뉴에서 데이터 화면을 열어 보세요.</p></section>}
+      activePath={activePath}
+      onNavigate={setActivePath}
+      search={<SearchField aria-label="관리자 전체 검색" placeholder="메뉴와 데이터 검색" />}
+      account={<AccountMenu mode="avatar" name="김민수" email="minsu@windsoft.example" initials="김" />}
+      renderLink={({ href, children, ...props }) => <a href={href} {...props}>{children}</a>}
+    />
+  )
+}
+
+export const DataTabbedWorkspace: StoryObj = {
+  name: 'Data Tabbed Workspace',
+  render: () => <AdminDataTabbedWorkspaceStory />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole('link', { name: '사용자 관리' }))
+    await expect(canvas.getByRole('tab', { name: '사용자 관리' })).toHaveAttribute('aria-selected', 'true')
+    await expect(canvas.getByRole('navigation', { name: '경로' })).toBeInTheDocument()
+    await expect(canvas.getByRole('searchbox', { name: '검색' })).toBeInTheDocument()
+    await expect(canvas.getByRole('cell', { name: '김민수' })).toBeInTheDocument()
+    await expect(canvas.getByRole('navigation', { name: '페이지 탐색' })).toBeInTheDocument()
   },
 }
 

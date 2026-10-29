@@ -51,6 +51,8 @@ export { DataTablePage } from './admin/DataTablePage'
 export type { DataTablePageProps } from './admin/DataTablePage'
 export { AdminDetailPage } from './admin/AdminDetailPage'
 export type { AdminDetailPageProps } from './admin/AdminDetailPage'
+export { AdminDataTabbedLayout } from './admin/AdminDataTabbedLayout'
+export type { AdminDataTabbedLayoutProps, AdminDataTabPage } from './admin/AdminDataTabbedLayout'
 export { DataFormPage } from './admin/DataFormPage'
 export type { DataFormPageProps, FormSection } from './admin/DataFormPage'
 

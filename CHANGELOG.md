@@ -12,6 +12,11 @@
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-29
+
+### Added
+- `AdminShell`, 탭 workspace, 경로, 작업 툴바, 검색, 그리드와 페이지네이션을 한 번에 구성하는 `AdminDataTabbedLayout` 추가
+
 ## [0.8.0] - 2026-10-29
 
 ### Added

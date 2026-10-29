@@ -384,29 +384,27 @@ function AdminApp() {
 
 예제의 `useToast()`는 앞서 설명한 `ToastProvider` 하위에서 사용해야 합니다. 일반 탭을 닫으면 왼쪽 탭, 왼쪽에 탭이 없으면 오른쪽 탭이 선택됩니다. 홈 버튼은 고정되어 닫히지 않습니다. 탭의 열림 목록은 현재 컴포넌트 메모리에 유지되며 새로고침 후 복원하려면 앱에서 탭 상태 저장을 별도로 연결하세요.
 
-경로·툴바·검색·그리드·페이지네이션으로 구성된 데이터 화면은 `AdminDetailPage`를 탭 페이지의 `content`로 사용합니다. 검색어와 페이징 상태 및 데이터 조회는 앱에서 관리합니다.
+`AdminDataTabbedLayout`은 `AdminShell`과 탭 workspace를 `AdminDetailPage`와 연결한 관리자 데이터 템플릿입니다. 각 `pages` 항목에 경로와 상세 화면 설정을 전달하면 경로, 작업 버튼 툴바, 검색, 그리드, 페이지네이션이 한 화면으로 구성됩니다. 검색어와 페이징 상태 및 데이터 조회는 앱에서 관리합니다. 상세 화면만 필요한 경우에는 `AdminDetailPage`를 직접 사용할 수 있습니다.
 
 ```tsx
-import { AdminDetailPage, AdminTabbedLayout, Button } from '@windsoft/ui'
+import { AdminDataTabbedLayout, Button } from '@windsoft/ui'
 
-<AdminTabbedLayout
+<AdminDataTabbedLayout
   logo="WindSoft Admin"
   items={menuItems}
   pages={[{
     href: '/users',
-    content: (
-      <AdminDetailPage
-        breadcrumb={[{ label: '사용자 관리', href: '/users' }, { label: '사용자 목록' }]}
-        title="사용자 목록"
-        actions={<Button onClick={createUser}>사용자 등록</Button>}
-        searchValue={search}
-        onSearchChange={setSearch}
-        columns={columns}
-        data={users}
-        rowKey="id"
-        pagination={{ page, total, onChange: setPage }}
-      />
-    ),
+    detail: {
+      breadcrumb: [{ label: '사용자 관리', href: '/users' }, { label: '사용자 목록' }],
+      title: '사용자 목록',
+      actions: <Button onClick={createUser}>사용자 등록</Button>,
+      searchValue: search,
+      onSearchChange: setSearch,
+      columns,
+      data: users,
+      rowKey: 'id',
+      pagination: { page, total, onChange: setPage },
+    },
   }]}
   homeHref="/dashboard"
   homeContent={<AdminDashboard />}
