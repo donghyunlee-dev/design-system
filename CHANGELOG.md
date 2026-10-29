@@ -12,6 +12,16 @@
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-29
+
+### Added
+- 경로, 작업 툴바, 검색, 데이터 그리드와 페이지네이션을 구성하는 `AdminDetailPage` 추가
+- `AdminTabbedLayout`의 페이지 콘텐츠로 `AdminDetailPage`를 조합하는 사용 예시 추가
+
+### Fixed
+- `AdminShell`에서 검색 슬롯을 생략해도 계정·액션 영역이 헤더 우측에 유지되도록 수정
+- `LoginSimple` 비밀번호 입력에서 Enter로 로그인할 수 있도록 폼 제출 연결
+
 ## [0.7.0] - 2026-10-29
 
 ### Added
