@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { FormEvent, ReactNode, useState } from 'react'
 import { Button } from '../../../components/foundation/Button'
 import { Input } from '../../../components/form/Input'
 import { FormField } from '../../../components/form/FormField'
@@ -22,6 +22,12 @@ export function LoginSimple({
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (loading || !email || !password) return
+    void onLogin(email, password)
+  }
+
   return (
     <div className={cn('min-h-screen bg-background flex items-center justify-center p-4', className)}>
       <div className="w-full max-w-sm bg-surface border border-border rounded-card shadow-md p-8">
@@ -34,7 +40,7 @@ export function LoginSimple({
           </div>
         )}
 
-        <div className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <FormField label="이메일">
             <Input
               type="email"
@@ -54,6 +60,7 @@ export function LoginSimple({
 
           {onForgotPassword && (
             <button
+              type="button"
               onClick={onForgotPassword}
               className="text-xs text-brand hover:underline text-right -mt-2"
             >
@@ -62,13 +69,13 @@ export function LoginSimple({
           )}
 
           <Button
+            type="submit"
             className="w-full mt-2"
             disabled={loading || !email || !password}
-            onClick={() => onLogin(email, password)}
           >
             {loading ? '로그인 중...' : '로그인'}
           </Button>
-        </div>
+        </form>
 
         {onSignup && (
           <p className="mt-6 text-center text-sm text-muted">
