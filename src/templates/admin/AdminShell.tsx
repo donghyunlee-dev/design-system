@@ -111,7 +111,7 @@ export function AdminShell({
             {search}
           </div>
         )}
-        <div className="flex min-w-0 items-center justify-end gap-ws-2 max-md:col-start-2 max-md:row-start-1">
+        <div className="col-start-3 flex min-w-0 items-center justify-end gap-ws-2 max-md:col-start-2 max-md:row-start-1">
           {headerActions}
           {account}
         </div>

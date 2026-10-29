@@ -91,6 +91,12 @@ describe('AdminShell', () => {
     expect(screen.getByTestId('admin-shell-search')).toHaveClass('justify-self-center')
   })
 
+  it('keeps account actions in the right header column when search is omitted', () => {
+    render(<AdminShell logo="CI" items={items} account={<span>계정 슬롯</span>}><div>내용</div></AdminShell>)
+
+    expect(screen.getByText('계정 슬롯').parentElement).toHaveClass('col-start-3')
+  })
+
   it('starts collapsed on compact screens and opens the LNB as an overlay', async () => {
     const user = userEvent.setup()
     const previousWidth = window.innerWidth
