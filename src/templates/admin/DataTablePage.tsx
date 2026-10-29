@@ -1,5 +1,6 @@
-import { ReactNode } from 'react'
-import { Input } from '../../components/form/Input'
+import { CSSProperties, ReactNode } from 'react'
+import { SearchFilter } from '../../components/data/SearchFilter'
+import { SearchField } from '../../components/form/SearchField'
 import { Table, Column } from '../../components/data/Table'
 import { Pagination, PaginationProps } from '../../components/navigation/Pagination'
 import { Spinner } from '../../components/feedback/Spinner'
@@ -29,36 +30,50 @@ export function DataTablePage<T extends Record<string, unknown> = Record<string,
   onRowClick, loading, pagination, className,
 }: DataTablePageProps<T>) {
   return (
-    <div className={cn('min-h-screen bg-background', className)}>
+    <div
+      className={cn('min-h-screen bg-background', className)}
+      style={{ '--control-height-md': 'var(--admin-form-control-height)' } as CSSProperties}
+    >
       <div className="mx-auto max-w-6xl px-[var(--windsoft-page-gutter)] py-ws-6">
         <div className="mb-ws-6 flex flex-wrap items-center justify-between gap-ws-3">
           <h1 className="text-page-title text-foreground">{title}</h1>
           {actions && <div className="flex flex-wrap gap-ws-2">{actions}</div>}
         </div>
-        <div className="mb-ws-4 flex flex-col gap-ws-3 sm:flex-row">
-          {onSearch && (
-            <Input placeholder="검색..." className="sm:max-w-xs" onChange={e => onSearch(e.target.value)} />
-          )}
-          <div className="flex flex-wrap gap-ws-2">
-            {filters.map(f =>
-              f.options.map(opt => (
-                <button
-                  key={`${f.key}-${opt.value}`}
-                  type="button"
-                  onClick={() => onFilterChange?.(f.key, opt.value)}
-                  className={cn(
-                    'min-h-8 rounded-badge border px-ws-3 py-ws-1 text-caption transition-colors duration-default',
-                    activeFilters[f.key] === opt.value
-                      ? 'bg-brand text-on-brand border-brand'
-                      : 'bg-surface border-border text-muted hover:border-brand hover:text-brand'
-                  )}
-                >
-                  {opt.label}
-                </button>
-              ))
+        {(onSearch || filters.length > 0) && (
+          <SearchFilter
+            ariaLabel={`${title} 검색 및 필터`}
+            search={onSearch ? (
+              <SearchField
+                aria-label={`${title} 검색`}
+                placeholder="검색..."
+                onChange={e => onSearch(e.target.value)}
+              />
+            ) : null}
+            filters={filters.length > 0 && (
+              <>
+                {filters.map(f =>
+                  f.options.map(opt => (
+                    <button
+                      key={`${f.key}-${opt.value}`}
+                      type="button"
+                      aria-pressed={activeFilters[f.key] === opt.value}
+                      onClick={() => onFilterChange?.(f.key, opt.value)}
+                      className={cn(
+                        'min-h-8 rounded-badge border px-ws-3 py-ws-1 text-caption transition-colors duration-default',
+                        activeFilters[f.key] === opt.value
+                          ? 'bg-brand text-on-brand border-brand'
+                          : 'bg-surface border-border text-muted hover:border-brand hover:text-brand'
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))
+                )}
+              </>
             )}
-          </div>
-        </div>
+            className="mb-ws-4"
+          />
+        )}
         {loading ? (
           <div className="flex justify-center py-20"><Spinner size="lg" /></div>
         ) : data.length === 0 ? (

@@ -21,6 +21,32 @@ describe('ListSearchTable layout', () => {
     render(<ListSearchTable<Row> title="업무 목록" columns={columns} data={[]} rowKey="id" onSearch={onSearch} />)
     await userEvent.type(screen.getByPlaceholderText('검색어를 입력하세요'), '주문')
     expect(onSearch).toHaveBeenCalledWith('주문')
-    expect(screen.getByPlaceholderText('검색어를 입력하세요').parentElement?.parentElement).toHaveClass('gap-ws-3')
+    expect(screen.getByRole('search', { name: '업무 목록 검색 및 필터' })).toHaveClass('gap-ws-2')
+  })
+
+  it('keeps immediate search and submit behavior inside the shared search region', async () => {
+    const user = userEvent.setup()
+    const onSearch = vi.fn()
+
+    render(
+      <ListSearchTable<Row>
+        title="사용자 목록"
+        columns={columns}
+        data={[]}
+        rowKey="id"
+        onSearch={onSearch}
+        filters={<button type="button">상태 전체</button>}
+      />
+    )
+
+    const region = screen.getByRole('search', { name: '사용자 목록 검색 및 필터' })
+    const input = screen.getByRole('searchbox', { name: '사용자 목록 검색' })
+    expect(region).toContainElement(input)
+    expect(region).toContainElement(screen.getByRole('button', { name: '상태 전체' }))
+
+    await user.type(input, '가나다')
+    expect(onSearch).toHaveBeenLastCalledWith('가나다')
+    await user.click(screen.getByRole('button', { name: '조회' }))
+    expect(onSearch).toHaveBeenLastCalledWith('가나다')
   })
 })

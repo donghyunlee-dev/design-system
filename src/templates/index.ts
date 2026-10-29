@@ -41,6 +41,8 @@ export type { SettingsTabsProps, SettingsTab } from './service/account/SettingsT
 // Admin
 export { AdminShell } from './admin/AdminShell'
 export type { AdminShellProps } from './admin/AdminShell'
+export { AdminTabbedLayout } from './admin/AdminTabbedLayout'
+export type { AdminTabbedLayoutProps, AdminTabPage } from './admin/AdminTabbedLayout'
 export { DashboardStats } from './admin/DashboardStats'
 export type { DashboardStatsProps } from './admin/DashboardStats'
 export { DashboardFull } from './admin/DashboardFull'

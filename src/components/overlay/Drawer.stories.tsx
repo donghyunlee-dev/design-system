@@ -68,3 +68,26 @@ export const Left: Story = {
     )
   },
 }
+
+export const OpenPreview: Story = {
+  name: 'Open Preview',
+  render: args => (
+    <Drawer {...args} open onClose={() => {}} title="사용자 상세 정보" side="right">
+      <div className="space-y-ws-5">
+        <div>
+          <p className="text-caption text-secondary">계정 정보</p>
+          <p className="mt-ws-1 text-section-title font-semibold text-foreground">김민수</p>
+          <p className="mt-ws-1 text-body text-secondary">minsu@windsoft.example</p>
+        </div>
+        <div className="border-t border-border pt-ws-4">
+          <p className="text-caption text-secondary">권한</p>
+          <p className="mt-ws-1 text-body text-foreground">시스템 관리자</p>
+        </div>
+        <div className="border-t border-border pt-ws-4">
+          <p className="text-caption text-secondary">상태</p>
+          <p className="mt-ws-1 text-body text-foreground">사용 중</p>
+        </div>
+      </div>
+    </Drawer>
+  ),
+}
