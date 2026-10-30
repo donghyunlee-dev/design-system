@@ -5,6 +5,22 @@ const semantic = readFileSync(resolve(import.meta.dirname, '../tokens/semantic.c
 const tailwindConfig = readFileSync(resolve(import.meta.dirname, '../tailwind.config.js'), 'utf8')
 
 describe('WindSoft admin design tokens', () => {
+  it('provides dark-theme-safe brand and chart color roles', () => {
+    const darkTheme = semantic.slice(semantic.lastIndexOf('[data-theme="dark"]'))
+    expect(darkTheme).toBeDefined()
+    expect(darkTheme).toMatch(/--color-brand:\s*var\(--blue-300\)/)
+    expect(darkTheme).toMatch(/--color-brand-hover:\s*var\(--blue-200\)/)
+    expect(darkTheme).toMatch(/--color-brand-light:\s*var\(--gray-800\)/)
+    expect(darkTheme).toMatch(/--color-brand-subtle:\s*var\(--gray-800\)/)
+    expect(darkTheme).toMatch(/--color-on-brand:\s*var\(--gray-900\)/)
+    for (const role of ['axis', 'label', 'grid', 'separator', 'series-1', 'series-2', 'series-3', 'series-4', 'series-5']) {
+      expect(semantic).toContain(`--color-chart-${role}:`)
+    }
+    for (const role of ['axis', 'grid', 'series-1', 'series-2', 'series-3', 'series-4', 'series-5']) {
+      expect(darkTheme).toContain(`--color-chart-${role}:`)
+    }
+  })
+
   it('defines the approved spacing, control, and table density scales', () => {
     for (const [token, value] of Object.entries({
       '--windsoft-space-1': '0.25rem',

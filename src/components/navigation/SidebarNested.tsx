@@ -85,7 +85,7 @@ export function SidebarNested({
         const className = cn(
           'flex min-h-10 items-center gap-ws-2 rounded-btn px-ws-3 text-label transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand',
           item.active
-            ? 'relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-[#1868db] before:content-[\'\'] text-[#1868db] font-normal'
+            ? 'relative before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-brand before:content-[\'\'] text-brand font-normal'
             : activeInBranch
               ? 'text-brand font-medium'
               : 'text-secondary hover:text-foreground hover:bg-menu-hover'

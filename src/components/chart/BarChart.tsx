@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts'
+import { chartTheme, getChartSeriesColor } from './chartTheme'
 
 /**
  * 카테고리 데이터를 막대 차트로 표시하는 컴포넌트. recharts 기반.
@@ -27,17 +28,17 @@ export function BarChart({ data, bars, xKey, height = 300 }: BarChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <ReBarChart data={data} margin={{ top: 4, right: 16, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
-        <XAxis dataKey={xKey} tick={{ fontSize: 'var(--font-size-caption)', fill: 'var(--color-secondary)', fontFamily: 'var(--font-body)' }} />
-        <YAxis tick={{ fontSize: 'var(--font-size-caption)', fill: 'var(--color-secondary)', fontFamily: 'var(--font-body)' }} />
-        <Tooltip contentStyle={{ background: 'var(--color-surface)', color: 'var(--color-foreground)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-card)', fontFamily: 'var(--font-body)', fontSize: 'var(--font-size-caption)', boxShadow: 'var(--shadow-raised)' }} />
-        <Legend wrapperStyle={{ color: 'var(--color-secondary)', fontFamily: 'var(--font-body)', fontSize: 'var(--font-size-caption)' }} />
-        {bars.map(bar => (
+        <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.grid} />
+        <XAxis dataKey={xKey} stroke={chartTheme.axis} tick={chartTheme.tick} />
+        <YAxis stroke={chartTheme.axis} tick={chartTheme.tick} />
+        <Tooltip contentStyle={chartTheme.tooltip} />
+        <Legend wrapperStyle={chartTheme.legend} />
+        {bars.map((bar, index) => (
           <Bar
             key={bar.key}
             dataKey={bar.key}
             name={bar.label}
-            fill={bar.color ?? 'var(--color-brand)'}
+            fill={bar.color ?? getChartSeriesColor(index)}
             radius={[4, 4, 0, 0]}
           />
         ))}

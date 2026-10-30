@@ -48,7 +48,7 @@ export function ProductGrid<T = Record<string, unknown>>({
                   className={cn(
                     'px-3 py-1 text-xs rounded-badge border transition-colors duration-default',
                     activeFilters[f.key] === opt.value
-                      ? 'bg-brand text-white border-brand'
+                      ? 'bg-brand text-on-brand border-brand'
                       : 'bg-surface border-border text-muted hover:border-brand hover:text-brand'
                   )}
                 >

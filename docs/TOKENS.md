@@ -152,7 +152,9 @@ semantic.css                global.css → tailwind.config.js   컴포넌트
 
 ## 다크 모드
 
-`tokens/semantic.css`에 다크모드 오버라이드가 이미 구현되어 있습니다. 사용자 OS 설정(`prefers-color-scheme: dark`)에 따라 자동으로 전환되며, 앱 자체 토글이 필요하면 `<html data-theme="dark">`처럼 `data-theme` 속성을 지정해 시스템 설정과 무관하게 강제 전환할 수 있습니다. 색상은 컴포넌트가 아니라 이 토큰 레이어에서만 전환되므로, 컴포넌트에 색상을 하드코딩하면 다크모드에서 깨집니다([CHECKLIST.md](./CHECKLIST.md) "다크 모드" 항목 참고).
+`tokens/semantic.css`에 다크모드 오버라이드가 구현되어 있습니다. 사용자 OS 설정(`prefers-color-scheme: dark`)에 따라 자동으로 전환되며, 앱 자체 토글이 필요하면 `<html data-theme="dark">`처럼 `data-theme` 속성을 지정해 시스템 설정과 무관하게 강제 전환할 수 있습니다. 브랜드 색 역할과 차트 색 역할도 테마별로 바뀝니다. 컴포넌트에 색상을 하드코딩하면 다크모드에서 깨집니다([CHECKLIST.md](./CHECKLIST.md) "다크 모드" 항목 참고).
+
+차트 컴포넌트는 공통 `--color-chart-*` 토큰을 사용합니다. 축/격자/라벨/조각 경계와 다섯 개 기본 시리즈 팔레트가 테마에 맞게 전환됩니다. `LineChart`, `BarChart`, `PieChart`의 `color` 속성으로 전달한 색상은 호출자가 지정한 값이므로, 다크모드 지원이 필요하면 `var(--color-chart-series-2)`처럼 차트 토큰을 전달하세요.
 
 ### Storybook에서 확인하기
 

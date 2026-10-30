@@ -19,7 +19,7 @@ const meta: Meta<typeof LineChart> = {
     lines: [
       { key: '주문', label: '주문 수' },
       // 명시된 시리즈 색상은 소비 앱의 차트 의미 색상 사용 예시입니다.
-      { key: '매출', label: '매출액', color: '#10b981' },
+      { key: '매출', label: '매출액', color: 'var(--color-chart-series-2)' },
     ],
     height: 300,
   },

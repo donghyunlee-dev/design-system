@@ -6,14 +6,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts'
-
-const COLORS = [
-  'var(--color-brand)',
-  'var(--color-success)',
-  'var(--color-warning)',
-  'var(--color-info)',
-  'var(--color-danger)',
-]
+import { chartTheme, getChartSeriesColor } from './chartTheme'
 
 /**
  * 비율 데이터를 원형 차트로 표시하는 컴포넌트. recharts 기반.
@@ -29,13 +22,13 @@ export function PieChart({ data, height = 300 }: PieChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <RePieChart>
-        <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
+        <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} stroke={chartTheme.separator} label={{ fill: chartTheme.label }}>
           {data.map((item, i) => (
-            <Cell key={i} fill={item.color ?? COLORS[i % COLORS.length]} />
+            <Cell key={i} fill={item.color ?? getChartSeriesColor(i)} stroke={chartTheme.separator} />
           ))}
         </Pie>
-        <Tooltip contentStyle={{ background: 'var(--color-surface)', color: 'var(--color-foreground)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-card)', fontFamily: 'var(--font-body)', fontSize: 'var(--font-size-caption)', boxShadow: 'var(--shadow-raised)' }} />
-        <Legend wrapperStyle={{ color: 'var(--color-secondary)', fontFamily: 'var(--font-body)', fontSize: 'var(--font-size-caption)' }} />
+        <Tooltip contentStyle={chartTheme.tooltip} />
+        <Legend wrapperStyle={chartTheme.legend} />
       </RePieChart>
     </ResponsiveContainer>
   )

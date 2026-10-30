@@ -2,7 +2,7 @@
 import type { Manifest } from '../manifest.js'
 
 export const staticManifest: Manifest = {
-  "generatedAt": "2026-10-30T02:46:17.152Z",
+  "generatedAt": "2026-10-30T03:35:45.121Z",
   "components": [
     {
       "name": "Button",
@@ -1389,6 +1389,15 @@ export const staticManifest: Manifest = {
       "--color-warning": "var(--yellow-500)",
       "--color-danger": "var(--red-500)",
       "--color-info": "var(--blue-500)",
+      "--color-chart-grid": "var(--color-border-subtle)",
+      "--color-chart-axis": "var(--gray-500)",
+      "--color-chart-label": "var(--color-secondary)",
+      "--color-chart-separator": "var(--color-surface)",
+      "--color-chart-series-1": "var(--blue-600)",
+      "--color-chart-series-2": "var(--emerald-600)",
+      "--color-chart-series-3": "var(--amber-700)",
+      "--color-chart-series-4": "var(--rose-600)",
+      "--color-chart-series-5": "var(--purple-600)",
       "--color-success-subtle": "#dcfce7",
       "--color-success-foreground": "#166534",
       "--color-warning-subtle": "#fef3c7",
@@ -1456,6 +1465,18 @@ export const staticManifest: Manifest = {
       "--color-inverse-foreground": "var(--white)"
     },
     "semanticDark": {
+      "--color-brand": "var(--blue-300)",
+      "--color-brand-hover": "var(--blue-200)",
+      "--color-brand-light": "var(--gray-800)",
+      "--color-brand-subtle": "var(--gray-800)",
+      "--color-on-brand": "var(--gray-900)",
+      "--color-chart-grid": "var(--gray-700)",
+      "--color-chart-axis": "var(--gray-500)",
+      "--color-chart-series-1": "var(--blue-300)",
+      "--color-chart-series-2": "var(--emerald-500)",
+      "--color-chart-series-3": "var(--amber-500)",
+      "--color-chart-series-4": "var(--rose-500)",
+      "--color-chart-series-5": "var(--purple-400)",
       "--color-background": "var(--gray-950)",
       "--color-surface": "var(--gray-900)",
       "--color-surface-raised": "var(--gray-800)",

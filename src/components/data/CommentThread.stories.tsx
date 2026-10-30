@@ -35,7 +35,7 @@ const initialComments: Comment[] = [
 ]
 
 export const Default: Story = {
-  render: () => <CommentThread comments={initialComments} />,
+  render: () => <div className="min-h-[400px] bg-background p-ws-4 text-foreground"><CommentThread comments={initialComments} /></div>,
 }
 
 export const Interactive: Story = {
@@ -66,11 +66,11 @@ export const Interactive: Story = {
       )
     }
 
-    return <CommentThread comments={comments} onSubmit={handleSubmit} onReply={handleReply} />
+    return <div className="min-h-[400px] bg-background p-ws-4 text-foreground"><CommentThread comments={comments} onSubmit={handleSubmit} onReply={handleReply} /></div>
   },
 }
 
 export const Empty: Story = {
   name: '댓글 없음',
-  render: () => <CommentThread comments={[]} onSubmit={() => {}} />,
+  render: () => <div className="min-h-[400px] bg-background p-ws-4 text-foreground"><CommentThread comments={[]} onSubmit={() => {}} /></div>,
 }

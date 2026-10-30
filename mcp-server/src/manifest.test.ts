@@ -47,7 +47,11 @@ describe('buildManifest', () => {
   test('extracts explicit dark theme overrides separately', () => {
     expect(manifest.tokens.semanticDark['--color-surface']).toBe('var(--gray-900)')
     expect(manifest.tokens.semanticDark['--color-foreground']).toBe('var(--gray-50)')
-    expect(manifest.tokens.semanticDark['--color-brand']).toBeUndefined()
+    expect(manifest.tokens.semanticDark['--color-brand']).toBe('var(--blue-300)')
+    expect(manifest.tokens.semanticDark['--color-brand-subtle']).toBe('var(--gray-800)')
+    expect(manifest.tokens.semanticDark['--color-on-brand']).toBe('var(--gray-900)')
+    expect(manifest.tokens.semanticDark['--color-chart-series-1']).toBe('var(--blue-300)')
+    expect(manifest.tokens.semanticDark['--color-chart-axis']).toBe('var(--gray-500)')
   })
 
   test('matches usage snippets by exact JSX component name', () => {

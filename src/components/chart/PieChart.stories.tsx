@@ -23,9 +23,9 @@ export const CustomColors: Story = {
   name: 'Caller-provided colors',
   args: {
     data: [
-      { name: '완료', value: 400, color: '#166534' },
-      { name: '처리중', value: 200, color: '#92400e' },
-      { name: '취소', value: 50, color: '#991b1b' },
+      { name: '완료', value: 400, color: 'var(--color-success-foreground)' },
+      { name: '처리중', value: 200, color: 'var(--color-warning-foreground)' },
+      { name: '취소', value: 50, color: 'var(--color-danger-foreground)' },
     ],
   },
 }

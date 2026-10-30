@@ -17,7 +17,7 @@ export function LoginSplit({
       {/* Brand side */}
       <div
         className={cn(
-          'hidden md:flex flex-col justify-center px-12 w-1/2 bg-brand text-white',
+          'hidden md:flex flex-col justify-center px-12 w-1/2 bg-brand text-on-brand',
           brandImage && 'bg-cover bg-center',
           brandClassName
         )}
@@ -25,7 +25,7 @@ export function LoginSplit({
       >
         <div className={cn(brandImage && 'bg-black/40 p-8 rounded-card')}>
           {loginProps.logo && (
-            <div className="mb-8 text-white">{loginProps.logo}</div>
+            <div className="mb-8 text-on-brand">{loginProps.logo}</div>
           )}
           {brandTitle && (
             <h2 className="text-3xl font-bold leading-tight mb-3">{brandTitle}</h2>

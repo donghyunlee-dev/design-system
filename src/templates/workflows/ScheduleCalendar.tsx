@@ -105,7 +105,7 @@ export function ScheduleCalendar({
                 <span
                   className={cn(
                     'inline-flex items-center justify-center w-6 h-6 rounded-full text-xs',
-                    day.today ? 'bg-brand text-white font-semibold' : day.outside ? 'text-muted' : 'text-foreground'
+                    day.today ? 'bg-brand text-on-brand font-semibold' : day.outside ? 'text-muted' : 'text-foreground'
                   )}
                 >
                   {day.date}
