@@ -15,7 +15,7 @@ export const Line: Story = {}
 
 export const Card: Story = {
   render: () => (
-    <div className="space-y-3 p-4 border border-gray-200 rounded w-64">
+    <div className="space-y-3 p-4 border border-border rounded w-64">
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-1/2" />

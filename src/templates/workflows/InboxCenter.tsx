@@ -48,7 +48,7 @@ export function InboxCenter({
           <div className="flex items-center gap-ws-2">
             <h1 className="text-page-title text-foreground">{title}</h1>
             {unreadCount > 0 && (
-              <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-semibold rounded-full bg-danger text-white">
+              <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-semibold rounded-full bg-danger-subtle text-danger-foreground">
                 {unreadCount}
               </span>
             )}

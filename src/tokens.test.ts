@@ -1,10 +1,33 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const semantic = readFileSync(resolve(import.meta.dirname, '../tokens/semantic.css'), 'utf8')
 const tailwindConfig = readFileSync(resolve(import.meta.dirname, '../tailwind.config.js'), 'utf8')
 
+function collectThemeTsx(directory: string): string[] {
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const path = resolve(directory, entry.name)
+    if (entry.isDirectory()) return collectThemeTsx(path)
+    if (!entry.isFile() || !entry.name.endsWith('.tsx') || entry.name.endsWith('.test.tsx')) return []
+    return [path]
+  })
+}
+
 describe('WindSoft admin design tokens', () => {
+  it('keeps fixed palette utility colors out of components, templates, and stories', () => {
+    const fixedPaletteClass = /(?<!print:)\b(?:bg|text|border)-(?:(?:gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}|white|black(?!\/\d+))(?:\/\d+)?\b/g
+    const violations = ['components', 'templates', 'stories'].flatMap(area =>
+      collectThemeTsx(resolve(import.meta.dirname, area)).flatMap(path =>
+        readFileSync(path, 'utf8').split('\n').flatMap((line, index) => {
+          const matches = [...line.matchAll(fixedPaletteClass)]
+          return matches.map(match => `${path}:${index + 1}: ${match[0]}`)
+        })
+      )
+    )
+
+    expect(violations).toEqual([])
+  })
+
   it('provides dark-theme-safe brand and chart color roles', () => {
     const darkTheme = semantic.slice(semantic.lastIndexOf('[data-theme="dark"]'))
     expect(darkTheme).toBeDefined()

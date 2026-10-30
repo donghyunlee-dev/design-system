@@ -5,7 +5,7 @@ export interface MonitoringKPI {
   label: string
   value: string | number
   unit?: string
-  /** 수치 색상: normal=흰색, warning=노랑, danger=빨강 */
+  /** 수치 상태에 따른 의미 색상 */
   status?: 'normal' | 'warning' | 'danger'
 }
 
@@ -28,16 +28,16 @@ export interface MonitoringBoardProps {
 }
 
 const KPI_STATUS_COLOR: Record<string, string> = {
-  normal:  'text-white',
-  warning: 'text-yellow-400',
-  danger:  'text-red-400',
+  normal:  'text-foreground',
+  warning: 'text-warning-foreground',
+  danger:  'text-danger-foreground',
 }
 
 const STATION_CONFIG = {
-  running: { dot: 'bg-green-400',  text: 'text-green-400',  label: '가동중' },
-  idle:    { dot: 'bg-slate-500',  text: 'text-slate-400',  label: '대기중' },
-  error:   { dot: 'bg-red-400',    text: 'text-red-400',    label: '오류' },
-  offline: { dot: 'bg-slate-700',  text: 'text-slate-600',  label: '오프라인' },
+  running: { dot: 'bg-success',  text: 'text-success-foreground',  label: '가동중' },
+  idle:    { dot: 'bg-muted',    text: 'text-muted',               label: '대기중' },
+  error:   { dot: 'bg-danger',   text: 'text-danger-foreground',    label: '오류' },
+  offline: { dot: 'bg-border-strong', text: 'text-muted',           label: '오프라인' },
 }
 
 export function MonitoringBoard({
@@ -60,22 +60,22 @@ export function MonitoringBoard({
   }, [timestamp])
 
   return (
-    <div className={cn('min-h-screen bg-slate-900 text-white flex flex-col', className)}>
+    <div className={cn('min-h-screen bg-background text-foreground flex flex-col', className)}>
       {/* 헤더 */}
-      <header className="flex items-center justify-between px-8 py-4 border-b border-slate-800">
+      <header className="flex items-center justify-between px-8 py-4 border-b border-border">
         <h1 className="text-lg font-bold tracking-wide">{title}</h1>
-        <div className="flex items-center gap-4 text-sm text-slate-400">
+        <div className="flex items-center gap-4 text-sm text-secondary">
           <span>{now}</span>
           {onRefresh && (
             <button
               onClick={onRefresh}
-              className="hover:text-white transition-colors"
+              className="hover:text-foreground transition-colors"
             >
               ↻ 갱신
             </button>
           )}
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-green-400 inline-block animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-success inline-block animate-pulse" />
             <span className="text-xs">LIVE</span>
           </div>
         </div>
@@ -84,12 +84,12 @@ export function MonitoringBoard({
       {/* KPI 카드 */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-8 py-5">
         {kpis.map((kpi, i) => (
-          <div key={i} className="bg-slate-800 border border-slate-700 rounded-lg p-4">
-            <p className="text-xs text-slate-400 uppercase tracking-widest mb-2">{kpi.label}</p>
+          <div key={i} className="bg-surface border border-border rounded-lg p-4">
+            <p className="text-xs text-secondary uppercase tracking-widest mb-2">{kpi.label}</p>
             <p className={cn('text-3xl font-bold', KPI_STATUS_COLOR[kpi.status ?? 'normal'])}>
               {kpi.value}
               {kpi.unit && (
-                <span className="text-base font-normal text-slate-400 ml-1">{kpi.unit}</span>
+                <span className="text-base font-normal text-secondary ml-1">{kpi.unit}</span>
               )}
             </p>
           </div>
@@ -102,13 +102,13 @@ export function MonitoringBoard({
         style={{ gridTemplateColumns: stations ? '2fr 1fr' : '1fr' }}
       >
         {chart && (
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
+          <div className="bg-surface border border-border rounded-lg p-4">
             {chart}
           </div>
         )}
         {stations && (
-          <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
-            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
+          <div className="bg-surface border border-border rounded-lg p-4">
+            <h3 className="text-xs font-semibold text-secondary uppercase tracking-widest mb-4">
               설비 현황
             </h3>
             <div className="space-y-2">
@@ -117,7 +117,7 @@ export function MonitoringBoard({
                 return (
                   <div
                     key={s.id}
-                    className="flex items-center justify-between bg-slate-900 rounded-md px-3 py-2"
+                    className="flex items-center justify-between bg-surface-subtle rounded-md px-3 py-2"
                   >
                     <div className="flex items-center gap-2">
                       <span className={cn('w-2 h-2 rounded-full flex-shrink-0', cfg.dot)} />
@@ -125,7 +125,7 @@ export function MonitoringBoard({
                     </div>
                     <div className="flex items-center gap-3">
                       {s.value && (
-                        <span className="text-xs text-slate-500">{s.value}</span>
+                        <span className="text-xs text-muted">{s.value}</span>
                       )}
                       <span className={cn('text-xs font-medium', cfg.text)}>{cfg.label}</span>
                     </div>

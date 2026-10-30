@@ -35,7 +35,7 @@ export function LoginSimple({
         <h1 className="text-xl font-bold text-foreground text-center mb-6">{title}</h1>
 
         {error && (
-          <div role="alert" className="mb-4 p-3 bg-red-50 border border-danger rounded-input text-sm text-danger">
+          <div role="alert" className="mb-4 p-3 bg-danger-subtle border border-danger rounded-input text-sm text-danger-foreground">
             {error}
           </div>
         )}

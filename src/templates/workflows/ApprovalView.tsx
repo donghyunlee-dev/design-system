@@ -31,8 +31,8 @@ export interface ApprovalViewProps {
 const STATUS_BADGE: Record<ApprovalStatus, { text: string; cls: string }> = {
   draft:      { text: '기안',   cls: 'bg-surface-subtle text-muted border border-border' },
   inProgress: { text: '결재중', cls: 'bg-brand-subtle text-brand border border-brand' },
-  approved:   { text: '승인완료', cls: 'bg-green-50 text-success border border-success' },
-  rejected:   { text: '반려',   cls: 'bg-red-50 text-danger border border-danger' },
+  approved:   { text: '승인완료', cls: 'bg-success-subtle text-success-foreground border border-success' },
+  rejected:   { text: '반려',   cls: 'bg-danger-subtle text-danger-foreground border border-danger' },
 }
 
 const STEP_DOT: Record<ApprovalStep['status'], string> = {
