@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { LoginSimple } from '../../templates/service/auth/LoginSimple'
-import { LoginSplit } from '../../templates/service/auth/LoginSplit'
-import { SignupPage } from '../../templates/service/auth/SignupPage'
+import { LoginSimple } from '../../templates/account/LoginSimple'
+import { LoginSplit } from '../../templates/account/LoginSplit'
+import { SignupPage } from '../../templates/account/SignupPage'
 
 const meta: Meta = {
-  title: 'Templates/Service/Auth',
+  title: 'Templates/Account',
   parameters: {
     layout: 'fullscreen',
     docs: { codePanel: true },

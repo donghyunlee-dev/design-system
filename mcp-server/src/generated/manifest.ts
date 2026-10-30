@@ -2,7 +2,7 @@
 import type { Manifest } from '../manifest.js'
 
 export const staticManifest: Manifest = {
-  "generatedAt": "2026-10-29T07:53:57.720Z",
+  "generatedAt": "2026-10-30T02:46:17.152Z",
   "components": [
     {
       "name": "Button",
@@ -434,221 +434,848 @@ export const staticManifest: Manifest = {
       "usageSnippet": "import { LineChart, BarChart, PieChart } from '@windsoft/ui'\n\nconst data = [\n  { month: '1월', 주문: 120, 매출: 240 },\n  { month: '2월', 주문: 180, 매출: 380 },\n  { month: '3월', 주문: 150, 매출: 290 },\n]\n\n// 선형 차트\n<LineChart\n  data={data}\n  xKey=\"month\"\n  lines={[\n    { key: '주문', label: '주문 수' },\n    { key: '매출', label: '매출액', color: '#10b981' },\n  ]}\n/>\n\n// 막대 차트\n<BarChart data={data} xKey=\"month\" bars={[{ key: '주문', label: '주문 수' }]} />\n\n// 파이 차트\n<PieChart\n  data={[\n    { name: '완료', value: 400 },\n    { name: '처리중', value: 200 },\n    { name: '취소', value: 50 },\n  ]}\n/>"
     }
   ],
-  "businessTemplates": [
+  "templates": [
+    {
+      "name": "LandingCentered",
+      "category": "Landing",
+      "filePath": "src/templates/landing/LandingCentered.tsx",
+      "description": "LandingCentered 화면 템플릿."
+    },
+    {
+      "name": "LandingSplit",
+      "category": "Landing",
+      "filePath": "src/templates/landing/LandingSplit.tsx",
+      "description": "LandingSplit 화면 템플릿."
+    },
+    {
+      "name": "LandingMinimal",
+      "category": "Landing",
+      "filePath": "src/templates/landing/LandingMinimal.tsx",
+      "description": "LandingMinimal 화면 템플릿."
+    },
+    {
+      "name": "LoginSimple",
+      "category": "Account",
+      "filePath": "src/templates/account/LoginSimple.tsx",
+      "description": "LoginSimple 화면 템플릿."
+    },
+    {
+      "name": "LoginSplit",
+      "category": "Account",
+      "filePath": "src/templates/account/LoginSplit.tsx",
+      "description": "LoginSplit 화면 템플릿."
+    },
+    {
+      "name": "SignupPage",
+      "category": "Account",
+      "filePath": "src/templates/account/SignupPage.tsx",
+      "description": "SignupPage 화면 템플릿."
+    },
+    {
+      "name": "FeatureShowcase",
+      "category": "Landing",
+      "filePath": "src/templates/landing/FeatureShowcase.tsx",
+      "description": "FeatureShowcase 화면 템플릿."
+    },
+    {
+      "name": "ProductGrid",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ProductGrid.tsx",
+      "description": "ProductGrid 화면 템플릿."
+    },
+    {
+      "name": "ProductList",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ProductList.tsx",
+      "description": "ProductList 화면 템플릿."
+    },
+    {
+      "name": "ProductDetail",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ProductDetail.tsx",
+      "description": "ProductDetail 화면 템플릿."
+    },
+    {
+      "name": "ServiceCatalog",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ServiceCatalog.tsx",
+      "description": "첫인상·전환(신청) 중심의 사내 서비스 신청 카탈로그. 검색 히어로 + 인기 서비스 하이라이트 + 카테고리별 카드 그리드로 구성된다. 정보 밀도 중심의 business/TemplateGallery(사내 문서·양식 템플릿 모음)와 달리, 시스템 이용/권한 신청 등 \"서비스\"를 훑어보고 바로 신청까지 유도하는 화면에 사용한다."
+    },
+    {
+      "name": "CheckoutForm",
+      "category": "Forms",
+      "filePath": "src/templates/forms/CheckoutForm.tsx",
+      "description": "CheckoutForm 화면 템플릿."
+    },
+    {
+      "name": "SettingsSidebar",
+      "category": "Account",
+      "filePath": "src/templates/account/SettingsSidebar.tsx",
+      "description": "SettingsSidebar 화면 템플릿."
+    },
+    {
+      "name": "SettingsTabs",
+      "category": "Account",
+      "filePath": "src/templates/account/SettingsTabs.tsx",
+      "description": "SettingsTabs 화면 템플릿."
+    },
+    {
+      "name": "AdminShell",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminShell.tsx",
+      "description": "헤더·LNB·콘텐츠·풋터를 조합하는 관리자 SPA 기본 셸입니다."
+    },
+    {
+      "name": "DashboardStats",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DashboardStats.tsx",
+      "description": "DashboardStats 화면 템플릿."
+    },
+    {
+      "name": "DashboardFull",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DashboardFull.tsx",
+      "description": "DashboardFull 화면 템플릿."
+    },
+    {
+      "name": "DataTablePage",
+      "category": "Search",
+      "filePath": "src/templates/search/DataTablePage.tsx",
+      "description": "DataTablePage 화면 템플릿."
+    },
+    {
+      "name": "AdminDetailPage",
+      "category": "Details",
+      "filePath": "src/templates/details/AdminDetailPage.tsx",
+      "description": "경로, 작업 도구, 검색, 데이터 그리드, 페이지 탐색을 배치하는 관리자 화면 템플릿입니다."
+    },
+    {
+      "name": "AdminTabbedLayout",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminTabbedLayout.tsx",
+      "description": "LNB 경로를 Chrome 스타일의 재정렬·닫기 가능한 관리자 페이지 탭으로 엽니다."
+    },
+    {
+      "name": "AdminDataTabbedLayout",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminDataTabbedLayout.tsx",
+      "description": "AdminShell 탭 workspace와 데이터 상세 화면을 한 번에 구성하는 관리자 템플릿입니다."
+    },
+    {
+      "name": "AdminTabbedWorkspace",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminTabbedWorkspace.tsx",
+      "description": "관리자 셸 안에서 탭별 상세 데이터 페이지를 전환하는 워크스페이스 템플릿입니다."
+    },
+    {
+      "name": "DataFormPage",
+      "category": "Forms",
+      "filePath": "src/templates/forms/DataFormPage.tsx",
+      "description": "DataFormPage 화면 템플릿."
+    },
     {
       "name": "ListSearchTable",
-      "filePath": "src/templates/business/ListSearchTable.tsx",
+      "category": "Search",
+      "filePath": "src/templates/search/ListSearchTable.tsx",
       "description": "검색과 필터를 적용한 업무 데이터를 테이블로 조회하는 화면 템플릿."
     },
     {
       "name": "DashboardKPI",
-      "filePath": "src/templates/business/DashboardKPI.tsx",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DashboardKPI.tsx",
       "description": "핵심 업무 지표와 변화 추이를 카드와 차트로 요약하는 대시보드 템플릿."
     },
     {
       "name": "FormRegister",
-      "filePath": "src/templates/business/FormRegister.tsx",
+      "category": "Forms",
+      "filePath": "src/templates/forms/FormRegister.tsx",
       "description": "여러 섹션으로 구성된 업무 데이터를 입력하고 등록하는 폼 화면 템플릿."
     },
     {
       "name": "DetailView",
-      "filePath": "src/templates/business/DetailView.tsx",
+      "category": "Details",
+      "filePath": "src/templates/details/DetailView.tsx",
       "description": "업무 객체의 주요 필드와 변경 이력을 함께 보여주는 상세 조회 화면 템플릿."
     },
     {
       "name": "MonitoringBoard",
-      "filePath": "src/templates/business/MonitoringBoard.tsx",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/MonitoringBoard.tsx",
       "description": "운영 지표와 대상별 상태를 한눈에 확인하는 모니터링 화면 템플릿."
     },
     {
       "name": "SystemStatusBoard",
-      "filePath": "src/templates/business/SystemStatusBoard.tsx",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/SystemStatusBoard.tsx",
       "description": "여러 시스템의 가동 상태, 가용률과 장애 이력을 보여주는 화면 템플릿."
     },
     {
       "name": "IncidentComposer",
-      "filePath": "src/templates/business/IncidentComposer.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/IncidentComposer.tsx",
       "description": "장애 내용과 영향 시스템, 공유 채널을 입력해 공지를 작성하는 화면 템플릿."
     },
     {
       "name": "SettingsPage",
-      "filePath": "src/templates/business/SettingsPage.tsx",
+      "category": "Settings",
+      "filePath": "src/templates/settings/SettingsPage.tsx",
       "description": "업무 서비스 설정을 섹션별로 조회하고 변경하는 화면 템플릿."
     },
     {
       "name": "MasterDetail",
-      "filePath": "src/templates/business/MasterDetail.tsx",
+      "category": "Details",
+      "filePath": "src/templates/details/MasterDetail.tsx",
       "description": "목록에서 항목을 선택해 같은 화면에서 상세 정보를 확인하는 화면 템플릿."
     },
     {
       "name": "WizardForm",
-      "filePath": "src/templates/business/WizardForm.tsx",
+      "category": "Forms",
+      "filePath": "src/templates/forms/WizardForm.tsx",
       "description": "복잡한 입력 과정을 여러 단계로 나누어 완료하도록 안내하는 폼 화면 템플릿."
     },
     {
       "name": "ApprovalView",
-      "filePath": "src/templates/business/ApprovalView.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/ApprovalView.tsx",
       "description": "결재 문서의 상세 정보와 결재선 상태를 확인하고 승인·반려하는 화면 템플릿."
     },
     {
       "name": "ReportLayout",
-      "filePath": "src/templates/business/ReportLayout.tsx",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/ReportLayout.tsx",
       "description": "제목, 요약 지표와 본문 영역을 갖춘 업무 보고서 화면 템플릿."
     },
     {
       "name": "DocumentCatalog",
-      "filePath": "src/templates/business/DocumentCatalog.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/DocumentCatalog.tsx",
       "description": "문서와 자료를 카테고리별로 탐색하고 검색하는 카탈로그 화면 템플릿."
     },
     {
       "name": "EntitySearchExplorer",
-      "filePath": "src/templates/business/EntitySearchExplorer.tsx",
+      "category": "Search",
+      "filePath": "src/templates/search/EntitySearchExplorer.tsx",
       "description": "여러 업무 엔터티를 탭과 검색 조건으로 탐색하는 통합 검색 화면 템플릿."
     },
     {
       "name": "HighlightedEntitySearchExplorer",
-      "filePath": "src/templates/business/HighlightedEntitySearchExplorer.tsx",
-      "description": "EntitySearchExplorer와 동일한 레이아웃/구성이되, 결과 항목의 제목·설명에서 검색어(keyword) 일치 구간을 Highlight로 강조합니다. (design-system-gap 대응: 검색어 하이라이트 — EntitySearchExplorer.tsx는 title/description을 항상 순수 문자열로만 렌더링해 강조 마크업을 끼워 넣을 수 없어, 기존 파일은 변경하지 않고 신규 파일로 분리했습니다.)"
+      "category": "Search",
+      "filePath": "src/templates/search/HighlightedEntitySearchExplorer.tsx",
+      "description": "@deprecated Use EntitySearchExplorer; a non-empty keyword is highlighted automatically."
     },
     {
       "name": "DocsHub",
-      "filePath": "src/templates/business/DocsHub.tsx",
+      "category": "Help",
+      "filePath": "src/templates/help/DocsHub.tsx",
       "description": "업무 시스템별 가이드, 빠른 링크와 공지사항을 모아 제공하는 문서 허브 템플릿."
     },
     {
       "name": "KanbanBoard",
-      "filePath": "src/templates/business/KanbanBoard.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/KanbanBoard.tsx",
       "description": "업무 카드를 상태별 열로 나누어 진행 상황을 관리하는 칸반 화면 템플릿."
     },
     {
       "name": "ActivityTimeline",
-      "filePath": "src/templates/business/ActivityTimeline.tsx",
+      "category": "Details",
+      "filePath": "src/templates/details/ActivityTimeline.tsx",
       "description": "날짜별로 그룹화한 사용자·시스템 활동 이력을 시간순으로 보여주는 화면 템플릿."
     },
     {
       "name": "ScheduleCalendar",
-      "filePath": "src/templates/business/ScheduleCalendar.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/ScheduleCalendar.tsx",
       "description": "날짜별 일정과 업무 이벤트를 달력 형태로 탐색하는 화면 템플릿."
     },
     {
       "name": "InboxCenter",
-      "filePath": "src/templates/business/InboxCenter.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/InboxCenter.tsx",
       "description": "알림과 업무 수신 항목을 분류하고 확인하는 통합 받은편지함 화면 템플릿."
     },
     {
       "name": "FileExplorer",
-      "filePath": "src/templates/business/FileExplorer.tsx",
+      "category": "Search",
+      "filePath": "src/templates/search/FileExplorer.tsx",
       "description": "폴더와 파일 목록을 탐색하고 선택 작업을 수행하는 파일 탐색 화면 템플릿."
     },
     {
       "name": "GlobalSearchResults",
-      "filePath": "src/templates/business/GlobalSearchResults.tsx",
+      "category": "Search",
+      "filePath": "src/templates/search/GlobalSearchResults.tsx",
       "description": "여러 업무 시스템의 검색 결과를 그룹별로 통합해 보여주는 화면 템플릿."
     },
     {
       "name": "FacetedSearchResults",
-      "filePath": "src/templates/business/FacetedSearchResults.tsx",
+      "category": "Search",
+      "filePath": "src/templates/search/FacetedSearchResults.tsx",
       "description": "여러 패싯 조건을 조합해 검색 결과를 좁혀 보는 화면 템플릿."
     },
     {
       "name": "TabbedSearchResults",
-      "filePath": "src/templates/business/TabbedSearchResults.tsx",
+      "category": "Search",
+      "filePath": "src/templates/search/TabbedSearchResults.tsx",
       "description": "검색 결과 범위를 탭으로 전환하며 조회하는 통합 검색 화면 템플릿."
     },
     {
       "name": "DocumentPrint",
-      "filePath": "src/templates/business/DocumentPrint.tsx",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DocumentPrint.tsx",
       "description": "문서 당사자, 항목과 합계를 인쇄에 적합한 구조로 표시하는 화면 템플릿."
     },
     {
       "name": "BulkImport",
-      "filePath": "src/templates/business/BulkImport.tsx",
+      "category": "Forms",
+      "filePath": "src/templates/forms/BulkImport.tsx",
       "description": "파일의 컬럼 매핑과 검증 결과를 확인하며 데이터를 일괄 등록하는 화면 템플릿."
     },
     {
+      "name": "DataImportWizard",
+      "category": "Forms",
+      "filePath": "src/templates/forms/DataImportWizard.tsx",
+      "description": "DataImportWizard 화면 템플릿."
+    },
+    {
       "name": "DiffView",
-      "filePath": "src/templates/business/DiffView.tsx",
+      "category": "Details",
+      "filePath": "src/templates/details/DiffView.tsx",
       "description": "변경 전후의 필드 값을 비교하고 변경 상태를 구분해 보여주는 화면 템플릿."
     },
     {
       "name": "IssueListBoard",
-      "filePath": "src/templates/business/IssueListBoard.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/IssueListBoard.tsx",
       "description": "업무 이슈를 상태와 우선순위 중심의 목록으로 관리하는 화면 템플릿."
     },
     {
       "name": "SystemIssueTracker",
-      "filePath": "src/templates/business/SystemIssueTracker.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/SystemIssueTracker.tsx",
       "description": "시스템별 장애와 문제의 상태, 담당자와 우선순위를 추적하는 화면 템플릿."
     },
     {
       "name": "RequestQueueBoard",
-      "filePath": "src/templates/business/RequestQueueBoard.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/RequestQueueBoard.tsx",
       "description": "접수된 요청을 상태별 대기열로 분류하고 처리하는 화면 템플릿."
     },
     {
       "name": "SavedViewIssueBoard",
-      "filePath": "src/templates/business/SavedViewIssueBoard.tsx",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/SavedViewIssueBoard.tsx",
       "description": "저장된 보기와 적용 필터를 사용해 업무 이슈를 조회하는 화면 템플릿."
     },
     {
       "name": "TemplateGallery",
-      "filePath": "src/templates/business/TemplateGallery.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGallery.tsx",
       "description": "업무 템플릿을 카테고리와 검색 조건으로 탐색하는 갤러리 화면 템플릿."
     },
     {
       "name": "TemplateGalleryMedia",
-      "filePath": "src/templates/business/TemplateGalleryMedia.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryMedia.tsx",
       "description": "TemplateGallery와 동일한 카테고리/검색/추천 구조를 유지하되, 각 항목을 썸네일/커버 이미지가 있는 카드(MediaCard)로 표시하는 변형. 시각적 미리보기가 중요한 갤러리(예: 보드/문서 템플릿 썸네일)에 사용한다."
     },
     {
       "name": "TemplateGalleryDirectory",
-      "filePath": "src/templates/business/TemplateGalleryDirectory.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryDirectory.tsx",
       "description": "상단에 부서/시스템을 아이콘 타일로 바로가기 노출하고(사이드바 목록·상단 pill 탭과 구분되는 그리드형 내비게이션), 그 아래로 큐레이션 섹션을 세로로 훑어보는 디렉토리형 갤러리. 부서 타일을 선택하면 해당 부서 템플릿만 단일 그리드로 좁혀 보여준다."
     },
     {
       "name": "TemplateGallerySpotlight",
-      "filePath": "src/templates/business/TemplateGallerySpotlight.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGallerySpotlight.tsx",
       "description": "상단 밑줄형 탭으로 시스템/업무 영역을 전환하고, 탭 상단에 큰 썸네일의 \"주요 추천\" 카드 행을 별도로 강조 노출한 뒤 그 아래 전체 템플릿을 일반 그리드로 보여주는 구성. 사이드바(TemplateGallery)·부서 타일(TemplateGalleryDirectory)·가로 스크롤 섹션 (TemplateCommunity)과 달리, 탭 전환 + 카드 크기 위계(추천 대형 카드 vs 일반 그리드)로 탐색 동선을 구성하는 화면에 사용한다."
     },
     {
+      "name": "TemplateGalleryHero",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryHero.tsx",
+      "description": "Asana 템플릿 갤러리 패턴을 참고한 변형: 좌측 사이드바 대신 중앙 정렬 히어로(검색) + \"업무 영역별로 찾기\" 타일 그리드 + 영역별 섹션 나열 구조. 사이드바 내비게이션 중심인 TemplateGallery/TemplateGalleryMedia와 달리 탐색 진입점을 히어로 검색과 타일 그리드에 두는 화면에 사용한다."
+    },
+    {
       "name": "HelpArticleView",
-      "filePath": "src/templates/business/HelpArticleView.tsx",
+      "category": "Help",
+      "filePath": "src/templates/help/HelpArticleView.tsx",
       "description": "도움말 본문과 관련 문서를 읽을 수 있는 문서 상세 화면 템플릿."
     },
     {
+      "name": "ErrorState",
+      "category": "Help",
+      "filePath": "src/templates/help/ErrorState.tsx",
+      "description": "빈 데이터, 권한, 경로, 서버 오류의 페이지 상태를 표시합니다."
+    },
+    {
       "name": "HelpCenter",
-      "filePath": "src/templates/business/HelpCenter.tsx",
+      "category": "Help",
+      "filePath": "src/templates/help/HelpCenter.tsx",
       "description": "도움말 검색, 카테고리, 자주 묻는 질문과 문의 채널을 제공하는 화면 템플릿."
     },
     {
       "name": "HelpCategoryArticles",
-      "filePath": "src/templates/business/HelpCategoryArticles.tsx",
+      "category": "Help",
+      "filePath": "src/templates/help/HelpCategoryArticles.tsx",
       "description": "도움말 카테고리에 속한 문서를 섹션별로 탐색하는 화면 템플릿."
     },
     {
       "name": "TemplateCommunity",
-      "filePath": "src/templates/business/TemplateCommunity.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateCommunity.tsx",
       "description": "여러 부서가 등록한 템플릿·양식을 카테고리별 가로 스크롤 섹션으로 훑어보는 커뮤니티형 갤러리. TemplateGalleryMedia(단일 그리드 + 좌측/상단 카테고리)와 달리, 다수의 큐레이션 섹션을 각각 가로로 스크롤되는 카드 행으로 노출해 \"훑어보기\" 중심 홈 화면 구조를 지원한다."
     },
     {
       "name": "TemplateGalleryFiltered",
-      "filePath": "src/templates/business/TemplateGalleryFiltered.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryFiltered.tsx",
       "description": "Trello 템플릿 갤러리(카테고리 페이지)의 우측 다중 조건 필터 패널 구조를 참고한 변형. TemplateGallery/TemplateGalleryMedia/TemplateGalleryDirectory가 좌측 또는 상단의 단일 선택 카테고리 내비게이션인 것과 달리, 우측 패널에서 여러 패싯(업무 시스템, 적용 규모 등)을 동시에 체크박스로 다중 선택해 좁혀가는 교차 필터링(패싯 간 AND, 패싯 내 OR)에 사용한다."
     },
     {
       "name": "TemplateGalleryPreview",
-      "filePath": "src/templates/business/TemplateGalleryPreview.tsx",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryPreview.tsx",
       "description": "Notion 템플릿 갤러리의 \"카드 클릭 → 우측 미리보기 패널에서 상세를 확인하고 바로 사용\" 동선을 참고한 변형. 다른 TemplateGallery* 계열은 카드를 누르면 페이지 이동(onClick/onUse)으로 끝나는 반면, 이 템플릿은 그리드를 벗어나지 않고 Drawer로 큰 미리보기 이미지·상세 설명·태그를 먼저 확인한 뒤 같은 자리에서 \"사용\" 여부를 결정하는 인라인 미리보기 구조에 사용한다."
     },
     {
       "name": "SystemFeatureTour",
-      "filePath": "src/templates/business/SystemFeatureTour.tsx",
+      "category": "Help",
+      "filePath": "src/templates/help/SystemFeatureTour.tsx",
       "description": "시스템의 주요 기능과 시작 방법을 단계별로 소개하는 안내 화면 템플릿."
     },
     {
       "name": "RolesPermissionsMatrix",
-      "filePath": "src/templates/business/RolesPermissionsMatrix.tsx",
+      "category": "Settings",
+      "filePath": "src/templates/settings/RolesPermissionsMatrix.tsx",
       "description": "역할별 기능 권한을 행렬 형태로 조회하고 설정하는 화면 템플릿."
+    },
+    {
+      "name": "TicketDetail",
+      "category": "Details",
+      "filePath": "src/templates/details/TicketDetail.tsx",
+      "description": "TicketDetail 화면 템플릿."
+    }
+  ],
+  "businessTemplates": [
+    {
+      "name": "LandingCentered",
+      "category": "Landing",
+      "filePath": "src/templates/landing/LandingCentered.tsx",
+      "description": "LandingCentered 화면 템플릿."
+    },
+    {
+      "name": "LandingSplit",
+      "category": "Landing",
+      "filePath": "src/templates/landing/LandingSplit.tsx",
+      "description": "LandingSplit 화면 템플릿."
+    },
+    {
+      "name": "LandingMinimal",
+      "category": "Landing",
+      "filePath": "src/templates/landing/LandingMinimal.tsx",
+      "description": "LandingMinimal 화면 템플릿."
+    },
+    {
+      "name": "LoginSimple",
+      "category": "Account",
+      "filePath": "src/templates/account/LoginSimple.tsx",
+      "description": "LoginSimple 화면 템플릿."
+    },
+    {
+      "name": "LoginSplit",
+      "category": "Account",
+      "filePath": "src/templates/account/LoginSplit.tsx",
+      "description": "LoginSplit 화면 템플릿."
+    },
+    {
+      "name": "SignupPage",
+      "category": "Account",
+      "filePath": "src/templates/account/SignupPage.tsx",
+      "description": "SignupPage 화면 템플릿."
+    },
+    {
+      "name": "FeatureShowcase",
+      "category": "Landing",
+      "filePath": "src/templates/landing/FeatureShowcase.tsx",
+      "description": "FeatureShowcase 화면 템플릿."
+    },
+    {
+      "name": "ProductGrid",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ProductGrid.tsx",
+      "description": "ProductGrid 화면 템플릿."
+    },
+    {
+      "name": "ProductList",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ProductList.tsx",
+      "description": "ProductList 화면 템플릿."
+    },
+    {
+      "name": "ProductDetail",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ProductDetail.tsx",
+      "description": "ProductDetail 화면 템플릿."
+    },
+    {
+      "name": "ServiceCatalog",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/ServiceCatalog.tsx",
+      "description": "첫인상·전환(신청) 중심의 사내 서비스 신청 카탈로그. 검색 히어로 + 인기 서비스 하이라이트 + 카테고리별 카드 그리드로 구성된다. 정보 밀도 중심의 business/TemplateGallery(사내 문서·양식 템플릿 모음)와 달리, 시스템 이용/권한 신청 등 \"서비스\"를 훑어보고 바로 신청까지 유도하는 화면에 사용한다."
+    },
+    {
+      "name": "CheckoutForm",
+      "category": "Forms",
+      "filePath": "src/templates/forms/CheckoutForm.tsx",
+      "description": "CheckoutForm 화면 템플릿."
+    },
+    {
+      "name": "SettingsSidebar",
+      "category": "Account",
+      "filePath": "src/templates/account/SettingsSidebar.tsx",
+      "description": "SettingsSidebar 화면 템플릿."
+    },
+    {
+      "name": "SettingsTabs",
+      "category": "Account",
+      "filePath": "src/templates/account/SettingsTabs.tsx",
+      "description": "SettingsTabs 화면 템플릿."
+    },
+    {
+      "name": "AdminShell",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminShell.tsx",
+      "description": "헤더·LNB·콘텐츠·풋터를 조합하는 관리자 SPA 기본 셸입니다."
+    },
+    {
+      "name": "DashboardStats",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DashboardStats.tsx",
+      "description": "DashboardStats 화면 템플릿."
+    },
+    {
+      "name": "DashboardFull",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DashboardFull.tsx",
+      "description": "DashboardFull 화면 템플릿."
+    },
+    {
+      "name": "DataTablePage",
+      "category": "Search",
+      "filePath": "src/templates/search/DataTablePage.tsx",
+      "description": "DataTablePage 화면 템플릿."
+    },
+    {
+      "name": "AdminDetailPage",
+      "category": "Details",
+      "filePath": "src/templates/details/AdminDetailPage.tsx",
+      "description": "경로, 작업 도구, 검색, 데이터 그리드, 페이지 탐색을 배치하는 관리자 화면 템플릿입니다."
+    },
+    {
+      "name": "AdminTabbedLayout",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminTabbedLayout.tsx",
+      "description": "LNB 경로를 Chrome 스타일의 재정렬·닫기 가능한 관리자 페이지 탭으로 엽니다."
+    },
+    {
+      "name": "AdminDataTabbedLayout",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminDataTabbedLayout.tsx",
+      "description": "AdminShell 탭 workspace와 데이터 상세 화면을 한 번에 구성하는 관리자 템플릿입니다."
+    },
+    {
+      "name": "AdminTabbedWorkspace",
+      "category": "Workspace",
+      "filePath": "src/templates/workspace/AdminTabbedWorkspace.tsx",
+      "description": "관리자 셸 안에서 탭별 상세 데이터 페이지를 전환하는 워크스페이스 템플릿입니다."
+    },
+    {
+      "name": "DataFormPage",
+      "category": "Forms",
+      "filePath": "src/templates/forms/DataFormPage.tsx",
+      "description": "DataFormPage 화면 템플릿."
+    },
+    {
+      "name": "ListSearchTable",
+      "category": "Search",
+      "filePath": "src/templates/search/ListSearchTable.tsx",
+      "description": "검색과 필터를 적용한 업무 데이터를 테이블로 조회하는 화면 템플릿."
+    },
+    {
+      "name": "DashboardKPI",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DashboardKPI.tsx",
+      "description": "핵심 업무 지표와 변화 추이를 카드와 차트로 요약하는 대시보드 템플릿."
+    },
+    {
+      "name": "FormRegister",
+      "category": "Forms",
+      "filePath": "src/templates/forms/FormRegister.tsx",
+      "description": "여러 섹션으로 구성된 업무 데이터를 입력하고 등록하는 폼 화면 템플릿."
+    },
+    {
+      "name": "DetailView",
+      "category": "Details",
+      "filePath": "src/templates/details/DetailView.tsx",
+      "description": "업무 객체의 주요 필드와 변경 이력을 함께 보여주는 상세 조회 화면 템플릿."
+    },
+    {
+      "name": "MonitoringBoard",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/MonitoringBoard.tsx",
+      "description": "운영 지표와 대상별 상태를 한눈에 확인하는 모니터링 화면 템플릿."
+    },
+    {
+      "name": "SystemStatusBoard",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/SystemStatusBoard.tsx",
+      "description": "여러 시스템의 가동 상태, 가용률과 장애 이력을 보여주는 화면 템플릿."
+    },
+    {
+      "name": "IncidentComposer",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/IncidentComposer.tsx",
+      "description": "장애 내용과 영향 시스템, 공유 채널을 입력해 공지를 작성하는 화면 템플릿."
+    },
+    {
+      "name": "SettingsPage",
+      "category": "Settings",
+      "filePath": "src/templates/settings/SettingsPage.tsx",
+      "description": "업무 서비스 설정을 섹션별로 조회하고 변경하는 화면 템플릿."
+    },
+    {
+      "name": "MasterDetail",
+      "category": "Details",
+      "filePath": "src/templates/details/MasterDetail.tsx",
+      "description": "목록에서 항목을 선택해 같은 화면에서 상세 정보를 확인하는 화면 템플릿."
+    },
+    {
+      "name": "WizardForm",
+      "category": "Forms",
+      "filePath": "src/templates/forms/WizardForm.tsx",
+      "description": "복잡한 입력 과정을 여러 단계로 나누어 완료하도록 안내하는 폼 화면 템플릿."
+    },
+    {
+      "name": "ApprovalView",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/ApprovalView.tsx",
+      "description": "결재 문서의 상세 정보와 결재선 상태를 확인하고 승인·반려하는 화면 템플릿."
+    },
+    {
+      "name": "ReportLayout",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/ReportLayout.tsx",
+      "description": "제목, 요약 지표와 본문 영역을 갖춘 업무 보고서 화면 템플릿."
+    },
+    {
+      "name": "DocumentCatalog",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/DocumentCatalog.tsx",
+      "description": "문서와 자료를 카테고리별로 탐색하고 검색하는 카탈로그 화면 템플릿."
+    },
+    {
+      "name": "EntitySearchExplorer",
+      "category": "Search",
+      "filePath": "src/templates/search/EntitySearchExplorer.tsx",
+      "description": "여러 업무 엔터티를 탭과 검색 조건으로 탐색하는 통합 검색 화면 템플릿."
+    },
+    {
+      "name": "HighlightedEntitySearchExplorer",
+      "category": "Search",
+      "filePath": "src/templates/search/HighlightedEntitySearchExplorer.tsx",
+      "description": "@deprecated Use EntitySearchExplorer; a non-empty keyword is highlighted automatically."
+    },
+    {
+      "name": "DocsHub",
+      "category": "Help",
+      "filePath": "src/templates/help/DocsHub.tsx",
+      "description": "업무 시스템별 가이드, 빠른 링크와 공지사항을 모아 제공하는 문서 허브 템플릿."
+    },
+    {
+      "name": "KanbanBoard",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/KanbanBoard.tsx",
+      "description": "업무 카드를 상태별 열로 나누어 진행 상황을 관리하는 칸반 화면 템플릿."
+    },
+    {
+      "name": "ActivityTimeline",
+      "category": "Details",
+      "filePath": "src/templates/details/ActivityTimeline.tsx",
+      "description": "날짜별로 그룹화한 사용자·시스템 활동 이력을 시간순으로 보여주는 화면 템플릿."
+    },
+    {
+      "name": "ScheduleCalendar",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/ScheduleCalendar.tsx",
+      "description": "날짜별 일정과 업무 이벤트를 달력 형태로 탐색하는 화면 템플릿."
+    },
+    {
+      "name": "InboxCenter",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/InboxCenter.tsx",
+      "description": "알림과 업무 수신 항목을 분류하고 확인하는 통합 받은편지함 화면 템플릿."
+    },
+    {
+      "name": "FileExplorer",
+      "category": "Search",
+      "filePath": "src/templates/search/FileExplorer.tsx",
+      "description": "폴더와 파일 목록을 탐색하고 선택 작업을 수행하는 파일 탐색 화면 템플릿."
+    },
+    {
+      "name": "GlobalSearchResults",
+      "category": "Search",
+      "filePath": "src/templates/search/GlobalSearchResults.tsx",
+      "description": "여러 업무 시스템의 검색 결과를 그룹별로 통합해 보여주는 화면 템플릿."
+    },
+    {
+      "name": "FacetedSearchResults",
+      "category": "Search",
+      "filePath": "src/templates/search/FacetedSearchResults.tsx",
+      "description": "여러 패싯 조건을 조합해 검색 결과를 좁혀 보는 화면 템플릿."
+    },
+    {
+      "name": "TabbedSearchResults",
+      "category": "Search",
+      "filePath": "src/templates/search/TabbedSearchResults.tsx",
+      "description": "검색 결과 범위를 탭으로 전환하며 조회하는 통합 검색 화면 템플릿."
+    },
+    {
+      "name": "DocumentPrint",
+      "category": "Analytics",
+      "filePath": "src/templates/analytics/DocumentPrint.tsx",
+      "description": "문서 당사자, 항목과 합계를 인쇄에 적합한 구조로 표시하는 화면 템플릿."
+    },
+    {
+      "name": "BulkImport",
+      "category": "Forms",
+      "filePath": "src/templates/forms/BulkImport.tsx",
+      "description": "파일의 컬럼 매핑과 검증 결과를 확인하며 데이터를 일괄 등록하는 화면 템플릿."
+    },
+    {
+      "name": "DataImportWizard",
+      "category": "Forms",
+      "filePath": "src/templates/forms/DataImportWizard.tsx",
+      "description": "DataImportWizard 화면 템플릿."
+    },
+    {
+      "name": "DiffView",
+      "category": "Details",
+      "filePath": "src/templates/details/DiffView.tsx",
+      "description": "변경 전후의 필드 값을 비교하고 변경 상태를 구분해 보여주는 화면 템플릿."
+    },
+    {
+      "name": "IssueListBoard",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/IssueListBoard.tsx",
+      "description": "업무 이슈를 상태와 우선순위 중심의 목록으로 관리하는 화면 템플릿."
+    },
+    {
+      "name": "SystemIssueTracker",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/SystemIssueTracker.tsx",
+      "description": "시스템별 장애와 문제의 상태, 담당자와 우선순위를 추적하는 화면 템플릿."
+    },
+    {
+      "name": "RequestQueueBoard",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/RequestQueueBoard.tsx",
+      "description": "접수된 요청을 상태별 대기열로 분류하고 처리하는 화면 템플릿."
+    },
+    {
+      "name": "SavedViewIssueBoard",
+      "category": "Workflows",
+      "filePath": "src/templates/workflows/SavedViewIssueBoard.tsx",
+      "description": "저장된 보기와 적용 필터를 사용해 업무 이슈를 조회하는 화면 템플릿."
+    },
+    {
+      "name": "TemplateGallery",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGallery.tsx",
+      "description": "업무 템플릿을 카테고리와 검색 조건으로 탐색하는 갤러리 화면 템플릿."
+    },
+    {
+      "name": "TemplateGalleryMedia",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryMedia.tsx",
+      "description": "TemplateGallery와 동일한 카테고리/검색/추천 구조를 유지하되, 각 항목을 썸네일/커버 이미지가 있는 카드(MediaCard)로 표시하는 변형. 시각적 미리보기가 중요한 갤러리(예: 보드/문서 템플릿 썸네일)에 사용한다."
+    },
+    {
+      "name": "TemplateGalleryDirectory",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryDirectory.tsx",
+      "description": "상단에 부서/시스템을 아이콘 타일로 바로가기 노출하고(사이드바 목록·상단 pill 탭과 구분되는 그리드형 내비게이션), 그 아래로 큐레이션 섹션을 세로로 훑어보는 디렉토리형 갤러리. 부서 타일을 선택하면 해당 부서 템플릿만 단일 그리드로 좁혀 보여준다."
+    },
+    {
+      "name": "TemplateGallerySpotlight",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGallerySpotlight.tsx",
+      "description": "상단 밑줄형 탭으로 시스템/업무 영역을 전환하고, 탭 상단에 큰 썸네일의 \"주요 추천\" 카드 행을 별도로 강조 노출한 뒤 그 아래 전체 템플릿을 일반 그리드로 보여주는 구성. 사이드바(TemplateGallery)·부서 타일(TemplateGalleryDirectory)·가로 스크롤 섹션 (TemplateCommunity)과 달리, 탭 전환 + 카드 크기 위계(추천 대형 카드 vs 일반 그리드)로 탐색 동선을 구성하는 화면에 사용한다."
+    },
+    {
+      "name": "TemplateGalleryHero",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryHero.tsx",
+      "description": "Asana 템플릿 갤러리 패턴을 참고한 변형: 좌측 사이드바 대신 중앙 정렬 히어로(검색) + \"업무 영역별로 찾기\" 타일 그리드 + 영역별 섹션 나열 구조. 사이드바 내비게이션 중심인 TemplateGallery/TemplateGalleryMedia와 달리 탐색 진입점을 히어로 검색과 타일 그리드에 두는 화면에 사용한다."
+    },
+    {
+      "name": "HelpArticleView",
+      "category": "Help",
+      "filePath": "src/templates/help/HelpArticleView.tsx",
+      "description": "도움말 본문과 관련 문서를 읽을 수 있는 문서 상세 화면 템플릿."
+    },
+    {
+      "name": "ErrorState",
+      "category": "Help",
+      "filePath": "src/templates/help/ErrorState.tsx",
+      "description": "빈 데이터, 권한, 경로, 서버 오류의 페이지 상태를 표시합니다."
+    },
+    {
+      "name": "HelpCenter",
+      "category": "Help",
+      "filePath": "src/templates/help/HelpCenter.tsx",
+      "description": "도움말 검색, 카테고리, 자주 묻는 질문과 문의 채널을 제공하는 화면 템플릿."
+    },
+    {
+      "name": "HelpCategoryArticles",
+      "category": "Help",
+      "filePath": "src/templates/help/HelpCategoryArticles.tsx",
+      "description": "도움말 카테고리에 속한 문서를 섹션별로 탐색하는 화면 템플릿."
+    },
+    {
+      "name": "TemplateCommunity",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateCommunity.tsx",
+      "description": "여러 부서가 등록한 템플릿·양식을 카테고리별 가로 스크롤 섹션으로 훑어보는 커뮤니티형 갤러리. TemplateGalleryMedia(단일 그리드 + 좌측/상단 카테고리)와 달리, 다수의 큐레이션 섹션을 각각 가로로 스크롤되는 카드 행으로 노출해 \"훑어보기\" 중심 홈 화면 구조를 지원한다."
+    },
+    {
+      "name": "TemplateGalleryFiltered",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryFiltered.tsx",
+      "description": "Trello 템플릿 갤러리(카테고리 페이지)의 우측 다중 조건 필터 패널 구조를 참고한 변형. TemplateGallery/TemplateGalleryMedia/TemplateGalleryDirectory가 좌측 또는 상단의 단일 선택 카테고리 내비게이션인 것과 달리, 우측 패널에서 여러 패싯(업무 시스템, 적용 규모 등)을 동시에 체크박스로 다중 선택해 좁혀가는 교차 필터링(패싯 간 AND, 패싯 내 OR)에 사용한다."
+    },
+    {
+      "name": "TemplateGalleryPreview",
+      "category": "Catalog",
+      "filePath": "src/templates/catalog/TemplateGalleryPreview.tsx",
+      "description": "Notion 템플릿 갤러리의 \"카드 클릭 → 우측 미리보기 패널에서 상세를 확인하고 바로 사용\" 동선을 참고한 변형. 다른 TemplateGallery* 계열은 카드를 누르면 페이지 이동(onClick/onUse)으로 끝나는 반면, 이 템플릿은 그리드를 벗어나지 않고 Drawer로 큰 미리보기 이미지·상세 설명·태그를 먼저 확인한 뒤 같은 자리에서 \"사용\" 여부를 결정하는 인라인 미리보기 구조에 사용한다."
+    },
+    {
+      "name": "SystemFeatureTour",
+      "category": "Help",
+      "filePath": "src/templates/help/SystemFeatureTour.tsx",
+      "description": "시스템의 주요 기능과 시작 방법을 단계별로 소개하는 안내 화면 템플릿."
+    },
+    {
+      "name": "RolesPermissionsMatrix",
+      "category": "Settings",
+      "filePath": "src/templates/settings/RolesPermissionsMatrix.tsx",
+      "description": "역할별 기능 권한을 행렬 형태로 조회하고 설정하는 화면 템플릿."
+    },
+    {
+      "name": "TicketDetail",
+      "category": "Details",
+      "filePath": "src/templates/details/TicketDetail.tsx",
+      "description": "TicketDetail 화면 템플릿."
     }
   ],
   "tokens": {

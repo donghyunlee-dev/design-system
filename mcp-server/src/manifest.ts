@@ -11,6 +11,7 @@ export interface ComponentEntry {
 
 export interface TemplateEntry {
   name: string
+  category: string
   filePath: string
   description?: string
 }
@@ -18,6 +19,8 @@ export interface TemplateEntry {
 export interface Manifest {
   generatedAt: string
   components: ComponentEntry[]
+  templates: TemplateEntry[]
+  /** @deprecated Use templates. Kept for compatibility with existing consumers. */
   businessTemplates: TemplateEntry[]
   tokens: {
     base: Record<string, string>
@@ -163,23 +166,25 @@ function scanComponents(root: string): ComponentEntry[] {
   return components
 }
 
-function scanBusinessTemplates(root: string): TemplateEntry[] {
+function scanTemplates(root: string): TemplateEntry[] {
   const indexSource = readFileSync(join(root, 'src/templates/index.ts'), 'utf8')
-  const exportPattern = /export\s*\{([^}]+)\}\s*from\s*['"]\.\/business\/([^'"]+)['"]/g
+  const exportPattern = /export\s*\{([^}]+)\}\s*from\s*['"]\.\/([a-z]+)\/([^'"]+)['"]/g
   const templates: TemplateEntry[] = []
   let match: RegExpExecArray | null
 
   while ((match = exportPattern.exec(indexSource))) {
-    const [, exportList, moduleName] = match
-    const filePath = `src/templates/business/${moduleName}.tsx`
+    const [, exportList, folder, moduleName] = match
+    const category = folder[0].toUpperCase() + folder.slice(1)
+    const filePath = `src/templates/${folder}/${moduleName}.tsx`
     const source = readFileSync(join(root, filePath), 'utf8')
     for (const specifier of exportList.split(',')) {
       const [localName, exportedName = localName] = specifier.trim().split(/\s+as\s+/)
       if (!/^[A-Z]/.test(exportedName)) continue
       templates.push({
         name: exportedName,
+        category,
         filePath,
-        description: extractDescription(source, localName) ?? BUSINESS_TEMPLATE_DESCRIPTIONS[exportedName],
+        description: extractDescription(source, localName) ?? BUSINESS_TEMPLATE_DESCRIPTIONS[exportedName] ?? `${exportedName} 화면 템플릿.`,
       })
     }
   }
@@ -189,6 +194,7 @@ function scanBusinessTemplates(root: string): TemplateEntry[] {
 
 export function buildManifest(root: string): Manifest {
   const components = scanComponents(root)
+  const templates = scanTemplates(root)
   const usageMarkdown = readFileSync(join(root, 'docs/USAGE.md'), 'utf8')
   const semanticCss = readFileSync(join(root, 'tokens/semantic.css'), 'utf8')
   for (const component of components) {
@@ -198,7 +204,8 @@ export function buildManifest(root: string): Manifest {
   return {
     generatedAt: new Date().toISOString(),
     components,
-    businessTemplates: scanBusinessTemplates(root),
+    templates,
+    businessTemplates: templates,
     tokens: {
       base: parseCssVariables(readFileSync(join(root, 'tokens/base.css'), 'utf8')),
       semantic: parseCssVariables(semanticCss),

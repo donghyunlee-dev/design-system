@@ -5,6 +5,7 @@ import { getComponent } from './getComponent.js'
 import { searchComponents } from './searchComponents.js'
 import { getTokens } from './getTokens.js'
 import { getBusinessTemplates } from './getBusinessTemplates.js'
+import { getTemplates } from './getTemplates.js'
 
 const manifest: Manifest = {
   generatedAt: '2026-08-20T00:00:00.000Z',
@@ -13,9 +14,11 @@ const manifest: Manifest = {
     { name: 'Badge', category: 'foundation', filePath: 'src/components/foundation/Badge.tsx', description: '상태 배지' },
     { name: 'Stat', category: 'data', filePath: 'src/components/data/Stat.tsx', description: '숫자 통계 카드' },
   ],
-  businessTemplates: [
-    { name: 'ApprovalView', filePath: 'src/templates/business/ApprovalView.tsx', description: '결재 화면' },
+  templates: [
+    { name: 'ApprovalView', category: 'Workflows', filePath: 'src/templates/workflows/ApprovalView.tsx', description: '결재 화면' },
+    { name: 'HelpCenter', category: 'Help', filePath: 'src/templates/help/HelpCenter.tsx', description: '도움말' },
   ],
+  businessTemplates: [],
   tokens: {
     base: { '--purple-500': '#6366f1' },
     semantic: { '--color-brand': 'var(--purple-500)' },
@@ -108,17 +111,41 @@ describe('getTokens', () => {
 describe('getBusinessTemplates', () => {
   test('lists all templates when no name given', () => {
     const result = getBusinessTemplates(manifest)
-    expect('templates' in result && result.templates).toHaveLength(1)
+    expect('templates' in result && result.templates).toHaveLength(2)
   })
 
   test('returns a single template by name', () => {
     const result = getBusinessTemplates(manifest, 'ApprovalView')
-    expect(result).toMatchObject({ name: 'ApprovalView' })
+    expect(result).toMatchObject({ name: 'ApprovalView', filePath: 'src/templates/workflows/ApprovalView.tsx' })
+    expect(result).not.toHaveProperty('category')
   })
 
   test('returns suggestions for an unknown template name', () => {
     const result = getBusinessTemplates(manifest, 'Approval')
     expect('error' in result && result.error).toBeTruthy()
     expect('suggestions' in result && result.suggestions).toEqual(['ApprovalView'])
+  })
+})
+
+describe('getTemplates', () => {
+  test('lists the unified catalog with categories', () => {
+    const result = getTemplates(manifest)
+    if (!('templates' in result) || !result.templates) throw new Error('Expected a template catalog')
+    expect(result.templates).toHaveLength(2)
+    expect(result.templates[0]?.category).toBe('Workflows')
+  })
+
+  test('filters categories case-insensitively', () => {
+    const result = getTemplates(manifest, { category: 'help' })
+    if (!('templates' in result) || !result.templates) throw new Error('Expected a filtered template catalog')
+    expect(result.templates.map((template) => template.name)).toEqual(['HelpCenter'])
+  })
+
+  test('performs case-insensitive exact name lookup', () => {
+    expect(getTemplates(manifest, { name: 'approvalview' })).toMatchObject({ name: 'ApprovalView', category: 'Workflows' })
+  })
+
+  test('suggests partial name matches', () => {
+    expect(getTemplates(manifest, { name: 'Approval' })).toMatchObject({ suggestions: ['ApprovalView'] })
   })
 })

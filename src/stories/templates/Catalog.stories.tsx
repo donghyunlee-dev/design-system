@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { ProductGrid } from '../../templates/service/catalog/ProductGrid'
-import { ProductList } from '../../templates/service/catalog/ProductList'
-import { ProductDetail } from '../../templates/service/catalog/ProductDetail'
-import { ServiceCatalog } from '../../templates/service/catalog/ServiceCatalog'
+import { ProductGrid } from '../../templates/catalog/ProductGrid'
+import { ProductList } from '../../templates/catalog/ProductList'
+import { ProductDetail } from '../../templates/catalog/ProductDetail'
+import { ServiceCatalog } from '../../templates/catalog/ServiceCatalog'
 import { Button } from '../../components/foundation/Button'
 import { Badge } from '../../components/foundation/Badge'
 
-const meta: Meta = { title: 'Templates/Service/Catalog', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
+const meta: Meta = { title: 'Templates/Catalog', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 const ITEMS = Array.from({ length: 6 }, (_, i) => ({
@@ -182,3 +182,5 @@ export const Detail: StoryObj = {
     />
   ),
 }
+
+export { DocCatalog, TemplateGalleryStory, TemplateStore, TemplateCommunityHome, TemplateGalleryDepartments, TemplateGalleryAutomation, TemplateGalleryDashboards, TemplateGalleryDirectoryHome, TemplateGallerySpotlightHome, TemplateGalleryFilteredStory, TemplateGalleryHeroStory, TemplateGalleryPreviewStory, TemplateGalleryWidgets } from './Business.shared'

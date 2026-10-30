@@ -4,16 +4,11 @@
 
 ---
 
-## 두 축: 기간계 시스템 + 일반 웹사이트
+## 템플릿 카테고리
 
-이 디자인 시스템은 성격이 다른 두 종류의 화면을 함께 지원합니다.
+템플릿은 서비스 유형이나 기존 구현 출처가 아니라 화면 목적에 따라 `Landing`, `Account`, `Catalog`, `Search`, `Details`, `Forms`, `Workflows`, `Analytics`, `Workspace`, `Settings`, `Help`의 11개 카테고리로 구성됩니다.
 
-| 축 | 대상 | 템플릿 위치 |
-|---|---|---|
-| **기간계 시스템** | 내부 업무용 화면 (ERP/OMS/WMS 등 사내 시스템) — 목록, 등록, 승인, 대시보드, 설정 | `src/templates/business/*`, `src/templates/admin/*` |
-| **일반 웹사이트** | 외부 사용자 대상 서비스 화면 — 랜딩, 로그인/회원가입, 상품 카탈로그, 결제, 계정 설정 | `src/templates/service/*` |
-
-토큰(`tokens/`)과 기본 컴포넌트(`src/components/`)는 두 축이 공유하지만, **어떤 템플릿을 쓸지는 축에 따라 다릅니다.** 두 축의 템플릿 선택 기준은 [PATTERNS.md](./PATTERNS.md)에서 각각 다룹니다.
+모든 카테고리는 같은 디자인 토큰(`tokens/`)과 기본 컴포넌트(`src/components/`)를 사용합니다. 선택 기준은 [PATTERNS.md](./PATTERNS.md)를 참고하세요.
 
 ---
 

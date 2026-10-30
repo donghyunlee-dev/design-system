@@ -11,6 +11,7 @@ describe('generated production manifest', () => {
     const currentManifest = buildManifest(REPO_ROOT)
 
     expect(staticManifest.components).toEqual(currentManifest.components)
+    expect(staticManifest.templates).toEqual(currentManifest.templates)
     expect(staticManifest.businessTemplates).toEqual(currentManifest.businessTemplates)
     expect(staticManifest.tokens).toEqual(currentManifest.tokens)
     expect(staticManifest.setupGuideMarkdown).toEqual(currentManifest.setupGuideMarkdown)

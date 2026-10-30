@@ -4,20 +4,15 @@ WindSoft의 React + Tailwind CSS 컴포넌트 라이브러리입니다. 색상·
 
 ## 이 저장소가 다루는 것
 
-이 디자인 시스템은 성격이 다른 두 종류의 화면을 함께 지원합니다.
+이 디자인 시스템은 여러 서비스에서 재사용할 수 있는 UI 컴포넌트와 화면 템플릿을 제공합니다. 템플릿은 화면 목적 기준으로 `Landing`, `Account`, `Catalog`, `Search`, `Details`, `Forms`, `Workflows`, `Analytics`, `Workspace`, `Settings`, `Help`의 11개 카테고리로 찾을 수 있습니다.
 
-| 축 | 대상 | 위치 |
-|---|---|---|
-| **기간계 시스템** | 업무용 화면 (ERP/OMS/WMS 등) — 목록, 등록, 승인, 대시보드, 설정 | `src/templates/business/*`, `src/templates/admin/*` |
-| **일반 웹사이트** | 외부 사용자 대상 서비스 화면 — 랜딩, 로그인/회원가입, 상품 카탈로그, 결제, 계정 | `src/templates/service/*` |
-
-두 축 모두 같은 토큰(`tokens/`)과 기본 컴포넌트(`src/components/`)를 공유하지만, 어떤 템플릿을 언제 쓸지는 축마다 다릅니다 — 자세한 판단 기준은 [docs/PATTERNS.md](./docs/PATTERNS.md)를 참고하세요.
+같은 토큰(`tokens/`)과 기본 컴포넌트(`src/components/`)를 공유하며, 화면별 선택 기준은 [docs/PATTERNS.md](./docs/PATTERNS.md)를 참고하세요.
 
 ## 구성 요소
 
 - **디자인 토큰** (`tokens/base.css` → `tokens/semantic.css`, 2-레이어): 색상, radius, 타이포그래피의 단일 진실 공급원. 브랜드 팔레트는 `base.css`, 컴포넌트 연결은 `semantic.css`에서 관리합니다.
-- **컴포넌트 49종** (`src/components/`): Foundation, Form, Layout, Feedback, Overlay, Navigation, Data, Chart 카테고리로 분류.
-- **템플릿 49종** (`src/templates/`): 위 두 축을 아우르는 화면 뼈대. Figma 없이 복사 → 데이터 교체 → 즉시 사용 가능.
+- **컴포넌트** (`src/components/`): Foundation, Form, Layout, Feedback, Overlay, Navigation, Data, Chart 카테고리로 분류.
+- **템플릿 68종** (`src/templates/`): 11개 카테고리의 화면 뼈대. 공개 템플릿은 `@windsoft/ui`에서 가져옵니다.
 - **Storybook**: 모든 컴포넌트/템플릿을 브라우저에서 확인하고 props를 실시간으로 바꿔보는 카탈로그.
 - **자동 성장 루프** (`.claude/workflows/growth-loop-daily-cycle.js`): 실제 벤치마크 페이지를 이 디자인 시스템만으로 재현·평가해, 부족한 컴포넌트/토큰/패턴을 발견하면 사람 승인을 거쳐 시스템 자체를 업그레이드하는 자동화. 정책은 [docs/loop/policy.md](./docs/loop/policy.md)에 고정되어 있습니다.
 
@@ -56,7 +51,7 @@ Tailwind CSS 4.3.3 Vite 플러그인과 글로벌 CSS import를 포함한 설치
 | [docs/README.md](./docs/README.md) | 디자인 시스템 개념, 3-레이어 구조, 컴포넌트 목록 |
 | [docs/USAGE.md](./docs/USAGE.md) | 설치 방법, 컴포넌트 사용 예시 |
 | [docs/TOKENS.md](./docs/TOKENS.md) | 디자인 토큰 전체 목록과 테마 변경 방법 |
-| [docs/PATTERNS.md](./docs/PATTERNS.md) | 기간계/일반 웹사이트 두 축 구분, PRD에서 템플릿 판단하기 |
+| [docs/PATTERNS.md](./docs/PATTERNS.md) | 11개 카테고리와 유사 템플릿 선택 기준 |
 | [docs/CHECKLIST.md](./docs/CHECKLIST.md) | 배포 전 접근성/모션/폼/반응형 체크리스트 |
 | [docs/loop/policy.md](./docs/loop/policy.md) | 자동 성장 루프의 고정 정책 (사람만 수정 가능) |
 | [CHANGELOG.md](./CHANGELOG.md) | 버전별 변경 이력, 버전 관리 원칙 |

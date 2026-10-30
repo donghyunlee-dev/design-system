@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { TemplateGalleryHeroStory } from './Business.stories'
+import { TemplateGalleryHeroStory } from './Catalog.stories'
 
 describe('Business stories', () => {
   it('Template Gallery Hero story renders its actual template', () => {

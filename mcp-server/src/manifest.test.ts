@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { join } from 'node:path'
+import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { buildManifest } from './manifest.js'
 
@@ -73,19 +74,27 @@ describe('buildManifest', () => {
     expect(names.every((n) => !n.endsWith('.stories') && !n.endsWith('.test'))).toBe(true)
   })
 
-  test('finds the known ApprovalView business template', () => {
-    const template = manifest.businessTemplates.find((t) => t.name === 'ApprovalView')
+  test('finds the known ApprovalView template and category', () => {
+    const template = manifest.templates.find((t) => t.name === 'ApprovalView')
     expect(template).toBeDefined()
-    expect(template?.filePath).toBe('src/templates/business/ApprovalView.tsx')
+    expect(template?.category).toBe('Workflows')
+    expect(template?.filePath).toBe('src/templates/workflows/ApprovalView.tsx')
   })
 
-  test('indexes only public business templates with descriptions', () => {
-    const names = manifest.businessTemplates.map((template) => template.name)
-    expect(names).toHaveLength(43)
+  test('indexes every public template exactly once with a valid category and path', () => {
+    const names = manifest.templates.map((template) => template.name)
     expect(new Set(names).size).toBe(names.length)
-    expect(names).not.toContain('TicketDetail')
-    expect(names).not.toContain('TemplateGalleryHero')
-    expect(manifest.businessTemplates.filter((template) => !template.description)).toEqual([])
+    expect(manifest.templates.map((template) => template.category)).toEqual(expect.arrayContaining([
+      'Landing', 'Account', 'Catalog', 'Search', 'Details', 'Forms', 'Workflows', 'Analytics', 'Workspace', 'Settings', 'Help',
+    ]))
+    expect(manifest.templates.every((template) => existsSync(join(REPO_ROOT, template.filePath)))).toBe(true)
+    expect(manifest.templates.filter((template) => !template.description)).toEqual([])
+    expect(names).toContain('TicketDetail')
+    expect(names).toContain('TemplateGalleryHero')
+  })
+
+  test('keeps the compatibility catalog aligned with the unified catalog', () => {
+    expect(manifest.businessTemplates).toEqual(manifest.templates)
   })
 
   test('parses the --color-brand semantic token', () => {

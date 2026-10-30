@@ -50,7 +50,7 @@ WindSoft MCP에서 Button 컴포넌트의 사용 예시를 조회해줘.
 
 ## 2. 제공 도구
 
-운영 서버는 다음 6개 조회 도구를 제공합니다.
+운영 서버는 다음 7개 조회 도구를 제공합니다.
 
 | 도구 | 입력 | 용도 |
 |---|---|---|
@@ -58,7 +58,8 @@ WindSoft MCP에서 Button 컴포넌트의 사용 예시를 조회해줘.
 | `get_component` | `{ name: string }` | 컴포넌트 경로, 설명, 사용 예시 조회 |
 | `search_components` | `{ query: string }` | 이름·설명·사용 예시 키워드 검색 |
 | `get_tokens` | `{ group?: 'base' \| 'semantic', theme?: 'light' \| 'dark' }` | base 또는 테마별 semantic 토큰 조회 |
-| `get_business_templates` | `{ name?: string }` | 업무 템플릿 목록 또는 단일 템플릿 조회 |
+| `get_templates` | `{ category?: string, name?: string }` | 11개 카테고리의 전체 템플릿 탐색 또는 이름 조회 |
+| `get_business_templates` | `{ name?: string }` | 기존 클라이언트를 위한 템플릿 조회 호환 도구 |
 | `get_setup_guide` | `{}` | npm 설치 및 사용 가이드 조회 |
 
 로컬 개발 서버에만 소스 재스캔용 `refresh_manifest`가 추가로 제공됩니다. 운영 서버는 배포 시 생성된 정적 매니페스트를 사용하므로 이 도구가 없습니다.
@@ -81,8 +82,14 @@ get_tokens({ group: "semantic" })
 get_tokens({ group: "semantic", theme: "dark" })
   → 라이트 기본값에 다크 오버라이드를 병합한 semantic 토큰
 
+get_templates({ category: "Search" })
+  → Search 카테고리의 템플릿 목록과 경로
+
+get_templates({ name: "ListSearchTable" })
+  → 지정한 템플릿의 카테고리, 경로와 용도
+
 get_business_templates({ name: "ListSearchTable" })
-  → 지정한 업무 템플릿의 경로와 용도
+  → 이전 응답 형식을 유지하는 호환 조회
 ```
 
 컴포넌트나 템플릿 이름을 잘못 입력하면 유사한 이름이 `suggestions`로 반환됩니다.

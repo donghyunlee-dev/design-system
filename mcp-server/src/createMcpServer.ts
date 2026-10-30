@@ -6,6 +6,7 @@ import { getComponent } from './tools/getComponent.js'
 import { searchComponents } from './tools/searchComponents.js'
 import { getTokens } from './tools/getTokens.js'
 import { getBusinessTemplates } from './tools/getBusinessTemplates.js'
+import { getTemplates } from './tools/getTemplates.js'
 import { getSetupGuide } from './tools/getSetupGuide.js'
 
 function json(data: unknown) {
@@ -62,6 +63,15 @@ export function createMcpServer({ getManifest, refreshManifest }: CreateMcpServe
   )
 
   server.registerTool(
+    'get_templates',
+    {
+      description: '전체 템플릿을 카테고리별로 조회하거나 이름으로 단일 템플릿을 찾습니다.',
+      inputSchema: { category: z.string().optional(), name: z.string().optional() },
+    },
+    async ({ category, name }) => json(getTemplates(getManifest(), { category, name }))
+  )
+
+  server.registerTool(
     'get_business_templates',
     {
       description: '업무 템플릿 목록 또는 이름으로 단일 템플릿 상세 정보를 조회합니다.',
@@ -85,7 +95,7 @@ export function createMcpServer({ getManifest, refreshManifest }: CreateMcpServe
         return json({
           generatedAt: manifest.generatedAt,
           componentCount: manifest.components.length,
-          templateCount: manifest.businessTemplates.length,
+          templateCount: manifest.templates.length,
           tokenCount: Object.keys(manifest.tokens.base).length + Object.keys(manifest.tokens.semantic).length,
         })
       }

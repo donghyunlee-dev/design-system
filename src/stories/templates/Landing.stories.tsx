@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { LandingCentered } from '../../templates/service/landing/LandingCentered'
-import { LandingSplit } from '../../templates/service/landing/LandingSplit'
-import { LandingMinimal } from '../../templates/service/landing/LandingMinimal'
-import { FeatureShowcase } from '../../templates/service/landing/FeatureShowcase'
+import { LandingCentered } from '../../templates/landing/LandingCentered'
+import { LandingSplit } from '../../templates/landing/LandingSplit'
+import { LandingMinimal } from '../../templates/landing/LandingMinimal'
+import { FeatureShowcase } from '../../templates/landing/FeatureShowcase'
 
 const FEATURES = [
   { icon: '⚡', title: '빠른 속도', desc: '최적화된 성능으로 즉각적인 응답' },
@@ -15,7 +15,7 @@ const NAV = [
   { label: '문서', href: '#' },
 ]
 
-const meta: Meta = { title: 'Templates/Service/Landing', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
+const meta: Meta = { title: 'Templates/Landing', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 export const Centered: StoryObj = {

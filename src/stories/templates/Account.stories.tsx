@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { SettingsSidebar } from '../../templates/service/account/SettingsSidebar'
-import { SettingsTabs } from '../../templates/service/account/SettingsTabs'
+import { SettingsSidebar } from '../../templates/account/SettingsSidebar'
+import { SettingsTabs } from '../../templates/account/SettingsTabs'
 import { FormField } from '../../components/form/FormField'
 import { Input } from '../../components/form/Input'
 import { Switch } from '../../components/form/Switch'
 import { Button } from '../../components/foundation/Button'
 
-const meta: Meta = { title: 'Templates/Service/Account', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
+const meta: Meta = { title: 'Templates/Account', parameters: { layout: 'fullscreen', docs: { codePanel: true } } }
 export default meta
 
 const ProfileForm = () => (

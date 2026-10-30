@@ -45,7 +45,7 @@ describe('Vercel MCP function', () => {
     expect(body.result.serverInfo.name).toBe('windsoft-design-system')
   })
 
-  test('lists the six production tools', async () => {
+  test('lists the seven production tools', async () => {
     const response = await handler.fetch(
       mcpRequest({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} })
     )
@@ -57,6 +57,7 @@ describe('Vercel MCP function', () => {
       'get_component',
       'search_components',
       'get_tokens',
+      'get_templates',
       'get_business_templates',
       'get_setup_guide',
     ])
@@ -70,6 +71,7 @@ describe('Vercel MCP function', () => {
     const tokens = await callTool('get_tokens', { group: 'semantic' })
     const darkTokens = await callTool('get_tokens', { group: 'semantic', theme: 'dark' })
     const templates = await callTool('get_business_templates', {})
+    const searchTemplates = await callTool('get_templates', { category: 'Search' })
 
     expect(commentThread.name).toBe('CommentThread')
     expect(toastProvider.name).toBe('ToastProvider')
@@ -81,8 +83,10 @@ describe('Vercel MCP function', () => {
     expect(darkTokens.theme).toBe('dark')
     expect(darkTokens.semantic['--color-surface']).toBe('var(--gray-900)')
     expect(darkTokens.semantic['--color-foreground']).toBe('var(--gray-50)')
-    expect(templates.templates).toHaveLength(43)
+    expect(templates.templates).toHaveLength(70)
     expect(templates.templates.filter((template: { description?: string }) => !template.description)).toEqual([])
+    expect(searchTemplates.templates).toHaveLength(8)
+    expect(searchTemplates.templates.every((template: { category: string }) => template.category === 'Search')).toBe(true)
   })
 
   test('rejects GET requests', async () => {

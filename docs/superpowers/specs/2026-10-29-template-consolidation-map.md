@@ -93,7 +93,7 @@ The category is for discovery; it does not imply every component in that categor
 | `PermissionMatrix` / `RolesPermissionsMatrix` | Consolidate on `RolesPermissionsMatrix`; remove the unexported `PermissionMatrix` component. | Convert the existing PermissionMatrix Story data to `roles`, `rows`, and `granted`. Carry useful role metadata and breadcrumb presentation into the canonical component before removing the older implementation. |
 | `GlobalSearchResultsMedia` / `GlobalSearchResults` | Consolidate on `GlobalSearchResults`. | Add optional `leading` content to result items and keep grouping/filter behavior in one implementation. The media file is unexported and has no Story, so remove it after verifying no consumers. |
 | `HighlightedEntitySearchExplorer` / `EntitySearchExplorer` | Consolidate on `EntitySearchExplorer`. | Add optional `keyword` highlighting to the base result rendering. Keep `HighlightedEntitySearchExplorer` and its props as a compatibility adapter so the exported API survives; show the highlighting behavior as a story variant in Search. |
-| `TemplateGalleryMedia` / `TemplateGallery` | Consolidate shared category/search/grid behavior on `TemplateGallery`. | Add media card fields/optional rendering to the canonical gallery, then retain `TemplateGalleryMedia` as a thin adapter for API compatibility. Keep media and non-media stories if both remain useful choices. |
+| `TemplateGalleryMedia` / `TemplateGallery` | Keep both. | They share category/search concepts, but `TemplateGalleryMedia` has a flat data model, top-or-sidebar navigation, featured items, author/usage metadata, and a different media card layout. Folding these into one prop surface would make the common template less clear. Keep both under Catalog and explain the media/featured use case in the guide. |
 | `TemplateGalleryDirectory`, `TemplateGalleryFiltered`, `TemplateGalleryHero`, `TemplateGalleryPreview`, `TemplateGallerySpotlight`, `TemplateCommunity` | Keep distinct. | Each has a distinct discovery interaction: system tiles + sections, multi-facet AND/OR filters, hero + team entry, in-place preview drawer, featured tab layout, or horizontal curated community rows. Improve shared types only if the refactor can do so without flattening those interactions. |
 | `BulkImport` / `DataImportWizard` | Keep both. | `BulkImport` is a compact upload/mapping/validation panel; `DataImportWizard` is a multi-step import experience with step progress and completion state. Export `DataImportWizard` because it is already documented in Storybook and is a reusable full-screen flow. |
 | `DataImportMapping` | Retire. | It is unexported, has no Story or in-repository consumers, and its mapping step is already covered by `DataImportWizard`; remove the orphan module. |
@@ -103,6 +103,10 @@ The category is for discovery; it does not imply every component in that categor
 | `TemplateGalleryHero` | Keep and promote to public catalog. | It already has a Story and focused story test but is not in the package barrel. Add its named exports and category entry; no implementation merge. |
 
 `DataImportMapping`, `GlobalSearchResultsMedia`, and `PermissionMatrix` have no package exports and are safe to retire after their references are migrated or confirmed absent. Existing exported component names and types remain available except these three were not public to begin with.
+
+## Execution ruling
+
+`TemplateGalleryMedia` remains a separate catalog template despite sharing some discovery controls with `TemplateGallery`. The actual props and layouts serve distinct media and featured-content use cases; forcing them into one component would create a less discoverable, wider API. The tradeoff is retaining two gallery choices with overlapping category/search behavior.
 
 ## Working-tree considerations
 

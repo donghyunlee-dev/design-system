@@ -2,97 +2,69 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Docs/Template Guide" />
 
-# 템플릿 선택 가이드
+# Template Guide
 
-## 어떤 템플릿을 선택해야 할까?
+템플릿 메뉴는 사용자가 만들 화면과 수행할 일에 맞춰 구성합니다. `service`, `admin`, `business` 출처를 알 필요 없이 아래 카테고리에서 찾으면 됩니다.
 
-### 랜딩 페이지
+## Landing
 
-<table>
-  <thead>
-    <tr><th>상황</th><th>추천 템플릿</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>제품/서비스 소개, Feature 섹션 필요</td><td><code>LandingCentered</code></td></tr>
-    <tr><td>앱 스크린샷이나 영상을 강조하고 싶을 때</td><td><code>LandingSplit</code></td></tr>
-    <tr><td>텍스트 중심, 심플한 SaaS 스타일</td><td><code>LandingMinimal</code></td></tr>
-  </tbody>
-</table>
+`LandingCentered` · `LandingMinimal` · `LandingSplit` · `FeatureShowcase`
 
-### 인증 페이지
+## Account
 
-<table>
-  <thead>
-    <tr><th>상황</th><th>추천 템플릿</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>단순한 로그인 폼</td><td><code>LoginSimple</code></td></tr>
-    <tr><td>브랜드 이미지를 강조하고 싶을 때</td><td><code>LoginSplit</code></td></tr>
-    <tr><td>회원가입 단계가 여러 개일 때</td><td><code>SignupPage</code></td></tr>
-  </tbody>
-</table>
+`LoginSimple` · `LoginSplit` · `SignupPage` · `SettingsSidebar` · `SettingsTabs`
 
-### 카탈로그
+## Catalog
 
-<table>
-  <thead>
-    <tr><th>상황</th><th>추천 템플릿</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>카드형 상품 목록</td><td><code>ProductGrid</code></td></tr>
-    <tr><td>필터 중심의 목록</td><td><code>ProductList</code></td></tr>
-    <tr><td>상품 상세 페이지</td><td><code>ProductDetail</code></td></tr>
-  </tbody>
-</table>
+`ProductGrid` · `ProductList` · `ProductDetail` · `ServiceCatalog` · `DocumentCatalog` · `TemplateGallery` · `TemplateGalleryDirectory` · `TemplateGalleryFiltered` · `TemplateGalleryHero` · `TemplateGalleryMedia` · `TemplateGalleryPreview` · `TemplateGallerySpotlight` · `TemplateCommunity`
 
-### 계정 설정
+## Search
 
-<table>
-  <thead>
-    <tr><th>상황</th><th>추천 템플릿</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>메뉴 항목이 많은 설정 페이지</td><td><code>SettingsSidebar</code></td></tr>
-    <tr><td>설정 섹션이 3~5개인 경우</td><td><code>SettingsTabs</code></td></tr>
-  </tbody>
-</table>
+`DataTablePage` · `ListSearchTable` · `EntitySearchExplorer` · `HighlightedEntitySearchExplorer` · `GlobalSearchResults` · `FacetedSearchResults` · `TabbedSearchResults` · `FileExplorer`
 
-### 어드민
+## Details
 
-<table>
-  <thead>
-    <tr><th>상황</th><th>추천 템플릿</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>KPI 수치 + 차트 1개</td><td><code>DashboardStats</code></td></tr>
-    <tr><td>통합 대시보드 (수치 + 차트 + 테이블)</td><td><code>DashboardFull</code></td></tr>
-    <tr><td>목록 관리 (검색/필터/페이지네이션)</td><td><code>DataTablePage</code></td></tr>
-    <tr><td>등록/수정 폼</td><td><code>DataFormPage</code></td></tr>
-  </tbody>
-</table>
+`AdminDetailPage` · `DetailView` · `TicketDetail` · `MasterDetail` · `ActivityTimeline` · `DiffView`
+
+## Forms
+
+`DataFormPage` · `FormRegister` · `WizardForm` · `CheckoutForm` · `BulkImport` · `DataImportWizard`
+
+## Workflows
+
+`ApprovalView` · `InboxCenter` · `KanbanBoard` · `IssueListBoard` · `RequestQueueBoard` · `SavedViewIssueBoard` · `SystemIssueTracker` · `IncidentComposer` · `ScheduleCalendar`
+
+## Analytics
+
+`DashboardFull` · `DashboardStats` · `DashboardKPI` · `MonitoringBoard` · `SystemStatusBoard` · `ReportLayout` · `DocumentPrint`
+
+## Workspace
+
+`AdminShell` · `AdminTabbedWorkspace`
+
+## Settings
+
+`SettingsPage` · `RolesPermissionsMatrix`
+
+## Help
+
+`DocsHub` · `HelpCenter` · `HelpCategoryArticles` · `HelpArticleView` · `SystemFeatureTour` · `ErrorState`
+
+## 선택할 때 비교할 점
+
+- `DataTablePage`는 단순 목록 구성이고, `ListSearchTable`은 제어형 검색·필터·페이지 처리가 포함된 업무 목록입니다.
+- `DataFormPage`는 밀도 높은 기본 입력 레이아웃이고, `FormRegister`는 설명과 액션이 많은 카드형 섹션 폼입니다. 여러 단계 진행은 `WizardForm`을 사용합니다.
+- `DashboardFull`이 통합 대시보드 기준 구현입니다. `DashboardStats`는 기존 API 호환 어댑터입니다. 운영 상태 추적은 `MonitoringBoard` 또는 `SystemStatusBoard`, 정적 보고는 `ReportLayout`을 선택합니다.
+- `GlobalSearchResults`는 유형별 통합 결과, `EntitySearchExplorer`는 엔터티 탭·패싯 기반 탐색, `FacetedSearchResults`는 조건 조합, `TabbedSearchResults`는 범위 전환 검색에 사용합니다.
+- `TemplateGallery`는 업무 템플릿 검색용이고 `TemplateGalleryMedia`는 추천 콘텐츠와 작가·사용량 정보가 중심인 미디어 카탈로그입니다. 각 갤러리 변형은 목록/미리보기/큐레이션 흐름을 기준으로 고릅니다.
+- 권한 관리에는 `RolesPermissionsMatrix`를 사용합니다. `PermissionMatrix`는 제거된 비공개 중복 구현입니다.
 
 ## 커스터마이징
 
-모든 템플릿은 세 가지 방법으로 수정 가능합니다.
+모든 템플릿은 props로 데이터를 주입하고, `ReactNode` 슬롯으로 필요한 요소를 바꾸며, `className`으로 화면에 맞춰 스타일을 조정할 수 있습니다.
 
-**1. Props로 데이터 주입 (가장 간단)**
 ```tsx
+import { DashboardFull } from '@windsoft/ui'
+
 <DashboardFull stats={myStats} mainChart={<MyChart />} />
-```
-
-**2. 슬롯(ReactNode)으로 컴포넌트 교체**
-```tsx
-import { LoginSplit } from '@windsoft/ui'
-
-<LoginSplit
-  logo={<MyLogo />}
-  brandTitle="내 서비스"
-  brandDescription="서비스 소개를 입력하세요."
-  onLogin={(email, password) => signIn(email, password)}
-/>
-```
-
-**3. className으로 스타일 오버라이드**
-```tsx
-<LandingCentered className="bg-white" />
 ```
