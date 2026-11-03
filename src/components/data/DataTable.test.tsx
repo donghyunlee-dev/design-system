@@ -417,6 +417,18 @@ describe('DataTable 행 편집', () => {
     expect(onRowUpdate).toHaveBeenCalledWith({ ...sortData[0], qty: 42 }, sortData[0])
   })
 
+  it('행 편집에서 숫자 입력을 비워 저장해도 숫자 값을 유지한다', async () => {
+    const onRowUpdate = vi.fn()
+    const columns: DataColumn<SortRow>[] = [{ key: 'qty', header: '수량', editable: true }]
+    render(<DataTable columns={columns} data={sortData} rowKey="id" onRowUpdate={onRowUpdate} enableColumnVisibility={false} />)
+
+    await userEvent.click(screen.getByRole('button', { name: '행 1 수정' }))
+    await userEvent.clear(screen.getByRole('spinbutton', { name: '수량 편집' }))
+    await userEvent.click(screen.getByRole('button', { name: '행 1 저장' }))
+
+    expect(onRowUpdate).toHaveBeenCalledWith({ ...sortData[0], qty: 30 }, sortData[0])
+  })
+
   it('행 편집을 취소하면 onRowUpdate를 호출하지 않는다', async () => {
     const onRowUpdate = vi.fn()
     render(<DataTable columns={editableColumns} data={sortData} rowKey="id" onRowUpdate={onRowUpdate} />)
@@ -448,6 +460,32 @@ describe('DataTable 행 편집', () => {
     await userEvent.type(input, '수정 제품{Enter}')
 
     expect(onRowUpdate).toHaveBeenCalledWith({ ...sortData[0], name: '수정 제품' }, sortData[0])
+  })
+
+  it('Tab으로 셀 편집을 확정할 때 onRowUpdate를 한 번만 호출한다', async () => {
+    const onRowUpdate = vi.fn()
+    render(<DataTable columns={editableColumns} data={sortData} rowKey="id" onRowUpdate={onRowUpdate} />)
+
+    await userEvent.dblClick(screen.getByRole('cell', { name: '제품 A' }))
+    const input = screen.getByRole('textbox', { name: '제품명 편집' })
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Tab 제품{Tab}')
+
+    expect(onRowUpdate).toHaveBeenCalledTimes(1)
+    expect(onRowUpdate).toHaveBeenCalledWith({ ...sortData[0], name: 'Tab 제품' }, sortData[0])
+  })
+
+  it('셀 편집에서 숫자 입력을 비워 확정해도 숫자 값을 유지한다', async () => {
+    const onRowUpdate = vi.fn()
+    const columns: DataColumn<SortRow>[] = [{ key: 'qty', header: '수량', editable: true }]
+    render(<DataTable columns={columns} data={sortData} rowKey="id" onRowUpdate={onRowUpdate} enableColumnVisibility={false} />)
+
+    await userEvent.dblClick(screen.getByRole('cell', { name: '30' }))
+    const input = screen.getByRole('spinbutton', { name: '수량 편집' })
+    await userEvent.clear(input)
+    await userEvent.keyboard('{Enter}')
+
+    expect(onRowUpdate).toHaveBeenCalledWith({ ...sortData[0], qty: 30 }, sortData[0])
   })
 
   it('Escape로 셀 편집을 취소하면 onRowUpdate를 호출하지 않는다', async () => {

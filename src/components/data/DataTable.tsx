@@ -139,6 +139,10 @@ const rowHeightPx: Record<TableDensity, number> = {
   comfortable: 48,
 }
 
+function preserveNumberOnEmpty(value: unknown, originalValue: unknown) {
+  return typeof originalValue === 'number' && value === '' ? originalValue : value
+}
+
 // ─── Sortable Header Cell ─────────────────────────────────────────────────────
 
 function SortableHeaderCell<T extends Record<string, unknown>>({
@@ -658,7 +662,16 @@ export function DataTable<T extends Record<string, unknown>>({
                                   aria-label={`행 ${rowId} 저장`}
                                   onClick={event => {
                                     event.stopPropagation()
-                                    onRowUpdate?.(activeRowEdit.draft, activeRowEdit.original)
+                                    const nextRow = { ...activeRowEdit.draft } as Record<string, unknown>
+                                    dataColumns.forEach(column => {
+                                      if (column.editable) {
+                                        nextRow[column.key] = preserveNumberOnEmpty(
+                                          nextRow[column.key],
+                                          activeRowEdit.original[column.key],
+                                        )
+                                      }
+                                    })
+                                    onRowUpdate?.(nextRow as T, activeRowEdit.original)
                                     setRowEdit(null)
                                   }}
                                   className="rounded px-1.5 py-1 text-xs text-brand hover:bg-brand-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
@@ -738,7 +751,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       }
                       const commitCell = (value: unknown) => {
                         if (!dataCol) return
-                        onRowUpdate?.({ ...r, [dataCol.key]: value }, r)
+                        onRowUpdate?.({ ...r, [dataCol.key]: preserveNumberOnEmpty(value, r[dataCol.key]) }, r)
                         setCellEdit(null)
                       }
                       const cancelCell = () => setCellEdit(null)
@@ -769,7 +782,6 @@ export function DataTable<T extends Record<string, unknown>>({
                               const inputValue = event.target.value
                               updateEditValue(typeof r[cell.column.id] === 'number' && inputValue !== '' ? Number(inputValue) : inputValue)
                             }}
-                            onKeyDown={handleEditorKeyDown}
                             className="h-7 w-full min-w-0 rounded border border-brand bg-surface px-1.5 text-body text-foreground focus:outline-none focus:ring-1 focus:ring-brand"
                           />
                         ) : null
