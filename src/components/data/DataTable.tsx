@@ -808,7 +808,8 @@ export function DataTable<T extends Record<string, unknown>>({
                           className={cn(
                             rowHeightClass[density],
                             cn(
-                              'px-ws-4 py-0 align-middle text-body text-foreground',
+                              'px-ws-4 py-0 align-middle text-foreground',
+                              virtualization && density === 'compact' ? 'text-caption' : 'text-body',
                               virtualization ? 'overflow-hidden text-ellipsis whitespace-nowrap' : 'whitespace-normal break-words',
                             ),
                             canEditCell && 'cursor-text',

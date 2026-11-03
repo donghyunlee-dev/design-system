@@ -540,7 +540,7 @@ describe('DataTable 조밀한 데이터 그리드', () => {
     expect(screen.getByRole('button', { name: 'category 필터' })).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: '행 1 선택' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '행 1 수정' })).toBeInTheDocument()
-    expect(screen.getByRole('cell', { name: '상품 1' })).toHaveClass('whitespace-nowrap', 'overflow-hidden')
+    expect(screen.getByRole('cell', { name: '상품 1' })).toHaveClass('whitespace-nowrap', 'overflow-hidden', 'text-caption')
     expect(screen.getByRole('columnheader', { name: /제품명/ })).toHaveStyle({ width: '96px' })
     expect(screen.getAllByRole('row').filter(row => row.querySelector('td')?.textContent).length).toBeLessThan(40)
   })
