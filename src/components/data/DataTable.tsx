@@ -153,6 +153,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   dataColumns,
   table,
   density,
+  compactHeader,
   allFilteredRowsSelected,
   someFilteredRowsSelected,
   onToggleAllFilteredRows,
@@ -164,6 +165,7 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   dataColumns: DataColumn<T>[]
   table: ReturnType<typeof useReactTable<T>>
   density: TableDensity
+  compactHeader: boolean
   allFilteredRowsSelected: boolean
   someFilteredRowsSelected: boolean
   onToggleAllFilteredRows: () => void
@@ -256,7 +258,8 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
       aria-sort={col.getCanSort() ? ariaSort : undefined}
       className={cn(
         rowHeightClass[density],
-        'px-ws-4 py-0 text-left text-caption font-semibold text-secondary select-none bg-surface-raised',
+        compactHeader ? 'px-1 whitespace-nowrap' : 'px-ws-4',
+        'py-0 text-left text-caption font-semibold text-secondary select-none bg-surface-raised',
         dataCol?.headerClassName,
       )}
     >
@@ -403,6 +406,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const [internalSelectedRowIds, setInternalSelectedRowIds] = useState<string[]>([])
   const selectedRowIdList = selectedRowIds ?? internalSelectedRowIds
   const selectedRowIdSet = useMemo(() => new Set(selectedRowIdList), [selectedRowIdList])
+  const isCompactVirtualized = Boolean(virtualization && density === 'compact')
   const hasEditableColumns = Boolean(onRowUpdate) && dataColumns.some(column => column.editable)
   const [rowEdit, setRowEdit] = useState<{ rowId: string; original: T; draft: T } | null>(null)
   const [cellEdit, setCellEdit] = useState<{ rowId: string; columnKey: string; value: unknown } | null>(null)
@@ -460,11 +464,12 @@ export function DataTable<T extends Record<string, unknown>>({
       })
     }
     dataColumns.forEach(col => {
+      const columnWidth = col.width ?? (density === 'compact' ? 96 : 150)
       cols.push({
         id: col.key,
         accessorKey: col.key,
         header: col.header,
-        size: col.width ?? (density === 'compact' ? 96 : 150),
+        size: isCompactVirtualized ? Math.max(columnWidth, 112) : columnWidth,
         enableSorting: col.sortable ?? false,
         enableColumnFilter: col.filterable ?? false,
         enableResizing: col.resizable ?? false,
@@ -499,7 +504,7 @@ export function DataTable<T extends Record<string, unknown>>({
       })
     }
     return cols
-  }, [dataColumns, enableRowSelection, showRowNumbers, hasEditableColumns, enableColumnVisibility, density])
+  }, [dataColumns, enableRowSelection, showRowNumbers, hasEditableColumns, enableColumnVisibility, density, isCompactVirtualized])
 
   const hasPagination = !!paginationProp
   const isServerSide = !!(paginationProp?.total)
@@ -620,6 +625,7 @@ export function DataTable<T extends Record<string, unknown>>({
                         dataColumns={dataColumns}
                         table={table}
                         density={density}
+                        compactHeader={isCompactVirtualized}
                         allFilteredRowsSelected={allFilteredRowsSelected}
                         someFilteredRowsSelected={someFilteredRowsSelected}
                         onToggleAllFilteredRows={toggleFilteredRows}
