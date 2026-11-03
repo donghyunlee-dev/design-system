@@ -69,6 +69,13 @@ describe('buildManifest', () => {
     expect(chipGroup).not.toContain('options=')
   })
 
+  test('documents the DataTable grid selection, editing, and virtualization API', () => {
+    const dataTable = manifest.components.find((component) => component.name === 'DataTable')?.usageSnippet
+    expect(dataTable).toContain('enableRowSelection')
+    expect(dataTable).toContain('editable: true')
+    expect(dataTable).toContain('virtualization=')
+  })
+
   test('provides descriptions for every public component', () => {
     expect(manifest.components.filter((component) => !component.description)).toEqual([])
   })

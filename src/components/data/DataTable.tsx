@@ -1,4 +1,4 @@
-import { CSSProperties, useState, useMemo, useRef } from 'react'
+import { CSSProperties, useState, useMemo, useRef, useEffect } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -30,6 +30,7 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useVirtualizer } from '@tanstack/react-virtual'
 import { cn } from '../../utils/cn'
 import { Icon } from '../foundation/Icon'
 import { Pagination } from '../navigation/Pagination'
@@ -54,6 +55,10 @@ export interface DataColumn<T extends Record<string, unknown>> extends Omit<Colu
   width?: number
   /** 초기 숨김 여부 */
   hidden?: boolean
+  /** 행/셀 편집에서 수정 가능 여부 (기본 false) */
+  editable?: boolean
+  /** 편집 중 사용할 사용자 정의 에디터 */
+  renderEditor?: (row: T, value: unknown, onChange: (value: unknown) => void) => React.ReactNode
   /** 헤더 셀 추가 CSS 클래스 */
   headerClassName?: string
   /** 데이터 셀 추가 CSS 클래스 */
@@ -71,6 +76,13 @@ export interface DataTablePagination {
   onChange?: (page: number) => void
 }
 
+export interface DataTableVirtualization {
+  /** 스크롤 가능한 데이터 영역의 높이 (px, 기본 600) */
+  height?: number
+  /** 뷰포트 앞뒤에 추가 렌더링할 행 수 (기본 6) */
+  overscan?: number
+}
+
 /**
  * 정렬·필터·컬럼 표시/숨김·순서 변경·너비 조절·강조·페이징을 지원하는 데이터 테이블.
  */
@@ -83,12 +95,22 @@ export interface DataTableProps<T extends Record<string, unknown>> {
   rowKey: keyof T
   /** 행 번호 컬럼 표시 여부 */
   showRowNumbers?: boolean
+  /** 행 다중 선택 체크박스 표시 여부 (기본 false) */
+  enableRowSelection?: boolean
+  /** 제어 모드에서 선택된 행 키 목록 */
+  selectedRowIds?: string[]
+  /** 선택된 원본 행 목록 변경 콜백 */
+  onSelectionChange?: (selectedRows: T[]) => void
+  /** 저장된 셀/행의 새 값과 원본 행을 전달합니다. */
+  onRowUpdate?: (nextRow: T, previousRow: T) => void
   /** 행 추가 CSS 클래스 */
   rowClassName?: string | ((row: T, index: number) => string)
   /** 행 인라인 스타일 */
   rowStyle?: CSSProperties | ((row: T, index: number) => CSSProperties)
   /** 페이징 설정 */
   pagination?: DataTablePagination
+  /** 설정하면 해당 높이의 스크롤 영역에서 보이는 행만 렌더링합니다. */
+  virtualization?: DataTableVirtualization
   /** 행 높이 밀도 */
   density?: TableDensity
   /** 데이터가 없을 때 표시할 콘텐츠 */
@@ -103,11 +125,18 @@ export interface DataTableProps<T extends Record<string, unknown>> {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const ROW_NUMBER_ID = '__row_number__'
+const ROW_SELECTION_ID = '__row_selection__'
+const ROW_ACTIONS_ID = '__row_actions__'
 const SETTINGS_COLUMN_ID = '__settings__'
 const rowHeightClass: Record<TableDensity, string> = {
   compact: 'h-[var(--table-row-height-compact)]',
   default: 'h-[var(--table-row-height-default)]',
   comfortable: 'h-[var(--table-row-height-comfortable)]',
+}
+const rowHeightPx: Record<TableDensity, number> = {
+  compact: 32,
+  default: 40,
+  comfortable: 48,
 }
 
 // ─── Sortable Header Cell ─────────────────────────────────────────────────────
@@ -120,6 +149,9 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   dataColumns,
   table,
   density,
+  allFilteredRowsSelected,
+  someFilteredRowsSelected,
+  onToggleAllFilteredRows,
 }: {
   header: TanHeader<T, unknown>
   dataCol: DataColumn<T> | undefined
@@ -128,13 +160,37 @@ function SortableHeaderCell<T extends Record<string, unknown>>({
   dataColumns: DataColumn<T>[]
   table: ReturnType<typeof useReactTable<T>>
   density: TableDensity
+  allFilteredRowsSelected: boolean
+  someFilteredRowsSelected: boolean
+  onToggleAllFilteredRows: () => void
 }) {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const col = header.column
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: col.id,
-    disabled: col.id === ROW_NUMBER_ID || col.id === SETTINGS_COLUMN_ID,
+    disabled: col.id === ROW_NUMBER_ID || col.id === ROW_SELECTION_ID || col.id === ROW_ACTIONS_ID || col.id === SETTINGS_COLUMN_ID,
   })
+
+  if (col.id === ROW_SELECTION_ID) {
+    return (
+      <th className={cn(rowHeightClass[density], 'w-10 bg-surface-raised px-1 py-0 text-center')}>
+        <input
+          type="checkbox"
+          aria-label="필터 결과 전체 선택"
+          checked={allFilteredRowsSelected}
+          ref={element => {
+            if (element) element.indeterminate = someFilteredRowsSelected && !allFilteredRowsSelected
+          }}
+          onChange={onToggleAllFilteredRows}
+          className="accent-brand"
+        />
+      </th>
+    )
+  }
+
+  if (col.id === ROW_ACTIONS_ID) {
+    return <th className={cn(rowHeightClass[density], 'w-28 bg-surface-raised px-1 py-0')} aria-label="행 작업" />
+  }
 
   // Settings column: fixed settings button with visibility dropdown
   if (col.id === SETTINGS_COLUMN_ID) {
@@ -318,9 +374,14 @@ export function DataTable<T extends Record<string, unknown>>({
   data,
   rowKey,
   showRowNumbers,
+  enableRowSelection = false,
+  selectedRowIds,
+  onSelectionChange,
+  onRowUpdate,
   rowClassName,
   rowStyle,
   pagination: paginationProp,
+  virtualization,
   density = 'default',
   emptyState,
   enableColumnVisibility = true,
@@ -334,6 +395,19 @@ export function DataTable<T extends Record<string, unknown>>({
   const [page, setPage] = useState(1)
   const pageRef = useRef(1)
   pageRef.current = page
+  const scrollElementRef = useRef<HTMLDivElement>(null)
+  const [internalSelectedRowIds, setInternalSelectedRowIds] = useState<string[]>([])
+  const selectedRowIdList = selectedRowIds ?? internalSelectedRowIds
+  const selectedRowIdSet = useMemo(() => new Set(selectedRowIdList), [selectedRowIdList])
+  const hasEditableColumns = Boolean(onRowUpdate) && dataColumns.some(column => column.editable)
+  const [rowEdit, setRowEdit] = useState<{ rowId: string; original: T; draft: T } | null>(null)
+  const [cellEdit, setCellEdit] = useState<{ rowId: string; columnKey: string; value: unknown } | null>(null)
+
+  function updateSelection(nextIds: string[]) {
+    if (selectedRowIds === undefined) setInternalSelectedRowIds(nextIds)
+    const selected = new Set(nextIds)
+    onSelectionChange?.(data.filter(row => selected.has(String(row[rowKey]))))
+  }
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
     const init: VisibilityState = {}
@@ -343,9 +417,14 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const initialOrder = useMemo(() => {
     const ids = dataColumns.map(c => c.key)
-    const order = showRowNumbers ? [ROW_NUMBER_ID, ...ids] : ids
+    const order = [
+      ...(enableRowSelection ? [ROW_SELECTION_ID] : []),
+      ...(showRowNumbers ? [ROW_NUMBER_ID] : []),
+      ...ids,
+      ...(hasEditableColumns ? [ROW_ACTIONS_ID] : []),
+    ]
     return enableColumnVisibility ? [...order, SETTINGS_COLUMN_ID] : order
-  }, [dataColumns, showRowNumbers, enableColumnVisibility])
+  }, [dataColumns, enableRowSelection, showRowNumbers, hasEditableColumns, enableColumnVisibility])
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>(initialOrder)
 
   const pageSize = paginationProp?.pageSize ?? 10
@@ -354,6 +433,17 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const tanColumns = useMemo<ColumnDef<T>[]>(() => {
     const cols: ColumnDef<T>[] = []
+    if (enableRowSelection) {
+      cols.push({
+        id: ROW_SELECTION_ID,
+        header: '선택',
+        size: 40,
+        enableSorting: false,
+        enableColumnFilter: false,
+        enableResizing: false,
+        cell: () => null,
+      })
+    }
     if (showRowNumbers) {
       cols.push({
         id: ROW_NUMBER_ID,
@@ -370,7 +460,7 @@ export function DataTable<T extends Record<string, unknown>>({
         id: col.key,
         accessorKey: col.key,
         header: col.header,
-        size: col.width ?? 150,
+        size: col.width ?? (density === 'compact' ? 96 : 150),
         enableSorting: col.sortable ?? false,
         enableColumnFilter: col.filterable ?? false,
         enableResizing: col.resizable ?? false,
@@ -382,6 +472,17 @@ export function DataTable<T extends Record<string, unknown>>({
         },
       })
     })
+    if (hasEditableColumns) {
+      cols.push({
+        id: ROW_ACTIONS_ID,
+        header: '행 작업',
+        size: 112,
+        enableSorting: false,
+        enableColumnFilter: false,
+        enableResizing: false,
+        cell: () => null,
+      })
+    }
     if (enableColumnVisibility) {
       cols.push({
         id: SETTINGS_COLUMN_ID,
@@ -394,7 +495,7 @@ export function DataTable<T extends Record<string, unknown>>({
       })
     }
     return cols
-  }, [dataColumns, showRowNumbers, enableColumnVisibility])
+  }, [dataColumns, enableRowSelection, showRowNumbers, hasEditableColumns, enableColumnVisibility, density])
 
   const hasPagination = !!paginationProp
   const isServerSide = !!(paginationProp?.total)
@@ -402,6 +503,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const table = useReactTable({
     data,
     columns: tanColumns,
+    getRowId: originalRow => String(originalRow[rowKey]),
     state: { sorting, columnFilters, columnVisibility, columnOrder, columnSizing },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -421,7 +523,7 @@ export function DataTable<T extends Record<string, unknown>>({
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     if (!over || active.id === over.id) return
-    if (String(active.id) === SETTINGS_COLUMN_ID || String(over.id) === SETTINGS_COLUMN_ID) return
+    if ([ROW_SELECTION_ID, ROW_ACTIONS_ID, SETTINGS_COLUMN_ID].includes(String(active.id)) || [ROW_SELECTION_ID, ROW_ACTIONS_ID, SETTINGS_COLUMN_ID].includes(String(over.id))) return
     setColumnOrder(order => {
       const withoutSettings = order.filter(id => id !== SETTINGS_COLUMN_ID)
       const oldIndex = withoutSettings.indexOf(String(active.id))
@@ -436,13 +538,45 @@ export function DataTable<T extends Record<string, unknown>>({
     ? filteredRows.slice((page - 1) * pageSize, page * pageSize)
     : allRows
 
+  const virtualizer = useVirtualizer({
+    count: virtualization ? displayRows.length : 0,
+    getScrollElement: () => scrollElementRef.current,
+    estimateSize: () => rowHeightPx[density],
+    getItemKey: index => displayRows[index]?.id ?? index,
+    overscan: virtualization?.overscan ?? 6,
+    useFlushSync: false,
+  })
+  const virtualItems = virtualization ? virtualizer.getVirtualItems() : []
+
+  useEffect(() => {
+    if (hasPagination && !isServerSide) setPage(1)
+  }, [columnFilters, hasPagination, isServerSide])
+
+  useEffect(() => {
+    if (virtualization && scrollElementRef.current?.scrollTop) {
+      virtualizer.scrollToOffset(0)
+      scrollElementRef.current.scrollTop = 0
+      scrollElementRef.current.dispatchEvent(new Event('scroll'))
+    }
+  }, [sorting, columnFilters, page, Boolean(virtualization)])
+
   const totalCount = paginationProp?.total ?? data.length
   const paginationTotal = paginationProp?.total ?? filteredRows.length
 
   const headerGroups = table.getHeaderGroups()
   const draggableColIds = table.getVisibleLeafColumns()
     .map(c => c.id)
-    .filter(id => id !== SETTINGS_COLUMN_ID)
+    .filter(id => id !== ROW_SELECTION_ID && id !== ROW_ACTIONS_ID && id !== SETTINGS_COLUMN_ID)
+  const filteredRowIds = filteredRows.map(row => String(row.original[rowKey]))
+  const allFilteredRowsSelected = filteredRowIds.length > 0 && filteredRowIds.every(id => selectedRowIdSet.has(id))
+  const someFilteredRowsSelected = filteredRowIds.some(id => selectedRowIdSet.has(id))
+
+  function toggleFilteredRows() {
+    const nextIds = allFilteredRowsSelected
+      ? selectedRowIdList.filter(id => !filteredRowIds.includes(id))
+      : [...new Set([...selectedRowIdList, ...filteredRowIds])]
+    updateSelection(nextIds)
+  }
 
   return (
     <div className={cn('w-full', className)} data-testid="data-table">
@@ -453,10 +587,22 @@ export function DataTable<T extends Record<string, unknown>>({
         setFilterVisible={setFilterVisible}
       />
 
-      <div className="overflow-x-auto rounded-card border border-border">
+      <div
+        ref={scrollElementRef}
+        data-testid={virtualization ? 'data-table-viewport' : undefined}
+        className={cn('overflow-x-auto rounded-card border border-border', virtualization && 'overflow-y-auto')}
+        style={virtualization ? { height: virtualization.height ?? 600 } : undefined}
+      >
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <table className="w-full text-body" style={{ tableLayout: 'fixed' }}>
-            <thead className="border-b border-border">
+          <table
+            className="text-body"
+            style={{
+              tableLayout: 'fixed',
+              width: virtualization ? `${table.getTotalSize()}px` : '100%',
+              minWidth: virtualization ? '100%' : undefined,
+            }}
+          >
+            <thead className={cn('border-b border-border', virtualization && 'sticky top-0 z-10')}>
               {headerGroups.map(hg => (
                 <SortableContext key={hg.id} items={draggableColIds} strategy={horizontalListSortingStrategy}>
                   <tr>
@@ -470,6 +616,9 @@ export function DataTable<T extends Record<string, unknown>>({
                         dataColumns={dataColumns}
                         table={table}
                         density={density}
+                        allFilteredRowsSelected={allFilteredRowsSelected}
+                        someFilteredRowsSelected={someFilteredRowsSelected}
+                        onToggleAllFilteredRows={toggleFilteredRows}
                       />
                     ))}
                   </tr>
@@ -477,18 +626,90 @@ export function DataTable<T extends Record<string, unknown>>({
               ))}
             </thead>
             <tbody className="divide-y divide-border">
-              {displayRows.map((row, rowIndex) => {
+              {virtualization && virtualItems.length > 0 && virtualItems[0].start > 0 && (
+                <tr aria-hidden="true" data-testid="data-table-virtual-spacer">
+                  <td colSpan={table.getVisibleLeafColumns().length} style={{ height: virtualItems[0].start, padding: 0 }} />
+                </tr>
+              )}
+              {(virtualization
+                ? virtualItems.map(item => ({ row: displayRows[item.index], rowIndex: item.index, key: item.key, size: item.size }))
+                : displayRows.map((row, rowIndex) => ({ row, rowIndex, key: row.id, size: undefined }))
+              ).map(({ row, rowIndex, key, size }) => {
                 const r = row.original
+                const rowId = String(r[rowKey])
+                const activeRowEdit = rowEdit?.rowId === rowId ? rowEdit : null
                 const rClass = typeof rowClassName === 'function' ? rowClassName(r, rowIndex) : rowClassName
                 const rStyle = typeof rowStyle === 'function' ? rowStyle(r, rowIndex) : rowStyle
                 return (
                   <tr
-                    key={String(r[rowKey])}
+                    key={String(key)}
                     onClick={() => onRowClick?.(r)}
                     className={cn('bg-surface', onRowClick && 'cursor-pointer hover:bg-surface-raised', rClass)}
-                    style={rStyle}
+                    style={size === undefined ? rStyle : { height: size, ...rStyle }}
                   >
                     {row.getVisibleCells().map(cell => {
+                      if (cell.column.id === ROW_ACTIONS_ID) {
+                        return (
+                          <td key={cell.id} className={cn(rowHeightClass[density], 'w-28 whitespace-nowrap px-1 py-0 text-center')}>
+                            {activeRowEdit ? (
+                              <div className="flex items-center justify-center gap-1">
+                                <button
+                                  type="button"
+                                  aria-label={`행 ${rowId} 저장`}
+                                  onClick={event => {
+                                    event.stopPropagation()
+                                    onRowUpdate?.(activeRowEdit.draft, activeRowEdit.original)
+                                    setRowEdit(null)
+                                  }}
+                                  className="rounded px-1.5 py-1 text-xs text-brand hover:bg-brand-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                                >저장</button>
+                                <button
+                                  type="button"
+                                  aria-label={`행 ${rowId} 취소`}
+                                  onClick={event => {
+                                    event.stopPropagation()
+                                    setRowEdit(null)
+                                  }}
+                                  className="rounded px-1.5 py-1 text-xs text-secondary hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                                >취소</button>
+                              </div>
+                            ) : (
+                              <button
+                                type="button"
+                                aria-label={`행 ${rowId} 수정`}
+                                disabled={Boolean(rowEdit)}
+                                onClick={event => {
+                                  event.stopPropagation()
+                                  if (rowEdit) return
+                                  setCellEdit(null)
+                                  setRowEdit({ rowId, original: r, draft: { ...r } })
+                                }}
+                                className="rounded px-2 py-1 text-xs text-brand hover:bg-brand-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-50"
+                              >수정</button>
+                            )}
+                          </td>
+                        )
+                      }
+                      if (cell.column.id === ROW_SELECTION_ID) {
+                        const id = String(r[rowKey])
+                        return (
+                          <td key={cell.id} className={cn(rowHeightClass[density], 'w-10 px-1 py-0 text-center')}>
+                            <input
+                              type="checkbox"
+                              aria-label={`행 ${id} 선택`}
+                              checked={selectedRowIdSet.has(id)}
+                              onChange={() => {
+                                const nextIds = selectedRowIdSet.has(id)
+                                  ? selectedRowIdList.filter(selectedId => selectedId !== id)
+                                  : [...selectedRowIdList, id]
+                                updateSelection(nextIds)
+                              }}
+                              onClick={event => event.stopPropagation()}
+                              className="accent-brand"
+                            />
+                          </td>
+                        )
+                      }
                       if (cell.column.id === SETTINGS_COLUMN_ID) {
                         return <td key={cell.id} className={rowHeightClass[density]} style={{ width: 40 }} />
                       }
@@ -499,23 +720,107 @@ export function DataTable<T extends Record<string, unknown>>({
                       const cStyle = dataCol?.cellStyle
                         ? typeof dataCol.cellStyle === 'function' ? dataCol.cellStyle(r) : dataCol.cellStyle
                         : {}
+                      const isEditingCell = cellEdit?.rowId === rowId && cellEdit.columnKey === cell.column.id
+                      const canEditCell = Boolean(dataCol?.editable && onRowUpdate && !rowEdit)
+                      const hasEditableCommit = Boolean(dataCol?.editable && onRowUpdate)
+                      const editRow = activeRowEdit?.draft ?? r
+                      const editValue = isEditingCell ? cellEdit.value : editRow[cell.column.id]
+                      const updateEditValue = (value: unknown) => {
+                        if (activeRowEdit && activeRowEdit.rowId === rowId) {
+                          setRowEdit(current => current?.rowId === rowId
+                            ? { ...current, draft: { ...current.draft, [cell.column.id]: value } }
+                            : current)
+                        } else if (isEditingCell) {
+                          setCellEdit(current => current?.rowId === rowId && current.columnKey === cell.column.id
+                            ? { ...current, value }
+                            : current)
+                        }
+                      }
+                      const commitCell = (value: unknown) => {
+                        if (!dataCol) return
+                        onRowUpdate?.({ ...r, [dataCol.key]: value }, r)
+                        setCellEdit(null)
+                      }
+                      const cancelCell = () => setCellEdit(null)
+                      const handleEditorKeyDown = (event: React.KeyboardEvent) => {
+                        if (!isEditingCell) return
+                        if (event.key === 'Escape') {
+                          event.preventDefault()
+                          event.stopPropagation()
+                          cancelCell()
+                        } else if (event.key === 'Enter') {
+                          event.preventDefault()
+                          event.stopPropagation()
+                          commitCell(editValue)
+                        } else if (event.key === 'Tab') {
+                          commitCell(editValue)
+                        }
+                      }
+                      const shouldRenderEditor = Boolean(hasEditableCommit && (isEditingCell || activeRowEdit && dataCol?.editable))
+                      const editor = shouldRenderEditor && dataCol?.renderEditor
+                        ? dataCol.renderEditor(editRow, editValue, updateEditValue)
+                        : shouldRenderEditor ? (
+                          <input
+                            autoFocus={isEditingCell}
+                            type={typeof r[cell.column.id] === 'number' ? 'number' : 'text'}
+                            aria-label={`${dataCol?.header ?? cell.column.id} 편집`}
+                            value={editValue == null ? '' : String(editValue)}
+                            onChange={event => {
+                              const inputValue = event.target.value
+                              updateEditValue(typeof r[cell.column.id] === 'number' && inputValue !== '' ? Number(inputValue) : inputValue)
+                            }}
+                            onKeyDown={handleEditorKeyDown}
+                            className="h-7 w-full min-w-0 rounded border border-brand bg-surface px-1.5 text-body text-foreground focus:outline-none focus:ring-1 focus:ring-brand"
+                          />
+                        ) : null
                       return (
                         <td
                           key={cell.id}
+                          tabIndex={canEditCell && !activeRowEdit ? 0 : undefined}
+                          onDoubleClick={() => {
+                            if (canEditCell && !activeRowEdit) {
+                              setCellEdit({ rowId, columnKey: cell.column.id, value: r[cell.column.id] })
+                            }
+                          }}
+                          onKeyDown={event => {
+                            if (canEditCell && !activeRowEdit && !isEditingCell && event.key === 'Enter') {
+                              event.preventDefault()
+                              setCellEdit({ rowId, columnKey: cell.column.id, value: r[cell.column.id] })
+                            }
+                          }}
+                          onBlur={event => {
+                            if (isEditingCell && !event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                              commitCell(editValue)
+                            }
+                          }}
                           className={cn(
                             rowHeightClass[density],
-                            'whitespace-normal break-words px-ws-4 py-0 align-middle text-body text-foreground',
+                            cn(
+                              'px-ws-4 py-0 align-middle text-body text-foreground',
+                              virtualization ? 'overflow-hidden text-ellipsis whitespace-nowrap' : 'whitespace-normal break-words',
+                            ),
+                            canEditCell && 'cursor-text',
                             cClass
                           )}
                           style={{ width: cell.column.getSize(), ...cStyle }}
                         >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          {isEditingCell || activeRowEdit && dataCol?.editable
+                            ? <div onKeyDown={handleEditorKeyDown}>{editor}</div>
+                            : flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                       )
                     })}
                   </tr>
                 )
               })}
+              {virtualization && virtualItems.length > 0 && virtualizer.getTotalSize() > virtualItems[virtualItems.length - 1].end && (
+                <tr aria-hidden="true" data-testid="data-table-virtual-spacer">
+                  <td
+                    colSpan={table.getVisibleLeafColumns().length}
+                    style={{ height: virtualizer.getTotalSize() - virtualItems[virtualItems.length - 1].end, padding: 0 }}
+                  />
+                </tr>
+              )}
               {displayRows.length === 0 && (
                 <tr>
                   <td colSpan={table.getVisibleLeafColumns().length} className="p-0">

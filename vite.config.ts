@@ -25,6 +25,7 @@ export default defineConfig({
         '@dnd-kit/sortable',
         '@dnd-kit/utilities',
         '@tanstack/react-table',
+        '@tanstack/react-virtual',
       ],
       output: {
         banner: '"use client";',

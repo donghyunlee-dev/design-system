@@ -28,7 +28,7 @@ npm install @windsoft/ui
 npm install react@19 react-dom@19
 ```
 
-버전을 고정하려면 `npm install @windsoft/ui@0.6.0`처럼 명시 버전을 사용하세요.
+버전을 고정하려면 `npm install @windsoft/ui@0.10.0`처럼 명시 버전을 사용하세요.
 
 > (과거에 사용하던 `github:donghyunlee-dev/design-system#main` 방식은 private 저장소 clone 권한이 있는 내부 개발자만 사용할 수 있어, 외부 조직에서 개발할 때는 더 이상 사용하지 않습니다.)
 
@@ -174,11 +174,16 @@ import { DataTable, Table, Badge } from '@windsoft/ui'
 
 <DataTable
   rowKey="id"
-  columns={[{ key: 'name', header: '주문명' }, { key: 'status', header: '상태', sortable: true }]}
+  columns={[
+    { key: 'name', header: '주문명', sortable: true, filterable: true, editable: true },
+    { key: 'status', header: '상태', sortable: true },
+  ]}
   data={orders}
   density="compact"
-  pagination={{ pageSize: 20 }}
-  enableColumnVisibility={false}
+  enableRowSelection
+  onSelectionChange={setSelectedOrders}
+  onRowUpdate={nextRow => setOrders(current => current.map(row => row.id === nextRow.id ? nextRow : row))}
+  virtualization={{ height: 600, overscan: 6 }}
 />
 
 // 서버 페이지네이션: total은 전체 건수, onChange는 새 페이지를 요청합니다.
@@ -189,6 +194,30 @@ import { DataTable, Table, Badge } from '@windsoft/ui'
   pagination={{ pageSize: 20, total: totalCount, onChange: loadPage }}
 />
 ```
+
+대량의 업무 데이터에는 `virtualization`으로 스크롤 영역 높이를 지정해 보이는 행 주변만 렌더링할 수 있습니다. 컴팩트 밀도에서 너비를 지정하지 않은 컬럼은 96px로 표시되며, 컬럼별 `width`를 지정하거나 드래그로 조절할 수 있습니다. 행 선택은 `enableRowSelection`과 `onSelectionChange`로 연결합니다. 컬럼에 `editable: true`를 설정하고 `onRowUpdate`를 전달하면 해당 컬럼만 행 편집 또는 셀 편집할 수 있습니다. 행 수정은 저장/취소 버튼, 셀 수정은 더블클릭 또는 Enter로 시작하고 Enter/Tab으로 저장하거나 Escape로 취소합니다. `renderEditor`로 셀별 입력을 바꿀 수 있습니다.
+
+```tsx
+const [selectedRows, setSelectedRows] = useState<Order[]>([])
+const [orders, setOrders] = useState(initialOrders)
+
+<DataTable
+  rowKey="id"
+  columns={[
+    { key: 'name', header: '주문명', sortable: true, filterable: true, editable: true },
+    { key: 'status', header: '상태', filterable: true, editable: true },
+    { key: 'amount', header: '금액', sortable: true },
+  ]}
+  data={orders}
+  density="compact"
+  enableRowSelection
+  onSelectionChange={setSelectedRows}
+  onRowUpdate={nextRow => setOrders(current => current.map(row => row.id === nextRow.id ? nextRow : row))}
+  virtualization={{ height: 600, overscan: 6 }}
+/>
+```
+
+`onRowUpdate`는 변경된 새 행과 원본 행을 전달합니다. 앱은 이 콜백에서 저장 후 `data`를 갱신합니다. `selectedRowIds`를 지정하면 선택 상태를 앱에서 제어할 수 있고, 생략하면 컴포넌트가 내부에서 선택을 관리합니다. 헤더 체크박스는 현재 필터 결과 전체를 선택합니다.
 
 목록 검색 영역은 `SearchFilter`로 검색 입력, 화면별 필터, 조회 액션을 정렬합니다. 이 컴포넌트는 검색 상태나 데이터 요청을 관리하지 않습니다.
 
